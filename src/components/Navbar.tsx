@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 import { useLanguage } from '@/lib/i18n';
 import ThemeToggle from '@/components/ThemeToggle';
 import LanguageToggle from '@/components/LanguageToggle';
@@ -23,6 +24,8 @@ const navLinks: NavLink[] = [
 
 export default function Navbar() {
   const { t } = useLanguage();
+  const router = useRouter();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeHash, setActiveHash] = useState('');
@@ -105,13 +108,17 @@ export default function Navbar() {
       if (!href.startsWith('#')) return;
       e.preventDefault();
       closeMobile();
+      if (pathname !== '/') {
+        router.push(`/${href}`);
+        return;
+      }
       const el = document.querySelector(href);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         setActiveHash(href);
       }
     },
-    [closeMobile]
+    [closeMobile, pathname, router]
   );
 
   /* ── Render helpers ─────────────────────────────────── */
