@@ -1,6 +1,7 @@
 'use client';
 
 import { useLanguage } from '@/lib/i18n';
+import Link from 'next/link';
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -63,8 +64,8 @@ const footerColumns: FooterColumn[] = [
   {
     title: { vi: 'Sản phẩm', en: 'Product' },
     links: [
-      { label: { vi: 'Tính năng', en: 'Features' }, href: '#features' },
-      { label: { vi: 'Bảng giá', en: 'Pricing' }, href: '#pricing' },
+      { label: { vi: 'Tính năng', en: 'Features' }, href: '/features' },
+      { label: { vi: 'Bảng giá', en: 'Pricing' }, href: '/pricing' },
       { label: { vi: 'Tài liệu', en: 'Documentation' }, href: '/docs' },
       { label: { vi: 'Nhật ký thay đổi', en: 'Changelog' }, href: '/changelog' },
     ],
@@ -72,10 +73,10 @@ const footerColumns: FooterColumn[] = [
   {
     title: { vi: 'Công ty', en: 'Company' },
     links: [
-      { label: { vi: 'Về chúng tôi', en: 'About Us' }, href: '#about' },
-      { label: { vi: 'Blog', en: 'Blog' }, href: '#blog' },
+      { label: { vi: 'Về chúng tôi', en: 'About Us' }, href: '/about' },
+      { label: { vi: 'Blog', en: 'Blog' }, href: '/blog' },
       { label: { vi: 'Tuyển dụng', en: 'Careers' }, href: '#careers' },
-      { label: { vi: 'Liên hệ', en: 'Contact' }, href: '#contact' },
+      { label: { vi: 'Liên hệ', en: 'Contact' }, href: '/contact' },
     ],
   },
   {
@@ -160,15 +161,27 @@ export default function Footer() {
               <ul role="list" className="mt-6 space-y-3">
                 {column.links.map((link) => (
                   <li key={link.label.en}>
-                    <a
-                      href={link.href}
-                      className="group/link relative inline-flex text-sm text-slate-400 transition-colors duration-300 hover:text-white"
-                    >
-                      <span className="relative">
-                        {t(link.label)}
-                        <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-300 group-hover/link:w-full" />
-                      </span>
-                    </a>
+                    {link.href.startsWith('/') ? (
+                      <Link
+                        href={link.href}
+                        className="group/link relative inline-flex text-sm text-slate-400 transition-colors duration-300 hover:text-white"
+                      >
+                        <span className="relative">
+                          {t(link.label)}
+                          <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-300 group-hover/link:w-full" />
+                        </span>
+                      </Link>
+                    ) : (
+                      <a
+                        href={link.href}
+                        className="group/link relative inline-flex text-sm text-slate-400 transition-colors duration-300 hover:text-white"
+                      >
+                        <span className="relative">
+                          {t(link.label)}
+                          <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-300 group-hover/link:w-full" />
+                        </span>
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>

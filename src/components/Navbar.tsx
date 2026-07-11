@@ -16,11 +16,11 @@ interface NavLink {
 }
 
 const navLinks: NavLink[] = [
-  { href: '#hero', vi: 'Trang chủ', en: 'Home' },
-  { href: '#features', vi: 'Tính năng', en: 'Features' },
-  { href: '#pricing', vi: 'Bảng giá', en: 'Pricing' },
+  { href: '/', vi: 'Trang chủ', en: 'Home', isRoute: true },
+  { href: '/features', vi: 'Tính năng', en: 'Features', isRoute: true },
+  { href: '/pricing', vi: 'Bảng giá', en: 'Pricing', isRoute: true },
   { href: '/blog', vi: 'Blog', en: 'Blog', isRoute: true },
-  { href: '#contact', vi: 'Liên hệ', en: 'Contact' },
+  { href: '/contact', vi: 'Liên hệ', en: 'Contact', isRoute: true },
 ];
 
 export default function Navbar() {
@@ -124,7 +124,11 @@ export default function Navbar() {
   );
 
   /* ── Render helpers ─────────────────────────────────── */
-  const isActive = (href: string) => activeHash === href;
+  const isActive = (href: string) => {
+    if (href.startsWith('#')) return activeHash === href;
+    if (href === '/') return pathname === '/';
+    return pathname.startsWith(href);
+  };
 
   const desktopLinkClass = (href: string) =>
     `relative rounded-lg px-3.5 py-2 text-sm font-medium transition-all duration-200 ${
@@ -172,6 +176,10 @@ export default function Navbar() {
                   className={desktopLinkClass(link.href)}
                 >
                   {t(link.vi, link.en)}
+                  {/* Active indicator dot */}
+                  {isActive(link.href) && (
+                    <span className="absolute bottom-0.5 left-1/2 h-[3px] w-[3px] -translate-x-1/2 rounded-full bg-primary" />
+                  )}
                 </Link>
               ) : (
                 <a
