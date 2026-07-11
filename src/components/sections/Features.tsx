@@ -252,13 +252,13 @@ function FeatureCard({
       onMouseMove={handleMouseMove}
       className={`
         feature-card group relative flex flex-col items-start gap-4
-        rounded-2xl border border-zinc-200/60 bg-white/60 p-6
+        rounded-2xl border border-border/60 bg-card/60 p-6
         backdrop-blur-xl transition-all duration-500 ease-out
-        hover:-translate-y-2 hover:border-indigo-500/40
-        hover:shadow-[0_20px_60px_-12px_rgba(79,70,229,0.2)]
-        dark:border-white/[0.06] dark:bg-white/[0.03]
-        dark:hover:border-indigo-400/30
-        dark:hover:shadow-[0_20px_60px_-12px_rgba(79,70,229,0.15)]
+        hover:-translate-y-2 hover:border-primary/40
+        hover:shadow-xl hover:shadow-primary/5
+        dark:border-border/20 dark:bg-card/20
+        dark:hover:border-primary/30
+        dark:hover:shadow-2xl dark:hover:shadow-primary/5
         ${
           isVisible
             ? 'translate-y-0 opacity-100'
@@ -354,18 +354,18 @@ export default function Features() {
     <section
       id="features"
       ref={sectionRef}
-      className="relative overflow-hidden bg-zinc-50/80 py-24 dark:bg-zinc-950 sm:py-32"
+      className="relative overflow-hidden bg-background py-24 sm:py-32"
     >
       {/* Background decorations */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div
           className="absolute left-1/2 top-0 h-[600px] w-[600px] -translate-x-1/2
-            -translate-y-1/2 rounded-full bg-indigo-500/[0.03] blur-3xl"
+            -translate-y-1/2 rounded-full bg-primary/[0.03] blur-3xl"
         />
         <div
           className="absolute bottom-0 right-0 h-[400px] w-[400px]
             translate-x-1/3 translate-y-1/3 rounded-full
-            bg-indigo-400/[0.04] blur-3xl"
+            bg-primary/[0.04] blur-3xl"
         />
         {/* Grid pattern overlay */}
         <div
@@ -389,10 +389,10 @@ export default function Features() {
           {/* Badge */}
           <div
             className="mb-4 inline-flex items-center gap-2 rounded-full
-              border border-indigo-200 bg-indigo-50 px-4 py-1.5
-              text-sm font-medium text-indigo-700
-              dark:border-indigo-500/20 dark:bg-indigo-500/10
-              dark:text-indigo-300"
+              border border-primary/20 bg-primary/10 px-4 py-1.5
+              text-sm font-medium text-primary
+              dark:border-primary/20 dark:bg-primary/10
+              dark:text-primary-light"
           >
             <svg
               width="16"

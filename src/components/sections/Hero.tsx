@@ -72,7 +72,7 @@ export default function Hero() {
         {/* Badge */}
         <div className="hero-fade-in hero-delay-1 flex justify-center mb-8">
           <div className="hero-badge-border relative inline-flex rounded-full p-px">
-            <span className="relative inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm px-5 py-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <span className="relative inline-flex items-center gap-2 rounded-full bg-card/80 dark:bg-card/50 backdrop-blur-sm px-5 py-2 text-sm font-medium text-foreground/80">
               {t('🚀 Phiên bản 1.0 — Ra mắt Q3/2026', '🚀 Version 1.0 — Launching Q3/2026')}
             </span>
           </div>
@@ -83,7 +83,7 @@ export default function Hero() {
           <span className="hero-gradient-text block text-6xl sm:text-7xl md:text-8xl font-extrabold tracking-tight leading-none mb-4">
             nATime
           </span>
-          <span className="block text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 dark:text-gray-200 leading-snug max-w-2xl mx-auto whitespace-pre-line">
+          <span className="block text-xl sm:text-2xl md:text-3xl font-semibold text-foreground/90 leading-snug max-w-2xl mx-auto whitespace-pre-line">
             {t(
               'Giải pháp Chấm công &\nKiểm soát Ra vào Thông minh',
               'Smart Time Attendance &\nAccess Control Solution'
@@ -92,7 +92,7 @@ export default function Hero() {
         </h1>
 
         {/* Description */}
-        <p className="hero-fade-in hero-delay-3 text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="hero-fade-in hero-delay-3 text-base sm:text-lg text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
           {t(
             'Nền tảng quản lý chấm công, kiểm soát ra vào và giám sát toàn diện dành cho doanh nghiệp. Tích hợp AI, nhận diện khuôn mặt và phân tích dữ liệu thời gian thực.',
             'Enterprise-grade platform for time attendance, access control, and comprehensive monitoring. Powered by AI, facial recognition, and real-time data analytics.'
@@ -102,7 +102,7 @@ export default function Hero() {
         {/* CTA Buttons */}
         <div className="hero-fade-in hero-delay-4 flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
           <button
-            className="group relative inline-flex h-13 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-8 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-500/30 hover:scale-[1.03] active:scale-[0.98] cursor-pointer w-full sm:w-auto"
+            className="group relative inline-flex h-13 items-center justify-center gap-2 rounded-xl bg-primary px-8 text-base font-semibold text-primary-light shadow-lg shadow-primary/25 transition-all duration-300 hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.03] active:scale-[0.98] cursor-pointer w-full sm:w-auto"
           >
             <span className="relative z-10 flex items-center gap-2">
               {t('Bắt đầu ngay', 'Get Started')}
@@ -119,7 +119,7 @@ export default function Hero() {
           </button>
 
           <button
-            className="group relative inline-flex h-13 items-center justify-center gap-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white/60 dark:bg-white/5 backdrop-blur-sm px-8 text-base font-semibold text-gray-800 dark:text-gray-200 transition-all duration-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-700 dark:hover:text-indigo-300 hover:scale-[1.03] active:scale-[0.98] cursor-pointer w-full sm:w-auto"
+            className="group relative inline-flex h-13 items-center justify-center gap-2 rounded-xl border border-border bg-card/60 dark:bg-card/5 backdrop-blur-sm px-8 text-base font-semibold text-foreground/90 transition-all duration-300 hover:bg-primary/5 hover:border-primary/40 hover:text-primary hover:scale-[1.03] active:scale-[0.98] cursor-pointer w-full sm:w-auto"
           >
             <svg
               className="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
@@ -133,21 +133,21 @@ export default function Hero() {
         </div>
 
         {/* Trust indicators */}
-        <div className="hero-fade-in hero-delay-5 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-gray-500 dark:text-gray-500">
+        <div className="hero-fade-in hero-delay-5 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-muted/80">
           <span className="flex items-center gap-1.5">
             <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
             {t('Miễn phí 30 ngày', '30-day free trial')}
           </span>
-          <span className="hidden sm:block w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-700" />
+          <span className="hidden sm:block w-1 h-1 rounded-full bg-border" />
           <span className="flex items-center gap-1.5">
             <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
             {t('Không cần thẻ tín dụng', 'No credit card required')}
           </span>
-          <span className="hidden sm:block w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-700" />
+          <span className="hidden sm:block w-1 h-1 rounded-full bg-border" />
           <span className="flex items-center gap-1.5">
             <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />

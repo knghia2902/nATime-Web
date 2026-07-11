@@ -118,24 +118,12 @@ export default function Footer() {
           {/* Column 1: Brand */}
           <div className="space-y-6 md:col-span-2 lg:col-span-1">
             {/* Logo */}
-            <a href="/" className="group inline-flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/25 transition-shadow duration-300 group-hover:shadow-indigo-500/40">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="h-5 w-5 text-white"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
-              </div>
-              <span className="text-xl font-bold text-white">
-                n<span className="text-indigo-400">A</span>Time
-              </span>
+            <a href="/" className="group inline-flex items-center select-none">
+              <img
+                src="/logo.png"
+                alt="nATime Logo"
+                className="h-8 w-auto object-contain brightness-0 invert transition-transform duration-300 group-hover:scale-[1.03]"
+              />
             </a>
 
             {/* Description */}

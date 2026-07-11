@@ -144,26 +144,13 @@ export default function Navbar() {
           {/* ── Logo ───────────────────────────────────── */}
           <Link
             href="/"
-            className="group relative flex items-center gap-2.5 text-lg font-bold tracking-tight select-none"
+            className="group relative flex items-center gap-2.5 select-none"
           >
-            <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary via-indigo-500 to-violet-500 shadow-lg shadow-primary/25 transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl group-hover:shadow-primary/35">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                className="h-[18px] w-[18px] text-white"
-                strokeWidth={2.2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="9" stroke="currentColor" />
-                <path d="M12 7v5l3 3" stroke="currentColor" />
-              </svg>
-              {/* Glow ring on hover */}
-              <span className="absolute inset-0 rounded-lg bg-primary/20 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            </span>
-            <span className="bg-gradient-to-r from-primary via-indigo-400 to-violet-400 bg-clip-text text-transparent transition-opacity duration-200">
-              nATime
-            </span>
+            <img
+              src="/logo.png"
+              alt="nATime Logo"
+              className="h-8 w-auto object-contain dark:brightness-110 dark:contrast-110 transition-all duration-300 group-hover:scale-[1.03]"
+            />
           </Link>
 
           {/* ── Desktop Nav Links ──────────────────────── */}
@@ -279,9 +266,11 @@ export default function Navbar() {
       >
         {/* Drawer header */}
         <div className="flex h-16 shrink-0 items-center justify-between border-b border-border/50 px-5">
-          <span className="bg-gradient-to-r from-primary via-indigo-400 to-violet-400 bg-clip-text text-base font-bold text-transparent">
-            nATime
-          </span>
+            <img
+              src="/logo.png"
+              alt="nATime Logo"
+              className="h-7 w-auto object-contain dark:brightness-110"
+            />
           <button
             onClick={closeMobile}
             aria-label={t('Đóng menu', 'Close menu')}
