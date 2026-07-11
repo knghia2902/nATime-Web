@@ -65,8 +65,8 @@ const footerColumns: FooterColumn[] = [
     links: [
       { label: { vi: 'Tính năng', en: 'Features' }, href: '#features' },
       { label: { vi: 'Bảng giá', en: 'Pricing' }, href: '#pricing' },
-      { label: { vi: 'Tài liệu', en: 'Documentation' }, href: '#docs' },
-      { label: { vi: 'Nhật ký thay đổi', en: 'Changelog' }, href: '#changelog' },
+      { label: { vi: 'Tài liệu', en: 'Documentation' }, href: '/docs' },
+      { label: { vi: 'Nhật ký thay đổi', en: 'Changelog' }, href: '/changelog' },
     ],
   },
   {
