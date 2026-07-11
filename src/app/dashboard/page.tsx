@@ -308,8 +308,8 @@ export default function CustomerDashboard() {
 
     const modulesMapping: Record<string, { vi: string; en: string; maxDev: number }> = {
       attendance: { vi: 'Chấm công thông minh (Smart Attendance)', en: 'Smart Time Attendance', maxDev: 15 },
-      access: { vi: 'Kiểm soát Cổng ra vào (Gate Access Control)', en: 'Gate Access Control', maxDev: 8 },
-      weighbridge: { vi: 'Trạm cân xe (Weighbridge Control)', en: 'Weighbridge Management', maxDev: 2 },
+      access: { vi: 'Kiểm soát Cổng ra vào (Sắp ra mắt)', en: 'Gate Access Control (Soon)', maxDev: 8 },
+      weighbridge: { vi: 'Trạm cân xe (Sắp ra mắt)', en: 'Weighbridge Management (Soon)', maxDev: 2 },
       asset: { vi: 'Tài sản CNTT (IT Asset Management)', en: 'IT Asset Management', maxDev: 100 },
     };
 
@@ -1172,8 +1172,8 @@ export default function CustomerDashboard() {
                         className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-primary/50 focus:outline-none transition-colors duration-200 cursor-pointer"
                       >
                         <option value="attendance">{t('Chấm công thông minh', 'Smart Attendance')}</option>
-                        <option value="access">{t('Kiểm soát Cổng ra vào', 'Gate Access Control')}</option>
-                        <option value="weighbridge">{t('Cân xe / Trạm cân', 'Weighbridge System')}</option>
+                        <option value="access">{t('Kiểm soát Cổng ra vào (Sắp ra mắt)', 'Gate Access Control (Soon)')}</option>
+                        <option value="weighbridge">{t('Cân xe / Trạm cân (Sắp ra mắt)', 'Weighbridge System (Soon)')}</option>
                         <option value="asset">{t('Tài sản CNTT', 'IT Asset Management')}</option>
                       </select>
                     </div>

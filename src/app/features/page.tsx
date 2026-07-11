@@ -802,6 +802,7 @@ interface FeatureSection {
   description: { vi: string; en: string };
   bullets: Array<{ vi: string; en: string }>;
   svgType: string;
+  comingSoon?: boolean;
 }
 
 export default function FeaturesPage() {
@@ -839,7 +840,8 @@ export default function FeaturesPage() {
         { vi: 'Tự động mở toàn bộ cổng khi xảy ra sự cố khẩn cấp hoặc báo cháy (Fire integration).', en: 'Auto-release all gates during emergency evacuations or fire alarms.' },
         { vi: 'Chế độ Anti-passback ngăn chặn việc quay vòng thẻ hoặc đi theo đuôi (tailgating).', en: 'Anti-passback mode to prevent card sharing or tailgating entry.' }
       ],
-      svgType: 'access'
+      svgType: 'access',
+      comingSoon: true
     },
     {
       id: 'device-management',
@@ -887,7 +889,8 @@ export default function FeaturesPage() {
         { vi: 'Tự động cân 2 lần (Gross/Tare) để tính toán khối lượng tịnh (Net Weight).', en: 'Automated double-weighing (Gross/Tare) to calculate the exact Net Weight.' },
         { vi: 'Chụp ảnh xe và tài xế, in phiếu cân có mã QR bảo mật để chống làm giả.', en: 'Capture vehicle/driver snapshots and print secure QR-coded weight receipts.' }
       ],
-      svgType: 'weighbridge'
+      svgType: 'weighbridge',
+      comingSoon: true
     },
     {
       id: 'asset-management',
@@ -1025,13 +1028,22 @@ export default function FeaturesPage() {
                   <button
                     key={feature.id}
                     onClick={() => handleScrollTo(feature.id)}
-                    className={`px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium rounded-full transition-all cursor-pointer ${
+                    className={`px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-medium rounded-full transition-all cursor-pointer flex items-center gap-1.5 ${
                       activeSection === feature.id
                         ? 'bg-primary text-white shadow-md shadow-primary/20 scale-[1.02]'
                         : 'bg-card hover:bg-card-hover text-muted hover:text-foreground border border-border/80'
                     }`}
                   >
-                    {t(feature.badge.vi, feature.badge.en)}
+                    <span>{t(feature.badge.vi, feature.badge.en)}</span>
+                    {feature.comingSoon && (
+                      <span className={`inline-flex shrink-0 rounded-full px-1.5 py-0.2 text-[8px] font-bold ${
+                        activeSection === feature.id
+                          ? 'bg-white/20 text-white'
+                          : 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light'
+                      }`}>
+                        Soon
+                      </span>
+                    )}
                   </button>
                 ))}
               </div>
@@ -1056,9 +1068,16 @@ export default function FeaturesPage() {
                       isEven ? 'lg:order-1' : 'lg:order-2'
                     }`}
                   >
-                    <span className="inline-block px-3.5 py-1 text-xs font-semibold tracking-wider text-primary bg-primary-light dark:bg-primary-light/10 rounded-full">
-                      {t(feature.badge.vi, feature.badge.en)}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="inline-block px-3.5 py-1 text-xs font-semibold tracking-wider text-primary bg-primary-light dark:bg-primary-light/10 rounded-full">
+                        {t(feature.badge.vi, feature.badge.en)}
+                      </span>
+                      {feature.comingSoon && (
+                        <span className="inline-block px-2 py-0.5 text-[9px] font-bold text-primary bg-primary-light dark:bg-primary-light/10 border border-primary/20 rounded-full animate-pulse-glow">
+                          {t('SẮP RA MẮT', 'COMING SOON')}
+                        </span>
+                      )}
+                    </div>
                     <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
                       {t(feature.title.vi, feature.title.en)}
                     </h2>

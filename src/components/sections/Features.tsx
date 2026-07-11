@@ -9,6 +9,7 @@ interface Feature {
   descVi: string;
   descEn: string;
   icon: React.ReactNode;
+  comingSoon?: boolean;
 }
 
 const features: Feature[] = [
@@ -42,6 +43,7 @@ const features: Feature[] = [
       'Tích hợp barrier, cổng xoay, nhận diện biển số (ANPR). Quản lý khách ra vào, phân quyền khu vực linh hoạt theo thời gian thực.',
     descEn:
       'Integrated barriers, turnstiles, and ANPR plate recognition. Visitor management with flexible zone-based access permissions in real time.',
+    comingSoon: true,
     icon: (
       <svg
         width="24"
@@ -121,6 +123,7 @@ const features: Feature[] = [
       'Tích hợp cân điện tử, tự động ghi nhận khối lượng. Liên kết đơn hàng giao nhận, chống gian lận với camera giám sát.',
     descEn:
       'Integrated electronic scales with automatic weight recording. Linked delivery orders with anti-fraud surveillance camera verification.',
+    comingSoon: true,
     icon: (
       <svg
         width="24"
@@ -224,6 +227,7 @@ function FeatureCard({
   icon,
   index,
   isVisible,
+  comingSoon,
 }: {
   titleVi: string;
   titleEn: string;
@@ -232,6 +236,7 @@ function FeatureCard({
   icon: React.ReactNode;
   index: number;
   isVisible: boolean;
+  comingSoon?: boolean;
 }) {
   const { t } = useLanguage();
   const cardRef = useRef<HTMLDivElement>(null);
@@ -308,9 +313,14 @@ function FeatureCard({
         <h3
           className="text-lg font-semibold leading-tight text-zinc-900
             transition-colors duration-300 group-hover:text-indigo-700
-            dark:text-white dark:group-hover:text-indigo-300"
+            dark:text-white dark:group-hover:text-indigo-300 flex items-center justify-between gap-2 w-full"
         >
-          {t(titleVi, titleEn)}
+          <span>{t(titleVi, titleEn)}</span>
+          {comingSoon && (
+            <span className="inline-flex shrink-0 items-center rounded-full bg-primary/10 px-2 py-0.5 text-[9px] font-bold text-primary dark:bg-primary/20 dark:text-primary-light ring-1 ring-inset ring-primary/20 border border-primary/10">
+              {t('Sắp ra mắt', 'Soon')}
+            </span>
+          )}
         </h3>
         <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
           {t(descVi, descEn)}
