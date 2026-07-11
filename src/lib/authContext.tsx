@@ -165,6 +165,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             if (typeof window !== 'undefined' && 
                 (window.location.hash.includes('access_token=') || 
                  window.location.search.includes('code='))) {
+              sessionStorage.setItem('natime-auth-redirect-success', 'true');
               window.location.href = '/dashboard';
             }
           } else {

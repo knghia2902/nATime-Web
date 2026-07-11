@@ -257,6 +257,15 @@ export default function CustomerDashboard() {
     if (user) {
       setProfileName(user.name || '');
       setProfileOrg(user.company || 'ACS Solutions JSC');
+
+      // Check if redirected from email auth validation link to show success toast
+      if (typeof window !== 'undefined') {
+        const hasRedirected = sessionStorage.getItem('natime-auth-redirect-success');
+        if (hasRedirected === 'true') {
+          showToast(t('Xác thực tài khoản thành công! Chào mừng bạn đến với nATime.', 'Account verified successfully! Welcome to nATime.'), 'success');
+          sessionStorage.removeItem('natime-auth-redirect-success');
+        }
+      }
     }
   }, [user]);
 
