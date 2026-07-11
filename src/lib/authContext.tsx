@@ -38,6 +38,7 @@ interface AuthContextType {
     name: string,
     company: string
   ) => Promise<{ error: Error | null }>;
+  updatePassword: (password: string) => Promise<{ error: Error | null }>;
   
   // Legacy support for dashboard
   login: (email: string) => Promise<void>;
@@ -161,12 +162,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setUser(mapped);
             localStorage.setItem('natime-user', JSON.stringify(mapped));
             
-            // Auto redirect to dashboard when invite/recovery/login confirmation link is clicked
+            // Auto redirect to correct page when invite/recovery/login confirmation link is clicked
             if (typeof window !== 'undefined' && 
                 (window.location.hash.includes('access_token=') || 
                  window.location.search.includes('code='))) {
-              sessionStorage.setItem('natime-auth-redirect-success', 'true');
-              window.location.href = '/dashboard';
+              
+              if (window.location.hash.includes('type=recovery') || 
+                  window.location.hash.includes('type=invite')) {
+                window.location.href = `/reset-password${window.location.hash}`;
+              } else {
+                sessionStorage.setItem('natime-auth-redirect-success', 'true');
+                window.location.href = '/dashboard';
+              }
             }
           } else {
             setUser(null);
@@ -424,6 +431,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const updatePassword = async (password: string) => {
+    setLoading(true);
+    try {
+      if (isMockEnabled || !supabase) {
+        await new Promise((resolve) => setTimeout(resolve, 600));
+        return { error: null };
+      } else {
+        const { error } = await supabase!.auth.updateUser({
+          password: password,
+        });
+        if (error) return { error };
+        return { error: null };
+      }
+    } catch (err: any) {
+      return { error: err || new Error('Đã xảy ra lỗi không xác định.') };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Legacy support methods mapping
   const login = async (email: string) => {
     const db = getMockDB();
@@ -451,6 +478,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signOut,
         resetPassword,
         updateProfile,
+        updatePassword,
         login,
         logout,
       }}

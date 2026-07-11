@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/authContext';
 import { useLanguage } from '@/lib/i18n';
@@ -9,14 +9,30 @@ import LanguageToggle from '@/components/LanguageToggle';
 
 export default function ResetPasswordPage() {
   const { t } = useLanguage();
-  const { resetPassword } = useAuth();
+  const { resetPassword, updatePassword } = useAuth();
+
+  // Mode detection
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
 
   // Form states
   const [email, setEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 
+        (window.location.hash.includes('access_token=') || 
+         window.location.hash.includes('type=recovery') ||
+         window.location.hash.includes('type=invite'))) {
+      setIsUpdateMode(true);
+    }
+  }, []);
 
   const validate = () => {
     setEmailError(null);
@@ -35,24 +51,58 @@ export default function ResetPasswordPage() {
     if (loading) return;
     setError(null);
     setSuccess(null);
+    setPasswordError(null);
 
-    if (!validate()) return;
+    if (isUpdateMode) {
+      if (!newPassword) {
+        setPasswordError(t('Vui lòng nhập mật khẩu mới', 'Please enter your new password'));
+        return;
+      }
+      if (newPassword.length < 6) {
+        setPasswordError(t('Mật khẩu phải từ 6 ký tự trở lên', 'Password must be at least 6 characters'));
+        return;
+      }
+      if (newPassword !== confirmPassword) {
+        setPasswordError(t('Mật khẩu xác nhận không khớp', 'Confirm password does not match'));
+        return;
+      }
 
-    setLoading(true);
-    const { error: resetError } = await resetPassword(email);
+      setLoading(true);
+      const { error: updateError } = await updatePassword(newPassword);
 
-    if (resetError) {
-      setError(resetError.message);
+      if (updateError) {
+        setError(updateError.message);
+      } else {
+        setSuccess(
+          t(
+            'Cập nhật mật khẩu thành công! Đang chuyển hướng vào Dashboard...',
+            'Password updated successfully! Redirecting to Dashboard...'
+          )
+        );
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 1500);
+      }
+      setLoading(false);
     } else {
-      setSuccess(
-        t(
-          'Yêu cầu thành công! Một email đặt lại mật khẩu đã được gửi đi.',
-          'Request successful! A password reset email has been sent.'
-        )
-      );
-      setEmail('');
+      if (!validate()) return;
+
+      setLoading(true);
+      const { error: resetError } = await resetPassword(email);
+
+      if (resetError) {
+        setError(resetError.message);
+      } else {
+        setSuccess(
+          t(
+            'Yêu cầu thành công! Một email đặt lại mật khẩu đã được gửi đi.',
+            'Request successful! A password reset email has been sent.'
+          )
+        );
+        setEmail('');
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -85,13 +135,13 @@ export default function ResetPasswordPage() {
             {/* Header Text */}
             <div className="text-center mb-6">
               <h1 className="text-2xl font-bold tracking-tight text-foreground">
-                {t('Khôi phục mật khẩu', 'Reset Password')}
+                {isUpdateMode ? t('Đặt mật khẩu mới', 'Set New Password') : t('Khôi phục mật khẩu', 'Reset Password')}
               </h1>
               <p className="text-xs text-muted mt-1.5 leading-relaxed">
-                {t(
-                  'Nhập địa chỉ email đã đăng ký của bạn. Chúng tôi sẽ gửi một liên kết để tạo lại mật khẩu mới.',
-                  'Enter your registered email address. We will send you a link to reset your password.'
-                )}
+                {isUpdateMode 
+                  ? t('Vui lòng nhập mật khẩu mới của bạn để hoàn tất xác thực tài khoản.', 'Please enter your new password to complete account verification.')
+                  : t('Nhập địa chỉ email đã đăng ký của bạn. Chúng tôi sẽ gửi một liên kết để tạo lại mật khẩu mới.', 'Enter your registered email address. We will send you a link to reset your password.')
+                }
               </p>
             </div>
 
@@ -117,25 +167,66 @@ export default function ResetPasswordPage() {
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Email Input */}
-              <div>
-                <label className="block text-xs font-semibold text-foreground mb-1">
-                  {t('Địa chỉ Email', 'Email Address')}
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@company.com"
-                  className={`w-full h-[34px] px-3 py-1 text-sm bg-background border rounded-md text-foreground placeholder:text-muted/40 transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 ${
-                    emailError ? 'border-danger focus:border-danger focus:ring-danger/40' : 'border-border'
-                  }`}
-                  disabled={loading}
-                />
-                {emailError && (
-                  <p className="text-[10px] text-danger mt-0.5">{emailError}</p>
-                )}
-              </div>
+              {isUpdateMode ? (
+                <>
+                  {/* New Password */}
+                  <div>
+                    <label className="block text-xs font-semibold text-foreground mb-1">
+                      {t('Mật khẩu mới', 'New Password')}
+                    </label>
+                    <input
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className={`w-full h-[34px] px-3 py-1 text-sm bg-background border rounded-md text-foreground placeholder:text-muted/40 transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 ${
+                        passwordError ? 'border-danger focus:border-danger focus:ring-danger/40' : 'border-border'
+                      }`}
+                      disabled={loading}
+                    />
+                  </div>
+
+                  {/* Confirm Password */}
+                  <div>
+                    <label className="block text-xs font-semibold text-foreground mb-1">
+                      {t('Xác nhận mật khẩu mới', 'Confirm New Password')}
+                    </label>
+                    <input
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className={`w-full h-[34px] px-3 py-1 text-sm bg-background border rounded-md text-foreground placeholder:text-muted/40 transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 ${
+                        passwordError ? 'border-danger focus:border-danger focus:ring-danger/40' : 'border-border'
+                      }`}
+                      disabled={loading}
+                    />
+                    {passwordError && (
+                      <p className="text-[10px] text-danger mt-0.5">{passwordError}</p>
+                    )}
+                  </div>
+                </>
+              ) : (
+                /* Email Input */
+                <div>
+                  <label className="block text-xs font-semibold text-foreground mb-1">
+                    {t('Địa chỉ Email', 'Email Address')}
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@company.com"
+                    className={`w-full h-[34px] px-3 py-1 text-sm bg-background border rounded-md text-foreground placeholder:text-muted/40 transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 ${
+                      emailError ? 'border-danger focus:border-danger focus:ring-danger/40' : 'border-border'
+                    }`}
+                    disabled={loading}
+                  />
+                  {emailError && (
+                    <p className="text-[10px] text-danger mt-0.5">{emailError}</p>
+                  )}
+                </div>
+              )}
 
               {/* Submit Button */}
               <button
@@ -149,10 +240,10 @@ export default function ResetPasswordPage() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
-                    <span>{t('Đang gửi...', 'Sending...')}</span>
+                    <span>{t('Đang xử lý...', 'Processing...')}</span>
                   </>
                 ) : (
-                  <span>{t('Gửi liên kết', 'Send Reset Link')}</span>
+                  <span>{isUpdateMode ? t('Cập nhật mật khẩu', 'Update Password') : t('Gửi liên kết', 'Send Reset Link')}</span>
                 )}
               </button>
             </form>
@@ -165,12 +256,14 @@ export default function ResetPasswordPage() {
               >
                 {t('← Đăng nhập', '← Back to Login')}
               </Link>
-              <Link
-                href="/register"
-                className="text-primary hover:text-primary-hover font-semibold transition-colors"
-              >
-                {t('Đăng ký ngay', 'Sign up now')}
-              </Link>
+              {!isUpdateMode && (
+                <Link
+                  href="/register"
+                  className="text-primary hover:text-primary-hover font-semibold transition-colors"
+                >
+                  {t('Đăng ký ngay', 'Sign up now')}
+                </Link>
+              )}
             </div>
 
           </div>
