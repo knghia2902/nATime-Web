@@ -7,6 +7,7 @@ import { useLanguage } from '@/lib/i18n';
 import { useAuth } from '@/lib/authContext';
 import ThemeToggle from '@/components/ThemeToggle';
 import LanguageToggle from '@/components/LanguageToggle';
+import { supabase, isMockEnabled } from '@/lib/supabase';
 
 // -------------------------------------------------------------
 // TS interfaces & Types
@@ -63,9 +64,13 @@ export default function CustomerDashboard() {
   const daysRemainingFallback = 185;
 
   // -------------------------------------------------------------
-  // Mock Stateful Data
+  // Stateful Data & Fallbacks
   // -------------------------------------------------------------
-  const [licenses, setLicenses] = useState<LicenseKey[]>([
+  const [licenses, setLicenses] = useState<LicenseKey[]>([]);
+  const [tickets, setTickets] = useState<SupportTicket[]>([]);
+
+  // Default Mock Values for Offline Mode
+  const DEFAULT_LICENSES: LicenseKey[] = [
     {
       key: 'NT-ATT-2910-8839',
       moduleVi: 'Chấm công thông minh (Smart Attendance)',
@@ -102,9 +107,9 @@ export default function CustomerDashboard() {
       devicesMax: 50,
       expireDate: '2026-08-30',
     },
-  ]);
+  ];
 
-  const [tickets, setTickets] = useState<SupportTicket[]>([
+  const DEFAULT_TICKETS: SupportTicket[] = [
     {
       id: 'TK-2849',
       subject: 'Cần hỗ trợ đồng bộ dữ liệu FaceID giữa 2 văn phòng',
@@ -129,7 +134,34 @@ export default function CustomerDashboard() {
       date: '2026-06-18',
       description: 'Xin vui lòng cung cấp tài liệu đặc tả API RESTful để hệ thống ERP bên tôi đẩy danh sách nhân viên.',
     },
-  ]);
+  ];
+
+  const getModuleTranslationVi = (planType: string) => {
+    const map: Record<string, string> = {
+      'Attendance': 'Chấm công thông minh (Smart Attendance)',
+      'Gate': 'Kiểm soát Cổng ra vào (Gate Access Control)',
+      'Weighbridge': 'Trạm cân xe (Weighbridge Control)',
+      'Asset': 'Tài sản CNTT (IT Asset Management)',
+    };
+    return map[planType] || planType;
+  };
+
+  const getModuleTranslationEn = (planType: string) => {
+    const map: Record<string, string> = {
+      'Attendance': 'Smart Time Attendance',
+      'Gate': 'Gate Access Control',
+      'Weighbridge': 'Weighbridge Management',
+      'Asset': 'IT Asset Management',
+    };
+    return map[planType] || planType;
+  };
+
+  const planTypeMapping: Record<string, string> = {
+    attendance: 'Attendance',
+    access: 'Gate',
+    weighbridge: 'Weighbridge',
+    asset: 'Asset',
+  };
 
   // Form states
   const [newKey, setNewKey] = useState('');
@@ -143,6 +175,82 @@ export default function CustomerDashboard() {
   const [profileName, setProfileName] = useState('');
   const [profilePhone, setProfilePhone] = useState('0987.654.321');
   const [profileOrg, setProfileOrg] = useState('ACS Solutions JSC');
+
+  // Fetch licenses and tickets on mount / user change
+  useEffect(() => {
+    if (!user) return;
+
+    const loadDashboardData = async () => {
+      if (isMockEnabled || !supabase) {
+        // Mock Mode: read from LocalStorage
+        const cachedLicenses = localStorage.getItem('natime-licenses');
+        if (cachedLicenses) {
+          try { setLicenses(JSON.parse(cachedLicenses)); } catch (e) {}
+        } else {
+          setLicenses(DEFAULT_LICENSES);
+          localStorage.setItem('natime-licenses', JSON.stringify(DEFAULT_LICENSES));
+        }
+
+        const cachedTickets = localStorage.getItem('natime-tickets');
+        if (cachedTickets) {
+          try { setTickets(JSON.parse(cachedTickets)); } catch (e) {}
+        } else {
+          setTickets(DEFAULT_TICKETS);
+          localStorage.setItem('natime-tickets', JSON.stringify(DEFAULT_TICKETS));
+        }
+      } else {
+        // Real Supabase Connection
+        try {
+          // 1. Fetch user licenses
+          const { data: licenseData, error: licenseErr } = await supabase
+            .from('licenses')
+            .select('*')
+            .eq('user_id', user?.id)
+            .order('created_at', { ascending: false });
+
+          if (licenseErr) {
+            console.error('Error loading licenses from Supabase:', licenseErr.message);
+          } else if (licenseData) {
+            const mapped: LicenseKey[] = licenseData.map((item: any) => ({
+              key: item.license_key,
+              moduleVi: getModuleTranslationVi(item.plan_type),
+              moduleEn: getModuleTranslationEn(item.plan_type),
+              status: item.status.toLowerCase() as any,
+              devicesConnected: item.devices_used,
+              devicesMax: item.devices_limit,
+              expireDate: item.expiry_date.split('T')[0],
+            }));
+            setLicenses(mapped);
+          }
+
+          // 2. Fetch user tickets
+          const { data: ticketData, error: ticketErr } = await supabase
+            .from('tickets')
+            .select('*')
+            .eq('user_id', user?.id)
+            .order('created_at', { ascending: false });
+
+          if (ticketErr) {
+            console.error('Error loading tickets from Supabase:', ticketErr.message);
+          } else if (ticketData) {
+            const mapped: SupportTicket[] = ticketData.map((item: any) => ({
+              id: item.ticket_number,
+              subject: item.subject,
+              status: item.status.toLowerCase() as any,
+              priority: item.priority.toLowerCase() as any,
+              date: item.created_at.split('T')[0],
+              description: '',
+            }));
+            setTickets(mapped);
+          }
+        } catch (err) {
+          console.error('Error fetching Supabase database data:', err);
+        }
+      }
+    };
+
+    loadDashboardData();
+  }, [user]);
 
   // Load profile values once user loads
   useEffect(() => {
@@ -176,7 +284,7 @@ export default function CustomerDashboard() {
     showToast(t('Đã sao chép License Key vào clipboard', 'Copied License Key to clipboard'), 'success');
   };
 
-  const handleActivateLicense = (e: React.FormEvent) => {
+  const handleActivateLicense = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newKey.trim()) {
       showToast(t('Vui lòng nhập mã kích hoạt', 'Please enter activation key'), 'error');
@@ -207,20 +315,52 @@ export default function CustomerDashboard() {
       expireDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     };
 
-    setLicenses([newLicense, ...licenses]);
-    setNewKey('');
-    showToast(t('Kích hoạt License thành công!', 'License key activated successfully!'), 'success');
+    if (isMockEnabled || !supabase) {
+      // Mock logic
+      const updated = [newLicense, ...licenses];
+      setLicenses(updated);
+      localStorage.setItem('natime-licenses', JSON.stringify(updated));
+      setNewKey('');
+      showToast(t('Kích hoạt License thành công!', 'License key activated successfully!'), 'success');
+    } else {
+      // Real Supabase insertion
+      try {
+        const plan = planTypeMapping[newKeyModule] || 'Attendance';
+        const { error } = await supabase
+          .from('licenses')
+          .insert([{
+            license_key: newKey.trim().toUpperCase(),
+            plan_type: plan,
+            devices_limit: mod.maxDev,
+            devices_used: 0,
+            status: 'Active',
+            expiry_date: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+            user_id: user?.id,
+          }]);
+
+        if (error) {
+          showToast(error.message, 'error');
+        } else {
+          setLicenses([newLicense, ...licenses]);
+          setNewKey('');
+          showToast(t('Kích hoạt License thành công!', 'License key activated successfully!'), 'success');
+        }
+      } catch (err: any) {
+        showToast(err.message || 'Error communicating with Supabase', 'error');
+      }
+    }
   };
 
-  const handleCreateTicket = (e: React.FormEvent) => {
+  const handleCreateTicket = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!ticketSubject.trim()) {
       showToast(t('Vui lòng nhập tiêu đề yêu cầu', 'Please enter a ticket subject'), 'error');
       return;
     }
 
+    const ticketNo = `TK-${Math.floor(1000 + Math.random() * 9000)}`;
     const newTicket: SupportTicket = {
-      id: `TK-${Math.floor(1000 + Math.random() * 9000)}`,
+      id: ticketNo,
       subject: ticketSubject.trim(),
       status: 'pending',
       priority: ticketPriority,
@@ -228,11 +368,44 @@ export default function CustomerDashboard() {
       description: ticketDescription.trim(),
     };
 
-    setTickets([newTicket, ...tickets]);
-    setTicketSubject('');
-    setTicketDescription('');
-    setShowAddTicketForm(false);
-    showToast(t('Tạo yêu cầu hỗ trợ thành công!', 'Support ticket created successfully!'), 'success');
+    if (isMockEnabled || !supabase) {
+      // Mock logic
+      const updated = [newTicket, ...tickets];
+      setTickets(updated);
+      localStorage.setItem('natime-tickets', JSON.stringify(updated));
+      setTicketSubject('');
+      setTicketDescription('');
+      setShowAddTicketForm(false);
+      showToast(t('Tạo yêu cầu hỗ trợ thành công!', 'Support ticket created successfully!'), 'success');
+    } else {
+      // Real Supabase insertion
+      try {
+        // Priority to Uppercase-first
+        const priorityVal = ticketPriority.charAt(0).toUpperCase() + ticketPriority.slice(1);
+        const { error } = await supabase
+          .from('tickets')
+          .insert([{
+            ticket_number: ticketNo,
+            subject: ticketSubject.trim(),
+            category: 'Device', // Default to Device
+            priority: priorityVal,
+            status: 'Open',
+            user_id: user?.id,
+          }]);
+
+        if (error) {
+          showToast(error.message, 'error');
+        } else {
+          setTickets([newTicket, ...tickets]);
+          setTicketSubject('');
+          setTicketDescription('');
+          setShowAddTicketForm(false);
+          showToast(t('Tạo yêu cầu hỗ trợ thành công!', 'Support ticket created successfully!'), 'success');
+        }
+      } catch (err: any) {
+        showToast(err.message || 'Error communicating with Supabase', 'error');
+      }
+    }
   };
 
   const handleSaveProfile = async (e: React.FormEvent) => {
