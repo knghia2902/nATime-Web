@@ -1,261 +1,235 @@
 'use client';
 
 import { useLanguage } from '@/lib/i18n';
-
-const PARTICLES = [
-  { size: 4, top: '12%', left: '8%', delay: '0s', duration: '6s', opacity: 0.3 },
-  { size: 6, top: '20%', left: '85%', delay: '1s', duration: '8s', opacity: 0.2 },
-  { size: 3, top: '65%', left: '12%', delay: '2s', duration: '7s', opacity: 0.25 },
-  { size: 5, top: '75%', left: '90%', delay: '0.5s', duration: '9s', opacity: 0.15 },
-  { size: 3, top: '40%', left: '95%', delay: '3s', duration: '6.5s', opacity: 0.2 },
-  { size: 7, top: '85%', left: '50%', delay: '1.5s', duration: '8.5s', opacity: 0.18 },
-  { size: 4, top: '10%', left: '45%', delay: '2.5s', duration: '7.5s', opacity: 0.22 },
-  { size: 5, top: '50%', left: '5%', delay: '0.8s', duration: '9.5s', opacity: 0.16 },
-];
+import { useAuth } from '@/lib/authContext';
+import Link from 'next/link';
 
 export default function Hero() {
   const { t } = useLanguage();
+  const { user } = useAuth();
 
   return (
-    <section className="hero-section relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* ── Animated mesh gradient background ── */}
-      <div className="hero-bg absolute inset-0 -z-10" aria-hidden="true" />
-
-      {/* ── Noise texture overlay ── */}
+    <section className="hero-section relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-slate-50 dark:bg-[#0a0a14] pt-24 md:pt-32 pb-16">
+      {/* ── Professional Subtle Background Radial Glow ── */}
       <div
-        className="absolute inset-0 -z-5 opacity-[0.03] dark:opacity-[0.05]"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] -z-10 opacity-60 dark:opacity-40 pointer-events-none"
         aria-hidden="true"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '256px 256px',
-        }}
-      />
-
-      {/* ── Floating particles ── */}
-      <div className="absolute inset-0 -z-5" aria-hidden="true">
-        {PARTICLES.map((p, i) => (
-          <span
-            key={i}
-            className="hero-particle absolute rounded-full bg-indigo-500 dark:bg-indigo-400"
-            style={{
-              width: p.size,
-              height: p.size,
-              top: p.top,
-              left: p.left,
-              opacity: p.opacity,
-              animationDelay: p.delay,
-              animationDuration: p.duration,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* ── Radial glow accents ── */}
-      <div
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full -z-5"
-        aria-hidden="true"
-        style={{
-          background: 'radial-gradient(circle, rgba(79,70,229,0.12) 0%, transparent 70%)',
-        }}
-      />
-      <div
-        className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full -z-5"
-        aria-hidden="true"
-        style={{
-          background: 'radial-gradient(circle, rgba(168,85,247,0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(79, 70, 229, 0.12) 0%, transparent 80%)',
         }}
       />
 
       {/* ── Main content ── */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 py-24 text-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex-1 flex flex-col justify-center items-center">
         {/* Badge */}
-        <div className="hero-fade-in hero-delay-1 flex justify-center mb-8">
-          <div className="hero-badge-border relative inline-flex rounded-full p-px">
-            <span className="relative inline-flex items-center gap-2 rounded-full bg-card/80 dark:bg-card/50 backdrop-blur-sm px-5 py-2 text-sm font-medium text-foreground/80">
-              {t('🚀 Phiên bản 1.0 — Ra mắt Q3/2026', '🚀 Version 1.0 — Launching Q3/2026')}
-            </span>
+        <div className="hero-fade-in hero-delay-1 mb-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-foreground/80 shadow-sm">
+            <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <span>{t('🚀 Phiên bản 1.0 — Ra mắt Q3/2026', '🚀 Version 1.0 — Launching Q3/2026')}</span>
           </div>
         </div>
 
         {/* Heading */}
-        <h1 className="hero-fade-in hero-delay-2 mb-6">
-          <span className="hero-gradient-text block text-6xl sm:text-7xl md:text-8xl font-extrabold tracking-tight leading-none mb-4">
+        <h1 className="hero-fade-in hero-delay-2 mb-6 max-w-3xl">
+          <span className="block text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
             nATime
           </span>
-          <span className="block text-xl sm:text-2xl md:text-3xl font-semibold text-foreground/90 leading-snug max-w-2xl mx-auto whitespace-pre-line">
+          <span className="block text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight leading-tight">
             {t(
-              'Giải pháp Chấm công &\nKiểm soát Ra vào Thông minh',
-              'Smart Time Attendance &\nAccess Control Solution'
+              'Giải pháp Chấm công & Kiểm soát Ra vào Thông minh',
+              'Smart Time Attendance & Access Control Solution'
             )}
           </span>
         </h1>
 
         {/* Description */}
-        <p className="hero-fade-in hero-delay-3 text-base sm:text-lg text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="hero-fade-in hero-delay-3 text-base sm:text-lg text-muted max-w-2xl mx-auto mb-8 leading-relaxed">
           {t(
-            'Nền tảng quản lý chấm công, kiểm soát ra vào và giám sát toàn diện dành cho doanh nghiệp. Tích hợp AI, nhận diện khuôn mặt và phân tích dữ liệu thời gian thực.',
-            'Enterprise-grade platform for time attendance, access control, and comprehensive monitoring. Powered by AI, facial recognition, and real-time data analytics.'
+            'Nền tảng quản lý chấm công, kiểm soát ra vào và giám sát thiết bị toàn diện dành cho doanh nghiệp. Tích hợp công nghệ hiện đại, vận hành bền bỉ trên nền tảng .NET 10 độc lập.',
+            'Enterprise-grade platform for time attendance, access control, and unified device monitoring. Built independently on .NET 10 for highly secure and stable operations.'
           )}
         </p>
 
         {/* CTA Buttons */}
-        <div className="hero-fade-in hero-delay-4 flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-          <button
-            className="group relative inline-flex h-13 items-center justify-center gap-2 rounded-xl bg-primary px-8 text-base font-semibold text-primary-light shadow-lg shadow-primary/25 transition-all duration-300 hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.03] active:scale-[0.98] cursor-pointer w-full sm:w-auto"
+        <div className="hero-fade-in hero-delay-4 flex flex-col sm:flex-row items-center justify-center gap-4 mb-14 w-full sm:w-auto">
+          <Link
+            href={user ? "/dashboard" : "/register"}
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-6 text-sm font-bold text-white shadow-md shadow-primary/20 transition-all duration-200 hover:bg-primary-hover hover:scale-[1.01] active:scale-[0.99] cursor-pointer w-full sm:w-auto text-center"
           >
-            <span className="relative z-10 flex items-center gap-2">
-              {t('Bắt đầu ngay', 'Get Started')}
-              <svg
-                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2.5}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </span>
-          </button>
-
-          <button
-            className="group relative inline-flex h-13 items-center justify-center gap-2 rounded-xl border border-border bg-card/60 dark:bg-card/5 backdrop-blur-sm px-8 text-base font-semibold text-foreground/90 transition-all duration-300 hover:bg-primary/5 hover:border-primary/40 hover:text-primary hover:scale-[1.03] active:scale-[0.98] cursor-pointer w-full sm:w-auto"
-          >
+            {t('Dùng thử miễn phí', 'Start Free Trial')}
             <svg
-              className="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
-              fill="currentColor"
+              className="w-4 h-4 transition-transform duration-200"
+              fill="none"
               viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2.5}
             >
-              <path d="M8 5v14l11-7z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
-            {t('Xem Demo', 'Watch Demo')}
-          </button>
+          </Link>
+
+          <Link
+            href="/contact"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-border bg-card/85 dark:bg-card/20 px-6 text-sm font-semibold text-foreground transition-all duration-200 hover:bg-primary/5 hover:border-primary/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer w-full sm:w-auto text-center"
+          >
+            {t('Liên hệ tư vấn', 'Contact Sales')}
+          </Link>
         </div>
 
-        {/* Trust indicators */}
-        <div className="hero-fade-in hero-delay-5 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-muted/80">
-          <span className="flex items-center gap-1.5">
-            <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
-            {t('Miễn phí 30 ngày', '30-day free trial')}
-          </span>
-          <span className="hidden sm:block w-1 h-1 rounded-full bg-border" />
-          <span className="flex items-center gap-1.5">
-            <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
-            {t('Không cần thẻ tín dụng', 'No credit card required')}
-          </span>
-          <span className="hidden sm:block w-1 h-1 rounded-full bg-border" />
-          <span className="flex items-center gap-1.5">
-            <svg className="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-            </svg>
-            {t('Hỗ trợ 24/7', '24/7 support')}
-          </span>
+        {/* ── 5. REALISTIC WEB PORTAL PREVIEW ────────────────── */}
+        <div className="hero-fade-in hero-delay-5 w-full max-w-5xl mx-auto rounded-xl border border-border bg-card shadow-2xl overflow-hidden text-left relative">
+          {/* Top Window Chrome */}
+          <div className="flex items-center justify-between border-b border-border bg-slate-100/80 dark:bg-slate-900/80 px-4 py-3 select-none">
+            <div className="flex items-center gap-1.5 shrink-0">
+              <span className="h-3 w-3 rounded-full bg-red-400/80 dark:bg-red-500/70" />
+              <span className="h-3 w-3 rounded-full bg-yellow-400/80 dark:bg-yellow-500/70" />
+              <span className="h-3 w-3 rounded-full bg-green-400/80 dark:bg-green-500/70" />
+            </div>
+            <div className="flex items-center gap-2 rounded-md bg-background px-4 py-1 text-[11px] text-muted border border-border/50 max-w-[280px] sm:max-w-xs w-full justify-center font-mono overflow-hidden truncate">
+              <svg className="w-3 h-3 text-muted/65 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              <span className="truncate">app.natime.vn/dashboard</span>
+            </div>
+            <div className="w-10 shrink-0" />
+          </div>
+
+          {/* Inner application workspace mockup */}
+          <div className="grid grid-cols-12 bg-background/40 dark:bg-slate-950/20 text-[11px] min-h-[380px] font-sans">
+            {/* Mock Sidebar */}
+            <div className="col-span-12 md:col-span-3 border-b md:border-b-0 md:border-r border-border bg-card/45 dark:bg-card/5 p-4 space-y-4">
+              <div className="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-xs">
+                <span className="h-6 w-6 rounded-md bg-primary flex items-center justify-center text-white text-[11px] font-black">N</span>
+                <span>nATime Admin Portal</span>
+              </div>
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2.5 rounded-lg bg-primary/[0.08] px-3 py-2 text-primary font-semibold">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                  {t('Tổng quan', 'Dashboard')}
+                </div>
+                <div className="flex items-center gap-2.5 px-3 py-2 text-muted hover:text-foreground transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
+                  {t('Quản lý Thiết bị', 'Device Management')}
+                </div>
+                <div className="flex items-center gap-2.5 px-3 py-2 text-muted hover:text-foreground transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
+                  {t('Chấm công & Phép', 'Time Attendance')}
+                </div>
+                <div className="flex items-center gap-2.5 px-3 py-2 text-muted hover:text-foreground transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
+                  {t('Cổng Access Control', 'Gate Access')}
+                </div>
+                <div className="flex items-center gap-2.5 px-3 py-2 text-muted hover:text-foreground transition-colors">
+                  <span className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
+                  {t('Nhà thầu & Khách', 'Contractor & Visitor')}
+                </div>
+              </div>
+            </div>
+
+            {/* Mock Main content */}
+            <div className="col-span-12 md:col-span-9 p-5 space-y-5">
+              {/* Metrics cards row */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+                  <p className="text-[10px] uppercase font-bold text-muted tracking-wider">{t('Tổng nhân sự', 'Total Employees')}</p>
+                  <p className="text-xl font-black mt-1 text-foreground">1,248</p>
+                  <p className="text-[9px] text-emerald-500 font-medium mt-1">↑ 12% {t('tháng này', 'this month')}</p>
+                </div>
+                <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+                  <p className="text-[10px] uppercase font-bold text-muted tracking-wider">{t('Thiết bị Online', 'Online Devices')}</p>
+                  <p className="text-xl font-black mt-1 text-foreground">34 / 36</p>
+                  <p className="text-[9px] text-emerald-500 font-medium mt-1">94.4% {t('Đang hoạt động', 'Active')}</p>
+                </div>
+                <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
+                  <p className="text-[10px] uppercase font-bold text-muted tracking-wider">{t('Vào ca hôm nay', 'Today Attendance')}</p>
+                  <p className="text-xl font-black mt-1 text-foreground">982</p>
+                  <p className="text-[9px] text-primary font-medium mt-1">87.5% {t('Tỷ lệ đi làm', 'Attendance Rate')}</p>
+                </div>
+              </div>
+
+              {/* Data elements grid row */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                {/* Real-time events */}
+                <div className="lg:col-span-7 rounded-lg border border-border bg-card p-4 shadow-sm">
+                  <div className="flex items-center justify-between mb-3 border-b border-border/80 pb-2">
+                    <span className="font-bold text-foreground text-xs">{t('Nhật ký sự kiện thời gian thực', 'Real-time Event Log')}</span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-1.5 border-b border-border/30">
+                      <div>
+                        <p className="font-semibold text-foreground text-xs">Nguyễn Hoàng Nam</p>
+                        <p className="text-[9px] text-muted">{t('Máy kiểm soát cửa chính', 'Main Gate Terminal')}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="rounded bg-emerald-500/10 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 px-2 py-0.5 text-[9px] font-bold">Face ID</span>
+                        <p className="text-[9px] text-muted mt-0.5 font-mono">08:02:14</p>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center py-1.5 border-b border-border/30">
+                      <div>
+                        <p className="font-semibold text-foreground text-xs">Trần Thị Mai</p>
+                        <p className="text-[9px] text-muted">{t('Cổng phụ tòa nhà B', 'Building B Side Gate')}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="rounded bg-indigo-500/10 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400 px-2 py-0.5 text-[9px] font-bold">QR Code</span>
+                        <p className="text-[9px] text-muted mt-0.5 font-mono">08:01:45</p>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center py-1.5">
+                      <div>
+                        <p className="font-semibold text-foreground text-xs">Lê Văn Hùng</p>
+                        <p className="text-[9px] text-muted">{t('Cổng trạm cân số 1', 'Weighbridge Gate 1')}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="rounded bg-amber-500/10 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 px-2 py-0.5 text-[9px] font-bold">RFID Card</span>
+                        <p className="text-[9px] text-muted mt-0.5 font-mono">07:59:32</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sub status summary */}
+                <div className="lg:col-span-5 rounded-lg border border-border bg-card p-4 shadow-sm flex flex-col justify-between">
+                  <div className="space-y-3">
+                    <p className="font-bold text-foreground text-xs">{t('Tình trạng Phân hệ', 'Subsystem Status')}</p>
+                    <div className="space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted">{t('Cổng Barie xoay', 'Barriers & Turnstiles')}</span>
+                        <span className="font-bold text-emerald-500 font-mono">12/12 Online</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted">{t('Camera nhận diện LPR', 'ANPR Cameras')}</span>
+                        <span className="font-bold text-emerald-500 font-mono">8/8 Online</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted">{t('Trạm cân điện tử', 'Weighbridges')}</span>
+                        <span className="font-bold text-emerald-500 font-mono">2/2 Online</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted">{t('Đầu đọc sinh trắc học', 'Biometric Readers')}</span>
+                        <span className="font-bold text-amber-500 font-mono">14/16 Online</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border-t border-border/80 pt-3 mt-4 flex items-center justify-between text-[9px] text-muted">
+                    <span>{t('Đồng bộ dữ liệu:', 'Last synced:')}</span>
+                    <span className="font-mono">{t('Thời gian thực', 'Real-time')}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* ── Bottom gradient fade ── */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-32 -z-1"
-        aria-hidden="true"
-        style={{
-          background: 'linear-gradient(to top, var(--background), transparent)',
-        }}
-      />
-
       {/* ── Inline styles for animations ── */}
       <style jsx>{`
-        /* ── Mesh gradient background ── */
-        .hero-bg {
-          background:
-            radial-gradient(ellipse 80% 50% at 50% -20%, rgba(79,70,229,0.15), transparent),
-            radial-gradient(ellipse 60% 40% at 80% 50%, rgba(168,85,247,0.10), transparent),
-            radial-gradient(ellipse 50% 60% at 20% 80%, rgba(99,102,241,0.08), transparent),
-            radial-gradient(ellipse 40% 30% at 70% 20%, rgba(139,92,246,0.06), transparent);
-          animation: meshShift 12s ease-in-out infinite alternate;
-        }
-
-        :global(.dark) .hero-bg {
-          background:
-            radial-gradient(ellipse 80% 50% at 50% -20%, rgba(79,70,229,0.25), transparent),
-            radial-gradient(ellipse 60% 40% at 80% 50%, rgba(168,85,247,0.15), transparent),
-            radial-gradient(ellipse 50% 60% at 20% 80%, rgba(99,102,241,0.12), transparent),
-            radial-gradient(ellipse 40% 30% at 70% 20%, rgba(139,92,246,0.10), transparent);
-          animation: meshShift 12s ease-in-out infinite alternate;
-        }
-
-        @keyframes meshShift {
-          0% {
-            background-position: 0% 0%, 100% 50%, 0% 100%, 70% 20%;
-          }
-          33% {
-            background-position: 20% 10%, 80% 40%, 10% 90%, 60% 30%;
-          }
-          66% {
-            background-position: 10% 20%, 90% 60%, 20% 80%, 75% 15%;
-          }
-          100% {
-            background-position: 30% 5%, 70% 55%, 5% 85%, 65% 25%;
-          }
-        }
-
-        /* ── Floating particles ── */
-        .hero-particle {
-          animation: particleFloat 6s ease-in-out infinite alternate;
-        }
-
-        @keyframes particleFloat {
-          0% {
-            transform: translateY(0px) translateX(0px) scale(1);
-            opacity: var(--tw-opacity, 0.2);
-          }
-          25% {
-            transform: translateY(-20px) translateX(10px) scale(1.2);
-          }
-          50% {
-            transform: translateY(-10px) translateX(-15px) scale(0.9);
-          }
-          75% {
-            transform: translateY(-30px) translateX(5px) scale(1.1);
-          }
-          100% {
-            transform: translateY(-15px) translateX(-10px) scale(1);
-            opacity: calc(var(--tw-opacity, 0.2) * 1.5);
-          }
-        }
-
-        /* ── Gradient text ── */
-        .hero-gradient-text {
-          background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 40%, #a855f7 70%, #6366f1 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        /* ── Badge gradient border ── */
-        .hero-badge-border {
-          background: linear-gradient(135deg, #4f46e5, #a855f7, #6366f1, #4f46e5);
-          background-size: 300% 300%;
-          animation: borderShimmer 4s ease-in-out infinite;
-        }
-
-        @keyframes borderShimmer {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-
         /* ── Fade-in-up animation ── */
         .hero-fade-in {
           opacity: 0;
-          transform: translateY(24px);
-          animation: fadeInUp 0.8s ease-out forwards;
+          transform: translateY(20px);
+          animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes fadeInUp {
@@ -266,10 +240,10 @@ export default function Hero() {
         }
 
         .hero-delay-1 { animation-delay: 0.1s; }
-        .hero-delay-2 { animation-delay: 0.25s; }
-        .hero-delay-3 { animation-delay: 0.4s; }
-        .hero-delay-4 { animation-delay: 0.55s; }
-        .hero-delay-5 { animation-delay: 0.7s; }
+        .hero-delay-2 { animation-delay: 0.2s; }
+        .hero-delay-3 { animation-delay: 0.3s; }
+        .hero-delay-4 { animation-delay: 0.4s; }
+        .hero-delay-5 { animation-delay: 0.5s; }
       `}</style>
     </section>
   );
