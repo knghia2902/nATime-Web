@@ -6,6 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useLanguage } from '@/lib/i18n';
 import ThemeToggle from '@/components/ThemeToggle';
 import LanguageToggle from '@/components/LanguageToggle';
+import { useAuth } from '@/lib/authContext';
 
 interface NavLink {
   href: string;
@@ -24,6 +25,7 @@ const navLinks: NavLink[] = [
 
 export default function Navbar() {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -193,11 +195,11 @@ export default function Navbar() {
             <ThemeToggle />
             <LanguageToggle />
             <Link
-              href="/register"
+              href={user ? "/dashboard" : "/register"}
               className="group/cta relative ml-1 inline-flex h-9 items-center gap-1.5 overflow-hidden rounded-full bg-primary px-5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 active:shadow-md"
             >
               <span className="relative z-10">
-                {t('Dùng thử miễn phí', 'Start Free Trial')}
+                {user ? t('Vào Dashboard', 'Go to Dashboard') : t('Dùng thử miễn phí', 'Start Free Trial')}
               </span>
               {/* Arrow icon */}
               <svg
@@ -343,11 +345,11 @@ export default function Navbar() {
         {/* Drawer CTA */}
         <div className="shrink-0 border-t border-border/50 p-4">
           <Link
-            href="/register"
+            href={user ? "/dashboard" : "/register"}
             onClick={closeMobile}
             className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]"
           >
-            {t('Dùng thử miễn phí', 'Start Free Trial')}
+            {user ? t('Vào Dashboard', 'Go to Dashboard') : t('Dùng thử miễn phí', 'Start Free Trial')}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"

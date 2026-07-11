@@ -138,9 +138,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
           const { data: { session } } = await supabase!.auth.getSession();
           if (session?.user) {
-            setUser(mapSupabaseUser(session.user));
+            const mapped = mapSupabaseUser(session.user);
+            setUser(mapped);
+            localStorage.setItem('natime-user', JSON.stringify(mapped));
           } else {
             setUser(null);
+            localStorage.removeItem('natime-user');
           }
         } catch (err) {
           console.error('Error getting Supabase session:', err);
@@ -154,9 +157,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { data: { subscription } } = supabase!.auth.onAuthStateChange(
         (_event, session) => {
           if (session?.user) {
-            setUser(mapSupabaseUser(session.user));
+            const mapped = mapSupabaseUser(session.user);
+            setUser(mapped);
+            localStorage.setItem('natime-user', JSON.stringify(mapped));
+            
+            // Auto redirect to dashboard when invite/recovery/login confirmation link is clicked
+            if (typeof window !== 'undefined' && 
+                (window.location.hash.includes('access_token=') || 
+                 window.location.search.includes('code='))) {
+              window.location.href = '/dashboard';
+            }
           } else {
             setUser(null);
+            localStorage.removeItem('natime-user');
           }
           setLoading(false);
         }
