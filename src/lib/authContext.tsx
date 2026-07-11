@@ -67,6 +67,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  // Backup URL hash before Supabase client clears it
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash;
+      if (hash.includes('access_token=') && 
+          (hash.includes('type=recovery') || hash.includes('type=invite') || hash.includes('type=signup'))) {
+        sessionStorage.setItem('natime-auth-hash', hash);
+      }
+    }
+  }, []);
+
   // Initialize mock database with a demo account if not exists
   const getMockDB = (): MockDBUser[] => {
     if (typeof window === 'undefined') return [];
@@ -156,21 +167,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       initAuth();
 
       const { data: { subscription } } = supabase!.auth.onAuthStateChange(
-        (_event, session) => {
+        (event, session) => {
           if (session?.user) {
             const mapped = mapSupabaseUser(session.user);
             setUser(mapped);
             localStorage.setItem('natime-user', JSON.stringify(mapped));
             
-            // Auto redirect to correct page when invite/recovery/login confirmation link is clicked
-            if (typeof window !== 'undefined' && 
-                (window.location.hash.includes('access_token=') || 
-                 window.location.search.includes('code='))) {
-              
-              if (window.location.hash.includes('type=recovery') || 
-                  window.location.hash.includes('type=invite')) {
-                window.location.href = `/reset-password${window.location.hash}`;
-              } else {
+            const storedHash = (typeof window !== 'undefined' ? sessionStorage.getItem('natime-auth-hash') : null) || '';
+            const isRecoveryOrInvite = event === 'PASSWORD_RECOVERY' || 
+                                       storedHash.includes('type=recovery') || 
+                                       storedHash.includes('type=invite') ||
+                                       (typeof window !== 'undefined' && 
+                                        (window.location.hash.includes('type=recovery') || 
+                                         window.location.hash.includes('type=invite')));
+
+            if (isRecoveryOrInvite) {
+              if (typeof window !== 'undefined') {
+                sessionStorage.removeItem('natime-auth-hash');
+                window.location.href = `/reset-password${window.location.hash || storedHash}`;
+              }
+            } else {
+              if (typeof window !== 'undefined' && 
+                  (window.location.hash.includes('access_token=') || 
+                   window.location.search.includes('code=') ||
+                   storedHash.includes('access_token='))) {
+                sessionStorage.removeItem('natime-auth-hash');
                 sessionStorage.setItem('natime-auth-redirect-success', 'true');
                 window.location.href = '/dashboard';
               }

@@ -26,11 +26,16 @@ export default function ResetPasswordPage() {
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && 
-        (window.location.hash.includes('access_token=') || 
-         window.location.hash.includes('type=recovery') ||
-         window.location.hash.includes('type=invite'))) {
-      setIsUpdateMode(true);
+    if (typeof window !== 'undefined') {
+      const storedHash = sessionStorage.getItem('natime-auth-hash') || '';
+      if (window.location.hash.includes('access_token=') || 
+          window.location.hash.includes('type=recovery') ||
+          window.location.hash.includes('type=invite') ||
+          storedHash.includes('type=recovery') ||
+          storedHash.includes('type=invite')) {
+        setIsUpdateMode(true);
+        sessionStorage.removeItem('natime-auth-hash');
+      }
     }
   }, []);
 
