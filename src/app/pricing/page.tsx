@@ -56,8 +56,8 @@ export default function PricingPage() {
       id: 'standard',
       nameVi: 'Standard',
       nameEn: 'Standard',
-      descriptionVi: 'Giải pháp cơ bản cho văn phòng, doanh nghiệp nhỏ và startups.',
-      descriptionEn: 'Basic solution for offices, small businesses, and startups.',
+      descriptionVi: 'Cài đặt tại chỗ (Self-Host). Giải pháp cơ bản cho văn phòng, doanh nghiệp nhỏ và startups.',
+      descriptionEn: 'On-premises (Self-Host). Basic solution for offices, small businesses, and startups.',
       priceMonthly: 490000,
       priceYearly: 392000, // 20% off
       buttonTextVi: 'Dùng thử miễn phí',
@@ -66,9 +66,9 @@ export default function PricingPage() {
       features: [
         { vi: 'Lên tới 50 nhân viên', en: 'Up to 50 employees', included: true },
         { vi: 'Hỗ trợ tối đa 2 thiết bị', en: 'Supports up to 2 devices', included: true },
-        { vi: 'Chấm công thông minh cơ bản', en: 'Basic smart attendance', included: true },
-        { vi: 'Quản lý thiết bị cơ bản', en: 'Basic device management', included: true },
-        { vi: 'Báo cáo & Phân tích cơ bản', en: 'Basic reports & analytics', included: true },
+        { vi: 'Triển khai Self-Host tại chỗ', en: 'On-premises Self-Host deployment', included: true },
+        { vi: 'Bộ cài đặt tự động (.EXE Setup)', en: 'Automated Windows setup (.EXE)', included: true },
+        { vi: 'Xác thực bản quyền: Thuê bao năm', en: 'Licensing: Annual subscription', included: true },
         { vi: 'Kiểm soát cổng ra vào', en: 'Gate access control', included: false },
         { vi: 'Quản lý nhà thầu & khách', en: 'Contractor & visitor management', included: false },
       ],
@@ -77,8 +77,8 @@ export default function PricingPage() {
       id: 'professional',
       nameVi: 'Professional',
       nameEn: 'Professional',
-      descriptionVi: 'Phù hợp nhất cho doanh nghiệp đang tăng trưởng, chuỗi cửa hàng và nhà máy vừa.',
-      descriptionEn: 'Best fit for growing businesses, chain stores, and medium factories.',
+      descriptionVi: 'Cài đặt tại chỗ (Self-Host). Phù hợp nhất cho chuỗi cửa hàng, doanh nghiệp đang tăng trưởng và nhà máy vừa.',
+      descriptionEn: 'On-premises (Self-Host). Best fit for chain stores, growing businesses, and medium factories.',
       priceMonthly: 1490000,
       priceYearly: 1192000, // 20% off
       popular: true,
@@ -90,11 +90,11 @@ export default function PricingPage() {
       features: [
         { vi: 'Lên tới 500 nhân viên', en: 'Up to 500 employees', included: true },
         { vi: 'Hỗ trợ tối đa 10 thiết bị', en: 'Supports up to 10 devices', included: true },
-        { vi: 'Chấm công thông minh nâng cao', en: 'Advanced smart attendance', included: true },
-        { vi: 'Kiểm soát cổng ra vào (Sắp ra mắt)', en: 'Gate access control (Soon)', included: true },
-        { vi: 'Nhà thầu & Khách (Cơ bản)', en: 'Contractor & Visitor (Basic)', included: true },
-        { vi: 'Tài sản CNTT (Cơ bản)', en: 'IT Asset Management (Basic)', included: true },
-        { vi: 'Hỗ trợ nhanh qua Chat/Phone 24/7', en: 'Fast Chat/Phone support 24/7', included: true },
+        { vi: 'Triển khai Self-Host tại chỗ', en: 'On-premises Self-Host deployment', included: true },
+        { vi: 'Bộ cài đặt tự động (.EXE Setup)', en: 'Automated Windows setup (.EXE)', included: true },
+        { vi: 'Xác thực bản quyền: Thuê bao năm', en: 'Licensing: Annual subscription', included: true },
+        { vi: 'Hỗ trợ nâng cao từ xa 24/7', en: '24/7 remote technical support', included: true },
+        { vi: 'Đầy đủ tính năng chấm công, ca kíp', en: 'Full attendance & shifts features', included: true },
       ],
     },
     {
@@ -109,13 +109,13 @@ export default function PricingPage() {
       buttonTextEn: 'Contact Sales',
       buttonHref: '#contact-sales',
       features: [
-        { vi: 'Không giới hạn nhân viên', en: 'Unlimited employees', included: true },
-        { vi: 'Không giới hạn thiết bị', en: 'Unlimited devices', included: true },
-        { vi: 'Đầy đủ tất cả các phân hệ', en: 'Full access to all modules', included: true },
-        { vi: 'Phân hệ Trạm cân (Weighbridge) (Sắp ra mắt)', en: 'Weighbridge module (Soon)', included: true },
-        { vi: 'Tài sản CNTT nâng cao', en: 'Advanced IT Asset Management', included: true },
-        { vi: 'Tùy chọn triển khai tự lưu trữ (Self-host)', en: 'On-premises / Self-host option', included: true },
-        { vi: 'Kỹ sư triển khai riêng biệt & SLA khắt khe', en: 'Dedicated engineer & strict SLA', included: true },
+        { vi: 'Không giới hạn nhân viên & thiết bị', en: 'Unlimited employees & devices', included: true },
+        { vi: 'Bản quyền trọn đời (Mua đứt)', en: 'Lifetime Perpetual License', included: true },
+        { vi: 'Triển khai Self-Host tại chỗ chuyên sâu', en: 'On-premises / Self-host custom deployment', included: true },
+        { vi: 'Kỹ sư nATime lắp đặt & bàn giao tận nơi', en: 'On-site installation & onboarding', included: true },
+        { vi: 'Kích hoạt tùy chọn các Module nâng cao', en: 'Custom modular feature activation', included: true },
+        { vi: 'Tích hợp Trạm cân (Weighbridge)', en: 'Weighbridge integration support', included: true },
+        { vi: 'Cam kết SLA kỹ thuật khắt khe 24/7', en: 'Dedicated 24/7 Hotline & strict SLA', included: true },
       ],
     },
   ];
@@ -161,7 +161,7 @@ export default function PricingPage() {
         { nameVi: 'Xuất dữ liệu Excel/PDF tự động', nameEn: 'Auto Excel/PDF export', standard: true, professional: true, enterprise: true },
         { nameVi: 'API kết nối & Webhooks', nameEn: 'API access & Webhooks', standard: false, professional: t('Cơ bản', 'Basic API'), enterprise: t('Đầy đủ / Không giới hạn', 'Full / Unlimited API') },
         { nameVi: 'Tích hợp ERP/HRM bên thứ 3', nameEn: 'ERP/HRM 3rd party integration', standard: false, professional: false, enterprise: true },
-        { nameVi: 'Phương thức triển khai', nameEn: 'Deployment Method', standard: 'Cloud SaaS', professional: 'Cloud SaaS', enterprise: t('Cloud / On-premises / Hybrid', 'Cloud / On-premises / Hybrid') },
+        { nameVi: 'Phương thức triển khai', nameEn: 'Deployment Method', standard: t('Self-Host (Thuê bao năm)', 'Self-Host (Annual)'), professional: t('Self-Host (Thuê bao năm)', 'Self-Host (Annual)'), enterprise: t('Self-Host (Bản quyền trọn đời)', 'Self-Host (Lifetime Perpetual)') },
       ],
     },
     {
@@ -192,10 +192,10 @@ export default function PricingPage() {
       aEn: 'We support bank transfers, international cards (Visa/Mastercard), and popular e-wallet gateways. For the Enterprise plan, we support corporate contracts and complete VAT invoicing terms.'
     },
     {
-      qVi: 'Tôi có thể triển khai tự lưu trữ (Self-host / On-Premises) không?',
+      qVi: 'Tôi có thể tự cài đặt trên server nội bộ (Self-host / On-Premises) không?',
       qEn: 'Can I deploy self-hosted (On-Premises)?',
-      aVi: 'Có, gói Enterprise của chúng tôi hỗ trợ triển khai hoàn toàn On-Premises trên máy chủ nội bộ hoặc hạ tầng đám mây riêng của doanh nghiệp nhằm đáp ứng các tiêu chuẩn bảo mật dữ liệu nghiêm ngặt nhất. Đội ngũ kỹ sư nATime sẽ đồng hành cùng doanh nghiệp trong suốt quá trình cài đặt và vận hành.',
-      aEn: 'Yes, our Enterprise plan supports complete On-Premises deployment on your internal servers or private cloud infrastructure to meet the strictest data security standards. The nATime engineering team will guide your business through installation and operations.'
+      aVi: 'Có, toàn bộ các gói cước của nATime đều được thiết kế để triển khai Self-Host tại chỗ. Đối với gói Standard và Professional, chúng tôi cung cấp bộ cài đặt tự động (.EXE Setup) giúp bạn tự cài đặt SQL Server và phần mềm lên máy tính văn phòng chỉ trong 5 phút. Đối với gói Enterprise, đội ngũ kỹ sư nATime sẽ hỗ trợ khảo sát, tích hợp trạm cân, cổng barie và cài đặt trực tiếp tại doanh nghiệp.',
+      aEn: 'Yes, all nATime plans are designed for On-Premises Self-Host deployment. For Standard and Professional plans, we provide an automated installer (.EXE Setup) that configures SQL Server and the application on your office PC in just 5 minutes. For the Enterprise plan, nATime engineers will assist with site surveys, weighbridge/gate integrations, and on-site deployment.'
     },
     {
       qVi: 'SLA hỗ trợ của gói Professional và Enterprise là gì?',
