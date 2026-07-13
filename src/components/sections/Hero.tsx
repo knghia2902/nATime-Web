@@ -94,131 +94,13 @@ export default function Hero() {
             <div className="w-10 shrink-0" />
           </div>
 
-          {/* Inner application workspace mockup */}
-          <div className="grid grid-cols-12 bg-background/40 dark:bg-slate-950/20 text-[11px] min-h-[380px] font-sans">
-            {/* Mock Sidebar */}
-            <div className="col-span-12 md:col-span-3 border-b md:border-b-0 md:border-r border-border bg-card/45 dark:bg-card/5 p-4 space-y-4">
-              <div className="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-xs">
-                <span className="h-6 w-6 rounded-md bg-primary flex items-center justify-center text-white text-[11px] font-black">N</span>
-                <span>nATime Admin Portal</span>
-              </div>
-              <div className="space-y-1.5">
-                <div className="flex items-center gap-2.5 rounded-lg bg-primary/[0.08] px-3 py-2 text-primary font-semibold">
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                  {t('Tổng quan', 'Dashboard')}
-                </div>
-                <div className="flex items-center gap-2.5 px-3 py-2 text-muted hover:text-foreground transition-colors">
-                  <span className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
-                  {t('Quản lý Thiết bị', 'Device Management')}
-                </div>
-                <div className="flex items-center gap-2.5 px-3 py-2 text-muted hover:text-foreground transition-colors">
-                  <span className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
-                  {t('Chấm công & Phép', 'Time Attendance')}
-                </div>
-                <div className="flex items-center gap-2.5 px-3 py-2 text-muted hover:text-foreground transition-colors">
-                  <span className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
-                  {t('Cổng Access Control', 'Gate Access')}
-                </div>
-                <div className="flex items-center gap-2.5 px-3 py-2 text-muted hover:text-foreground transition-colors">
-                  <span className="h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
-                  {t('Nhà thầu & Khách', 'Contractor & Visitor')}
-                </div>
-              </div>
-            </div>
-
-            {/* Mock Main content */}
-            <div className="col-span-12 md:col-span-9 p-5 space-y-5">
-              {/* Metrics cards row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
-                  <p className="text-[10px] uppercase font-bold text-muted tracking-wider">{t('Tổng nhân sự', 'Total Employees')}</p>
-                  <p className="text-xl font-black mt-1 text-foreground">1,248</p>
-                  <p className="text-[9px] text-emerald-500 font-medium mt-1">↑ 12% {t('tháng này', 'this month')}</p>
-                </div>
-                <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
-                  <p className="text-[10px] uppercase font-bold text-muted tracking-wider">{t('Thiết bị Online', 'Online Devices')}</p>
-                  <p className="text-xl font-black mt-1 text-foreground">34 / 36</p>
-                  <p className="text-[9px] text-emerald-500 font-medium mt-1">94.4% {t('Đang hoạt động', 'Active')}</p>
-                </div>
-                <div className="rounded-lg border border-border bg-card p-3.5 shadow-sm">
-                  <p className="text-[10px] uppercase font-bold text-muted tracking-wider">{t('Vào ca hôm nay', 'Today Attendance')}</p>
-                  <p className="text-xl font-black mt-1 text-foreground">982</p>
-                  <p className="text-[9px] text-primary font-medium mt-1">87.5% {t('Tỷ lệ đi làm', 'Attendance Rate')}</p>
-                </div>
-              </div>
-
-              {/* Data elements grid row */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                {/* Real-time events */}
-                <div className="lg:col-span-7 rounded-lg border border-border bg-card p-4 shadow-sm">
-                  <div className="flex items-center justify-between mb-3 border-b border-border/80 pb-2">
-                    <span className="font-bold text-foreground text-xs">{t('Nhật ký sự kiện thời gian thực', 'Real-time Event Log')}</span>
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center py-1.5 border-b border-border/30">
-                      <div>
-                        <p className="font-semibold text-foreground text-xs">Nguyễn Hoàng Nam</p>
-                        <p className="text-[9px] text-muted">{t('Máy kiểm soát cửa chính', 'Main Gate Terminal')}</p>
-                      </div>
-                      <div className="text-right">
-                        <span className="rounded bg-emerald-500/10 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 px-2 py-0.5 text-[9px] font-bold">Face ID</span>
-                        <p className="text-[9px] text-muted mt-0.5 font-mono">08:02:14</p>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center py-1.5 border-b border-border/30">
-                      <div>
-                        <p className="font-semibold text-foreground text-xs">Trần Thị Mai</p>
-                        <p className="text-[9px] text-muted">{t('Cổng phụ tòa nhà B', 'Building B Side Gate')}</p>
-                      </div>
-                      <div className="text-right">
-                        <span className="rounded bg-indigo-500/10 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400 px-2 py-0.5 text-[9px] font-bold">QR Code</span>
-                        <p className="text-[9px] text-muted mt-0.5 font-mono">08:01:45</p>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center py-1.5">
-                      <div>
-                        <p className="font-semibold text-foreground text-xs">Lê Văn Hùng</p>
-                        <p className="text-[9px] text-muted">{t('Cổng trạm cân số 1', 'Weighbridge Gate 1')}</p>
-                      </div>
-                      <div className="text-right">
-                        <span className="rounded bg-amber-500/10 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 px-2 py-0.5 text-[9px] font-bold">RFID Card</span>
-                        <p className="text-[9px] text-muted mt-0.5 font-mono">07:59:32</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Sub status summary */}
-                <div className="lg:col-span-5 rounded-lg border border-border bg-card p-4 shadow-sm flex flex-col justify-between">
-                  <div className="space-y-3">
-                    <p className="font-bold text-foreground text-xs">{t('Tình trạng Phân hệ', 'Subsystem Status')}</p>
-                    <div className="space-y-2.5">
-                      <div className="flex items-center justify-between">
-                        <span className="text-muted">{t('Cổng Barie xoay', 'Barriers & Turnstiles')}</span>
-                        <span className="font-bold text-emerald-500 font-mono">12/12 Online</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-muted">{t('Camera nhận diện LPR', 'ANPR Cameras')}</span>
-                        <span className="font-bold text-emerald-500 font-mono">8/8 Online</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-muted">{t('Trạm cân điện tử', 'Weighbridges')}</span>
-                        <span className="font-bold text-emerald-500 font-mono">2/2 Online</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-muted">{t('Đầu đọc sinh trắc học', 'Biometric Readers')}</span>
-                        <span className="font-bold text-amber-500 font-mono">14/16 Online</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="border-t border-border/80 pt-3 mt-4 flex items-center justify-between text-[9px] text-muted">
-                    <span>{t('Đồng bộ dữ liệu:', 'Last synced:')}</span>
-                    <span className="font-mono">{t('Thời gian thực', 'Real-time')}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* The Image */}
+          <div className="relative overflow-hidden bg-background">
+            <img 
+              src="/screenshots/dashboard.png" 
+              alt="nATime Dashboard" 
+              className="w-full h-auto object-cover select-none" 
+            />
           </div>
         </div>
       </div>
