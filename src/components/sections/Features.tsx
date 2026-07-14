@@ -246,14 +246,14 @@ export default function Features() {
         {/* ── Centered Carousel Showcase ── */}
         <div className={`mt-16 lg:mt-20 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
 
-          {/* ── Preview Frame (Center) ── */}
-          <div className="relative mx-auto max-w-5xl">
+          {/* ── Coverflow 3D Carousel ── */}
+          <div className="relative mx-auto max-w-6xl">
 
             {/* Arrow: Left */}
             <button
               onClick={goPrev}
               aria-label="Previous"
-              className="absolute left-0 top-1/2 z-20 -translate-y-1/2 -translate-x-4 sm:-translate-x-6 flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-card/80 text-muted shadow-lg backdrop-blur-sm transition hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
+              className="absolute left-0 top-[45%] z-30 -translate-y-1/2 -translate-x-2 sm:-translate-x-4 flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-card/80 text-muted shadow-lg backdrop-blur-sm transition hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M15 18l-6-6 6-6" />
@@ -264,67 +264,86 @@ export default function Features() {
             <button
               onClick={goNext}
               aria-label="Next"
-              className="absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-4 sm:translate-x-6 flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-card/80 text-muted shadow-lg backdrop-blur-sm transition hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
+              className="absolute right-0 top-[45%] z-30 -translate-y-1/2 translate-x-2 sm:translate-x-4 flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-card/80 text-muted shadow-lg backdrop-blur-sm transition hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </button>
 
-            {/* Image viewport (clipped) — 3D flip */}
-            <div className="overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50 shadow-2xl p-2" style={{ perspective: '1200px' }}>
+            {/* Coverflow Stage */}
+            <div
+              className="relative"
+              style={{ perspective: '1400px', perspectiveOrigin: '50% 40%' }}
+            >
               <div
-                style={{
-                  opacity: sliding ? 0 : 1,
-                  transform: sliding
-                    ? `perspective(1200px) rotateY(${slideDir === 'left' ? '-18deg' : '18deg'}) translateZ(-40px) scale(0.94)`
-                    : 'perspective(1200px) rotateY(0deg) translateZ(0px) scale(1)',
-                  transition: 'opacity 0.42s cubic-bezier(0.4,0,0.2,1), transform 0.42s cubic-bezier(0.4,0,0.2,1)',
-                  transformStyle: 'preserve-3d',
-                  willChange: 'transform, opacity',
-                }}
+                className="relative flex items-center justify-center"
+                style={{ height: '360px' }}
               >
-                {current.isMobile ? (
-                  /* ── 3-Phone Deck (Mobile) ── */
-                  <div className="flex items-center justify-center gap-6 py-10 w-full overflow-hidden select-none bg-card/30 dark:bg-slate-950/20 rounded-xl backdrop-blur-md">
-                    <div className="max-w-[160px] w-full relative overflow-hidden rounded-[28px] border-[5px] border-slate-800 bg-background shadow-lg rotate-[-5deg] -mr-10 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
-                      <img src="/screenshots/mobile_calendar.png" alt="nA Mobile Calendar" className="w-full h-auto object-cover rounded-[24px]" />
-                    </div>
-                    <div className="max-w-[200px] w-full relative overflow-hidden rounded-[34px] border-[5px] border-slate-800 bg-background shadow-2xl z-10 hover:scale-[1.05] transition-all duration-300 cursor-pointer">
-                      <img src="/screenshots/mobile.png" alt="nA Mobile Home" className="w-full h-auto object-cover rounded-[30px]" />
-                    </div>
-                    <div className="max-w-[160px] w-full relative overflow-hidden rounded-[28px] border-[5px] border-slate-800 bg-background shadow-lg rotate-[5deg] -ml-10 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
-                      <img src="/screenshots/mobile_detail.png" alt="nA Mobile Detail" className="w-full h-auto object-cover rounded-[24px]" />
-                    </div>
-                  </div>
-                ) : (
-                  /* ── Browser Screenshot ── */
-                  <div className="group relative overflow-hidden rounded-xl border border-border/80 bg-background shadow-xl w-full">
-                    <div className="flex items-center justify-between border-b border-border bg-slate-100/70 dark:bg-slate-900/60 px-3.5 py-2.5 select-none">
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
-                        <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/80" />
-                        <span className="h-2.5 w-2.5 rounded-full bg-green-400/80" />
+                {featuresList.map((feature, idx) => {
+                  let pos = idx - activeTab;
+                  if (pos > total / 2) pos -= total;
+                  if (pos < -total / 2) pos += total;
+
+                  if (Math.abs(pos) > 1) return null;
+
+                  const isCenter = pos === 0;
+                  const isLeft = pos === -1;
+
+                  const transform = isCenter
+                    ? 'translateX(-50%) translateY(-50%) rotateY(0deg) translateZ(0px) scale(1)'
+                    : isLeft
+                    ? 'translateX(calc(-50% - 200px)) translateY(-50%) rotateY(45deg) translateZ(-110px) scale(0.82)'
+                    : 'translateX(calc(-50% + 200px)) translateY(-50%) rotateY(-45deg) translateZ(-110px) scale(0.82)';
+
+                  return (
+                    <div
+                      key={feature.id}
+                      onClick={() => !isCenter && goTo(idx, pos > 0 ? 'left' : 'right')}
+                      style={{
+                        position: 'absolute',
+                        left: '50%',
+                        top: '50%',
+                        width: isCenter ? '60%' : '36%',
+                        transform,
+                        opacity: isCenter ? 1 : 0.52,
+                        zIndex: isCenter ? 10 : 5,
+                        cursor: !isCenter ? 'pointer' : 'default',
+                        filter: !isCenter ? 'brightness(0.55) saturate(0.7)' : 'none',
+                        transition: 'all 0.52s cubic-bezier(0.4, 0, 0.2, 1)',
+                        transformOrigin: 'center center',
+                      }}
+                    >
+                      {/* Browser window mockup */}
+                      <div className="rounded-xl overflow-hidden border border-border/70 bg-background shadow-2xl">
+                        <div className="flex items-center justify-between border-b border-border bg-slate-100/70 dark:bg-slate-900/60 px-3.5 py-2.5 select-none">
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/80" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-green-400/80" />
+                          </div>
+                          <div className="rounded-md bg-card border border-border/40 px-4 py-0.5 text-[10px] text-muted/80 font-mono truncate max-w-[200px] w-full text-center">
+                            app.natime.vn/{feature.id}
+                          </div>
+                          <div className="w-8 shrink-0" />
+                        </div>
+                        <div className="overflow-hidden bg-slate-950" style={{ maxHeight: '280px' }}>
+                          <img
+                            src={feature.image}
+                            alt={t(feature.titleVi, feature.titleEn)}
+                            className="w-full h-auto object-cover object-top"
+                            draggable={false}
+                          />
+                        </div>
                       </div>
-                      <div className="rounded-md bg-card border border-border/40 px-4 py-0.5 text-[10px] text-muted/80 font-mono truncate max-w-[260px] w-full text-center">
-                        app.natime.vn/{current.id}
-                      </div>
-                      <div className="w-8 shrink-0" />
                     </div>
-                    <div className="relative overflow-hidden bg-slate-950">
-                      <img
-                        src={current.image}
-                        alt={t(current.titleVi, current.titleEn)}
-                        className="w-full h-auto object-contain transform transition duration-500 group-hover:scale-[1.012]"
-                      />
-                    </div>
-                  </div>
-                )}
+                  );
+                })}
               </div>
             </div>
 
-            {/* Progress bar */}
-            <div className="mt-4 flex gap-1.5 justify-center">
+            {/* Progress dots */}
+            <div className="mt-6 flex gap-1.5 justify-center">
               {featuresList.map((_, idx) => (
                 <button
                   key={idx}
