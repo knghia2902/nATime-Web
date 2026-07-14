@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/lib/i18n';
@@ -15,13 +15,31 @@ import { supabase, isMockEnabled } from '@/lib/supabase';
 type TabId = 'overview' | 'licenses' | 'tickets' | 'profile';
 
 interface LicenseKey {
+  id: string;
   key: string;
   moduleVi: string;
   moduleEn: string;
-  status: 'active' | 'suspended' | 'trial';
+  status: 'pending' | 'active' | 'suspended' | 'expired' | 'revoked';
   devicesConnected: number;
   devicesMax: number;
   expireDate: string;
+}
+
+interface SupabaseEntitlementRow {
+  id: string;
+  plan_code: string;
+  status: string;
+  max_devices: number;
+  expires_at: string | null;
+  license_installations: Array<{ id: string; status: string }> | null;
+}
+
+interface SupabaseTicketRow {
+  ticket_number: string;
+  subject: string;
+  status: string;
+  priority: string;
+  created_at: string;
 }
 
 interface SupportTicket {
@@ -39,6 +57,39 @@ interface ToastMessage {
   type: 'success' | 'info' | 'error';
 }
 
+interface CheckoutResponse {
+  orderId: string;
+  checkoutUrl: string;
+  status: string;
+}
+
+function checkoutPlanFromLocation(): 'standard' | 'professional' | null {
+  if (typeof window === 'undefined') return null;
+  const plan = new URLSearchParams(window.location.search).get('plan');
+  return plan === 'standard' || plan === 'professional' ? plan : null;
+}
+
+function checkoutBillingFromLocation(): 'monthly' | 'yearly' {
+  if (typeof window === 'undefined') return 'yearly';
+  return new URLSearchParams(window.location.search).get('billing') === 'monthly' ? 'monthly' : 'yearly';
+}
+
+function normalizeTicketStatus(value: string): SupportTicket['status'] {
+  const status = value.toLowerCase();
+  if (status === 'answered' || status === 'closed') return status;
+  return 'pending';
+}
+
+function normalizeTicketPriority(value: string): SupportTicket['priority'] {
+  const priority = value.toLowerCase();
+  if (priority === 'low' || priority === 'high') return priority;
+  return 'medium';
+}
+
+function errorMessage(error: unknown, fallback: string): string {
+  return error instanceof Error ? error.message : fallback;
+}
+
 export default function CustomerDashboard() {
   const { t, locale } = useLanguage();
   const { user, loading, signOut, updateProfile } = useAuth();
@@ -48,8 +99,10 @@ export default function CustomerDashboard() {
   const [activeTab, setActiveTab] = useState<TabId>('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  const [isRedirecting, setIsRedirecting] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [checkoutPlan] = useState<'standard' | 'professional' | null>(checkoutPlanFromLocation);
+  const [checkoutBilling] = useState<'monthly' | 'yearly'>(checkoutBillingFromLocation);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   // Dropdown & Click-outside refs
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -57,11 +110,18 @@ export default function CustomerDashboard() {
 
   // Toast notifications state
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const showToast = useCallback((text: string, type: 'success' | 'info' | 'error' = 'success') => {
+    const id = Math.random().toString(36).substring(2, 9);
+    setToasts((prev) => [...prev, { id, text, type }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((toast) => toast.id !== id));
+    }, 3000);
+  }, []);
 
   // Fallback mock fields for AuthUser
   const avatarFallback = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80';
-  const supportTierFallback = 'Enterprise Support';
-  const daysRemainingFallback = 185;
+  const supportTierFallback = t('Chưa có gói hỗ trợ', 'No support plan');
+  const daysRemainingFallback = 0;
 
   // -------------------------------------------------------------
   // Stateful Data & Fallbacks
@@ -69,45 +129,8 @@ export default function CustomerDashboard() {
   const [licenses, setLicenses] = useState<LicenseKey[]>([]);
   const [tickets, setTickets] = useState<SupportTicket[]>([]);
 
-  // Default Mock Values for Offline Mode
-  const DEFAULT_LICENSES: LicenseKey[] = [
-    {
-      key: 'NT-ATT-2910-8839',
-      moduleVi: 'Chấm công thông minh (Smart Attendance)',
-      moduleEn: 'Smart Time Attendance',
-      status: 'active',
-      devicesConnected: 8,
-      devicesMax: 10,
-      expireDate: '2027-12-31',
-    },
-    {
-      key: 'NT-ACC-8829-4710',
-      moduleVi: 'Kiểm soát Cổng ra vào (Gate Access Control)',
-      moduleEn: 'Gate Access Control',
-      status: 'active',
-      devicesConnected: 4,
-      devicesMax: 4,
-      expireDate: '2027-06-30',
-    },
-    {
-      key: 'NT-WGH-1849-3910',
-      moduleVi: 'Trạm cân xe (Weighbridge Control)',
-      moduleEn: 'Weighbridge Management',
-      status: 'active',
-      devicesConnected: 2,
-      devicesMax: 5,
-      expireDate: '2026-12-15',
-    },
-    {
-      key: 'NT-ITM-3341-9920',
-      moduleVi: 'Tài sản CNTT (IT Asset Management)',
-      moduleEn: 'IT Asset Management',
-      status: 'trial',
-      devicesConnected: 15,
-      devicesMax: 50,
-      expireDate: '2026-08-30',
-    },
-  ];
+  // Development mock mode never fabricates a real license.
+  const DEFAULT_LICENSES: LicenseKey[] = [];
 
   const DEFAULT_TICKETS: SupportTicket[] = [
     {
@@ -138,6 +161,9 @@ export default function CustomerDashboard() {
 
   const getModuleTranslationVi = (planType: string) => {
     const map: Record<string, string> = {
+      standard: 'Gói Standard',
+      professional: 'Gói Professional',
+      enterprise: 'Gói Enterprise',
       'Attendance': 'Chấm công thông minh (Smart Attendance)',
       'Gate': 'Kiểm soát Cổng ra vào (Gate Access Control)',
       'Weighbridge': 'Trạm cân xe (Weighbridge Control)',
@@ -148,6 +174,9 @@ export default function CustomerDashboard() {
 
   const getModuleTranslationEn = (planType: string) => {
     const map: Record<string, string> = {
+      standard: 'Standard Plan',
+      professional: 'Professional Plan',
+      enterprise: 'Enterprise Plan',
       'Attendance': 'Smart Time Attendance',
       'Gate': 'Gate Access Control',
       'Weighbridge': 'Weighbridge Management',
@@ -156,16 +185,9 @@ export default function CustomerDashboard() {
     return map[planType] || planType;
   };
 
-  const planTypeMapping: Record<string, string> = {
-    attendance: 'Attendance',
-    access: 'Gate',
-    weighbridge: 'Weighbridge',
-    asset: 'Asset',
-  };
-
   // Form states
   const [newKey, setNewKey] = useState('');
-  const [newKeyModule, setNewKeyModule] = useState('attendance');
+  const [newKeyModule, setNewKeyModule] = useState('');
   const [ticketSubject, setTicketSubject] = useState('');
   const [ticketPriority, setTicketPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [ticketDescription, setTicketDescription] = useState('');
@@ -201,26 +223,28 @@ export default function CustomerDashboard() {
       } else {
         // Real Supabase Connection
         try {
-          // 1. Fetch user licenses
+          // 1. Fetch server-issued entitlements and their installations.
           const { data: licenseData, error: licenseErr } = await supabase
-            .from('licenses')
-            .select('*')
+            .from('license_entitlements')
+            .select('id, plan_code, status, max_devices, expires_at, license_installations(id, status)')
             .eq('user_id', user?.id)
             .order('created_at', { ascending: false });
 
           if (licenseErr) {
             console.error('Error loading licenses from Supabase:', licenseErr.message);
           } else if (licenseData) {
-            const mapped: LicenseKey[] = licenseData.map((item: any) => ({
-              key: item.license_key,
-              moduleVi: getModuleTranslationVi(item.plan_type),
-              moduleEn: getModuleTranslationEn(item.plan_type),
-              status: item.status.toLowerCase() as any,
-              devicesConnected: item.devices_used,
-              devicesMax: item.devices_limit,
-              expireDate: item.expiry_date.split('T')[0],
+            const mapped: LicenseKey[] = (licenseData as SupabaseEntitlementRow[]).map((item) => ({
+              id: item.id,
+              key: `LIC-${item.id.slice(0, 8).toUpperCase()}`,
+              moduleVi: getModuleTranslationVi(item.plan_code),
+              moduleEn: getModuleTranslationEn(item.plan_code),
+              status: item.status.toLowerCase() as LicenseKey['status'],
+              devicesConnected: (item.license_installations ?? []).filter((installation) => installation.status === 'active').length,
+              devicesMax: item.max_devices,
+              expireDate: item.expires_at ? item.expires_at.split('T')[0] : t('Vĩnh viễn', 'Perpetual'),
             }));
             setLicenses(mapped);
+            setNewKeyModule((current) => current || mapped.find((license) => license.status === 'active')?.id || '');
           }
 
           // 2. Fetch user tickets
@@ -233,11 +257,11 @@ export default function CustomerDashboard() {
           if (ticketErr) {
             console.error('Error loading tickets from Supabase:', ticketErr.message);
           } else if (ticketData) {
-            const mapped: SupportTicket[] = ticketData.map((item: any) => ({
+            const mapped: SupportTicket[] = (ticketData as SupabaseTicketRow[]).map((item) => ({
               id: item.ticket_number,
               subject: item.subject,
-              status: item.status.toLowerCase() as any,
-              priority: item.priority.toLowerCase() as any,
+              status: normalizeTicketStatus(item.status),
+              priority: normalizeTicketPriority(item.priority),
               date: item.created_at.split('T')[0],
               description: '',
             }));
@@ -252,13 +276,29 @@ export default function CustomerDashboard() {
     loadDashboardData();
   }, [user]);
 
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search);
+    const payment = query.get('payment');
+    if (payment !== 'success' && payment !== 'cancel') return;
+    const timer = window.setTimeout(() => {
+      showToast(
+        payment === 'success'
+          ? t('Thanh toán đã được gửi. Hệ thống đang xác minh webhook PayOS.', 'Payment submitted. The PayOS webhook is being verified.')
+          : t('Bạn đã huỷ thanh toán.', 'Payment was cancelled.'),
+        'info',
+      );
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [showToast, t]);
+
   // Load profile values once user loads
   useEffect(() => {
-    if (user) {
+    if (!user) return;
+    const timer = window.setTimeout(() => {
       setProfileName(user.name || '');
       setProfileOrg(user.company || 'ACS Solutions JSC');
 
-      // Check if redirected from email auth validation link to show success toast
+      // Check if redirected from email auth validation link to show success toast.
       if (typeof window !== 'undefined') {
         const hasRedirected = sessionStorage.getItem('natime-auth-redirect-success');
         if (hasRedirected === 'true') {
@@ -266,20 +306,13 @@ export default function CustomerDashboard() {
           sessionStorage.removeItem('natime-auth-redirect-success');
         }
       }
-    }
-  }, [user]);
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [showToast, t, user]);
 
   // -------------------------------------------------------------
   // Helpers & Handlers
   // -------------------------------------------------------------
-  const showToast = (text: string, type: 'success' | 'info' | 'error' = 'success') => {
-    const id = Math.random().toString(36).substring(2, 9);
-    setToasts((prev) => [...prev, { id, text, type }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 3000);
-  };
-
   const handleRefresh = () => {
     setRefreshing(true);
     setTimeout(() => {
@@ -288,75 +321,71 @@ export default function CustomerDashboard() {
     }, 800);
   };
 
-  const handleCopyKey = (key: string) => {
-    navigator.clipboard.writeText(key);
-    showToast(t('Đã sao chép License Key vào clipboard', 'Copied License Key to clipboard'), 'success');
-  };
-
   const handleActivateLicense = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newKey.trim()) {
-      showToast(t('Vui lòng nhập mã kích hoạt', 'Please enter activation key'), 'error');
+      showToast(t('Vui lòng nhập mã liên kết từ WebPortal', 'Please enter the linking code from WebPortal'), 'error');
       return;
     }
-
-    const isDuplicate = licenses.some((l) => l.key.toUpperCase() === newKey.trim().toUpperCase());
-    if (isDuplicate) {
-      showToast(t('License Key này đã được kích hoạt trước đó', 'This License Key is already active'), 'error');
+    if (!newKeyModule) {
+      showToast(t('Vui lòng chọn gói bản quyền', 'Please select an entitlement'), 'error');
       return;
     }
-
-    const modulesMapping: Record<string, { vi: string; en: string; maxDev: number }> = {
-      attendance: { vi: 'Chấm công thông minh (Smart Attendance)', en: 'Smart Time Attendance', maxDev: 15 },
-      access: { vi: 'Kiểm soát Cổng ra vào (Sắp ra mắt)', en: 'Gate Access Control (Soon)', maxDev: 8 },
-      weighbridge: { vi: 'Trạm cân xe (Sắp ra mắt)', en: 'Weighbridge Management (Soon)', maxDev: 2 },
-      asset: { vi: 'Tài sản CNTT (IT Asset Management)', en: 'IT Asset Management', maxDev: 100 },
-    };
-
-    const mod = modulesMapping[newKeyModule];
-    const newLicense: LicenseKey = {
-      key: newKey.trim().toUpperCase(),
-      moduleVi: mod.vi,
-      moduleEn: mod.en,
-      status: 'active',
-      devicesConnected: 0,
-      devicesMax: mod.maxDev,
-      expireDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    };
 
     if (isMockEnabled || !supabase) {
-      // Mock logic
-      const updated = [newLicense, ...licenses];
-      setLicenses(updated);
-      localStorage.setItem('natime-licenses', JSON.stringify(updated));
-      setNewKey('');
-      showToast(t('Kích hoạt License thành công!', 'License key activated successfully!'), 'success');
+      showToast(t('Liên kết thiết bị không khả dụng trong chế độ demo', 'Device linking is unavailable in demo mode'), 'error');
     } else {
-      // Real Supabase insertion
       try {
-        const plan = planTypeMapping[newKeyModule] || 'Attendance';
-        const { error } = await supabase
-          .from('licenses')
-          .insert([{
-            license_key: newKey.trim().toUpperCase(),
-            plan_type: plan,
-            devices_limit: mod.maxDev,
-            devices_used: 0,
-            status: 'Active',
-            expiry_date: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-            user_id: user?.id,
-          }]);
+        const { error } = await supabase.functions.invoke('license-activation', {
+          body: {
+            action: 'approve',
+            userCode: newKey.trim().toUpperCase(),
+            entitlementId: newKeyModule,
+          },
+        });
 
         if (error) {
           showToast(error.message, 'error');
         } else {
-          setLicenses([newLicense, ...licenses]);
           setNewKey('');
-          showToast(t('Kích hoạt License thành công!', 'License key activated successfully!'), 'success');
+          showToast(t('Đã phê duyệt liên kết. WebPortal sẽ tự nhận license đã ký.', 'Device link approved. WebPortal will receive the signed license automatically.'), 'success');
         }
-      } catch (err: any) {
-        showToast(err.message || 'Error communicating with Supabase', 'error');
+      } catch (error: unknown) {
+        showToast(errorMessage(error, 'Error communicating with Supabase'), 'error');
       }
+    }
+  };
+
+  const handleCheckout = async () => {
+    if (!checkoutPlan || checkoutLoading) return;
+    if (isMockEnabled || !supabase || !user) {
+      showToast(t('Thanh toán không khả dụng trong chế độ demo.', 'Checkout is unavailable in demo mode.'), 'error');
+      return;
+    }
+
+    const storageKey = `natime-checkout-${checkoutPlan}-${checkoutBilling}`;
+    setCheckoutLoading(true);
+    try {
+      const idempotencyKey = sessionStorage.getItem(storageKey) ?? crypto.randomUUID().replace(/-/g, '');
+      sessionStorage.setItem(storageKey, idempotencyKey);
+      const { data, error } = await supabase.functions.invoke<CheckoutResponse>('payment-checkout', {
+        body: {
+          planCode: checkoutPlan,
+          billingPeriod: checkoutBilling,
+          idempotencyKey,
+        },
+      });
+      if (error || !data?.checkoutUrl) throw error ?? new Error('Checkout URL is missing.');
+      const checkoutUrl = new URL(data.checkoutUrl);
+      if (checkoutUrl.origin !== 'https://pay.payos.vn') throw new Error('Checkout destination is not trusted.');
+      sessionStorage.removeItem(storageKey);
+      window.location.assign(checkoutUrl.toString());
+    } catch (error) {
+      sessionStorage.removeItem(storageKey);
+      const message = error instanceof Error ? error.message : 'Unable to create checkout.';
+      showToast(message, 'error');
+    } finally {
+      setCheckoutLoading(false);
     }
   };
 
@@ -411,8 +440,8 @@ export default function CustomerDashboard() {
           setShowAddTicketForm(false);
           showToast(t('Tạo yêu cầu hỗ trợ thành công!', 'Support ticket created successfully!'), 'success');
         }
-      } catch (err: any) {
-        showToast(err.message || 'Error communicating with Supabase', 'error');
+      } catch (error: unknown) {
+        showToast(errorMessage(error, 'Error communicating with Supabase'), 'error');
       }
     }
   };
@@ -453,13 +482,14 @@ export default function CustomerDashboard() {
   // -------------------------------------------------------------
   useEffect(() => {
     if (!loading && !user) {
-      setIsRedirecting(true);
       const timer = setTimeout(() => {
         router.push('/login');
       }, 1500);
       return () => clearTimeout(timer);
     }
   }, [user, loading, router]);
+
+  const isRedirecting = !loading && !user;
 
   // If page loading auth, render loader skeleton
   if (loading) {
@@ -1134,28 +1164,62 @@ export default function CustomerDashboard() {
                       {t('Danh sách Giấy phép nATime', 'Your Licensed Features')}
                     </h1>
                     <p className="subtitle text-xs text-muted">
-                      {t('Quản lý khóa kích hoạt bản quyền, số lượng thiết bị được kết nối trên các phân hệ', 'Manage your feature activation keys and device limits across all system modules')}
+                    {t('Quản lý gói bản quyền và phê duyệt thiết bị WebPortal', 'Manage entitlements and approve WebPortal devices')}
                     </p>
                   </div>
                 </header>
 
-                {/* Form to activate new license */}
+                {checkoutPlan && (
+                  <div className="rounded-xl border border-primary/25 bg-primary/5 p-5 shadow-sm">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div>
+                        <h2 className="text-sm font-bold text-foreground mb-1">
+                          {t('Hoàn tất mua gói', 'Complete your purchase')} {checkoutPlan === 'standard' ? 'Standard' : 'Professional'}
+                        </h2>
+                        <p className="text-[10.5px] text-muted">
+                          {checkoutBilling === 'yearly'
+                            ? t('Thanh toán theo năm qua PayOS. License được cấp sau khi webhook được xác minh.', 'Annual payment through PayOS. Entitlement is issued after webhook verification.')
+                            : t('Thanh toán theo tháng qua PayOS. License được cấp sau khi webhook được xác minh.', 'Monthly payment through PayOS. Entitlement is issued after webhook verification.')}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        disabled={checkoutLoading}
+                        onClick={handleCheckout}
+                        className="w-full sm:w-auto px-5 py-2.5 rounded-md bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/20 transition-all duration-200 disabled:opacity-60 cursor-pointer"
+                      >
+                        {checkoutLoading ? t('Đang tạo thanh toán…', 'Creating checkout…') : t('Thanh toán với PayOS', 'Pay with PayOS')}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {!checkoutPlan && licenses.length === 0 && (
+                  <div className="rounded-xl border border-border bg-card p-5 text-xs text-muted">
+                    {t('Tài khoản chưa có gói bản quyền.', 'This account has no entitlement yet.')}{' '}
+                    <Link href="/pricing" className="font-bold text-primary hover:text-primary-hover">
+                      {t('Xem bảng giá', 'View pricing')}
+                    </Link>
+                  </div>
+                )}
+
+                {/* Approve a device-code request created by the self-hosted WebPortal. */}
                 <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
                   <h2 className="text-sm font-bold text-foreground mb-1 select-none">
-                    🔑 {t('Kích hoạt License mới', 'Activate New License Key')}
+                    🔗 {t('Liên kết WebPortal', 'Link WebPortal')}
                   </h2>
                   <p className="text-[10px] text-muted mb-4 leading-normal">
-                    {t('Nhập chuỗi License Key do nhà cung cấp ACS cấp để kích hoạt thêm các tính năng nâng cao cho hệ thống của bạn.', 'Type the activation token supplied by ACS sales representative to unlock advanced sub-modules.')}
+                    {t('Mở WebPortal tại máy cần kích hoạt, tạo mã liên kết rồi nhập mã đó tại đây. License chỉ được phát cho đúng Hardware ID của máy.', 'Open WebPortal on the target computer, create a linking code, then enter it here. The license is issued only for that computer Hardware ID.')}
                   </p>
 
                   <form onSubmit={handleActivateLicense} className="flex flex-col sm:flex-row items-end gap-4.5">
                     <div className="flex-1 w-full">
                       <label className="block text-[10.5px] font-bold text-muted mb-1.5">
-                        {t('Mã kích hoạt (License Key)', 'Activation Key')}
+                        {t('Mã liên kết thiết bị', 'Device linking code')}
                       </label>
                       <input
                         type="text"
-                        placeholder="e.g. NT-ATT-XXXX-XXXX"
+                        placeholder="ABCD-EFGH"
                         value={newKey}
                         onChange={(e) => setNewKey(e.target.value)}
                         className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground placeholder-muted/60 focus:border-primary/50 focus:outline-none transition-colors duration-200"
@@ -1164,17 +1228,19 @@ export default function CustomerDashboard() {
 
                     <div className="w-full sm:w-56">
                       <label className="block text-[10.5px] font-bold text-muted mb-1.5">
-                        {t('Phân hệ ứng dụng', 'Target Software Module')}
+                        {t('Gói bản quyền', 'Entitlement')}
                       </label>
                       <select
                         value={newKeyModule}
                         onChange={(e) => setNewKeyModule(e.target.value)}
                         className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-primary/50 focus:outline-none transition-colors duration-200 cursor-pointer"
                       >
-                        <option value="attendance">{t('Chấm công thông minh', 'Smart Attendance')}</option>
-                        <option value="access">{t('Kiểm soát Cổng ra vào (Sắp ra mắt)', 'Gate Access Control (Soon)')}</option>
-                        <option value="weighbridge">{t('Cân xe / Trạm cân (Sắp ra mắt)', 'Weighbridge System (Soon)')}</option>
-                        <option value="asset">{t('Tài sản CNTT', 'IT Asset Management')}</option>
+                        <option value="">{t('Chọn gói đang hoạt động', 'Select an active entitlement')}</option>
+                        {licenses.filter((license) => license.status === 'active').map((license) => (
+                          <option key={license.id} value={license.id}>
+                            {locale === 'vi' ? license.moduleVi : license.moduleEn} ({license.key})
+                          </option>
+                        ))}
                       </select>
                     </div>
 
@@ -1182,7 +1248,7 @@ export default function CustomerDashboard() {
                       type="submit"
                       className="w-full sm:w-auto px-5 py-2.5 rounded-md bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/20 transition-all duration-200 shrink-0 cursor-pointer"
                     >
-                      {t('Kích hoạt ngay', 'Activate Key')}
+                      {t('Phê duyệt liên kết', 'Approve Link')}
                     </button>
                   </form>
                 </div>
@@ -1194,7 +1260,7 @@ export default function CustomerDashboard() {
                       <thead className="bg-slate-50 dark:bg-slate-900 border-b border-border/80 text-[10.5px] text-muted font-bold select-none">
                         <tr>
                           <th className="px-5 py-3.5 whitespace-nowrap">{t('Tính năng / Module', 'Feature / Module')}</th>
-                          <th className="px-5 py-3.5 whitespace-nowrap">{t('Khóa bản quyền (License Key)', 'License Key')}</th>
+                          <th className="px-5 py-3.5 whitespace-nowrap">{t('Mã tham chiếu', 'Reference')}</th>
                           <th className="px-5 py-3.5 whitespace-nowrap">{t('Trạng thái', 'Status')}</th>
                           <th className="px-5 py-3.5 whitespace-nowrap text-center">{t('Thiết bị kết nối', 'Connected Devices')}</th>
                           <th className="px-5 py-3.5 whitespace-nowrap">{t('Ngày hết hạn', 'Expiry Date')}</th>
@@ -1203,7 +1269,7 @@ export default function CustomerDashboard() {
                       </thead>
                       <tbody className="divide-y divide-border/60">
                         {licenses.map((lic) => (
-                          <tr key={lic.key} className="hover:bg-primary-light/40 dark:hover:bg-primary-light/10 transition-colors duration-150">
+                          <tr key={lic.id} className="hover:bg-primary-light/40 dark:hover:bg-primary-light/10 transition-colors duration-150">
                             <td className="px-5 py-4 font-bold text-foreground">
                               {locale === 'vi' ? lic.moduleVi : lic.moduleEn}
                             </td>
@@ -1214,27 +1280,29 @@ export default function CustomerDashboard() {
                               <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9.5px] font-bold ${
                                 lic.status === 'active'
                                   ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400'
-                                  : lic.status === 'trial'
+                                  : lic.status === 'pending'
                                   ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400'
                                   : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400'
                               }`}>
                                 <span className={`h-1.5 w-1.5 rounded-full ${
                                   lic.status === 'active'
                                     ? 'bg-emerald-500'
-                                    : lic.status === 'trial'
+                                    : lic.status === 'pending'
                                     ? 'bg-amber-500'
                                     : 'bg-rose-500'
                                 }`} />
                                 {lic.status === 'active' && t('Hoạt động', 'Active')}
-                                {lic.status === 'trial' && t('Dùng thử', 'Trial')}
+                                {lic.status === 'pending' && t('Chờ thanh toán', 'Pending')}
                                 {lic.status === 'suspended' && t('Tạm ngưng', 'Suspended')}
+                                {lic.status === 'expired' && t('Hết hạn', 'Expired')}
+                                {lic.status === 'revoked' && t('Đã thu hồi', 'Revoked')}
                               </span>
                             </td>
                             <td className="px-5 py-4 text-center font-semibold text-foreground">
                               <div className="flex items-center justify-center gap-1.5">
                                 <span>{lic.devicesConnected} / {lic.devicesMax}</span>
                                 <span className="text-[10px] text-muted font-normal">
-                                  ({Math.round((lic.devicesConnected / lic.devicesMax) * 100)}%)
+                                  ({lic.devicesMax > 0 ? Math.round((lic.devicesConnected / lic.devicesMax) * 100) : 0}%)
                                 </span>
                               </div>
                               <div className="mt-1.5 w-24 mx-auto bg-slate-100 dark:bg-slate-800 rounded-full h-1 overflow-hidden">
@@ -1244,7 +1312,7 @@ export default function CustomerDashboard() {
                                       ? 'bg-amber-500'
                                       : 'bg-primary'
                                   }`}
-                                  style={{ width: `${(lic.devicesConnected / lic.devicesMax) * 100}%` }}
+                                  style={{ width: `${lic.devicesMax > 0 ? Math.min(100, (lic.devicesConnected / lic.devicesMax) * 100) : 0}%` }}
                                 />
                               </div>
                             </td>
@@ -1254,17 +1322,8 @@ export default function CustomerDashboard() {
                             <td className="px-5 py-4">
                               <div className="flex items-center justify-center gap-2">
                                 <button
-                                  onClick={() => handleCopyKey(lic.key)}
-                                  title={t('Sao chép Key', 'Copy License Key')}
-                                  className="p-1.5 rounded border border-border bg-card hover:bg-card-hover hover:border-primary/30 text-muted hover:text-primary transition-all duration-150 cursor-pointer"
-                                >
-                                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                                  </svg>
-                                </button>
-                                <button
                                   onClick={() => {
-                                    showToast(t('Đã yêu cầu gia hạn bản quyền cho key ' + lic.key, 'Requested subscription renewal for key ' + lic.key), 'info');
+                                    showToast(t('Đã ghi nhận yêu cầu gia hạn cho ' + lic.key, 'Renewal request recorded for ' + lic.key), 'info');
                                   }}
                                   className="px-2 py-1 text-[10px] font-bold rounded border border-primary/20 bg-primary/5 text-primary hover:bg-primary hover:text-white transition-all duration-150 cursor-pointer"
                                 >
@@ -1356,7 +1415,7 @@ export default function CustomerDashboard() {
                           </label>
                           <select
                             value={ticketPriority}
-                            onChange={(e) => setTicketPriority(e.target.value as any)}
+                            onChange={(e) => setTicketPriority(normalizeTicketPriority(e.target.value))}
                             className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-primary/50 focus:outline-none transition-colors duration-200 cursor-pointer"
                           >
                             <option value="low">{t('Thấp (Low)', 'Low')}</option>

@@ -1,0 +1,11 @@
+[functions.license-activation]
+verify_jwt = false
+
+[functions.license-authority]
+verify_jwt = false
+
+[functions.payment-checkout]
+verify_jwt = false
+
+[functions.payos-webhook]
+verify_jwt = false

@@ -7,6 +7,7 @@ import {
   useEffect,
   type ReactNode,
 } from 'react';
+import type { User } from '@supabase/supabase-js';
 import { supabase, isMockEnabled } from './supabase';
 
 export interface AuthUser {
@@ -41,7 +42,6 @@ interface AuthContextType {
   updatePassword: (password: string) => Promise<{ error: Error | null }>;
   
   // Legacy support for dashboard
-  login: (email: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -63,6 +63,10 @@ interface MockDBUser {
   openTickets?: number;
 }
 
+function authenticationError(error: unknown): Error {
+  return error instanceof Error ? error : new Error('Unexpected authentication error.');
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -78,25 +82,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Initialize mock database with a demo account if not exists
+  // Development-only mock storage starts empty; it never ships a shared account.
   const getMockDB = (): MockDBUser[] => {
     if (typeof window === 'undefined') return [];
     const db = localStorage.getItem(MOCK_DB_KEY);
     if (!db) {
-      const defaultUsers: MockDBUser[] = [
-        {
-          id: 'demo-user-id',
-          email: 'demo@natime.xyz',
-          password: 'password123',
-          name: 'Demo User',
-          company: 'nATime Corp',
-          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80',
-          supportTier: 'Enterprise Support',
-          daysRemaining: 185,
-          activeLicenses: 8,
-          openTickets: 1,
-        },
-      ];
+      const defaultUsers: MockDBUser[] = [];
       localStorage.setItem(MOCK_DB_KEY, JSON.stringify(defaultUsers));
       return defaultUsers;
     }
@@ -114,7 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   // Map Supabase User to unified AuthUser interface
-  const mapSupabaseUser = (sbUser: any): AuthUser => {
+  const mapSupabaseUser = (sbUser: User): AuthUser => {
     return {
       id: sbUser.id,
       email: sbUser.email || '',
@@ -122,10 +113,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       company: sbUser.user_metadata?.company || '',
       isMock: false,
       avatar: sbUser.user_metadata?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80',
-      supportTier: sbUser.user_metadata?.supportTier || 'Enterprise Support',
-      daysRemaining: sbUser.user_metadata?.daysRemaining || 185,
-      activeLicenses: sbUser.user_metadata?.activeLicenses || 8,
-      openTickets: sbUser.user_metadata?.openTickets || 1,
+      supportTier: sbUser.user_metadata?.supportTier,
+      daysRemaining: sbUser.user_metadata?.daysRemaining ?? 0,
+      activeLicenses: sbUser.user_metadata?.activeLicenses ?? 0,
+      openTickets: sbUser.user_metadata?.openTickets ?? 0,
     };
   };
 
@@ -133,7 +124,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (isMockEnabled || !supabase) {
       // Mock flow
-      if (typeof window !== 'undefined') {
+      const timer = window.setTimeout(() => {
         const stored = localStorage.getItem(MOCK_USER_KEY);
         if (stored) {
           try {
@@ -142,8 +133,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             localStorage.removeItem(MOCK_USER_KEY);
           }
         }
-      }
-      setLoading(false);
+        setLoading(false);
+      }, 0);
+      return () => window.clearTimeout(timer);
     } else {
       // Supabase flow
       const initAuth = async () => {
@@ -227,7 +219,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!found) {
           return {
             error: new Error(
-              'Email hoặc mật khẩu không đúng. Vui lòng kiểm tra lại. (Sử dụng demo@natime.xyz / password123)'
+              'Email hoặc mật khẩu không đúng. Vui lòng kiểm tra lại.'
             ),
           };
         }
@@ -239,10 +231,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           company: found.company,
           isMock: true,
           avatar: found.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80',
-          supportTier: found.supportTier || 'Enterprise Support',
-          daysRemaining: found.daysRemaining || 185,
-          activeLicenses: found.activeLicenses || 8,
-          openTickets: found.openTickets || 1,
+          supportTier: found.supportTier,
+          daysRemaining: found.daysRemaining ?? 0,
+          activeLicenses: found.activeLicenses ?? 0,
+          openTickets: found.openTickets ?? 0,
         };
 
         if (typeof window !== 'undefined') {
@@ -262,8 +254,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         return { error: null };
       }
-    } catch (err: any) {
-      return { error: err || new Error('Đã xảy ra lỗi không xác định.') };
+    } catch (error: unknown) {
+      return { error: authenticationError(error) };
     } finally {
       setLoading(false);
     }
@@ -296,10 +288,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           name,
           company,
           avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80',
-          supportTier: 'Enterprise Support',
-          daysRemaining: 185,
-          activeLicenses: 8,
-          openTickets: 1,
+          supportTier: 'Development',
+          daysRemaining: 0,
+          activeLicenses: 0,
+          openTickets: 0,
         };
 
         db.push(newMockUser);
@@ -332,10 +324,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               name,
               company,
               avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80',
-              supportTier: 'Enterprise Support',
-              daysRemaining: 185,
-              activeLicenses: 8,
-              openTickets: 1,
             },
           },
         });
@@ -346,8 +334,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         return { error: null };
       }
-    } catch (err: any) {
-      return { error: err || new Error('Đã xảy ra lỗi không xác định.') };
+    } catch (error: unknown) {
+      return { error: authenticationError(error) };
     } finally {
       setLoading(false);
     }
@@ -369,8 +357,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null);
         return { error: null };
       }
-    } catch (err: any) {
-      return { error: err || new Error('Đã xảy ra lỗi không xác định.') };
+    } catch (error: unknown) {
+      return { error: authenticationError(error) };
     } finally {
       setLoading(false);
     }
@@ -397,8 +385,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (error) return { error };
         return { error: null };
       }
-    } catch (err: any) {
-      return { error: err || new Error('Đã xảy ra lỗi không xác định.') };
+    } catch (error: unknown) {
+      return { error: authenticationError(error) };
     } finally {
       setLoading(false);
     }
@@ -445,8 +433,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         return { error: null };
       }
-    } catch (err: any) {
-      return { error: err || new Error('Đã xảy ra lỗi không xác định.') };
+    } catch (error: unknown) {
+      return { error: authenticationError(error) };
     } finally {
       setLoading(false);
     }
@@ -465,23 +453,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (error) return { error };
         return { error: null };
       }
-    } catch (err: any) {
-      return { error: err || new Error('Đã xảy ra lỗi không xác định.') };
+    } catch (error: unknown) {
+      return { error: authenticationError(error) };
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Legacy support methods mapping
-  const login = async (email: string) => {
-    const db = getMockDB();
-    const found = db.find(u => u.email.toLowerCase() === email.toLowerCase());
-    
-    // In legacy mode, we just let them login with a default password or register them automatically if not exists
-    if (found) {
-      await signIn(email, found.password || 'password123');
-    } else {
-      await signUp(email, 'password123', 'Demo User', 'nATime Corp');
     }
   };
 
@@ -500,7 +475,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         resetPassword,
         updateProfile,
         updatePassword,
-        login,
         logout,
       }}
     >

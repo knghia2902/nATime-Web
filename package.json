@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:payos": "node --test supabase/functions/_shared/payos.test.ts",
+    "test:license": "node --test supabase/functions/_shared/license.test.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.2",

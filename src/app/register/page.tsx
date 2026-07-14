@@ -13,10 +13,20 @@ export default function RegisterPage() {
   const { signUp, user } = useAuth();
   const router = useRouter();
 
+  const checkoutDestination = () => {
+    if (typeof window === 'undefined') return '/dashboard';
+    const query = new URLSearchParams(window.location.search);
+    const plan = query.get('plan');
+    const billing = query.get('billing') === 'monthly' ? 'monthly' : 'yearly';
+    return plan === 'standard' || plan === 'professional'
+      ? `/dashboard?plan=${plan}&billing=${billing}`
+      : '/dashboard';
+  };
+
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
-      router.push('/');
+      router.push(checkoutDestination());
     }
   }, [user, router]);
 
@@ -88,7 +98,7 @@ export default function RegisterPage() {
     } else {
       setSuccess(t('Đăng ký thành công! Đang chuyển hướng...', 'Registration successful! Redirecting...'));
       setTimeout(() => {
-        router.push('/');
+        router.push(checkoutDestination());
       }, 1000);
     }
   };

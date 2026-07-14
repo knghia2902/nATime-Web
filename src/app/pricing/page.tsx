@@ -62,7 +62,7 @@ export default function PricingPage() {
       priceYearly: 392000, // 20% off
       buttonTextVi: 'Dùng thử miễn phí',
       buttonTextEn: 'Start Free Trial',
-      buttonHref: '/register?plan=standard',
+      buttonHref: `/register?plan=standard&billing=${billingPeriod}`,
       features: [
         { vi: 'Lên tới 50 nhân viên', en: 'Up to 50 employees', included: true },
         { vi: 'Hỗ trợ tối đa 2 thiết bị', en: 'Supports up to 2 devices', included: true },
@@ -86,7 +86,7 @@ export default function PricingPage() {
       badgeEn: 'Most Popular',
       buttonTextVi: 'Bắt đầu ngay',
       buttonTextEn: 'Get Started Now',
-      buttonHref: '/register?plan=professional',
+      buttonHref: `/register?plan=professional&billing=${billingPeriod}`,
       features: [
         { vi: 'Lên tới 500 nhân viên', en: 'Up to 500 employees', included: true },
         { vi: 'Hỗ trợ tối đa 10 thiết bị', en: 'Supports up to 10 devices', included: true },

@@ -13,8 +13,8 @@ export default function LoginPage() {
   const { user, signIn } = useAuth();
   const router = useRouter();
 
-  const [email, setEmail] = useState('demo@natime.xyz');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -151,31 +151,6 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Quick Demo Login Option */}
-          <div className="relative mt-6 flex justify-center text-xs">
-            <span className="absolute inset-x-0 top-1/2 -z-10 border-b border-border/80" />
-            <span className="bg-card px-2.5 text-[10.5px] font-bold text-muted select-none">
-              {t('Hoặc sử dụng tài khoản Demo', 'Or Use Trial Access')}
-            </span>
-          </div>
-
-          <button
-            onClick={async () => {
-              setLoading(true);
-              const { error } = await signIn('demo@natime.xyz', 'password123');
-              if (error) {
-                setErrorMsg(error.message);
-              } else {
-                router.push('/dashboard');
-              }
-              setLoading(false);
-            }}
-            disabled={loading}
-            className="mt-4 w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-md border border-border bg-card-hover hover:border-primary/45 text-foreground text-xs font-bold shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
-          >
-            <span>👤</span>
-            {t('Truy cập nhanh Demo', 'Sign In with Demo Account')}
-          </button>
         </div>
 
         {/* Back to Home Link */}
