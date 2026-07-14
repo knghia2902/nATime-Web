@@ -310,11 +310,11 @@ export default function Features() {
                       </div>
                       <div className="w-8 shrink-0" />
                     </div>
-                    <div className="relative aspect-[16/10] overflow-hidden bg-slate-950">
+                    <div className="relative overflow-hidden bg-slate-950">
                       <img
                         src={current.image}
                         alt={t(current.titleVi, current.titleEn)}
-                        className="w-full h-full object-cover transform transition duration-500 group-hover:scale-[1.012]"
+                        className="w-full h-auto object-contain transform transition duration-500 group-hover:scale-[1.012]"
                       />
                     </div>
                   </div>
