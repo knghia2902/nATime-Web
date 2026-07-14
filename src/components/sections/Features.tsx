@@ -273,7 +273,7 @@ export default function Features() {
 
             {/* Coverflow Stage */}
             <div
-              className="relative"
+              className="relative overflow-hidden rounded-2xl"
               style={{ perspective: '1400px', perspectiveOrigin: '50% 40%' }}
             >
               <div
@@ -309,7 +309,7 @@ export default function Features() {
                         opacity: isCenter ? 1 : 0.52,
                         zIndex: isCenter ? 10 : 5,
                         cursor: !isCenter ? 'pointer' : 'default',
-                        filter: !isCenter ? 'brightness(0.55) saturate(0.7)' : 'none',
+                        filter: !isCenter ? 'brightness(0.72) saturate(0.8)' : 'none',
                         transition: 'all 0.52s cubic-bezier(0.4, 0, 0.2, 1)',
                         transformOrigin: 'center center',
                       }}
