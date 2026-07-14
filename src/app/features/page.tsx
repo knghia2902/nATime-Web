@@ -1121,14 +1121,36 @@ export default function FeaturesPage() {
                       <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl opacity-10 group-hover:opacity-20 blur transition duration-500" />
                       <div className="relative rounded-2xl overflow-hidden">
                         {feature.svgType === 'mobile' ? (
-                          <div className="max-w-[250px] mx-auto relative overflow-hidden rounded-[36px] border-[5px] border-slate-800 bg-background shadow-2xl aspect-[9/18.5]">
-                            {/* Notch */}
-                            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-4.5 bg-slate-800 rounded-full z-20" />
-                            <img
-                              src="/screenshots/mobile.png"
-                              alt="nA Mobile App"
-                              className="w-full h-auto object-cover select-none relative z-10 rounded-[30px]"
-                            />
+                          <div className="flex items-center justify-center gap-2 sm:gap-4 py-4 w-full overflow-hidden select-none">
+                            {/* Phone 1: Calendar */}
+                            <div className="hidden sm:block max-w-[130px] md:max-w-[150px] w-full relative overflow-hidden rounded-[24px] border-[4px] border-slate-800 bg-background shadow-lg rotate-[-4deg] -mr-6 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
+                              <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-16 h-3 bg-slate-800 rounded-full z-20" />
+                              <img
+                                src="/screenshots/mobile_calendar.png"
+                                alt="nA Mobile Calendar"
+                                className="w-full h-auto object-cover relative z-10 rounded-[20px]"
+                              />
+                            </div>
+
+                            {/* Phone 2: Main Home */}
+                            <div className="max-w-[160px] md:max-w-[180px] w-full relative overflow-hidden rounded-[28px] border-[4px] border-slate-800 bg-background shadow-2xl z-10 hover:scale-[1.05] transition-all duration-300 cursor-pointer">
+                              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-4 bg-slate-800 rounded-full z-20" />
+                              <img
+                                src="/screenshots/mobile.png"
+                                alt="nA Mobile Home"
+                                className="w-full h-auto object-cover relative z-10 rounded-[24px]"
+                              />
+                            </div>
+
+                            {/* Phone 3: Details */}
+                            <div className="hidden sm:block max-w-[130px] md:max-w-[150px] w-full relative overflow-hidden rounded-[24px] border-[4px] border-slate-800 bg-background shadow-lg rotate-[4deg] -ml-6 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
+                              <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-16 h-3 bg-slate-800 rounded-full z-20" />
+                              <img
+                                src="/screenshots/mobile_detail.png"
+                                alt="nA Mobile Detail"
+                                className="w-full h-auto object-cover relative z-10 rounded-[20px]"
+                              />
+                            </div>
                           </div>
                         ) : realImagesMap[feature.svgType] ? (
                           <div className="relative overflow-hidden rounded-xl border border-border/80 bg-background shadow-lg">

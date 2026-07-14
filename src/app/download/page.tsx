@@ -406,36 +406,36 @@ services:
                   {/* Glowing light background effect */}
                   <div className="absolute -inset-1.5 bg-gradient-to-r from-primary to-indigo-600 rounded-[42px] blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
                   
-                  {/* Real Interactive Mobile Carousel */}
-                  <div className="w-full max-w-[280px] flex flex-col items-center gap-5">
-                    <div className="relative w-full aspect-[9/18.5] bg-slate-950 rounded-[40px] border-[5px] border-slate-800 dark:border-slate-800/80 shadow-2xl overflow-hidden group select-none">
-                      {/* Notch/Dynamic Island */}
-                      <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-full z-20 flex items-center justify-center">
-                        <span className="h-1 w-1 rounded-full bg-slate-800" />
-                      </div>
-                      {/* Time indicator */}
-                      <div className="absolute top-3 left-6 text-[10px] font-semibold text-white/95 z-20 font-mono">12:00</div>
-                      
-                      {/* Active Screenshot */}
-                      <img 
-                        src={activeMobileTab === 0 ? "/screenshots/mobile.png" : activeMobileTab === 1 ? "/screenshots/mobile_calendar.png" : "/screenshots/mobile_detail.png"} 
-                        alt="nA Mobile App" 
-                        className="w-full h-full object-cover rounded-[34px] z-10 relative"
+                  {/* Three Devices Deck */}
+                  <div className="flex items-center justify-center gap-2 sm:gap-4 py-4 w-full overflow-hidden select-none">
+                    {/* Phone 1: Calendar */}
+                    <div className="hidden sm:block max-w-[135px] w-full relative overflow-hidden rounded-[24px] border-[4px] border-slate-800 bg-background shadow-lg rotate-[-4deg] -mr-6 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
+                      <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-14 h-3 bg-slate-800 rounded-full z-20" />
+                      <img
+                        src="/screenshots/mobile_calendar.png"
+                        alt="nA Mobile Calendar"
+                        className="w-full h-auto object-cover relative z-10 rounded-[20px]"
                       />
                     </div>
-                    
-                    {/* Slider dot indicators */}
-                    <div className="flex gap-2.5 justify-center mt-1">
-                      {[0, 1, 2].map((idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => setActiveMobileTab(idx)}
-                          className={`h-2 rounded-full transition-all cursor-pointer ${
-                            activeMobileTab === idx ? 'w-6 bg-primary' : 'w-2 bg-border hover:bg-muted-foreground/30'
-                          }`}
-                          title={idx === 0 ? t('Trang chủ', 'Home') : idx === 1 ? t('Lịch làm', 'Calendar') : t('Chi tiết ngày', 'Day Details')}
-                        />
-                      ))}
+
+                    {/* Phone 2: Main Home */}
+                    <div className="max-w-[160px] w-full relative overflow-hidden rounded-[28px] border-[4px] border-slate-800 bg-background shadow-2xl z-10 hover:scale-[1.05] transition-all duration-300 cursor-pointer">
+                      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-3.5 bg-slate-800 rounded-full z-20" />
+                      <img
+                        src="/screenshots/mobile.png"
+                        alt="nA Mobile Home"
+                        className="w-full h-auto object-cover relative z-10 rounded-[24px]"
+                      />
+                    </div>
+
+                    {/* Phone 3: Details */}
+                    <div className="hidden sm:block max-w-[135px] w-full relative overflow-hidden rounded-[24px] border-[4px] border-slate-800 bg-background shadow-lg rotate-[4deg] -ml-6 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
+                      <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-14 h-3 bg-slate-800 rounded-full z-20" />
+                      <img
+                        src="/screenshots/mobile_detail.png"
+                        alt="nA Mobile Detail"
+                        className="w-full h-auto object-cover relative z-10 rounded-[20px]"
+                      />
                     </div>
                   </div>
                 </div>
