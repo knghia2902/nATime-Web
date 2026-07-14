@@ -337,10 +337,91 @@ function FeatureCard({
   );
 }
 
+
+const previewTabs = [
+  {
+    labelVi: 'Chấm công thông minh',
+    labelEn: 'Smart Attendance',
+    image: '/screenshots/attendance.png',
+    descVi: 'Ghi nhận và đối soát thời gian vào ca, ra ca của nhân viên. Hệ thống tự động tính toán giờ công, tăng ca, phạt đi muộn/về sớm dựa trên ca làm việc cấu hình sẵn.',
+    descEn: 'Track and verify employee check-in and check-out times. Automatically calculate working hours, overtime, and late/early departure penalties based on configured shifts.',
+    bulletsVi: [
+      'Tự động đối soát ca kíp linh hoạt theo ngày/tuần',
+      'Tính toán giờ công, tăng ca thực tế thời gian thực',
+      'Phát hiện nhanh các lỗi ca: đi muộn, về sớm, vắng mặt',
+      'Xuất báo cáo tổng hợp Excel gửi email tự động'
+    ],
+    bulletsEn: [
+      'Automatic daily/weekly shift matching and rotation',
+      'Real-time calculation of actual work hours & overtime',
+      'Instant detection of shift violations: late arrival, early out',
+      'Auto-export summary Excel reports directly to emails'
+    ]
+  },
+  {
+    labelVi: 'Quản lý Thiết bị',
+    labelEn: 'Device Management',
+    image: '/screenshots/devices.png',
+    descVi: 'Giám sát trạng thái hoạt động trực tuyến của hàng chục thiết bị IoT (máy chấm công, đầu đọc khuôn mặt, barie, camera). Đồng bộ dữ liệu ca kíp và vân tay/FaceID từ xa.',
+    descEn: 'Monitor the online operational status of dozens of IoT devices (attendance machines, facial readers, barriers, cameras). Sync shift data and fingerprints/FaceID remotely.',
+    bulletsVi: [
+      'Giám sát trạng thái thiết bị thời gian thực (Online / Offline)',
+      'Đồng bộ danh sách vân tay, khuôn mặt và ca kíp xuống thiết bị từ xa',
+      'Hỗ trợ cập nhật firmware và đồng bộ thông số mạng hàng loạt',
+      'Điều khiển đóng/mở khóa cổng trực tiếp từ trang web quản trị'
+    ],
+    bulletsEn: [
+      'Real-time tracking of device connectivity (Online / Offline)',
+      'Remote synchronization of fingerprints, FaceIDs, and shift rules',
+      'Batch firmware updates and network parameters alignment',
+      'Trigger door/gate unlock signals directly from the admin panel'
+    ]
+  },
+  {
+    labelVi: 'Danh sách Tài sản',
+    labelEn: 'IT Asset List',
+    image: '/screenshots/assets.png',
+    descVi: 'Quản lý toàn bộ danh sách thiết bị công nghệ thông tin trong doanh nghiệp (máy tính để bàn, màn hình, RAM, cấu hình phần cứng). Theo dõi thông tin phòng ban đang sử dụng.',
+    descEn: 'Manage the entire inventory of information technology assets in the enterprise (desktops, monitors, RAM, hardware specs). Track department usage assignments.',
+    bulletsVi: [
+      'Lưu trữ chi tiết cấu hình phần cứng (CPU, RAM, SSD/HDD)',
+      'Theo dõi vị trí phòng ban và nhân sự chịu trách nhiệm sử dụng',
+      'Tạo mã QR/code riêng biệt trên từng tài sản để quét tra cứu nhanh',
+      'Bộ lọc tìm kiếm thông minh theo phòng ban và trạng thái tài sản'
+    ],
+    bulletsEn: [
+      'Detailed specifications logging (CPU, RAM, storage, specs)',
+      'Track physical department assignment and employee accountability',
+      'Generate unique QR codes for instant mobile camera lookup scan',
+      'Smart filters by department, category, and current status'
+    ]
+  },
+  {
+    labelVi: 'Bàn giao & Thu hồi',
+    labelEn: 'Handover & Recovery',
+    image: '/screenshots/handover.png',
+    descVi: 'Lịch sử chi tiết quy trình cấp phát, bàn giao thiết bị công nghệ cho nhân viên mới và thu hồi lại khi họ nghỉ việc hoặc đổi máy. Đính kèm các văn bản scan biên bản bàn giao.',
+    descEn: 'Detailed history logs of tech hardware issuance and handover to new hires, and recovery when they exit or change devices. Attach scan sheets.',
+    bulletsVi: [
+      'Ghi nhận đầy đủ thời gian và nhân sự thực hiện bàn giao/thu hồi',
+      'Upload và lưu trữ file scan biên bản bàn giao để đối chiếu pháp lý',
+      'Xuất trực tiếp biên bản bàn giao ra file Word theo mẫu chuẩn',
+      'Theo dõi lịch sử di chuyển của tài sản qua nhiều nhân sự'
+    ],
+    bulletsEn: [
+      'Record exact timestamp and staff involved in handover/recovery',
+      'Upload and store scan sheets of paper forms for legal reference',
+      'Export ready-to-print handover Word files automatically',
+      'Trace complete asset ownership lifecycle logs'
+    ]
+  }
+];
+
 export default function Features() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [activePreviewTab, setActivePreviewTab] = useState(0);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -452,6 +533,86 @@ export default function Features() {
               isVisible={isVisible}
             />
           ))}
+        </div>
+
+        {/* ── INTERACTIVE SYSTEM PREVIEW SHOWCASE ─────────────── */}
+        <div className={`mt-20 lg:mt-28 border-t border-border/80 pt-16 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
+          <div className="mx-auto max-w-3xl text-center mb-10">
+            <span className="text-xs uppercase font-mono tracking-widest text-primary font-bold">{t('GIAO DIỆN HỆ THỐNG', 'SYSTEM INTERFACE')}</span>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl mt-2 tracking-tight">
+              {t('Khám phá phân hệ thực tế của nATime', 'Explore nATime Live Modules')}
+            </h3>
+            <p className="mt-3 text-sm text-muted">
+              {t(
+                'Hình ảnh giao diện làm việc trực quan từ các phân hệ chức năng cốt lõi đang vận hành trong hệ thống.',
+                'Actual screenshots from the core system modules actively running in the enterprise portal.'
+              )}
+            </p>
+          </div>
+
+          {/* Tab Switcher Headers */}
+          <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-10 max-w-3xl mx-auto">
+            {previewTabs.map((tab, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActivePreviewTab(idx)}
+                className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all cursor-pointer ${
+                  activePreviewTab === idx
+                    ? 'bg-primary text-white shadow-md shadow-primary/15'
+                    : 'bg-card text-muted border border-border/60 hover:text-foreground hover:bg-slate-50 dark:hover:bg-slate-900/40'
+                }`}
+              >
+                {t(tab.labelVi, tab.labelEn)}
+              </button>
+            ))}
+          </div>
+
+          {/* Active Tab Panel Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-card/45 dark:bg-card/5 border border-border/60 rounded-2xl p-6 sm:p-8 backdrop-blur-xl">
+            {/* Left side details */}
+            <div className="lg:col-span-5 space-y-5">
+              <span className="inline-flex items-center rounded-md bg-indigo-500/10 px-2.5 py-0.5 text-xs font-bold text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400">
+                {t(previewTabs[activePreviewTab].labelVi, previewTabs[activePreviewTab].labelEn)}
+              </span>
+              <p className="text-sm text-muted leading-relaxed">
+                {t(previewTabs[activePreviewTab].descVi, previewTabs[activePreviewTab].descEn)}
+              </p>
+              <ul className="space-y-2.5 text-xs text-foreground/80">
+                {previewTabs[activePreviewTab].bulletsVi.map((bullet, bIdx) => (
+                  <li key={bIdx} className="flex items-start gap-2.5">
+                    <svg className="h-4 w-4 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>{t(bullet, previewTabs[activePreviewTab].bulletsEn[bIdx])}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Right side image browser frame */}
+            <div className="lg:col-span-7">
+              <div className="group relative overflow-hidden rounded-xl border border-border/80 bg-background shadow-lg transition-all duration-300">
+                {/* Browser top header */}
+                <div className="flex items-center justify-between border-b border-border bg-slate-100/60 dark:bg-slate-900/50 px-3 py-2 select-none">
+                  <div className="flex items-center gap-1 shrink-0">
+                    <span className="h-2 w-2 rounded-full bg-red-400/80" />
+                    <span className="h-2 w-2 rounded-full bg-yellow-400/80" />
+                    <span className="h-2 w-2 rounded-full bg-green-400/80" />
+                  </div>
+                  <div className="rounded-md bg-card border border-border/40 px-3 py-0.5 text-[9px] text-muted/80 font-mono truncate max-w-[180px] w-full text-center">
+                    app.natime.vn/dashboard
+                  </div>
+                  <div className="w-6 shrink-0" />
+                </div>
+                {/* Screenshot image */}
+                <img
+                  src={previewTabs[activePreviewTab].image}
+                  alt={previewTabs[activePreviewTab].labelEn}
+                  className="w-full h-auto object-cover select-none"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
