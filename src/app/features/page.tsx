@@ -805,6 +805,16 @@ interface FeatureSection {
   comingSoon?: boolean;
 }
 
+
+
+
+
+const realImagesMap: Record<string, string> = {
+  biometric: '/screenshots/attendance.png',
+  device: '/screenshots/devices.png',
+  asset: '/screenshots/assets.png',
+};
+
 export default function FeaturesPage() {
   const { t } = useLanguage();
   const [activeSection, setActiveSection] = useState('biometric-attendance');
@@ -1109,7 +1119,29 @@ export default function FeaturesPage() {
                     <div className="relative group overflow-hidden rounded-2xl bg-slate-900/5 p-2 dark:bg-slate-950/20 border border-border/50 shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-primary/20">
                       <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl opacity-10 group-hover:opacity-20 blur transition duration-500" />
                       <div className="relative rounded-2xl overflow-hidden">
-                        <FeatureSvg type={feature.svgType} />
+                        {realImagesMap[feature.svgType] ? (
+                          <div className="relative overflow-hidden rounded-xl border border-border/80 bg-background shadow-lg">
+                            {/* Browser chrome header decoration */}
+                            <div className="flex items-center justify-between border-b border-border bg-slate-100/60 dark:bg-slate-900/50 px-3 py-2.5 select-none">
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="h-2 w-2 rounded-full bg-red-400/80" />
+                                <span className="h-2 w-2 rounded-full bg-yellow-400/80" />
+                                <span className="h-2 w-2 rounded-full bg-green-400/80" />
+                              </div>
+                              <div className="rounded-md bg-card border border-border/40 px-3 py-0.5 text-[9px] text-muted/80 font-mono truncate max-w-[180px] w-full text-center">
+                                app.natime.vn/dashboard
+                              </div>
+                              <div className="w-6 shrink-0" />
+                            </div>
+                            <img
+                              src={realImagesMap[feature.svgType]}
+                              alt={feature.title.en}
+                              className="w-full h-auto object-cover select-none"
+                            />
+                          </div>
+                        ) : (
+                          <FeatureSvg type={feature.svgType} />
+                        )}
                       </div>
                     </div>
                   </div>
