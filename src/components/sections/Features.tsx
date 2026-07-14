@@ -314,28 +314,43 @@ export default function Features() {
                         transformOrigin: 'center center',
                       }}
                     >
-                      {/* Browser window mockup */}
-                      <div className="rounded-xl overflow-hidden border border-border/70 bg-background shadow-2xl">
-                        <div className="flex items-center justify-between border-b border-border bg-slate-100/70 dark:bg-slate-900/60 px-3.5 py-2.5 select-none">
-                          <div className="flex items-center gap-1.5 shrink-0">
-                            <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
-                            <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/80" />
-                            <span className="h-2.5 w-2.5 rounded-full bg-green-400/80" />
+                      {feature.isMobile && isCenter ? (
+                        /* ── 3-Phone Deck (Mobile center) ── */
+                        <div className="flex items-center justify-center gap-5 py-8 w-full overflow-hidden select-none bg-card/30 dark:bg-slate-950/30 rounded-xl backdrop-blur-md" style={{ minHeight: '420px' }}>
+                          <div className="max-w-[140px] w-full relative overflow-hidden rounded-[26px] border-[5px] border-slate-800 bg-background shadow-lg rotate-[-5deg] -mr-8 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
+                            <img src="/screenshots/mobile_calendar.png" alt="nA Mobile Calendar" className="w-full h-auto object-cover rounded-[22px]" />
                           </div>
-                          <div className="rounded-md bg-card border border-border/40 px-4 py-0.5 text-[10px] text-muted/80 font-mono truncate max-w-[200px] w-full text-center">
-                            app.natime.vn/{feature.id}
+                          <div className="max-w-[180px] w-full relative overflow-hidden rounded-[32px] border-[5px] border-slate-800 bg-background shadow-2xl z-10 hover:scale-[1.05] transition-all duration-300 cursor-pointer">
+                            <img src="/screenshots/mobile.png" alt="nA Mobile Home" className="w-full h-auto object-cover rounded-[28px]" />
                           </div>
-                          <div className="w-8 shrink-0" />
+                          <div className="max-w-[140px] w-full relative overflow-hidden rounded-[26px] border-[5px] border-slate-800 bg-background shadow-lg rotate-[5deg] -ml-8 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
+                            <img src="/screenshots/mobile_detail.png" alt="nA Mobile Detail" className="w-full h-auto object-cover rounded-[22px]" />
+                          </div>
                         </div>
-                        <div className="overflow-hidden bg-slate-950">
-                          <img
-                            src={feature.image}
-                            alt={t(feature.titleVi, feature.titleEn)}
-                            className="w-full h-auto object-cover object-top"
-                            draggable={false}
-                          />
+                      ) : (
+                        /* ── Browser / Mobile side mockup ── */
+                        <div className="rounded-xl overflow-hidden border border-border/70 bg-background shadow-2xl">
+                          <div className="flex items-center justify-between border-b border-border bg-slate-100/70 dark:bg-slate-900/60 px-3.5 py-2.5 select-none">
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
+                              <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/80" />
+                              <span className="h-2.5 w-2.5 rounded-full bg-green-400/80" />
+                            </div>
+                            <div className="rounded-md bg-card border border-border/40 px-4 py-0.5 text-[10px] text-muted/80 font-mono truncate max-w-[200px] w-full text-center">
+                              app.natime.vn/{feature.id}
+                            </div>
+                            <div className="w-8 shrink-0" />
+                          </div>
+                          <div className="overflow-hidden bg-slate-950" style={{ maxHeight: feature.isMobile ? '380px' : undefined }}>
+                            <img
+                              src={feature.image}
+                              alt={t(feature.titleVi, feature.titleEn)}
+                              className="w-full h-auto object-cover object-top"
+                              draggable={false}
+                            />
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   );
                 })}
