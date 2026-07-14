@@ -378,30 +378,7 @@ export default function Features() {
             </ul>
           </div>
 
-          {/* ── Feature Nav Tabs ── */}
-          <div className="mt-10 flex flex-wrap justify-center gap-2">
-            {featuresList.map((feat, idx) => (
-              <button
-                key={feat.id}
-                onClick={() => goTo(idx, idx > activeTab ? 'left' : 'right')}
-                className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                  activeTab === idx
-                    ? 'border-primary/50 bg-primary/[0.07] text-primary dark:text-primary-light shadow-sm shadow-primary/10'
-                    : 'border-border/60 bg-card/40 text-muted hover:text-foreground hover:bg-slate-50 dark:hover:bg-slate-900/30'
-                }`}
-              >
-                <span className={`flex items-center justify-center w-5 h-5 rounded-md transition-all ${activeTab === idx ? 'text-primary' : 'text-muted'}`}>
-                  {feat.icon}
-                </span>
-                {t(feat.titleVi, feat.titleEn)}
-                {feat.comingSoon && (
-                  <span className="ml-1 rounded-full bg-primary/10 px-1.5 py-0.5 text-[8px] font-bold text-primary dark:bg-primary/20 dark:text-primary-light">
-                    {t('Sắp ra mắt', 'Soon')}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
+
 
         </div>
       </div>
