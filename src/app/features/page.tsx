@@ -813,6 +813,7 @@ const realImagesMap: Record<string, string> = {
   biometric: '/screenshots/attendance.png',
   device: '/screenshots/devices.png',
   asset: '/screenshots/assets.png',
+  mobile: '/screenshots/mobile.png',
 };
 
 export default function FeaturesPage() {
@@ -1119,7 +1120,17 @@ export default function FeaturesPage() {
                     <div className="relative group overflow-hidden rounded-2xl bg-slate-900/5 p-2 dark:bg-slate-950/20 border border-border/50 shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-primary/20">
                       <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl opacity-10 group-hover:opacity-20 blur transition duration-500" />
                       <div className="relative rounded-2xl overflow-hidden">
-                        {realImagesMap[feature.svgType] ? (
+                        {feature.svgType === 'mobile' ? (
+                          <div className="max-w-[250px] mx-auto relative overflow-hidden rounded-[36px] border-[5px] border-slate-800 bg-background shadow-2xl aspect-[9/18.5]">
+                            {/* Notch */}
+                            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-4.5 bg-slate-800 rounded-full z-20" />
+                            <img
+                              src="/screenshots/mobile.png"
+                              alt="nA Mobile App"
+                              className="w-full h-auto object-cover select-none relative z-10 rounded-[30px]"
+                            />
+                          </div>
+                        ) : realImagesMap[feature.svgType] ? (
                           <div className="relative overflow-hidden rounded-xl border border-border/80 bg-background shadow-lg">
                             {/* Browser chrome header decoration */}
                             <div className="flex items-center justify-between border-b border-border bg-slate-100/60 dark:bg-slate-900/50 px-3 py-2.5 select-none">

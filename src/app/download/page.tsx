@@ -102,6 +102,7 @@ export default function DownloadPage() {
 
   // State Management
   const [activeTab, setActiveTab] = useState<'all' | 'face' | 'gate' | 'weigh' | 'it'>('all');
+  const [activeMobileTab, setActiveMobileTab] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [copiedBlock, setCopiedBlock] = useState<string | null>(null);
   const [activeCodeTab, setActiveCodeTab] = useState<'cli' | 'yaml'>('cli');
@@ -405,98 +406,38 @@ services:
                   {/* Glowing light background effect */}
                   <div className="absolute -inset-1.5 bg-gradient-to-r from-primary to-indigo-600 rounded-[42px] blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
                   
-                  {/* SVG Phone Mock */}
-                  <svg width="290" height="580" viewBox="0 0 290 580" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative bg-black rounded-[40px] shadow-2xl p-1.5 border-4 border-slate-800 dark:border-slate-700">
-                    {/* Speaker/Notch area */}
-                    <rect x="105" y="14" width="80" height="18" rx="9" fill="#1e293b" />
-                    <circle cx="115" cy="23" r="3.5" fill="#334155" />
-                    <rect x="135" y="21" width="30" height="4" rx="2" fill="#475569" />
-                    
-                    {/* Screen frame */}
-                    <foreignObject x="8" y="40" width="274" height="528" className="rounded-[32px] overflow-hidden">
-                      <div className="w-full h-full bg-slate-900 text-white flex flex-col font-sans select-none relative">
-                        {/* Mock App Header */}
-                        <div className="bg-indigo-600 p-4 pt-6 pb-5 flex items-center justify-between shadow-md">
-                          <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 bg-white/20 rounded-lg flex items-center justify-center font-bold text-white text-sm">nA</div>
-                            <div>
-                              <div className="text-xs font-bold tracking-wide">nA Mobile</div>
-                              <div className="text-[9px] text-indigo-200">v2.4.1 Production</div>
-                            </div>
-                          </div>
-                          <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
-                            <span className="text-[10px] text-white">⚙️</span>
-                          </div>
-                        </div>
-
-                        {/* App Body */}
-                        <div className="flex-1 p-3.5 space-y-3.5 overflow-y-auto">
-                          
-                          {/* User card */}
-                          <div className="bg-slate-800/80 rounded-xl p-3 border border-slate-700/60 flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-full bg-indigo-500/20 border border-indigo-500/50 flex items-center justify-center font-bold text-indigo-300 text-sm">
-                              AN
-                            </div>
-                            <div>
-                              <div className="text-xs font-bold">Alex Nguyen</div>
-                              <div className="text-[9px] text-slate-400">{t('Mã NV: NA-09221', 'Emp ID: NA-09221')}</div>
-                            </div>
-                            <span className="ml-auto w-2 h-2 rounded-full bg-emerald-500 animate-pulse-glow" />
-                          </div>
-
-                          {/* Time & State indicator */}
-                          <div className="bg-slate-800/80 rounded-xl p-3.5 border border-slate-700/60 text-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 text-[36px] opacity-[0.03] select-none font-bold">nA</div>
-                            <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
-                              {t('Thời gian hiện tại', 'Current Server Time')}
-                            </div>
-                            <div className="text-2xl font-extrabold tracking-tight text-white my-1">
-                              08:30:15
-                            </div>
-                            <div className="text-[10px] text-slate-400">
-                              {t('Thứ Hai, 11 Tháng 7, 2026', 'Monday, July 11, 2026')}
-                            </div>
-
-                            {/* Location boundary */}
-                            <div className="mt-3.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-medium mx-auto">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                              <span>{t('Vùng định vị hợp lệ (15m)', 'Inside valid geofence (15m)')}</span>
-                            </div>
-                          </div>
-
-                          {/* Face Recognition Box (Camera view) */}
-                          <div className="relative rounded-xl overflow-hidden aspect-video bg-black/60 border border-slate-700/60 flex items-center justify-center flex-col">
-                            {/* Animated Grid Scanner */}
-                            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_45%,rgba(99,102,241,0.2)_50%,transparent_55%)] bg-[length:100%_200%] animate-[gradient-shift_3s_infinite_linear]" />
-                            
-                            {/* Scanning bracket elements */}
-                            <div className="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-indigo-500" />
-                            <div className="absolute top-3 right-3 w-4 h-4 border-t-2 border-r-2 border-indigo-500" />
-                            <div className="absolute bottom-3 left-3 w-4 h-4 border-b-2 border-l-2 border-indigo-500" />
-                            <div className="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-indigo-500" />
-
-                            <div className="w-12 h-12 rounded-full border-2 border-dashed border-indigo-400 flex items-center justify-center text-indigo-300">
-                              <svg className="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                              </svg>
-                            </div>
-                            <span className="text-[9px] text-slate-400 mt-2 tracking-wide font-medium">
-                              {t('Bấm để nhận diện khuôn mặt', 'Press to start face check-in')}
-                            </span>
-                          </div>
-
-                          {/* Large Check-in button */}
-                          <div className="pt-1">
-                            <button type="button" className="w-full bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 py-2.5 rounded-xl font-bold text-xs text-white shadow-lg shadow-indigo-500/20 active:scale-95 transition-all">
-                              {t('GHI NHẬN CÔNG (CHECK-IN)', 'RECORD ATTENDANCE (CHECK-IN)')}
-                            </button>
-                          </div>
-
-                        </div>
+                  {/* Real Interactive Mobile Carousel */}
+                  <div className="w-full max-w-[280px] flex flex-col items-center gap-5">
+                    <div className="relative w-full aspect-[9/18.5] bg-slate-950 rounded-[40px] border-[5px] border-slate-800 dark:border-slate-800/80 shadow-2xl overflow-hidden group select-none">
+                      {/* Notch/Dynamic Island */}
+                      <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-full z-20 flex items-center justify-center">
+                        <span className="h-1 w-1 rounded-full bg-slate-800" />
                       </div>
-                    </foreignObject>
-                  </svg>
+                      {/* Time indicator */}
+                      <div className="absolute top-3 left-6 text-[10px] font-semibold text-white/95 z-20 font-mono">12:00</div>
+                      
+                      {/* Active Screenshot */}
+                      <img 
+                        src={activeMobileTab === 0 ? "/screenshots/mobile.png" : activeMobileTab === 1 ? "/screenshots/mobile_calendar.png" : "/screenshots/mobile_detail.png"} 
+                        alt="nA Mobile App" 
+                        className="w-full h-full object-cover rounded-[34px] z-10 relative"
+                      />
+                    </div>
+                    
+                    {/* Slider dot indicators */}
+                    <div className="flex gap-2.5 justify-center mt-1">
+                      {[0, 1, 2].map((idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setActiveMobileTab(idx)}
+                          className={`h-2 rounded-full transition-all cursor-pointer ${
+                            activeMobileTab === idx ? 'w-6 bg-primary' : 'w-2 bg-border hover:bg-muted-foreground/30'
+                          }`}
+                          title={idx === 0 ? t('Trang chủ', 'Home') : idx === 1 ? t('Lịch làm', 'Calendar') : t('Chi tiết ngày', 'Day Details')}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 {/* QR Code section */}

@@ -414,6 +414,25 @@ const previewTabs = [
       'Export ready-to-print handover Word files automatically',
       'Trace complete asset ownership lifecycle logs'
     ]
+  },
+  {
+    labelVi: 'Ứng dụng Mobile',
+    labelEn: 'Mobile App',
+    image: '/screenshots/mobile.png',
+    descVi: 'Ứng dụng di động đa nền tảng giúp nhân viên tự chấm công bằng khuôn mặt và GPS Geofencing, theo dõi ca làm việc, ngày công và quản lý đơn từ phép trực tuyến.',
+    descEn: 'Cross-platform mobile application enabling employees to check-in via facial recognition and GPS Geofencing, view shift details, days worked, and submit leaves online.',
+    bulletsVi: [
+      'Chấm công bằng nhận diện khuôn mặt kết hợp định vị GPS',
+      'Đăng ký xin nghỉ phép, làm thêm giờ (OT) ngay trên điện thoại',
+      'Xem bảng công, lịch làm và chi tiết giờ vào/ra hàng ngày',
+      'Quản lý và duyệt đơn từ từ xa dành cho cấp lãnh đạo'
+    ],
+    bulletsEn: [
+      'Facial recognition clock-in matched with GPS location validation',
+      'Submit leave requests, overtime (OT) claims right on your phone',
+      'View personal timesheets, shift calendars, and daily details',
+      'Remote request approval workflow optimized for managers'
+    ]
   }
 ];
 
@@ -589,28 +608,40 @@ export default function Features() {
               </ul>
             </div>
 
-            {/* Right side image browser frame */}
-            <div className="lg:col-span-7">
-              <div className="group relative overflow-hidden rounded-xl border border-border/80 bg-background shadow-lg transition-all duration-300">
-                {/* Browser top header */}
-                <div className="flex items-center justify-between border-b border-border bg-slate-100/60 dark:bg-slate-900/50 px-3 py-2 select-none">
-                  <div className="flex items-center gap-1 shrink-0">
-                    <span className="h-2 w-2 rounded-full bg-red-400/80" />
-                    <span className="h-2 w-2 rounded-full bg-yellow-400/80" />
-                    <span className="h-2 w-2 rounded-full bg-green-400/80" />
-                  </div>
-                  <div className="rounded-md bg-card border border-border/40 px-3 py-0.5 text-[9px] text-muted/80 font-mono truncate max-w-[180px] w-full text-center">
-                    app.natime.vn/dashboard
-                  </div>
-                  <div className="w-6 shrink-0" />
+            {/* Right side image browser/phone frame */}
+            <div className="lg:col-span-7 flex justify-center w-full">
+              {previewTabs[activePreviewTab].image === '/screenshots/mobile.png' ? (
+                <div className="max-w-[240px] w-full relative overflow-hidden rounded-[36px] border-[5px] border-slate-800 bg-background shadow-2xl aspect-[9/18.5]">
+                  {/* Notch */}
+                  <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-4.5 bg-slate-800 rounded-full z-20" />
+                  <img
+                    src="/screenshots/mobile.png"
+                    alt="nA Mobile App"
+                    className="w-full h-auto object-cover select-none relative z-10 rounded-[30px]"
+                  />
                 </div>
-                {/* Screenshot image */}
-                <img
-                  src={previewTabs[activePreviewTab].image}
-                  alt={previewTabs[activePreviewTab].labelEn}
-                  className="w-full h-auto object-cover select-none"
-                />
-              </div>
+              ) : (
+                <div className="group relative overflow-hidden rounded-xl border border-border/80 bg-background shadow-lg transition-all duration-300 w-full">
+                  {/* Browser top header */}
+                  <div className="flex items-center justify-between border-b border-border bg-slate-100/60 dark:bg-slate-900/50 px-3 py-2 select-none">
+                    <div className="flex items-center gap-1 shrink-0">
+                      <span className="h-2 w-2 rounded-full bg-red-400/80" />
+                      <span className="h-2 w-2 rounded-full bg-yellow-400/80" />
+                      <span className="h-2 w-2 rounded-full bg-green-400/80" />
+                    </div>
+                    <div className="rounded-md bg-card border border-border/40 px-3 py-0.5 text-[9px] text-muted/80 font-mono truncate max-w-[180px] w-full text-center">
+                      app.natime.vn/dashboard
+                    </div>
+                    <div className="w-6 shrink-0" />
+                  </div>
+                  {/* Screenshot image */}
+                  <img
+                    src={previewTabs[activePreviewTab].image}
+                    alt={previewTabs[activePreviewTab].labelEn}
+                    className="w-full h-auto object-cover select-none"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
