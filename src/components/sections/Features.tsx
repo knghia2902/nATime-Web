@@ -316,7 +316,7 @@ export default function Features() {
                     >
                       {feature.isMobile && isCenter ? (
                         /* ── 3-Phone Deck (Mobile center) ── */
-                        <div className="flex items-center justify-center gap-5 py-8 w-full overflow-hidden select-none bg-card/30 dark:bg-slate-950/30 rounded-xl backdrop-blur-md" style={{ minHeight: '420px' }}>
+                        <div className="flex items-center justify-center gap-5 py-8 w-full overflow-hidden select-none bg-card/30 rounded-xl backdrop-blur-md" style={{ minHeight: '420px' }}>
                           <div className="max-w-[140px] w-full relative overflow-hidden rounded-[26px] border-[5px] border-slate-800 bg-background shadow-lg rotate-[-5deg] -mr-8 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
                             <img src="/screenshots/mobile_calendar.png" alt="nA Mobile Calendar" className="w-full h-auto object-cover rounded-[22px]" />
                           </div>
