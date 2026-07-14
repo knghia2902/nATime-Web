@@ -1124,7 +1124,7 @@ export default function FeaturesPage() {
                           <div className="flex items-center justify-center gap-2 sm:gap-4 py-4 w-full overflow-hidden select-none">
                             {/* Phone 1: Calendar */}
                             <div className="hidden sm:block max-w-[130px] md:max-w-[150px] w-full relative overflow-hidden rounded-[24px] border-[4px] border-slate-800 bg-background shadow-lg rotate-[-4deg] -mr-6 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
-                              <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-16 h-3 bg-slate-800 rounded-full z-20" />
+                              
                               <img
                                 src="/screenshots/mobile_calendar.png"
                                 alt="nA Mobile Calendar"
@@ -1134,7 +1134,7 @@ export default function FeaturesPage() {
 
                             {/* Phone 2: Main Home */}
                             <div className="max-w-[160px] md:max-w-[180px] w-full relative overflow-hidden rounded-[28px] border-[4px] border-slate-800 bg-background shadow-2xl z-10 hover:scale-[1.05] transition-all duration-300 cursor-pointer">
-                              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-4 bg-slate-800 rounded-full z-20" />
+                              
                               <img
                                 src="/screenshots/mobile.png"
                                 alt="nA Mobile Home"
@@ -1144,7 +1144,7 @@ export default function FeaturesPage() {
 
                             {/* Phone 3: Details */}
                             <div className="hidden sm:block max-w-[130px] md:max-w-[150px] w-full relative overflow-hidden rounded-[24px] border-[4px] border-slate-800 bg-background shadow-lg rotate-[4deg] -ml-6 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
-                              <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-16 h-3 bg-slate-800 rounded-full z-20" />
+                              
                               <img
                                 src="/screenshots/mobile_detail.png"
                                 alt="nA Mobile Detail"
