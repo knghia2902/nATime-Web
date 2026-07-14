@@ -30,14 +30,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'vi_VN',
     alternateLocale: 'en_US',
-    url: 'https://natime.xyz',
+    url: 'https://natime.vn',
     siteName: 'nATime',
     title: 'nATime — Smart Time Attendance & Access Control Solution',
     description:
       'Giải pháp toàn diện cho chấm công thông minh, kiểm soát cổng ra vào, quản lý thiết bị và phân tích dữ liệu real-time.',
     images: [
       {
-        url: 'https://natime.xyz/og-image.png',
+        url: 'https://natime.vn/og-image.png',
         width: 1200,
         height: 630,
         alt: 'nATime — Smart Time Attendance & Access Control',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: 'nATime — Smart Time Attendance & Access Control Solution',
     description:
       'Giải pháp toàn diện cho chấm công thông minh, kiểm soát cổng ra vào, quản lý thiết bị và phân tích dữ liệu real-time.',
-    images: ['https://natime.xyz/og-image.png'],
+    images: ['https://natime.vn/og-image.png'],
   },
   robots: {
     index: true,

@@ -307,7 +307,7 @@ const docsContents: Record<string, DocContent> = {
           </p>
           <CodeBlock
             language="bash"
-            code={`# Tải và chạy script cài đặt tự động cho nATime\n# Download and run the automated installer script\ncurl -sSL https://get.natime.xyz/install.sh | bash`}
+            code={`# Tải và chạy script cài đặt tự động cho nATime\n# Download and run the automated installer script\ncurl -sSL https://get.natime.vn/install.sh | bash`}
           />
         </div>
 

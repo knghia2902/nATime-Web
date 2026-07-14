@@ -8,7 +8,7 @@ const authorityUrl = requireEnv('NATIME_LICENSE_AUTHORITY_URL').replace(/\/$/, '
 const authorityOperatorKey = requireEnv('NATIME_LICENSE_OPERATOR_KEY');
 const ipHashSalt = requireEnv('NATIME_ACTIVATION_IP_SALT');
 const allowedOrigins = new Set(
-  (Deno.env.get('NATIME_PORTAL_ORIGINS') ?? 'https://natime.xyz')
+  (Deno.env.get('NATIME_PORTAL_ORIGINS') ?? 'https://natime.vn')
     .split(',')
     .map((value) => value.trim())
     .filter(Boolean),
@@ -85,7 +85,7 @@ async function requestActivation(
     return json({
       deviceCode,
       userCode: existing.user_code,
-      verificationUri: 'https://natime.xyz/dashboard?tab=licenses',
+      verificationUri: 'https://natime.vn/dashboard?tab=licenses',
       expiresAt: existing.expires_at,
       status: existing.status,
       intervalSeconds: 5,
@@ -99,7 +99,7 @@ async function requestActivation(
   return json({
     deviceCode,
     userCode,
-    verificationUri: 'https://natime.xyz/dashboard?tab=licenses',
+    verificationUri: 'https://natime.vn/dashboard?tab=licenses',
     expiresAt,
     status: 'pending',
     intervalSeconds: 5,
@@ -321,7 +321,7 @@ async function writeAudit(
 }
 
 function corsHeaders(origin: string | null): HeadersInit {
-  const allowedOrigin = origin && allowedOrigins.has(origin) ? origin : 'https://natime.xyz';
+  const allowedOrigin = origin && allowedOrigins.has(origin) ? origin : 'https://natime.vn';
   return {
     'access-control-allow-origin': allowedOrigin,
     'access-control-allow-headers': 'authorization, apikey, content-type, x-client-info',

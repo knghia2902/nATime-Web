@@ -5,13 +5,13 @@ import { canonicalizePayOsData, payOsSignature, secureHexEquals } from './payos.
 test('checkout signature fields are sorted exactly as required by payOS', () => {
   assert.equal(
     canonicalizePayOsData({
-      returnUrl: 'https://natime.xyz/dashboard?payment=success',
+      returnUrl: 'https://natime.vn/dashboard?payment=success',
       orderCode: 123,
       description: 'NT0000123',
-      cancelUrl: 'https://natime.xyz/dashboard?payment=cancel',
+      cancelUrl: 'https://natime.vn/dashboard?payment=cancel',
       amount: 490000,
     }),
-    'amount=490000&cancelUrl=https://natime.xyz/dashboard?payment=cancel&description=NT0000123&orderCode=123&returnUrl=https://natime.xyz/dashboard?payment=success',
+    'amount=490000&cancelUrl=https://natime.vn/dashboard?payment=cancel&description=NT0000123&orderCode=123&returnUrl=https://natime.vn/dashboard?payment=success',
   );
 });
 

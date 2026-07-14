@@ -533,7 +533,7 @@ export default function PricingPage() {
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a
-                  href="mailto:sales@natime.xyz"
+                  href="mailto:sales@natime.vn"
                   className="inline-flex justify-center items-center py-3.5 px-6 rounded-xl bg-primary text-sm font-semibold text-white shadow-lg shadow-primary/20 hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
                 >
                   <svg

@@ -9,8 +9,8 @@ The public site remains a static Next.js export. Sensitive license operations ru
 - `NATIME_LICENSE_SIGNING_PRIVATE_KEY_PEM`
 - `NATIME_LICENSE_VALIDATION_SECRET`
 - `NATIME_ACTIVATION_IP_SALT`
-- `NATIME_PORTAL_ORIGINS` (comma-separated; defaults to `https://natime.xyz`)
-- `NATIME_PORTAL_ORIGIN` (checkout return/cancel origin; defaults to `https://natime.xyz`)
+- `NATIME_PORTAL_ORIGINS` (comma-separated; defaults to `https://natime.vn`)
+- `NATIME_PORTAL_ORIGIN` (checkout return/cancel origin; defaults to `https://natime.vn`)
 - `PAYOS_CLIENT_ID`
 - `PAYOS_API_KEY`
 - `PAYOS_CHECKSUM_KEY`

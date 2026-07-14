@@ -8,7 +8,7 @@ const serviceRoleKey = requireEnv('SUPABASE_SERVICE_ROLE_KEY');
 const payOsClientId = requireEnv('PAYOS_CLIENT_ID');
 const payOsApiKey = requireEnv('PAYOS_API_KEY');
 const payOsChecksumKey = requireEnv('PAYOS_CHECKSUM_KEY');
-const portalOrigin = (Deno.env.get('NATIME_PORTAL_ORIGIN') ?? 'https://natime.xyz').replace(/\/$/, '');
+const portalOrigin = (Deno.env.get('NATIME_PORTAL_ORIGIN') ?? 'https://natime.vn').replace(/\/$/, '');
 const admin = createClient(supabaseUrl, serviceRoleKey, {
   auth: { persistSession: false, autoRefreshToken: false },
 });

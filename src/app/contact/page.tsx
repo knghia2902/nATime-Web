@@ -252,13 +252,13 @@ export default function ContactPage() {
                     <p className="flex justify-between gap-4">
                       <span>{t('Yêu cầu demo:', 'Demo Request:')}</span>
                       <span className="font-medium text-foreground hover:text-primary transition-colors">
-                        <a href="mailto:demo@natime.xyz">demo@natime.xyz</a>
+                        <a href="mailto:demo@natime.vn">demo@natime.vn</a>
                       </span>
                     </p>
                     <p className="flex justify-between gap-4">
                       <span>{t('Hỗ trợ khách hàng:', 'Support:')}</span>
                       <span className="font-medium text-foreground hover:text-primary transition-colors">
-                        <a href="mailto:support@natime.xyz">support@natime.xyz</a>
+                        <a href="mailto:support@natime.vn">support@natime.vn</a>
                       </span>
                     </p>
                   </div>

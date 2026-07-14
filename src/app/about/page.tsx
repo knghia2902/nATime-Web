@@ -436,7 +436,7 @@ export default function AboutPage() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="mailto:contact@natime.xyz"
+              href="mailto:contact@natime.vn"
               className="px-8 py-4 rounded-lg bg-primary hover:bg-primary-hover text-white font-semibold transition-all duration-300 shadow-lg shadow-primary/20 hover:scale-[1.02]"
             >
               {t({ vi: 'Yêu cầu tư vấn (Demo)', en: 'Request a Demo' })}

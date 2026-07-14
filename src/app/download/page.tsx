@@ -119,7 +119,7 @@ export default function DownloadPage() {
 mkdir natime && cd natime
 
 # Tải tệp cấu hình docker-compose.yml chính thức
-curl -L https://natime.xyz/dist/docker-compose.yml -o docker-compose.yml
+curl -L https://natime.vn/dist/docker-compose.yml -o docker-compose.yml
 
 # Khởi chạy hệ thống ở chế độ chạy ngầm (detached mode)
 docker compose up -d
@@ -131,7 +131,7 @@ docker compose ps`;
 
 services:
   natime-web:
-    image: registry.natime.xyz/enterprise/web:v2.4.0
+    image: registry.natime.vn/enterprise/web:v2.4.0
     container_name: natime-web-app
     restart: always
     ports:
@@ -144,7 +144,7 @@ services:
       - sql-server
 
   natime-worker:
-    image: registry.natime.xyz/enterprise/worker:v2.4.0
+    image: registry.natime.vn/enterprise/worker:v2.4.0
     container_name: natime-bg-worker
     restart: always
     environment:
@@ -1035,7 +1035,7 @@ services:
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="mailto:support@natime.xyz"
+              href="mailto:support@natime.vn"
               className="px-8 py-4 rounded-lg bg-primary hover:bg-primary-hover text-white font-semibold transition-all duration-300 shadow-lg shadow-primary/20 hover:scale-[1.02]"
             >
               {t('Gửi Email Kỹ Thuật', 'Email Support Team')}
