@@ -336,7 +336,7 @@ export default function Features() {
         <div className={`mt-16 lg:mt-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
           
           {/* Left Column: Interactive Feature Selector (Tabs) */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="lg:col-span-4 space-y-4">
             {featuresList.map((feature, idx) => {
               const isActive = activeTab === idx;
               return (
@@ -443,35 +443,35 @@ export default function Features() {
           </div>
 
           {/* Right Column: Large Desktop Preview Frame (Sticky) */}
-          <div className="hidden lg:block lg:col-span-7 sticky top-24">
+          <div className="hidden lg:block lg:col-span-8 sticky top-24">
             <div className="relative rounded-2xl overflow-hidden p-2 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50 border border-border/60 shadow-inner">
               
               {featuresList[activeTab].image === '/screenshots/mobile.png' ? (
-                <div className="flex items-center justify-center gap-4 py-8 w-full overflow-hidden select-none bg-card/30 dark:bg-slate-950/20 rounded-xl backdrop-blur-md">
+                <div className="flex items-center justify-center gap-6 py-12 w-full overflow-hidden select-none bg-card/30 dark:bg-slate-950/20 rounded-xl backdrop-blur-md">
                   {/* Phone 1: Calendar */}
-                  <div className="max-w-[150px] w-full relative overflow-hidden rounded-[26px] border-[5px] border-slate-800 bg-background shadow-lg rotate-[-5deg] -mr-8 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
+                  <div className="max-w-[170px] w-full relative overflow-hidden rounded-[28px] border-[5px] border-slate-800 bg-background shadow-lg rotate-[-5deg] -mr-10 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
                     <img
                       src="/screenshots/mobile_calendar.png"
                       alt="nA Mobile Calendar"
-                      className="w-full h-auto object-cover relative z-10 rounded-[22px]"
+                      className="w-full h-auto object-cover relative z-10 rounded-[24px]"
                     />
                   </div>
 
                   {/* Phone 2: Main Home */}
-                  <div className="max-w-[185px] w-full relative overflow-hidden rounded-[30px] border-[5px] border-slate-800 bg-background shadow-2xl z-10 hover:scale-[1.05] transition-all duration-300 cursor-pointer">
+                  <div className="max-w-[210px] w-full relative overflow-hidden rounded-[34px] border-[5px] border-slate-800 bg-background shadow-2xl z-10 hover:scale-[1.05] transition-all duration-300 cursor-pointer">
                     <img
                       src="/screenshots/mobile.png"
                       alt="nA Mobile Home"
-                      className="w-full h-auto object-cover relative z-10 rounded-[26px]"
+                      className="w-full h-auto object-cover relative z-10 rounded-[30px]"
                     />
                   </div>
 
                   {/* Phone 3: Details */}
-                  <div className="max-w-[150px] w-full relative overflow-hidden rounded-[26px] border-[5px] border-slate-800 bg-background shadow-lg rotate-[5deg] -ml-8 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
+                  <div className="max-w-[170px] w-full relative overflow-hidden rounded-[28px] border-[5px] border-slate-800 bg-background shadow-lg rotate-[5deg] -ml-10 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
                     <img
                       src="/screenshots/mobile_detail.png"
                       alt="nA Mobile Detail"
-                      className="w-full h-auto object-cover relative z-10 rounded-[22px]"
+                      className="w-full h-auto object-cover relative z-10 rounded-[24px]"
                     />
                   </div>
                 </div>
