@@ -1,6 +1,6 @@
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(38);
+select plan(41);
 
 select has_table('public', 'license_orders', 'license orders table exists');
 select has_table('public', 'license_entitlements', 'license entitlements table exists');
@@ -84,6 +84,42 @@ select is(
   'replayed PayOS event is idempotent'
 );
 select is((select count(*)::integer from public.license_entitlements where order_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'), 1, 'replay cannot create a second entitlement');
+
+insert into public.license_installations (
+  entitlement_id, authority_license_id, hardware_id_hash, display_name
+) values
+  ((select id from public.license_entitlements where order_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'), '11111111-1111-4111-8111-111111111111', encode(digest('OLD-HARDWARE-ID', 'sha256'), 'hex'), 'Old server'),
+  ((select id from public.license_entitlements where order_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'), '22222222-2222-4222-8222-222222222222', encode(digest('OTHER-HARDWARE-ID', 'sha256'), 'hex'), 'Other server');
+
+insert into public.license_activation_requests (
+  device_code_hash, user_code, hardware_id, status, idempotency_key, expires_at
+) values
+  (decode(repeat('cd', 32), 'hex'), 'OLD-MACH', 'OLD-HARDWARE-ID', 'pending', 'activation:old-machine-reissue', now() + interval '10 minutes'),
+  (decode(repeat('ef', 32), 'hex'), 'NEW-MACH', 'NEW-HARDWARE-ID', 'pending', 'activation:new-machine-at-limit', now() + interval '10 minutes');
+
+select lives_ok(
+  $$ select * from public.reserve_license_activation(
+    'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+    (select id from public.license_entitlements where order_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'),
+    'OLD-MACH'
+  ) $$,
+  'the same Hardware ID can be reissued while the entitlement is at its device limit'
+);
+select is(
+  (select status from public.license_activation_requests where user_code = 'OLD-MACH'),
+  'processing',
+  'same-machine reissue reserves the existing installation'
+);
+select throws_ok(
+  $$ select * from public.reserve_license_activation(
+    'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+    (select id from public.license_entitlements where order_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'),
+    'NEW-MACH'
+  ) $$,
+  'P0001',
+  'DEVICE_LIMIT_REACHED',
+  'a different Hardware ID is still rejected at the device limit'
+);
 
 insert into public.license_activation_requests (
   id, device_code_hash, user_code, hardware_id, entitlement_id, status,

@@ -133,6 +133,17 @@ async function approveActivation(
 
   const activation = reservedRows[0];
   const correlationId = activation.idempotency_key as string;
+  const hardwareIdHash = await sha256Hex(String(activation.hardware_id));
+  const { data: existingInstallation, error: existingInstallationError } = await admin
+    .from('license_installations')
+    .select('id, authority_license_id')
+    .eq('entitlement_id', entitlementId)
+    .eq('hardware_id_hash', hardwareIdHash)
+    .maybeSingle();
+  if (existingInstallationError) {
+    await markActivationFailed(activation.id, 'INSTALLATION_LOOKUP_FAILED', null);
+    throw new Error('INSTALLATION_LOOKUP_FAILED');
+  }
 
   try {
     const authorityResponse = await fetch(`${authorityUrl}/v1/licenses`, {
@@ -160,13 +171,21 @@ async function approveActivation(
     const licenseKey = String(issued.licenseKey ?? issued.LicenseKey ?? '');
     if (!authorityLicenseId || !licenseKey) throw new Error('AUTHORITY_RESPONSE_INVALID');
 
-    const hardwareIdHash = await sha256Hex(String(activation.hardware_id));
-    const { error: installationError } = await admin.from('license_installations').insert({
-      entitlement_id: entitlementId,
-      authority_license_id: authorityLicenseId,
-      hardware_id_hash: hardwareIdHash,
-      display_name: activation.display_name,
-    });
+    const installationMutation = existingInstallation
+      ? admin.from('license_installations').update({
+        authority_license_id: authorityLicenseId,
+        display_name: activation.display_name,
+        status: 'active',
+        activated_at: new Date().toISOString(),
+        revoked_at: null,
+      }).eq('id', existingInstallation.id)
+      : admin.from('license_installations').insert({
+        entitlement_id: entitlementId,
+        authority_license_id: authorityLicenseId,
+        hardware_id_hash: hardwareIdHash,
+        display_name: activation.display_name,
+      });
+    const { error: installationError } = await installationMutation;
     if (installationError) {
       await markActivationFailed(activation.id, 'RECONCILIATION_REQUIRED', authorityLicenseId);
       throw new Error('RECONCILIATION_REQUIRED');
@@ -188,10 +207,40 @@ async function approveActivation(
       throw new Error('RECONCILIATION_REQUIRED');
     }
 
-    await writeAudit('activation.approved', correlationId, user.id, entitlementId, {
+    await writeAudit(existingInstallation ? 'activation.reissued' : 'activation.approved', correlationId, user.id, entitlementId, {
       activationRequestId: activation.id,
       authorityLicenseId,
+      replacedAuthorityLicenseId: existingInstallation?.authority_license_id ?? null,
     });
+
+    if (existingInstallation?.authority_license_id
+      && existingInstallation.authority_license_id !== authorityLicenseId) {
+      try {
+        const revokeResponse = await fetch(
+          `${authorityUrl}/v1/licenses/${existingInstallation.authority_license_id}/revoke`,
+          {
+            method: 'POST',
+            headers: {
+              'x-licensing-admin-key': authorityOperatorKey,
+              'idempotency-key': `${correlationId}:replace`,
+            },
+          },
+        );
+        if (!revokeResponse.ok) {
+          await writeAudit('activation.reissue_revoke_failed', correlationId, user.id, entitlementId, {
+            activationRequestId: activation.id,
+            authorityLicenseId: existingInstallation.authority_license_id,
+            responseStatus: revokeResponse.status,
+          });
+        }
+      } catch {
+        await writeAudit('activation.reissue_revoke_failed', correlationId, user.id, entitlementId, {
+          activationRequestId: activation.id,
+          authorityLicenseId: existingInstallation.authority_license_id,
+          errorCode: 'REVOKE_REQUEST_FAILED',
+        });
+      }
+    }
     return json({ status: 'approved', activationRequestId: activation.id }, 200, cors);
   } catch (error) {
     const code = error instanceof Error ? error.message : 'ACTIVATION_FAILED';
@@ -251,7 +300,7 @@ async function markActivationFailed(id: string, errorCode: string, authorityLice
     status: 'failed',
     error_code: errorCode.slice(0, 120),
     authority_license_id: authorityLicenseId,
-  }).eq('id', id);
+  }).eq('id', id).eq('status', 'processing');
 }
 
 async function writeAudit(

@@ -28,6 +28,16 @@ interface LicenseKey {
   devicesConnected: number;
   devicesMax: number;
   expireDate: string;
+  installations: LicenseInstallation[];
+}
+
+interface LicenseInstallation {
+  id: string;
+  status: 'active' | 'revoked' | 'replaced';
+  displayName: string | null;
+  hardwareIdHash: string;
+  activatedAt: string;
+  lastValidatedAt: string | null;
 }
 
 interface SupabaseEntitlementRow {
@@ -36,7 +46,14 @@ interface SupabaseEntitlementRow {
   status: string;
   max_devices: number;
   expires_at: string | null;
-  license_installations: Array<{ id: string; status: string }> | null;
+  license_installations: Array<{
+    id: string;
+    status: string;
+    display_name: string | null;
+    hardware_id_hash: string;
+    activated_at: string;
+    last_validated_at: string | null;
+  }> | null;
 }
 
 interface SupabaseTicketRow {
@@ -118,6 +135,8 @@ export default function CustomerDashboard() {
   // Dropdown & Click-outside refs
   const dropdownRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const activationFormRef = useRef<HTMLDivElement>(null);
+  const activationCodeInputRef = useRef<HTMLInputElement>(null);
 
   // Toast notifications state
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -237,7 +256,7 @@ export default function CustomerDashboard() {
           // 1. Fetch server-issued entitlements and their installations.
           const { data: licenseData, error: licenseErr } = await supabase
             .from('license_entitlements')
-            .select('id, plan_code, status, max_devices, expires_at, license_installations(id, status)')
+            .select('id, plan_code, status, max_devices, expires_at, license_installations(id, status, display_name, hardware_id_hash, activated_at, last_validated_at)')
             .eq('user_id', user?.id)
             .order('created_at', { ascending: false });
 
@@ -253,6 +272,14 @@ export default function CustomerDashboard() {
               devicesConnected: (item.license_installations ?? []).filter((installation) => installation.status === 'active').length,
               devicesMax: item.max_devices,
               expireDate: item.expires_at ? item.expires_at.split('T')[0] : t('Vĩnh viễn', 'Perpetual'),
+              installations: (item.license_installations ?? []).map((installation) => ({
+                id: installation.id,
+                status: installation.status as LicenseInstallation['status'],
+                displayName: installation.display_name,
+                hardwareIdHash: installation.hardware_id_hash,
+                activatedAt: installation.activated_at,
+                lastValidatedAt: installation.last_validated_at,
+              })),
             }));
             setLicenses(mapped);
             setNewKeyModule((current) => current || mapped.find((license) => license.status === 'active')?.id || '');
@@ -365,6 +392,19 @@ export default function CustomerDashboard() {
         showToast(errorMessage(error, 'Error communicating with Supabase'), 'error');
       }
     }
+  };
+
+  const handleReissueInstallation = (entitlementId: string) => {
+    setNewKeyModule(entitlementId);
+    activationFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    window.setTimeout(() => activationCodeInputRef.current?.focus(), 350);
+    showToast(
+      t(
+        'Trên máy cũ, vào Cài đặt → Bản quyền → Liên kết tài khoản để tạo mã mới, rồi nhập mã tại đây. Đúng Hardware ID sẽ không chiếm thêm thiết bị.',
+        'On the old computer, open Settings → License → Link account to create a new code, then enter it here. The same Hardware ID will not consume another device slot.',
+      ),
+      'info',
+    );
   };
 
   const handleCheckout = async () => {
@@ -1220,7 +1260,7 @@ export default function CustomerDashboard() {
                 )}
 
                 {/* Approve a device-code request created by the self-hosted WebPortal. */}
-                <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+                <div ref={activationFormRef} className="rounded-xl border border-border bg-card p-5 shadow-sm">
                   <h2 className="text-sm font-bold text-foreground mb-1 select-none">
                     🔗 {t('Liên kết WebPortal', 'Link WebPortal')}
                   </h2>
@@ -1234,6 +1274,7 @@ export default function CustomerDashboard() {
                         {t('Mã liên kết thiết bị', 'Device linking code')}
                       </label>
                       <input
+                        ref={activationCodeInputRef}
                         type="text"
                         placeholder="ABCD-EFGH"
                         value={newKey}
@@ -1338,6 +1379,13 @@ export default function CustomerDashboard() {
                             <td className="px-5 py-4">
                               <div className="flex items-center justify-center gap-2">
                                 <button
+                                  type="button"
+                                  onClick={() => handleReissueInstallation(lic.id)}
+                                  className="px-2 py-1 text-[10px] font-bold rounded border border-border bg-slate-50 dark:bg-slate-900 text-foreground hover:border-primary/40 hover:text-primary transition-colors duration-150 cursor-pointer"
+                                >
+                                  {t('Duyệt lại máy', 'Reissue device')}
+                                </button>
+                                <button
                                   onClick={() => {
                                     showToast(t('Đã ghi nhận yêu cầu gia hạn cho ' + lic.key, 'Renewal request recorded for ' + lic.key), 'info');
                                   }}
@@ -1349,6 +1397,76 @@ export default function CustomerDashboard() {
                             </td>
                           </tr>
                         ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Installed computers remain visible so customers can reissue a lost local license. */}
+                <div className="rounded-xl border border-border bg-card overflow-hidden shadow-sm">
+                  <div className="px-5 py-4 border-b border-border/80">
+                    <h2 className="text-sm font-bold text-foreground">
+                      {t('Máy đã kích hoạt', 'Activated computers')}
+                    </h2>
+                    <p className="mt-1 text-[10px] text-muted">
+                      {t(
+                        'Nếu cài lại hoặc nâng cấp làm mất license, hãy tạo mã liên kết mới trên đúng máy rồi bấm Duyệt lại. Cùng Hardware ID không tăng số thiết bị sử dụng.',
+                        'If reinstalling or upgrading loses the local license, create a new linking code on the same computer and reissue it. The same Hardware ID does not increase device usage.',
+                      )}
+                    </p>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-left text-xs">
+                      <thead className="bg-slate-50 dark:bg-slate-900 border-b border-border/80 text-[10.5px] text-muted font-bold">
+                        <tr>
+                          <th className="px-5 py-3">{t('Tên máy', 'Computer')}</th>
+                          <th className="px-5 py-3">Hardware ID</th>
+                          <th className="px-5 py-3">{t('Gói', 'Entitlement')}</th>
+                          <th className="px-5 py-3">{t('Kích hoạt lúc', 'Activated at')}</th>
+                          <th className="px-5 py-3">{t('Trạng thái', 'Status')}</th>
+                          <th className="px-5 py-3 text-center">{t('Hành động', 'Action')}</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border/60">
+                        {licenses.flatMap((license) => (license.installations ?? []).map((installation) => (
+                          <tr key={installation.id} className="hover:bg-primary-light/40 dark:hover:bg-primary-light/10">
+                            <td className="px-5 py-3 font-semibold text-foreground">
+                              {installation.displayName || t('Máy nATime', 'nATime computer')}
+                            </td>
+                            <td className="px-5 py-3 font-mono text-[10px] text-muted">
+                              {installation.hardwareIdHash.length > 16
+                                ? `${installation.hardwareIdHash.slice(0, 8)}…${installation.hardwareIdHash.slice(-8)}`
+                                : installation.hardwareIdHash}
+                            </td>
+                            <td className="px-5 py-3 text-muted">
+                              {locale === 'vi' ? license.moduleVi : license.moduleEn}
+                            </td>
+                            <td className="px-5 py-3 text-muted whitespace-nowrap">
+                              {new Date(installation.activatedAt).toLocaleString(locale === 'vi' ? 'vi-VN' : 'en-US')}
+                            </td>
+                            <td className="px-5 py-3">
+                              <span className={installation.status === 'active' ? 'font-bold text-emerald-600' : 'font-bold text-muted'}>
+                                {installation.status === 'active' ? t('Đang dùng', 'Active') : t('Đã thay thế', 'Replaced')}
+                              </span>
+                            </td>
+                            <td className="px-5 py-3 text-center">
+                              <button
+                                type="button"
+                                onClick={() => handleReissueInstallation(license.id)}
+                                className="px-2.5 py-1.5 text-[10px] font-bold rounded border border-primary/20 bg-primary/5 text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer"
+                              >
+                                {t('Cấp lại license', 'Reissue license')}
+                              </button>
+                            </td>
+                          </tr>
+                        )))}
+                        {licenses.every((license) => (license.installations ?? []).length === 0) && (
+                          <tr>
+                            <td colSpan={6} className="px-5 py-6 text-center text-muted">
+                              {t('Chưa có máy nào được kích hoạt.', 'No computers have been activated yet.')}
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   </div>
