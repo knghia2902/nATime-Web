@@ -293,8 +293,8 @@ export default function Features() {
                   const transform = isCenter
                     ? 'translateX(-50%) translateY(-50%) rotateY(0deg) translateZ(0px) scale(1)'
                     : isLeft
-                    ? 'translateX(calc(-50% - 260px)) translateY(-50%) rotateY(38deg) translateZ(-80px) scale(0.86)'
-                    : 'translateX(calc(-50% + 260px)) translateY(-50%) rotateY(-38deg) translateZ(-80px) scale(0.86)';
+                    ? 'translateX(calc(-50% - 290px)) translateY(-50%) rotateY(38deg) translateZ(-80px) scale(0.86)'
+                    : 'translateX(calc(-50% + 290px)) translateY(-50%) rotateY(-38deg) translateZ(-80px) scale(0.86)';
 
                   return (
                     <div
@@ -304,7 +304,7 @@ export default function Features() {
                         position: 'absolute',
                         left: '50%',
                         top: '50%',
-                        width: isCenter ? '68%' : '50%',
+                        width: isCenter ? '78%' : '62%',
                         transform,
                         opacity: isCenter ? 1 : 0.52,
                         zIndex: isCenter ? 10 : 5,
@@ -341,7 +341,7 @@ export default function Features() {
                             </div>
                             <div className="w-8 shrink-0" />
                           </div>
-                          <div className="overflow-hidden bg-slate-950" style={{ maxHeight: feature.isMobile ? '380px' : undefined }}>
+                          <div className="overflow-hidden" style={{ maxHeight: feature.isMobile ? '400px' : undefined }}>
                             <img
                               src={feature.image}
                               alt={t(feature.titleVi, feature.titleEn)}
