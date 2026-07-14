@@ -112,6 +112,21 @@ function errorMessage(error: unknown, fallback: string): string {
   return error instanceof Error ? error.message : fallback;
 }
 
+async function functionErrorMessage(error: unknown, fallback: string): Promise<string> {
+  if (error && typeof error === 'object' && 'context' in error) {
+    const context = (error as { context?: unknown }).context;
+    if (context instanceof Response) {
+      try {
+        const payload = await context.clone().json() as { error?: unknown };
+        if (typeof payload.error === 'string' && payload.error.trim()) return payload.error;
+      } catch {
+        // Fall back to the SDK error message when the response is not JSON.
+      }
+    }
+  }
+  return errorMessage(error, fallback);
+}
+
 export default function CustomerDashboard() {
   const { t, locale } = useLanguage();
   const { user, loading, signOut, updateProfile } = useAuth();
@@ -127,6 +142,7 @@ export default function CustomerDashboard() {
   const [checkoutPlan] = useState<'standard' | 'professional' | null>(checkoutPlanFromLocation);
   const [checkoutBilling] = useState<'monthly' | 'yearly'>(checkoutBillingFromLocation);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [activationLoading, setActivationLoading] = useState(false);
 
   const checkoutAmountVnd = checkoutPlan
     ? CHECKOUT_AMOUNTS_VND[checkoutPlan][checkoutBilling]
@@ -361,6 +377,7 @@ export default function CustomerDashboard() {
 
   const handleActivateLicense = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (activationLoading) return;
     if (!newKey.trim()) {
       showToast(t('Vui lòng nhập mã liên kết từ WebPortal', 'Please enter the linking code from WebPortal'), 'error');
       return;
@@ -373,6 +390,7 @@ export default function CustomerDashboard() {
     if (isMockEnabled || !supabase) {
       showToast(t('Liên kết thiết bị không khả dụng trong chế độ demo', 'Device linking is unavailable in demo mode'), 'error');
     } else {
+      setActivationLoading(true);
       try {
         const { error } = await supabase.functions.invoke('license-activation', {
           body: {
@@ -383,13 +401,15 @@ export default function CustomerDashboard() {
         });
 
         if (error) {
-          showToast(error.message, 'error');
+          showToast(await functionErrorMessage(error, 'Unable to approve device link.'), 'error');
         } else {
           setNewKey('');
           showToast(t('Đã phê duyệt liên kết. WebPortal sẽ tự nhận license đã ký.', 'Device link approved. WebPortal will receive the signed license automatically.'), 'success');
         }
       } catch (error: unknown) {
         showToast(errorMessage(error, 'Error communicating with Supabase'), 'error');
+      } finally {
+        setActivationLoading(false);
       }
     }
   };
@@ -1303,9 +1323,10 @@ export default function CustomerDashboard() {
 
                     <button
                       type="submit"
-                      className="w-full sm:w-auto px-5 py-2.5 rounded-md bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/20 transition-all duration-200 shrink-0 cursor-pointer"
+                      disabled={activationLoading}
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-md bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/20 transition-all duration-200 shrink-0 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                      {t('Phê duyệt liên kết', 'Approve Link')}
+                      {activationLoading ? t('Đang phê duyệt…', 'Approving…') : t('Phê duyệt liên kết', 'Approve Link')}
                     </button>
                   </form>
                 </div>

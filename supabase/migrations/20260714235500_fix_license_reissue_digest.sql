@@ -73,6 +73,3 @@ $$;
 
 revoke all on function public.reserve_license_activation(uuid, uuid, text) from public, anon, authenticated;
 grant execute on function public.reserve_license_activation(uuid, uuid, text) to service_role;
-
-comment on function public.reserve_license_activation(uuid, uuid, text) is
-  'Reserves device capacity while allowing the same entitlement and Hardware ID to replace its existing installation license without consuming another slot.';

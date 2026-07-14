@@ -88,8 +88,8 @@ select is((select count(*)::integer from public.license_entitlements where order
 insert into public.license_installations (
   entitlement_id, authority_license_id, hardware_id_hash, display_name
 ) values
-  ((select id from public.license_entitlements where order_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'), '11111111-1111-4111-8111-111111111111', encode(digest('OLD-HARDWARE-ID', 'sha256'), 'hex'), 'Old server'),
-  ((select id from public.license_entitlements where order_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'), '22222222-2222-4222-8222-222222222222', encode(digest('OTHER-HARDWARE-ID', 'sha256'), 'hex'), 'Other server');
+  ((select id from public.license_entitlements where order_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'), '11111111-1111-4111-8111-111111111111', encode(extensions.digest('OLD-HARDWARE-ID', 'sha256'), 'hex'), 'Old server'),
+  ((select id from public.license_entitlements where order_id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'), '22222222-2222-4222-8222-222222222222', encode(extensions.digest('OTHER-HARDWARE-ID', 'sha256'), 'hex'), 'Other server');
 
 insert into public.license_activation_requests (
   device_code_hash, user_code, hardware_id, status, idempotency_key, expires_at
