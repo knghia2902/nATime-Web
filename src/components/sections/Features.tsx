@@ -175,7 +175,7 @@ export default function Features() {
     setTimeout(() => {
       setActiveTab(next);
       setSliding(false);
-    }, 350);
+    }, 420);
   }, [sliding]);
 
   const goNext = useCallback(() => {
@@ -271,16 +271,17 @@ export default function Features() {
               </svg>
             </button>
 
-            {/* Image viewport (clipped) */}
-            <div className="overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50 shadow-2xl p-2">
+            {/* Image viewport (clipped) — 3D flip */}
+            <div className="overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-tr from-slate-200 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50 shadow-2xl p-2" style={{ perspective: '1200px' }}>
               <div
-                className="transition-all duration-350 ease-in-out"
                 style={{
                   opacity: sliding ? 0 : 1,
                   transform: sliding
-                    ? `translateX(${slideDir === 'left' ? '-32px' : '32px'})`
-                    : 'translateX(0)',
-                  transition: 'opacity 0.35s ease, transform 0.35s ease',
+                    ? `perspective(1200px) rotateY(${slideDir === 'left' ? '-18deg' : '18deg'}) translateZ(-40px) scale(0.94)`
+                    : 'perspective(1200px) rotateY(0deg) translateZ(0px) scale(1)',
+                  transition: 'opacity 0.42s cubic-bezier(0.4,0,0.2,1), transform 0.42s cubic-bezier(0.4,0,0.2,1)',
+                  transformStyle: 'preserve-3d',
+                  willChange: 'transform, opacity',
                 }}
               >
                 {current.isMobile ? (
@@ -336,13 +337,13 @@ export default function Features() {
 
           {/* ── Feature Info Panel ── */}
           <div
-            className="mt-8 mx-auto max-w-5xl transition-all duration-350 ease-in-out"
+            className="mt-8 mx-auto max-w-5xl"
             style={{
               opacity: sliding ? 0 : 1,
               transform: sliding
-                ? `translateX(${slideDir === 'left' ? '-20px' : '20px'})`
-                : 'translateX(0)',
-              transition: 'opacity 0.35s ease, transform 0.35s ease',
+                ? `perspective(800px) rotateX(${slideDir === 'left' ? '-4deg' : '4deg'}) translateY(12px) scale(0.97)`
+                : 'perspective(800px) rotateX(0deg) translateY(0px) scale(1)',
+              transition: 'opacity 0.42s cubic-bezier(0.4,0,0.2,1), transform 0.42s cubic-bezier(0.4,0,0.2,1)',
             }}
           >
             {/* Title + badge */}

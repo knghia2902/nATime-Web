@@ -40,13 +40,7 @@ export default function Hero() {
           {/* ── Left: Text Content ── */}
           <div className="flex flex-col items-start">
 
-            {/* Badge */}
-            <div className="hero-fade-in hero-delay-1 mb-6">
-              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 dark:border-indigo-800/60 bg-indigo-50 dark:bg-indigo-950/40 px-4 py-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300 shadow-sm">
-                <span className="flex h-2 w-2 rounded-full bg-indigo-500 animate-pulse" />
-                {t('🚀 Phiên bản 1.0 — Ra mắt Q3/2026', '🚀 Version 1.0 — Launching Q3/2026')}
-              </div>
-            </div>
+
 
             {/* Heading */}
             <h1 className="hero-fade-in hero-delay-2 mb-5">
@@ -67,8 +61,8 @@ export default function Hero() {
             {/* Description */}
             <p className="hero-fade-in hero-delay-3 text-base sm:text-lg text-slate-500 dark:text-slate-400 max-w-xl mb-9 leading-relaxed">
               {t(
-                'Nền tảng quản lý chấm công, kiểm soát ra vào và giám sát thiết bị toàn diện dành cho doanh nghiệp. Vận hành bền bỉ trên nền tảng .NET 10 độc lập.',
-                'Enterprise-grade platform for time attendance, access control, and device monitoring. Built independently on .NET 10 for secure, stable operations.'
+                'Nền tảng quản lý chấm công, kiểm soát ra vào và giám sát thiết bị toàn diện dành cho doanh nghiệp.',
+                'Enterprise-grade platform for time attendance, access control, and device monitoring.'
               )}
             </p>
 
