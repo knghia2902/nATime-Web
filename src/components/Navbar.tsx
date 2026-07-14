@@ -153,21 +153,24 @@ export default function Navbar() {
             : 'border-b border-transparent bg-transparent backdrop-blur-none'
         }`}
       >
-        <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <nav className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* ── Logo ───────────────────────────────────── */}
           <Link
             href="/"
-            className="group relative flex items-center gap-2.5 select-none"
+            className="group relative flex items-center gap-2 select-none"
           >
             <img
               src="/logo.png"
               alt="nATime Logo"
               className="h-8 w-auto object-contain dark:brightness-110 dark:contrast-110 transition-all duration-300 group-hover:scale-[1.03]"
             />
+            <span className="text-[15px] font-bold tracking-tight text-zinc-900 dark:text-white transition-colors duration-300">
+              nATime
+            </span>
           </Link>
 
           {/* ── Desktop Nav Links ──────────────────────── */}
-          <div className="hidden items-center gap-0.5 lg:flex">
+          <div className="hidden items-center gap-0.5 lg:flex absolute left-1/2 -translate-x-1/2">
             {navLinks.map((link) =>
               link.isRoute ? (
                 <Link
