@@ -14,6 +14,11 @@ import { supabase, isMockEnabled } from '@/lib/supabase';
 // -------------------------------------------------------------
 type TabId = 'overview' | 'licenses' | 'tickets' | 'profile';
 
+const CHECKOUT_AMOUNTS_VND = {
+  standard: { monthly: 490000, yearly: 4704000 },
+  professional: { monthly: 1490000, yearly: 14304000 },
+} as const;
+
 interface LicenseKey {
   id: string;
   key: string;
@@ -96,13 +101,19 @@ export default function CustomerDashboard() {
   const router = useRouter();
 
   // Navigation & UI States
-  const [activeTab, setActiveTab] = useState<TabId>('overview');
+  const [activeTab, setActiveTab] = useState<TabId>(() =>
+    checkoutPlanFromLocation() ? 'licenses' : 'overview'
+  );
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [checkoutPlan] = useState<'standard' | 'professional' | null>(checkoutPlanFromLocation);
   const [checkoutBilling] = useState<'monthly' | 'yearly'>(checkoutBillingFromLocation);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
+
+  const checkoutAmountVnd = checkoutPlan
+    ? CHECKOUT_AMOUNTS_VND[checkoutPlan][checkoutBilling]
+    : null;
 
   // Dropdown & Click-outside refs
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -1178,8 +1189,13 @@ export default function CustomerDashboard() {
                         </h2>
                         <p className="text-[10.5px] text-muted">
                           {checkoutBilling === 'yearly'
-                            ? t('Thanh toán theo năm qua PayOS. License được cấp sau khi webhook được xác minh.', 'Annual payment through PayOS. Entitlement is issued after webhook verification.')
-                            : t('Thanh toán theo tháng qua PayOS. License được cấp sau khi webhook được xác minh.', 'Monthly payment through PayOS. Entitlement is issued after webhook verification.')}
+                            ? t('Thanh toán theo năm qua PayOS:', 'Annual payment through PayOS:')
+                            : t('Thanh toán theo tháng qua PayOS:', 'Monthly payment through PayOS:')}{' '}
+                          <strong className="text-foreground">
+                            {checkoutAmountVnd?.toLocaleString('vi-VN')}đ
+                            {checkoutBilling === 'yearly' ? t('/năm', '/year') : t('/tháng', '/month')}
+                          </strong>
+                          {t('. License được cấp sau khi webhook được xác minh.', '. Entitlement is issued after webhook verification.')}
                         </p>
                       </div>
                       <button
