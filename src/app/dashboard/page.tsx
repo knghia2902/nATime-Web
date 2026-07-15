@@ -164,9 +164,8 @@ export default function CustomerDashboard() {
     }, 3000);
   }, []);
 
-  // Fallback mock fields for AuthUser
-  const avatarFallback = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80';
-  const supportTierFallback = t('Chưa có gói hỗ trợ', 'No support plan');
+  // Only display account data that is actually stored for this user.
+  const supportTierLabel = user?.supportTier || t('Chưa có gói hỗ trợ', 'No support plan');
   const daysRemainingFallback = 0;
 
   // -------------------------------------------------------------
@@ -241,8 +240,7 @@ export default function CustomerDashboard() {
 
   // Profile Form States
   const [profileName, setProfileName] = useState('');
-  const [profilePhone, setProfilePhone] = useState('0987.654.321');
-  const [profileOrg, setProfileOrg] = useState('ACS Solutions JSC');
+  const [profileOrg, setProfileOrg] = useState('');
 
   // Fetch licenses and tickets on mount / user change
   useEffect(() => {
@@ -350,7 +348,7 @@ export default function CustomerDashboard() {
     if (!user) return;
     const timer = window.setTimeout(() => {
       setProfileName(user.name || '');
-      setProfileOrg(user.company || 'ACS Solutions JSC');
+      setProfileOrg(user.company || '');
 
       // Check if redirected from email auth validation link to show success toast.
       if (typeof window !== 'undefined') {
@@ -609,6 +607,13 @@ export default function CustomerDashboard() {
     );
   }
 
+  const accountInitials = (user.name || user.email)
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('') || 'NA';
+
   // -------------------------------------------------------------
   // Dashboard UI Layout
   // -------------------------------------------------------------
@@ -730,22 +735,6 @@ export default function CustomerDashboard() {
             {t('Hỗ trợ kỹ thuật', 'Support Tickets')}
           </button>
 
-          <button
-            onClick={() => {
-              setActiveTab('profile');
-              setSidebarOpen(false);
-            }}
-            className={`w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-xs font-semibold tracking-wide transition-all duration-200 select-none cursor-pointer ${
-              activeTab === 'profile'
-                ? 'bg-primary/10 text-primary border-l-2 border-primary'
-                : 'text-muted hover:text-foreground hover:bg-card-hover'
-            }`}
-          >
-            <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            {t('Thông tin tài khoản', 'Profile')}
-          </button>
         </nav>
 
         {/* Sidebar Footer Link (Back to Home) */}
@@ -791,7 +780,7 @@ export default function CustomerDashboard() {
 
             {/* Current Page Title / Breadcrumb */}
             <div className="hidden sm:block">
-              <span className="text-xs font-semibold tracking-wider uppercase text-muted">nATime Client Portal</span>
+              <span className="text-xs font-semibold tracking-wider uppercase text-muted">{t('Cổng khách hàng nATime', 'nATime Customer Portal')}</span>
               <span className="mx-2 text-border">/</span>
               <span className="text-xs font-bold text-foreground">
                 {activeTab === 'overview' && t('Tổng quan', 'Overview')}
@@ -813,11 +802,9 @@ export default function CustomerDashboard() {
                 onClick={() => setProfileDropdownOpen((v) => !v)}
                 className="flex items-center gap-2 rounded-full border border-border bg-card p-1 pr-3 hover:bg-card-hover hover:border-primary/30 transition-all duration-200 cursor-pointer"
               >
-                <img
-                  src={avatarFallback}
-                  alt={user.name || 'User'}
-                  className="h-7 w-7 rounded-full object-cover ring-2 ring-primary/20"
-                />
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/15 text-[10px] font-extrabold text-primary ring-2 ring-primary/20">
+                  {accountInitials}
+                </span>
                 <span className="hidden md:inline text-xs font-bold text-foreground">
                   {user.name || t('Người dùng', 'User')}
                 </span>
@@ -844,7 +831,7 @@ export default function CustomerDashboard() {
                       <svg className="h-4 w-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
-                      {t('Thông tin tài khoản', 'Profile Details')}
+                      {t('Tài khoản', 'Account')}
                     </button>
                     <button
                       onClick={() => {
@@ -993,7 +980,7 @@ export default function CustomerDashboard() {
                     </div>
                     <div className="mt-4 flex items-baseline gap-2">
                       <span className="text-lg font-bold tracking-tight text-foreground truncate max-w-full">
-                        {supportTierFallback}
+                        {supportTierLabel}
                       </span>
                     </div>
                     <p className="mt-3.5 text-[11px] font-semibold text-primary">
@@ -1112,104 +1099,32 @@ export default function CustomerDashboard() {
                     </div>
                   </div>
 
-                  {/* Right Column: Quick Software Downloads Card */}
+                  {/* Right Column: Official download entry point */}
                   <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
                     <div>
-                      <h2 className="text-sm font-bold text-foreground pb-3 border-b border-border/60">
-                        {t('Tải xuống phần mềm', 'Downloads & SDKs')}
-                      </h2>
-                      <p className="text-[10.5px] text-muted mt-2">
-                        {t('Tải phiên bản mới nhất của ứng dụng khách nATime và tài liệu đi kèm:', 'Get the latest installation bundles, client software, and developer manuals:')}
-                      </p>
-
-                      <div className="mt-4.5 space-y-3">
-                        
-                        {/* Download Item 1 */}
-                        <div className="flex items-center justify-between p-2 rounded-lg bg-card-hover border border-border/40 hover:border-primary/20 transition-colors duration-200">
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <span className="shrink-0 text-xl">🤖</span>
-                            <div className="min-w-0">
-                              <p className="text-xs font-bold text-foreground truncate">nATime Mobile App</p>
-                              <p className="text-[9.5px] text-muted">Android APK v2.4.0 • 34 MB</p>
-                            </div>
-                          </div>
-                          <a
-                            href="#"
-                            onClick={(e) => { e.preventDefault(); showToast(t('Đang tải ứng dụng Android APK...', 'Downloading Android APK...'), 'info'); }}
-                            className="flex h-7 w-7 items-center justify-center rounded bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-200 cursor-pointer"
-                          >
-                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                          </a>
-                        </div>
-
-                        {/* Download Item 2 */}
-                        <div className="flex items-center justify-between p-2 rounded-lg bg-card-hover border border-border/40 hover:border-primary/20 transition-colors duration-200">
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <span className="shrink-0 text-xl">🪟</span>
-                            <div className="min-w-0">
-                              <p className="text-xs font-bold text-foreground truncate">nATime Client (Win)</p>
-                              <p className="text-[9.5px] text-muted">Desktop Bundle v2.4.1 • 185 MB</p>
-                            </div>
-                          </div>
-                          <a
-                            href="#"
-                            onClick={(e) => { e.preventDefault(); showToast(t('Đang tải nATime Client cho Windows...', 'Downloading nATime Client for Windows...'), 'info'); }}
-                            className="flex h-7 w-7 items-center justify-center rounded bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-200 cursor-pointer"
-                          >
-                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                          </a>
-                        </div>
-
-                        {/* Download Item 3 */}
-                        <div className="flex items-center justify-between p-2 rounded-lg bg-card-hover border border-border/40 hover:border-primary/20 transition-colors duration-200">
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <span className="shrink-0 text-xl">🍏</span>
-                            <div className="min-w-0">
-                              <p className="text-xs font-bold text-foreground truncate">nATime Client (macOS)</p>
-                              <p className="text-[9.5px] text-muted">Desktop DMG v2.4.1 • 190 MB</p>
-                            </div>
-                          </div>
-                          <a
-                            href="#"
-                            onClick={(e) => { e.preventDefault(); showToast(t('Đang tải nATime Client cho macOS...', 'Downloading nATime Client for macOS...'), 'info'); }}
-                            className="flex h-7 w-7 items-center justify-center rounded bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-200 cursor-pointer"
-                          >
-                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                          </a>
-                        </div>
-
-                        {/* Download Item 4 */}
-                        <div className="flex items-center justify-between p-2 rounded-lg bg-card-hover border border-border/40 hover:border-primary/20 transition-colors duration-200">
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <span className="shrink-0 text-xl">📕</span>
-                            <div className="min-w-0">
-                              <p className="text-xs font-bold text-foreground truncate">Manual Setup Guide</p>
-                              <p className="text-[9.5px] text-muted">PDF Document • 12 MB</p>
-                            </div>
-                          </div>
-                          <a
-                            href="#"
-                            onClick={(e) => { e.preventDefault(); showToast(t('Đang tải tài liệu hướng dẫn...', 'Downloading documentation...'), 'info'); }}
-                            className="flex h-7 w-7 items-center justify-center rounded bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-200 cursor-pointer"
-                          >
-                            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                          </a>
-                        </div>
-
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14" />
+                        </svg>
                       </div>
+                      <h2 className="mt-4 text-sm font-bold text-foreground">
+                        {t('Trung tâm tải xuống', 'Download center')}
+                      </h2>
+                      <p className="mt-2 text-[11px] leading-relaxed text-muted">
+                        {t('Bộ cài Windows, ứng dụng di động và tài liệu chỉ được công bố tại trang tải xuống chính thức.', 'Windows installers, mobile apps and documentation are published only on the official download page.')}
+                      </p>
                     </div>
 
-                    <div className="mt-5 pt-3 border-t border-border/60">
-                      <p className="text-[10px] text-muted leading-relaxed">
-                        ⚠️ {t('Mọi liên kết tải xuống đều được mã hóa chữ ký số của ACS. Vui lòng không cài đặt file từ các nguồn không chính thức.', 'All file downloads are cryptographically signed by ACS. Avoid running software components from untrusted origins.')}
+                    <div className="mt-6 space-y-3">
+                      <Link
+                        href="/download"
+                        className="flex min-h-9 w-full items-center justify-center gap-2 rounded-md bg-primary px-5 py-2.5 text-xs font-bold text-white transition-colors hover:bg-primary-hover"
+                      >
+                        {t('Mở trang Download', 'Open downloads')}
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                      <p className="text-[10px] leading-relaxed text-muted">
+                        {t('Chỉ cài đặt tệp có phiên bản, dung lượng và chữ ký được nATime công bố.', 'Only install files whose version, size and signature are published by nATime.')}
                       </p>
                     </div>
                   </div>
@@ -1710,56 +1625,55 @@ export default function CustomerDashboard() {
                       <svg className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
-                      {t('Thông tin Tài khoản & Doanh nghiệp', 'Profile & Account Settings')}
+                      {t('Tài khoản', 'Account')}
                     </h1>
                     <p className="subtitle text-xs text-muted">
-                      {t('Quản lý hồ sơ cá nhân của bạn, thông tin tổ chức sở hữu bản quyền nATime', 'Manage your personal user credentials and organization metadata')}
+                      {t('Thông tin đăng nhập và đơn vị đứng tên bản quyền nATime', 'Sign-in details and the organization that owns your nATime licenses')}
                     </p>
                   </div>
                 </header>
 
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
                   
-                  {/* Left Column: Summary avatar card */}
-                  <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col items-center text-center">
-                    <div className="relative">
-                      <img
-                        src={avatarFallback}
-                        alt={user.name || 'User'}
-                        className="h-24 w-24 rounded-full object-cover ring-4 ring-primary/10 shadow-md"
-                      />
-                      <span className="absolute bottom-1 right-1 h-4.5 w-4.5 rounded-full border-2 border-card bg-emerald-500" title="Online" />
+                  {/* Left Column: verified account summary */}
+                  <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-sm font-extrabold text-primary ring-1 ring-primary/20">
+                        {accountInitials}
+                      </span>
+                      <div className="min-w-0">
+                        <h2 className="truncate text-sm font-bold text-foreground">{user.name || t('Người dùng', 'User')}</h2>
+                        <p className="mt-0.5 truncate text-[10px] text-muted">{user.email}</p>
+                      </div>
                     </div>
 
-                    <h2 className="text-sm font-bold text-foreground mt-4 select-none">{user.name || t('Người dùng', 'User')}</h2>
-                    <p className="text-[10px] text-muted mt-0.5">{user.email}</p>
-                    
-                    <span className="mt-3.5 rounded bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-900/50 px-2.5 py-1 text-[10.5px] font-bold text-purple-700 dark:text-purple-400">
-                      🛡️ {supportTierFallback}
-                    </span>
+                    <div className="mt-5 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2.5 dark:border-emerald-900/50 dark:bg-emerald-950/25">
+                      <p className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+                        ✓ {t('Tài khoản đã xác thực', 'Verified account')}
+                      </p>
+                      <p className="mt-1 text-[9.5px] leading-relaxed text-emerald-700/80 dark:text-emerald-400/80">
+                        {t('Đây là tài khoản khách hàng dùng để mua và quản lý license.', 'This customer account purchases and manages licenses.')}
+                      </p>
+                    </div>
 
-                    <div className="w-full mt-6 pt-5 border-t border-border/60 text-left space-y-3">
+                    <div className="mt-5 space-y-3 border-t border-border/60 pt-5 text-left">
                       <div>
                         <span className="block text-[9px] font-bold text-muted uppercase tracking-wider">{t('ID Tài khoản', 'User ID')}</span>
-                        <span className="text-xs font-mono font-bold text-foreground">{user.id}</span>
+                        <span className="mt-1 block truncate text-[10px] font-mono font-semibold text-foreground" title={user.id}>{user.id}</span>
                       </div>
                       <div>
-                        <span className="block text-[9px] font-bold text-muted uppercase tracking-wider">{t('Trạng thái xác thực', 'Auth Status')}</span>
-                        <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">✓ Verified Account</span>
-                      </div>
-                      <div>
-                        <span className="block text-[9px] font-bold text-muted uppercase tracking-wider">{t('Bản quyền sở hữu', 'Subscribed modules')}</span>
-                        <span className="text-xs font-semibold text-foreground">
-                          {licenses.length} {t('Module ứng dụng', 'Feature Subscriptions')}
+                        <span className="block text-[9px] font-bold text-muted uppercase tracking-wider">{t('License đang quản lý', 'Managed licenses')}</span>
+                        <span className="mt-1 block text-xs font-semibold text-foreground">
+                          {licenses.length} {t('gói bản quyền', 'license plans')}
                         </span>
                       </div>
                     </div>
                   </div>
 
                   {/* Right Column: Profile Form edit */}
-                  <div className="rounded-xl border border-border bg-card p-5 shadow-sm lg:col-span-2">
+                  <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
                     <h2 className="text-sm font-bold text-foreground mb-4 select-none pb-2.5 border-b border-border/60">
-                      ⚙️ {t('Cập nhật thông tin', 'Edit Personal Profile')}
+                      {t('Thông tin hồ sơ', 'Profile details')}
                     </h2>
 
                     <form onSubmit={handleSaveProfile} className="space-y-4">
@@ -1778,7 +1692,7 @@ export default function CustomerDashboard() {
                         </div>
                         <div>
                           <label className="block text-[10.5px] font-bold text-muted mb-1.5">
-                            {t('Địa chỉ Email đăng nhập (Không thể đổi)', 'Email Address (Non-changeable)')}
+                            {t('Email đăng nhập', 'Sign-in email')}
                           </label>
                           <input
                             type="email"
@@ -1792,17 +1706,6 @@ export default function CustomerDashboard() {
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
                           <label className="block text-[10.5px] font-bold text-muted mb-1.5">
-                            {t('Số điện thoại liên hệ', 'Phone Number')}
-                          </label>
-                          <input
-                            type="text"
-                            value={profilePhone}
-                            onChange={(e) => setProfilePhone(e.target.value)}
-                            className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-primary/50 focus:outline-none transition-colors duration-200"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-[10.5px] font-bold text-muted mb-1.5">
                             {t('Doanh nghiệp / Tổ chức', 'Company Name')}
                           </label>
                           <input
@@ -1811,6 +1714,11 @@ export default function CustomerDashboard() {
                             onChange={(e) => setProfileOrg(e.target.value)}
                             className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-primary/50 focus:outline-none transition-colors duration-200"
                           />
+                        </div>
+                        <div className="rounded-md border border-border bg-card-hover px-3 py-2">
+                          <span className="block text-[10.5px] font-bold text-muted">{t('Loại tài khoản', 'Account type')}</span>
+                          <span className="mt-1 block text-xs font-semibold text-foreground">{t('Khách hàng nATime', 'nATime customer')}</span>
+                          <span className="mt-1 block text-[9.5px] leading-relaxed text-muted">{t('Không phải tài khoản quản trị hệ thống.', 'This is not an operator administration account.')}</span>
                         </div>
                       </div>
 
