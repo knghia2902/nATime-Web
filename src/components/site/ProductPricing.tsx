@@ -44,7 +44,14 @@ export default function ProductPricing({ locale, compact = false }: { locale: 'v
     if (!supabase) return;
     void supabase.from('license_products').select('plan_code,billing_period,amount_vnd,max_employees,max_devices,enabled_modules').eq('is_active', true).then(({ data, error }) => {
       if (!error && data?.length) {
-        setProducts(data as Product[]);
+        const mergedProducts = data.map((dbProd) => {
+          const localProd = verifiedCatalog.find((lp) => lp.plan_code === dbProd.plan_code && lp.billing_period === dbProd.billing_period);
+          return {
+            ...dbProd,
+            enabled_modules: localProd ? localProd.enabled_modules : dbProd.enabled_modules
+          };
+        });
+        setProducts(mergedProducts as Product[]);
         setCatalogLive(true);
       }
     });
