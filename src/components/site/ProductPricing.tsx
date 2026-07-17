@@ -71,7 +71,9 @@ export default function ProductPricing({ locale, compact = false }: { locale: 'v
               <ul className="mt-6 flex-1 space-y-3 text-sm text-slate-700">
                 <li>✓ {vi ? `Tối đa ${product.max_employees} nhân sự` : `Up to ${product.max_employees} employees`}</li>
                 <li>✓ {vi ? `Tối đa ${product.max_devices} thiết bị` : `Up to ${product.max_devices} devices`}</li>
-                <li>✓ {product.enabled_modules.map((module) => getModuleLabel(module, vi)).join(', ')}</li>
+                {product.enabled_modules.map((module) => (
+                  <li key={module}>✓ {getModuleLabel(module, vi)}</li>
+                ))}
               </ul>
               <Link href={`/portal?plan=${code}&billing=${billing}`} className={`mt-7 rounded-md px-4 py-3 text-center text-sm font-semibold ${professional ? 'bg-blue-700 text-white hover:bg-blue-800' : 'border border-slate-300 text-slate-800 hover:bg-slate-100'}`}>{vi ? 'Chọn gói' : 'Choose plan'}</Link>
             </article>
