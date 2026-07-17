@@ -34,7 +34,7 @@ function getModuleLabel(module: string, vi: boolean): string {
   }
 }
 
-export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
+export default function ProductPricing({ locale, compact = false }: { locale: 'vi' | 'en'; compact?: boolean }) {
   const vi = locale === 'vi';
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('yearly');
   const [products, setProducts] = useState<Product[]>(verifiedCatalog);
@@ -449,151 +449,153 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
       </div>
 
       {/* 3. Bảng so sánh chi tiết tính năng khôi phục từ natime.vn */}
-      <div className="pt-12 border-t border-slate-200 dark:border-zinc-800">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            {vi ? 'So sánh chi tiết tính năng' : 'Detailed Feature Comparison'}
-          </h2>
-          <p className="mt-4 text-slate-500 text-base">
-            {vi ? 'Xem xét tất cả các phân hệ và quyền lợi cụ thể của từng phiên bản để đưa ra quyết định tối ưu.' : 'Review all modules and specific benefits of each version to make the optimal decision.'}
-          </p>
+      {!compact && (
+        <div className="pt-12 border-t border-slate-200 dark:border-zinc-800">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+              {vi ? 'So sánh chi tiết tính năng' : 'Detailed Feature Comparison'}
+            </h2>
+            <p className="mt-4 text-slate-500 text-base">
+              {vi ? 'Xem xét tất cả các phân hệ và quyền lợi cụ thể của từng phiên bản để đưa ra quyết định tối ưu.' : 'Review all modules and specific benefits of each version to make the optimal decision.'}
+            </p>
+          </div>
+
+          <div className="hidden lg:block overflow-hidden rounded-2xl border border-slate-200 dark:border-zinc-800 shadow-sm bg-white dark:bg-zinc-900">
+            <table className="w-full table-fixed border-collapse">
+              <thead>
+                <tr className="border-b border-slate-200 bg-slate-50 dark:bg-zinc-950/50 dark:border-zinc-800">
+                  <th className="w-[34%] py-5 px-6 text-left text-sm font-bold text-slate-900 dark:text-white">
+                    {vi ? 'TÍNH NĂNG & PHÂN HỆ' : 'FEATURE & MODULE'}
+                  </th>
+                  <th className="w-[22%] py-5 px-6 text-center text-sm font-bold text-slate-600 dark:text-zinc-400">Standard</th>
+                  <th className="w-[22%] py-5 px-6 text-center text-sm font-bold text-blue-700 dark:text-blue-400 relative bg-blue-50/20">
+                    Professional
+                    <span className="absolute top-1 left-1/2 -translate-x-1/2 rounded-full bg-blue-100 dark:bg-blue-900/50 px-2.5 py-0.5 text-[10px] font-semibold text-blue-800 dark:text-blue-300">
+                      {vi ? 'Phổ biến' : 'Popular'}
+                    </span>
+                  </th>
+                  <th className="w-[22%] py-5 px-6 text-center text-sm font-bold text-slate-900 dark:text-white">Enterprise</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-zinc-800">
+                
+                {/* Group 1 */}
+                <tr className="bg-slate-50/50 dark:bg-zinc-950/20">
+                  <td colSpan={4} className="py-3 px-6 text-xs font-bold text-slate-500 dark:text-zinc-400 tracking-wider uppercase">
+                    {vi ? 'Quy mô & Thiết bị' : 'Scale & Devices'}
+                  </td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Số lượng nhân viên tối đa' : 'Max employees'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">50</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">500</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Không giới hạn' : 'Unlimited'}</span></td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Số lượng thiết bị tối đa' : 'Max active devices'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">2</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">10</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Không giới hạn' : 'Unlimited'}</span></td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Số lượng chi nhánh/địa điểm' : 'Max branches/sites'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">1</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">10</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Không giới hạn' : 'Unlimited'}</span></td>
+                </tr>
+
+                {/* Group 2 */}
+                <tr className="bg-slate-50/50 dark:bg-zinc-950/20">
+                  <td colSpan={4} className="py-3 px-6 text-xs font-bold text-slate-500 dark:text-zinc-400 tracking-wider uppercase">
+                    {vi ? 'Phân hệ Chấm công & Kiểm soát' : 'Attendance & Access Control'}
+                  </td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Chấm công thông minh (Smart Attendance)' : 'Smart Attendance'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Cơ bản' : 'Basic'}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Nâng cao' : 'Advanced'}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Tùy biến cao' : 'Highly Custom'}</span></td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Kiểm soát cổng ra vào (Gate Access Control)' : 'Gate Access Control'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Quản lý thiết bị đa điểm' : 'Multi-site Device Management'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Cơ bản' : 'Basic'}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Nâng cao' : 'Advanced'}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Tập trung' : 'Centralized'}</span></td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Quản lý ca kíp phức tạp' : 'Complex shifts & schedules'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
+                </tr>
+
+                {/* Group 3 */}
+                <tr className="bg-slate-50/50 dark:bg-zinc-950/20">
+                  <td colSpan={4} className="py-3 px-6 text-xs font-bold text-slate-500 dark:text-zinc-400 tracking-wider uppercase">
+                    {vi ? 'Các phân hệ mở rộng' : 'Expansion Modules'}
+                  </td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Nhà thầu & Khách (Contractors & Visitors)' : 'Contractors & Visitors'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Cơ bản' : 'Basic'}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Chuyên sâu' : 'Advanced'}</span></td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Tài sản CNTT (IT Asset Management)' : 'IT Asset Management'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Cơ bản' : 'Basic'}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Nâng cao' : 'Advanced'}</span></td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Phân hệ Cân xe / Trạm cân (Weighbridge)' : 'Weighbridge integration'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Ứng dụng di động (Mobile App)' : 'Mobile App'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Chỉ xem' : 'View only'}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">Pro (GPS/Wifi)</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Tùy biến thương hiệu' : 'Custom Brand'}</span></td>
+                </tr>
+
+                {/* Group 4 */}
+                <tr className="bg-slate-50/50 dark:bg-zinc-950/20">
+                  <td colSpan={4} className="py-3 px-6 text-xs font-bold text-slate-500 dark:text-zinc-400 tracking-wider uppercase">
+                    {vi ? 'Báo cáo & Tích hợp' : 'Reports & Integrations'}
+                  </td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Báo cáo & Phân tích (Reports)' : 'Reports & Analytics'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Cơ bản' : 'Basic'}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Nâng cao' : 'Advanced'}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'BI tự thiết kế' : 'Custom BI'}</span></td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Tích hợp ERP bên thứ 3' : '3rd party ERP Integration'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
+                </tr>
+                <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
+                  <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Phương thức triển khai' : 'Deployment Method'}</td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">Self-Host</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">Self-Host</span></td>
+                  <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Mua đứt vĩnh viễn' : 'Perpetual'}</span></td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
         </div>
-
-        <div className="hidden lg:block overflow-hidden rounded-2xl border border-slate-200 dark:border-zinc-800 shadow-sm bg-white dark:bg-zinc-900">
-          <table className="w-full table-fixed border-collapse">
-            <thead>
-              <tr className="border-b border-slate-200 bg-slate-50 dark:bg-zinc-950/50 dark:border-zinc-800">
-                <th className="w-[34%] py-5 px-6 text-left text-sm font-bold text-slate-900 dark:text-white">
-                  {vi ? 'TÍNH NĂNG & PHÂN HỆ' : 'FEATURE & MODULE'}
-                </th>
-                <th className="w-[22%] py-5 px-6 text-center text-sm font-bold text-slate-600 dark:text-zinc-400">Standard</th>
-                <th className="w-[22%] py-5 px-6 text-center text-sm font-bold text-blue-700 dark:text-blue-400 relative bg-blue-50/20">
-                  Professional
-                  <span className="absolute top-1 left-1/2 -translate-x-1/2 rounded-full bg-blue-100 dark:bg-blue-900/50 px-2.5 py-0.5 text-[10px] font-semibold text-blue-800 dark:text-blue-300">
-                    {vi ? 'Phổ biến' : 'Popular'}
-                  </span>
-                </th>
-                <th className="w-[22%] py-5 px-6 text-center text-sm font-bold text-slate-900 dark:text-white">Enterprise</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-zinc-800">
-              
-              {/* Group 1 */}
-              <tr className="bg-slate-50/50 dark:bg-zinc-950/20">
-                <td colSpan={4} className="py-3 px-6 text-xs font-bold text-slate-500 dark:text-zinc-400 tracking-wider uppercase">
-                  {vi ? 'Quy mô & Thiết bị' : 'Scale & Devices'}
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Số lượng nhân viên tối đa' : 'Max employees'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">50</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">500</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Không giới hạn' : 'Unlimited'}</span></td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Số lượng thiết bị tối đa' : 'Max active devices'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">2</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">10</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Không giới hạn' : 'Unlimited'}</span></td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Số lượng chi nhánh/địa điểm' : 'Max branches/sites'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">1</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">10</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Không giới hạn' : 'Unlimited'}</span></td>
-              </tr>
-
-              {/* Group 2 */}
-              <tr className="bg-slate-50/50 dark:bg-zinc-950/20">
-                <td colSpan={4} className="py-3 px-6 text-xs font-bold text-slate-500 dark:text-zinc-400 tracking-wider uppercase">
-                  {vi ? 'Phân hệ Chấm công & Kiểm soát' : 'Attendance & Access Control'}
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Chấm công thông minh (Smart Attendance)' : 'Smart Attendance'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Cơ bản' : 'Basic'}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Nâng cao' : 'Advanced'}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Tùy biến cao' : 'Highly Custom'}</span></td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Kiểm soát cổng ra vào (Gate Access Control)' : 'Gate Access Control'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Quản lý thiết bị đa điểm' : 'Multi-site Device Management'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Cơ bản' : 'Basic'}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Nâng cao' : 'Advanced'}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Tập trung' : 'Centralized'}</span></td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Quản lý ca kíp phức tạp' : 'Complex shifts & schedules'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
-              </tr>
-
-              {/* Group 3 */}
-              <tr className="bg-slate-50/50 dark:bg-zinc-950/20">
-                <td colSpan={4} className="py-3 px-6 text-xs font-bold text-slate-500 dark:text-zinc-400 tracking-wider uppercase">
-                  {vi ? 'Các phân hệ mở rộng' : 'Expansion Modules'}
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Nhà thầu & Khách (Contractors & Visitors)' : 'Contractors & Visitors'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Cơ bản' : 'Basic'}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Chuyên sâu' : 'Advanced'}</span></td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Tài sản CNTT (IT Asset Management)' : 'IT Asset Management'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Cơ bản' : 'Basic'}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Nâng cao' : 'Advanced'}</span></td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Phân hệ Cân xe / Trạm cân (Weighbridge)' : 'Weighbridge integration'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Ứng dụng di động (Mobile App)' : 'Mobile App'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Chỉ xem' : 'View only'}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">Pro (GPS/Wifi)</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Tùy biến thương hiệu' : 'Custom Brand'}</span></td>
-              </tr>
-
-              {/* Group 4 */}
-              <tr className="bg-slate-50/50 dark:bg-zinc-950/20">
-                <td colSpan={4} className="py-3 px-6 text-xs font-bold text-slate-500 dark:text-zinc-400 tracking-wider uppercase">
-                  {vi ? 'Báo cáo & Tích hợp' : 'Reports & Integrations'}
-                </td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Báo cáo & Phân tích (Reports)' : 'Reports & Analytics'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Cơ bản' : 'Basic'}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Nâng cao' : 'Advanced'}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'BI tự thiết kế' : 'Custom BI'}</span></td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Tích hợp ERP bên thứ 3' : '3rd party ERP Integration'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="inline-flex justify-center p-1">{crossIcon}</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="inline-flex justify-center p-1">{checkIcon}</span></td>
-              </tr>
-              <tr className="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors duration-150">
-                <td className="py-4 px-6 text-sm font-medium text-slate-900 dark:text-zinc-200">{vi ? 'Phương thức triển khai' : 'Deployment Method'}</td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">Self-Host</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500 bg-blue-50/10"><span className="font-semibold text-slate-900 dark:text-white">Self-Host</span></td>
-                <td className="py-4 px-6 text-center text-sm text-slate-500"><span className="font-semibold text-slate-900 dark:text-white">{vi ? 'Mua đứt vĩnh viễn' : 'Perpetual'}</span></td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-      </div>
+      )}
       
     </div>
   );
