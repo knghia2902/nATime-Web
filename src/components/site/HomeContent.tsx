@@ -25,9 +25,9 @@ export default function HomeContent({ locale }: { locale: 'vi' | 'en' }) {
 
   return (
     <PublicShell locale={locale}>
-      <section className="relative isolate overflow-hidden border-b border-slate-200 bg-[linear-gradient(135deg,#f8fafc_0%,#eff6ff_46%,#ffffff_100%)]">
-        <div className="pointer-events-none absolute inset-0 -z-10 opacity-60" aria-hidden="true"><div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-blue-200/50 blur-3xl" /><div className="absolute -bottom-48 left-1/4 h-96 w-96 rounded-full bg-indigo-100/70 blur-3xl" /></div>
-        <div className="mx-auto grid max-w-[1200px] items-center gap-14 px-4 py-16 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:py-24 xl:gap-20">
+      <section className="relative isolate overflow-hidden border-b border-slate-200 bg-[radial-gradient(circle_at_78%_8%,rgba(191,219,254,.72),transparent_32%),radial-gradient(circle_at_16%_84%,rgba(224,231,255,.8),transparent_30%),linear-gradient(135deg,#ffffff_0%,#f8fafc_48%,#eff6ff_100%)]">
+        <div className="pointer-events-none absolute inset-0 -z-10 opacity-70 [background-image:linear-gradient(rgba(37,99,235,.045)_1px,transparent_1px),linear-gradient(90deg,rgba(37,99,235,.045)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" aria-hidden="true" />
+        <div className="mx-auto grid min-h-[700px] max-w-7xl items-center gap-14 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24 xl:gap-20">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/80 px-3 py-1.5 text-xs font-bold text-blue-800 shadow-sm"><span className="h-2 w-2 rounded-full bg-emerald-500" />nATime for Windows</div>
             <h1 className="mt-6 max-w-2xl text-4xl font-black tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-[3.7rem] lg:leading-[1.08]">{vi ? 'Chấm công rõ ràng. Vận hành chủ động.' : 'Clear attendance. Controlled operations.'}</h1>
@@ -35,7 +35,7 @@ export default function HomeContent({ locale }: { locale: 'vi' | 'en' }) {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Link href="/register?trial=standard" className="rounded-lg bg-blue-700 px-6 py-3.5 text-center text-sm font-bold text-white shadow-lg shadow-blue-700/20 transition hover:-translate-y-0.5 hover:bg-blue-800">{vi ? 'Dùng thử Standard 7 ngày' : 'Start a 7-day Standard trial'}</Link><Link href={`${prefix}/features`} className="rounded-lg border border-slate-300 bg-white px-6 py-3.5 text-center text-sm font-bold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-400">{vi ? 'Khám phá tính năng' : 'Explore features'}</Link></div>
             <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-xs font-semibold text-slate-500"><span>✓ Windows x64</span><span>✓ {vi ? 'Trial không cần thẻ' : 'No card for trial'}</span><span>✓ {vi ? 'License theo máy' : 'Machine-bound license'}</span></div>
           </div>
-          <div className="relative"><div className="absolute -inset-5 -z-10 rotate-2 rounded-[2rem] bg-blue-700/8" aria-hidden="true" /><ProductPreview kind="overview" /></div>
+          <div className="relative lg:translate-x-3"><div className="absolute -inset-7 -z-10 rotate-2 rounded-[2.25rem] border border-blue-200/50 bg-gradient-to-br from-blue-200/30 to-indigo-200/20 shadow-2xl shadow-blue-900/10" aria-hidden="true" /><div className="absolute -bottom-10 -left-10 -z-10 h-40 w-40 rounded-full bg-indigo-300/30 blur-3xl" aria-hidden="true" /><ProductPreview kind="overview" /></div>
         </div>
       </section>
 
