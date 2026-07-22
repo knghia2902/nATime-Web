@@ -34,7 +34,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === 'vi' || stored === 'en') {
-      setLocaleState(stored);
+      queueMicrotask(() => setLocaleState(stored));
     }
   }, []);
 

@@ -16,11 +16,6 @@ export interface AuthUser {
   name: string;
   company: string;
   isMock: boolean;
-  avatar?: string;
-  supportTier?: string;
-  daysRemaining?: number;
-  activeLicenses?: number;
-  openTickets?: number;
 }
 
 interface AuthContextType {
@@ -56,11 +51,6 @@ interface MockDBUser {
   password?: string;
   name: string;
   company: string;
-  avatar?: string;
-  supportTier?: string;
-  daysRemaining?: number;
-  activeLicenses?: number;
-  openTickets?: number;
 }
 
 function authenticationError(error: unknown): Error {
@@ -112,11 +102,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       name: sbUser.user_metadata?.name || sbUser.user_metadata?.full_name || '',
       company: sbUser.user_metadata?.company || '',
       isMock: false,
-      avatar: sbUser.user_metadata?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80',
-      supportTier: sbUser.user_metadata?.supportTier,
-      daysRemaining: sbUser.user_metadata?.daysRemaining ?? 0,
-      activeLicenses: sbUser.user_metadata?.activeLicenses ?? 0,
-      openTickets: sbUser.user_metadata?.openTickets ?? 0,
     };
   };
 
@@ -185,7 +170,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                    storedHash.includes('access_token='))) {
                 sessionStorage.removeItem('natime-auth-hash');
                 sessionStorage.setItem('natime-auth-redirect-success', 'true');
-                window.location.href = '/dashboard';
+                window.location.href = '/portal';
               }
             }
           } else {
@@ -230,11 +215,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           name: found.name,
           company: found.company,
           isMock: true,
-          avatar: found.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80',
-          supportTier: found.supportTier,
-          daysRemaining: found.daysRemaining ?? 0,
-          activeLicenses: found.activeLicenses ?? 0,
-          openTickets: found.openTickets ?? 0,
         };
 
         if (typeof window !== 'undefined') {
@@ -287,11 +267,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           password,
           name,
           company,
-          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80',
-          supportTier: 'Development',
-          daysRemaining: 0,
-          activeLicenses: 0,
-          openTickets: 0,
         };
 
         db.push(newMockUser);
@@ -303,11 +278,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           name: newMockUser.name,
           company: newMockUser.company,
           isMock: true,
-          avatar: newMockUser.avatar,
-          supportTier: newMockUser.supportTier,
-          daysRemaining: newMockUser.daysRemaining,
-          activeLicenses: newMockUser.activeLicenses,
-          openTickets: newMockUser.openTickets,
         };
 
         if (typeof window !== 'undefined') {
@@ -323,14 +293,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             data: {
               name,
               company,
-              avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80',
             },
           },
         });
 
         if (error) return { error };
-        if (data.user) {
-          setUser(mapSupabaseUser(data.user));
+        if (data.session?.user) {
+          setUser(mapSupabaseUser(data.session.user));
         }
         return { error: null };
       }
@@ -429,6 +398,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         if (error) return { error };
         if (data.user) {
+          const { error: profileError } = await supabase!
+            .from('portal_profiles')
+            .upsert({ user_id: data.user.id, display_name: name, organization_name: company });
+          if (profileError) return { error: profileError };
           setUser(mapSupabaseUser(data.user));
         }
         return { error: null };

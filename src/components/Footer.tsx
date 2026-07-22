@@ -119,13 +119,13 @@ export default function Footer() {
           {/* Column 1: Brand */}
           <div className="space-y-6 md:col-span-2 lg:col-span-1">
             {/* Logo */}
-            <a href="/" className="group inline-flex items-center select-none">
+            <Link href="/" className="group inline-flex items-center select-none">
               <img
                 src="/logo.png"
                 alt="nATime Logo"
                 className="h-8 w-auto object-contain brightness-0 invert transition-transform duration-300 group-hover:scale-[1.03]"
               />
-            </a>
+            </Link>
 
             {/* Description */}
             <p className="max-w-xs text-sm leading-6 text-slate-400">

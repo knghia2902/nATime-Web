@@ -1,0 +1,70 @@
+name: Verify Windows release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_id:
+        required: true
+        type: string
+      artifact_id:
+        required: true
+        type: string
+      expected_version:
+        required: true
+        type: string
+      expected_size:
+        required: true
+        type: string
+      download_url:
+        required: true
+        type: string
+      callback_url:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - name: Download and verify Authenticode
+        shell: pwsh
+        env:
+          RELEASE_ID: ${{ inputs.release_id }}
+          ARTIFACT_ID: ${{ inputs.artifact_id }}
+          EXPECTED_VERSION: ${{ inputs.expected_version }}
+          EXPECTED_SIZE: ${{ inputs.expected_size }}
+          DOWNLOAD_URL: ${{ inputs.download_url }}
+          CALLBACK_URL: ${{ inputs.callback_url }}
+          CALLBACK_SECRET: ${{ secrets.NATIME_RELEASE_CALLBACK_SECRET }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $installer = Join-Path $env:RUNNER_TEMP 'natime-installer.exe'
+          Invoke-WebRequest -Uri $env:DOWNLOAD_URL -OutFile $installer
+          $item = Get-Item -LiteralPath $installer
+          $hash = (Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant()
+          $signature = Get-AuthenticodeSignature -LiteralPath $installer
+          $thumbprint = if ($signature.SignerCertificate) { $signature.SignerCertificate.Thumbprint } else { '' }
+          $productVersion = $item.VersionInfo.ProductVersion
+          $versionMatches = $productVersion -and $productVersion.StartsWith($env:EXPECTED_VERSION)
+          $sizeMatches = $item.Length -eq [int64]$env:EXPECTED_SIZE
+          $valid = $signature.Status -eq 'Valid' -and $versionMatches -and $sizeMatches
+          $payload = [ordered]@{
+            releaseId = $env:RELEASE_ID
+            artifactId = $env:ARTIFACT_ID
+            sha256 = $hash
+            signatureStatus = if ($valid) { 'valid' } else { 'invalid' }
+            signerThumbprint = $thumbprint
+            productVersion = $productVersion
+            sizeBytes = $item.Length
+          } | ConvertTo-Json -Compress
+          $hmac = [System.Security.Cryptography.HMACSHA256]::new([Text.Encoding]::UTF8.GetBytes($env:CALLBACK_SECRET))
+          try {
+            $signatureHex = [Convert]::ToHexString($hmac.ComputeHash([Text.Encoding]::UTF8.GetBytes($payload))).ToLowerInvariant()
+          } finally {
+            $hmac.Dispose()
+          }
+          Invoke-RestMethod -Method Post -Uri $env:CALLBACK_URL -ContentType 'application/json' -Headers @{ 'x-natime-signature' = $signatureHex } -Body $payload

@@ -11,82 +11,40 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'nATime — Giải pháp Chấm công & Kiểm soát Ra vào Thông minh',
+  metadataBase: new URL('https://natime.vn'),
+  title: {
+    default: 'nATime — Phần mềm chấm công cho doanh nghiệp',
+    template: '%s | nATime',
+  },
   description:
-    'nATime cung cấp giải pháp toàn diện cho chấm công thông minh, kiểm soát cổng ra vào, quản lý thiết bị, nhà thầu & khách, cân xe, tài sản CNTT với báo cáo phân tích real-time. Smart Time Attendance & Access Control Solution.',
-  keywords: [
-    'chấm công',
-    'kiểm soát ra vào',
-    'access control',
-    'time attendance',
-    'nATime',
-    'quản lý nhân sự',
-    'smart attendance',
-    'gate access',
-  ],
+    'Phần mềm chấm công và quản lý thiết bị dành cho doanh nghiệp, cài đặt trên Windows và kích hoạt bằng bản quyền nATime.',
+  keywords: ['chấm công', 'kiểm soát ra vào', 'time attendance', 'nATime', 'quản lý nhân sự'],
   authors: [{ name: 'nATime' }],
   creator: 'nATime',
+  alternates: { canonical: '/', languages: { vi: '/', en: '/en' } },
   openGraph: {
     type: 'website',
     locale: 'vi_VN',
     alternateLocale: 'en_US',
     url: 'https://natime.vn',
     siteName: 'nATime',
-    title: 'nATime — Smart Time Attendance & Access Control Solution',
-    description:
-      'Giải pháp toàn diện cho chấm công thông minh, kiểm soát cổng ra vào, quản lý thiết bị và phân tích dữ liệu real-time.',
-    images: [
-      {
-        url: 'https://natime.vn/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'nATime — Smart Time Attendance & Access Control',
-      },
-    ],
+    title: 'nATime — Phần mềm chấm công cho doanh nghiệp',
+    description: 'Cài đặt trên Windows, quản lý chấm công và thiết bị trong một hệ thống.',
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'nATime — Smart Time Attendance & Access Control Solution',
-    description:
-      'Giải pháp toàn diện cho chấm công thông minh, kiểm soát cổng ra vào, quản lý thiết bị và phân tích dữ liệu real-time.',
-    images: ['https://natime.vn/og-image.png'],
+    card: 'summary',
+    title: 'nATime — Phần mềm chấm công cho doanh nghiệp',
+    description: 'Cài đặt trên Windows, quản lý chấm công và thiết bị trong một hệ thống.',
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="vi" className={inter.variable} suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('theme');
-                  if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className="font-sans antialiased min-h-screen bg-background text-foreground">
+    <html lang="vi" className={inter.variable}>
+      <body className="min-h-screen bg-white font-sans text-slate-950 antialiased">
         <LanguageProvider>
-          <AuthProvider>
-            {children}
-          </AuthProvider>
+          <AuthProvider>{children}</AuthProvider>
         </LanguageProvider>
       </body>
     </html>

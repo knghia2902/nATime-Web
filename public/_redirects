@@ -1,0 +1,4 @@
+/dashboard /portal 301
+/dashboard/* /portal/:splat 301
+/blog /changelog 301
+/en/blog /en/changelog 301
