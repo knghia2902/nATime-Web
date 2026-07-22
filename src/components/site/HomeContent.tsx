@@ -25,17 +25,59 @@ export default function HomeContent({ locale }: { locale: 'vi' | 'en' }) {
 
   return (
     <PublicShell locale={locale}>
-      <section className="relative isolate overflow-hidden border-b border-slate-200 bg-[radial-gradient(circle_at_78%_8%,rgba(191,219,254,.72),transparent_32%),radial-gradient(circle_at_16%_84%,rgba(224,231,255,.8),transparent_30%),linear-gradient(135deg,#ffffff_0%,#f8fafc_48%,#eff6ff_100%)]">
-        <div className="pointer-events-none absolute inset-0 -z-10 opacity-70 [background-image:linear-gradient(rgba(37,99,235,.045)_1px,transparent_1px),linear-gradient(90deg,rgba(37,99,235,.045)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" aria-hidden="true" />
-        <div className="mx-auto grid min-h-[700px] max-w-7xl items-center gap-14 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24 xl:gap-20">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/80 px-3 py-1.5 text-xs font-bold text-blue-800 shadow-sm"><span className="h-2 w-2 rounded-full bg-emerald-500" />nATime for Windows</div>
-            <h1 className="mt-6 max-w-2xl text-4xl font-black tracking-[-0.035em] text-slate-950 sm:text-5xl lg:text-[3.7rem] lg:leading-[1.08]">{vi ? 'Chấm công rõ ràng. Vận hành chủ động.' : 'Clear attendance. Controlled operations.'}</h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">{vi ? 'Một hệ thống cài đặt trên Windows để doanh nghiệp quản lý chấm công, thiết bị và quyền sử dụng phần mềm theo đúng nhu cầu.' : 'A Windows-installed system for businesses to manage attendance, devices and software access based on actual needs.'}</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row"><Link href="/register?trial=standard" className="rounded-lg bg-blue-700 px-6 py-3.5 text-center text-sm font-bold text-white shadow-lg shadow-blue-700/20 transition hover:-translate-y-0.5 hover:bg-blue-800">{vi ? 'Dùng thử Standard 7 ngày' : 'Start a 7-day Standard trial'}</Link><Link href={`${prefix}/features`} className="rounded-lg border border-slate-300 bg-white px-6 py-3.5 text-center text-sm font-bold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-400">{vi ? 'Khám phá tính năng' : 'Explore features'}</Link></div>
-            <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-xs font-semibold text-slate-500"><span>✓ Windows x64</span><span>✓ {vi ? 'Trial không cần thẻ' : 'No card for trial'}</span><span>✓ {vi ? 'License theo máy' : 'Machine-bound license'}</span></div>
+      <section className="relative flex min-h-[calc(100vh-4rem)] flex-col justify-center overflow-hidden bg-slate-50">
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          <div className="absolute -top-40 left-1/2 h-[700px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,.32)_0%,transparent_70%)] opacity-30 blur-3xl" />
+          <div className="absolute bottom-0 right-0 h-[400px] w-[500px] translate-x-1/4 translate-y-1/4 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(139,92,246,.36)_0%,transparent_70%)] opacity-20 blur-3xl" />
+          <div className="absolute inset-0 opacity-[0.025] [background-image:linear-gradient(rgba(79,70,229,1)_1px,transparent_1px),linear-gradient(90deg,rgba(79,70,229,1)_1px,transparent_1px)] [background-size:72px_72px]" />
+        </div>
+
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-20 pt-24 sm:px-6 md:pb-24 md:pt-28 lg:px-8">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            <div className="flex flex-col items-start">
+              <h1 className="mb-5">
+                <span className="mb-3 block text-5xl font-black leading-[1.05] tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">nATime</span>
+                <span className="block text-2xl font-extrabold leading-snug tracking-tight sm:text-3xl lg:text-[2rem]">
+                  <span className="text-slate-700">{vi ? 'Giải pháp Chấm công' : 'Time Attendance'}</span>
+                  <br />
+                  <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-600 bg-clip-text text-transparent">{vi ? '& Quản lý Thiết bị cho Doanh nghiệp' : '& Business Device Management'}</span>
+                </span>
+              </h1>
+
+              <p className="mb-9 max-w-xl text-base leading-relaxed text-slate-500 sm:text-lg">{vi ? 'Hệ thống cài đặt trên Windows giúp doanh nghiệp quản lý chấm công, máy chấm công và quyền sử dụng phần mềm trong cùng một quy trình.' : 'A Windows-installed system for managing attendance, attendance devices and software access in one operational flow.'}</p>
+
+              <div className="mb-12 flex w-full flex-col items-start gap-3 sm:w-auto sm:flex-row sm:items-center">
+                <Link href="/register?trial=standard" className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-blue-700 px-7 text-sm font-bold text-white shadow-lg shadow-blue-700/25 transition hover:-translate-y-0.5 hover:bg-blue-800 hover:shadow-xl sm:w-auto">{vi ? 'Dùng thử miễn phí' : 'Start free trial'}<span aria-hidden="true">→</span></Link>
+                <Link href={`${prefix}/contact`} className="inline-flex h-12 w-full items-center justify-center rounded-xl border border-slate-200 bg-white/85 px-7 text-sm font-semibold text-slate-800 transition hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50/50 sm:w-auto">{vi ? 'Liên hệ tư vấn' : 'Contact sales'}</Link>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500">
+                <span className="rounded-full border border-slate-200 bg-white/60 px-3 py-1.5">✓ Windows x64</span>
+                <span className="rounded-full border border-slate-200 bg-white/60 px-3 py-1.5">✓ {vi ? 'Trial Standard 7 ngày' : '7-day Standard trial'}</span>
+                <span className="rounded-full border border-slate-200 bg-white/60 px-3 py-1.5">✓ {vi ? 'License theo máy' : 'Machine-bound license'}</span>
+              </div>
+            </div>
+
+            <div className="relative flex items-center justify-center lg:justify-end">
+              <div className="absolute inset-0 -z-10 rounded-2xl bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,.25)_0%,transparent_70%)] opacity-40 blur-2xl" />
+              <div className="relative w-full max-w-xl overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_20px_80px_-10px_rgba(15,23,42,.20)] transition duration-700 hover:-translate-y-1 lg:max-w-none">
+                <div className="flex select-none items-center justify-between border-b border-slate-200 bg-slate-100/90 px-4 py-3">
+                  <div className="flex shrink-0 items-center gap-1.5"><span className="h-3 w-3 rounded-full bg-red-400/80" /><span className="h-3 w-3 rounded-full bg-yellow-400/80" /><span className="h-3 w-3 rounded-full bg-green-400/80" /></div>
+                  <div className="flex w-full max-w-[240px] items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-1 font-mono text-[11px] text-slate-500"><span className="text-emerald-600" aria-hidden="true">●</span><span className="truncate">nATime · Windows</span></div>
+                  <div className="w-10 shrink-0" />
+                </div>
+                <div className="relative overflow-hidden bg-slate-950">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/screenshots/dashboard.png" alt={vi ? 'Giao diện quản trị nATime' : 'nATime administration interface'} className="h-auto w-full select-none object-cover" />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-slate-50/35 to-transparent" />
+                </div>
+              </div>
+              <div className="absolute -bottom-5 -left-3 hidden items-center gap-3 rounded-xl border border-slate-200/80 bg-white/90 px-4 py-3 text-xs shadow-xl backdrop-blur-xl sm:flex">
+                <span className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-50 text-emerald-600">✓</span>
+                <div><p className="text-[10px] text-slate-500">{vi ? 'Phát hành' : 'Release'}</p><p className="font-bold text-slate-800">{vi ? 'Bộ cài Windows đã xác minh' : 'Verified Windows installer'}</p></div>
+              </div>
+            </div>
           </div>
-          <div className="relative lg:translate-x-3"><div className="absolute -inset-7 -z-10 rotate-2 rounded-[2.25rem] border border-blue-200/50 bg-gradient-to-br from-blue-200/30 to-indigo-200/20 shadow-2xl shadow-blue-900/10" aria-hidden="true" /><div className="absolute -bottom-10 -left-10 -z-10 h-40 w-40 rounded-full bg-indigo-300/30 blur-3xl" aria-hidden="true" /><ProductPreview kind="overview" /></div>
         </div>
       </section>
 
