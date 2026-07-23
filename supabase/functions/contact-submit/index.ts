@@ -50,6 +50,11 @@ Deno.serve(async (request) => {
     if (saveError || !saved) throw new Error('CONTACT_SAVE_FAILED');
 
     let emailNotified = false;
+    const smtpPass = Deno.env.get('NATIME_SMTP_PASS');
+    const smtpHost = Deno.env.get('NATIME_SMTP_HOST') ?? 'mail92227.maychuemail.com';
+    const smtpPort = parseInt(Deno.env.get('NATIME_SMTP_PORT') ?? '465', 10);
+    const smtpUser = Deno.env.get('NATIME_SMTP_USER') ?? 'support@natime.vn';
+
     if (resendApiKey) {
       try {
         const mail = await fetch('https://api.resend.com/emails', {
@@ -59,6 +64,29 @@ Deno.serve(async (request) => {
         });
         emailNotified = mail.ok;
       } catch {
+        emailNotified = false;
+      }
+    } else if (smtpPass) {
+      try {
+        const nodemailer = await import('npm:nodemailer@6.9.16');
+        const transporter = nodemailer.createTransport({
+          host: smtpHost,
+          port: smtpPort,
+          secure: smtpPort === 465,
+          auth: { user: smtpUser, pass: smtpPass },
+          tls: { rejectUnauthorized: false }
+        });
+
+        await transporter.sendMail({
+          from: `"nATime Website" <${smtpUser}>`,
+          to: supportEmail,
+          replyTo: email,
+          subject: `[nATime Liên Hệ] ${kind.toUpperCase()}: ${name}`,
+          text: `Yêu cầu hỗ trợ mới từ Website nATime:\n\nMã yêu cầu: ${saved.id}\nHọ và tên: ${name}\nEmail khách hàng: ${email}\nĐơn vị/Công ty: ${company ?? '-'}\nPhân loại: ${kind}\n\nNội dung:\n${message}`
+        });
+        emailNotified = true;
+      } catch (err) {
+        console.error('SMTP Send Error:', err);
         emailNotified = false;
       }
     }
