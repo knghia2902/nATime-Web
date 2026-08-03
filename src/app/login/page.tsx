@@ -14,17 +14,15 @@ export default function LoginPage() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
 
-  const [activeTab, setActiveTab] = useState<'portal' | 'admin'>('portal');
-
   const destination = () => {
-    if (typeof window === 'undefined') return activeTab === 'admin' ? '/admin' : '/portal';
+    if (typeof window === 'undefined') return '/portal';
     const requested = new URLSearchParams(window.location.search).get('redirect');
-    return requested?.startsWith('/') && !requested.startsWith('//') ? requested : (activeTab === 'admin' ? '/admin' : '/portal');
+    return requested?.startsWith('/') && !requested.startsWith('//') ? requested : '/portal';
   };
 
   useEffect(() => {
     if (user) router.replace(destination());
-  }, [router, user, activeTab]);
+  }, [router, user]);
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -38,40 +36,66 @@ export default function LoginPage() {
 
   return (
     <AuthFrame
-      title={activeTab === 'admin' ? 'Đăng nhập Quản trị' : 'Đăng nhập Khách hàng'}
-      description={activeTab === 'admin' ? 'Truy cập Cổng Quản trị Super Admin để cấp duyệt license, đơn hàng và phát hành bộ cài.' : 'Truy cập Cổng Khách hàng để quản lý license, thiết bị, đơn hàng và bộ cài Windows.'}
+      title="Đăng nhập natime.vn"
+      description="Đăng nhập tài khoản để quản lý license, thiết bị, đơn hàng và bộ cài Windows."
     >
-      <div className="mb-6 flex rounded-lg bg-slate-100 p-1">
-        <button
-          type="button"
-          onClick={() => setActiveTab('portal')}
-          className={`flex-1 rounded-md py-2 text-xs font-semibold transition ${activeTab === 'portal' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
-        >
-          Cổng Khách hàng (Portal)
-        </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab('admin')}
-          className={`flex-1 rounded-md py-2 text-xs font-semibold transition ${activeTab === 'admin' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
-        >
-          Cổng Quản trị (Super Admin)
-        </button>
-      </div>
+      <form onSubmit={submit} className="space-y-4">
+        <label className="block text-sm font-semibold text-slate-800">
+          Email đăng nhập
+          <input
+            required
+            type="email"
+            autoComplete="email"
+            placeholder="nhanvien@congty.com"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            className="mt-1.5 w-full rounded-lg border border-slate-300 px-3.5 py-2.5 font-normal text-sm outline-none transition focus:border-blue-700 focus:ring-2 focus:ring-blue-100"
+          />
+        </label>
 
-      <form onSubmit={submit} className="space-y-5">
-        <label className="block text-sm font-semibold">Email
-          <input required type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2.5 font-normal outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-100" />
+        <label className="block text-sm font-semibold text-slate-800">
+          Mật khẩu
+          <input
+            required
+            type="password"
+            autoComplete="current-password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            className="mt-1.5 w-full rounded-lg border border-slate-300 px-3.5 py-2.5 font-normal text-sm outline-none transition focus:border-blue-700 focus:ring-2 focus:ring-blue-100"
+          />
         </label>
-        <label className="block text-sm font-semibold">Mật khẩu
-          <input required type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2.5 font-normal outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-100" />
-        </label>
-        <div className="flex justify-end"><Link href="/reset-password" className="text-sm font-semibold text-blue-700 hover:underline">Quên mật khẩu?</Link></div>
-        <button disabled={busy} className="w-full rounded-md bg-blue-700 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-800 disabled:opacity-60">
-          {busy ? 'Đang đăng nhập…' : activeTab === 'admin' ? 'Đăng nhập Quản trị' : 'Đăng nhập Cổng Khách hàng'}
+
+        <div className="flex items-center justify-between pt-1">
+          <label className="flex items-center gap-2 text-xs font-normal text-slate-600 cursor-pointer">
+            <input type="checkbox" defaultChecked className="rounded border-slate-300 text-blue-700" />
+            Ghi nhớ đăng nhập
+          </label>
+          <Link href="/reset-password" className="text-xs font-semibold text-blue-700 hover:underline">
+            Quên mật khẩu?
+          </Link>
+        </div>
+
+        <button
+          disabled={busy}
+          className="mt-2 w-full rounded-lg bg-blue-700 px-5 py-3 text-sm font-semibold text-white shadow-md shadow-blue-700/20 hover:bg-blue-800 transition disabled:opacity-60"
+        >
+          {busy ? 'Đang đăng nhập…' : 'Đăng nhập'}
         </button>
-        {message && <p role="alert" className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-800">{message}</p>}
+
+        {message && (
+          <p role="alert" className="rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-800">
+            {message}
+          </p>
+        )}
       </form>
-      <p className="mt-6 border-t border-slate-200 pt-5 text-center text-sm text-slate-600">Chưa có tài khoản? <Link href="/register" className="font-semibold text-blue-700 hover:underline">Đăng ký</Link></p>
+
+      <p className="mt-6 border-t border-slate-100 pt-4 text-center text-xs text-slate-600">
+        Chưa có tài khoản?{' '}
+        <Link href="/register" className="font-semibold text-blue-700 hover:underline">
+          Tạo tài khoản mới
+        </Link>
+      </p>
     </AuthFrame>
   );
 }
