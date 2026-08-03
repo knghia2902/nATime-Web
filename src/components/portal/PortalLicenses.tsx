@@ -86,129 +86,254 @@ export default function PortalLicenses() {
 
   return (
     <PortalShell title="License" description="Gói, module, hạn dùng và máy đã kích hoạt.">
-      <form onSubmit={approve} className="rounded-lg border border-slate-200 bg-white p-6">
-        <h2 className="text-lg font-semibold">Liên kết một máy nATime</h2>
-        <p className="mt-2 text-sm text-slate-600">
-          Tạo mã tại Cài đặt → Bản quyền trên máy cần kích hoạt, sau đó nhập mã tại đây.
-        </p>
-
-        {activeLicenses.length === 0 && (
-          <div className="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-            Tài khoản này chưa có gói license đang hoạt động nên chưa thể liên kết máy. Hãy nhận trial tại{' '}
-            <Link href="/portal" className="font-semibold underline">Tổng quan</Link>
-            {' '}hoặc mua gói tại{' '}
-            <Link href="/pricing" className="font-semibold underline">Bảng giá</Link>
-            {' '}trước.
+      <div className="stagger-fade-in space-y-6">
+        <form onSubmit={approve} className="card-elevated p-6 sm:p-8 border-t-4 border-t-indigo-600">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 0121 9z" />
+              </svg>
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-0.5">Liên kết một máy nATime</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                Tạo mã tại Cài đặt → Bản quyền trên máy cần kích hoạt, sau đó nhập mã tại đây.
+              </p>
+            </div>
           </div>
-        )}
 
-        <div className="mt-5 grid gap-4 md:grid-cols-[1fr_1fr_auto]">
-          <label className="text-sm font-semibold">
-            Gói license
-            <select
-              required
-              disabled={activeLicenses.length === 0}
-              value={selected}
-              onChange={(event) => setSelected(event.target.value)}
-              className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 font-normal disabled:bg-slate-100 disabled:text-slate-500"
-            >
-              <option value="">Chọn gói</option>
-              {activeLicenses.map((item) => (
-                <option value={item.id} key={item.id}>
-                  {item.plan_code} · {item.id.slice(0, 8).toUpperCase()}
-                </option>
-              ))}
-            </select>
-          </label>
+          {activeLicenses.length === 0 && (
+            <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50/80 p-4 text-sm text-amber-900 dark:border-amber-800/60 dark:bg-amber-950/40 dark:text-amber-300 flex items-start gap-3">
+              <svg className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <div>
+                Tài khoản này chưa có gói license đang hoạt động nên chưa thể liên kết máy. Hãy nhận trial tại{' '}
+                <Link href="/portal" className="font-semibold underline hover:text-amber-950 dark:hover:text-amber-200">Tổng quan</Link>
+                {' '}hoặc mua gói tại{' '}
+                <Link href="/pricing" className="font-semibold underline hover:text-amber-950 dark:hover:text-amber-200">Bảng giá</Link>
+                {' '}trước.
+              </div>
+            </div>
+          )}
 
-          <label className="text-sm font-semibold">
-            Mã liên kết
-            <input
-              required
-              disabled={activeLicenses.length === 0}
-              value={code}
-              onChange={(event) => setCode(event.target.value.toUpperCase())}
-              maxLength={32}
-              className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2.5 font-mono font-normal uppercase disabled:bg-slate-100 disabled:text-slate-500"
-              placeholder="ABCD-EFGH"
-            />
-          </label>
+          <div className="mt-6 grid gap-5 md:grid-cols-[1fr_1fr_auto]">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">
+                Gói license
+              </label>
+              <div className="relative">
+                <select
+                  required
+                  disabled={activeLicenses.length === 0}
+                  value={selected}
+                  onChange={(event) => setSelected(event.target.value)}
+                  className="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 shadow-xs transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 disabled:bg-slate-100 disabled:text-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:disabled:bg-slate-800 dark:disabled:text-slate-600 appearance-none pr-10"
+                >
+                  <option value="">Chọn gói</option>
+                  {activeLicenses.map((item) => (
+                    <option value={item.id} key={item.id}>
+                      {item.plan_code} · {item.id.slice(0, 8).toUpperCase()}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
 
-          <button
-            disabled={busy || activeLicenses.length === 0}
-            className="self-end rounded-md bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-800 disabled:opacity-60"
-          >
-            {busy ? 'Đang phê duyệt…' : 'Phê duyệt'}
-          </button>
-        </div>
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">
+                Mã liên kết
+              </label>
+              <div className="input-group">
+                <input
+                  required
+                  disabled={activeLicenses.length === 0}
+                  value={code}
+                  onChange={(event) => setCode(event.target.value.toUpperCase())}
+                  maxLength={32}
+                  className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pr-3.5 font-mono text-sm font-semibold tracking-wider text-slate-900 uppercase shadow-xs transition-colors focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 disabled:bg-slate-100 disabled:text-slate-400 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:disabled:bg-slate-800 dark:disabled:text-slate-600 placeholder:normal-case placeholder:font-sans placeholder:tracking-normal placeholder:text-slate-400"
+                  placeholder="ABCD-EFGH"
+                />
+                <svg className="input-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+            </div>
 
-        {message && <p className="mt-4 text-sm text-slate-700">{message}</p>}
-      </form>
-
-      <div className="mt-6 space-y-5">
-        {licenses.length === 0 && (
-          <div className="rounded-lg border border-slate-200 bg-white p-8 text-center text-sm text-slate-600">
-            Tài khoản chưa có license. Bạn cần nhận trial hoặc mua gói trước khi liên kết máy.
+            <div className="flex items-end">
+              <button
+                disabled={busy || activeLicenses.length === 0}
+                className="btn-gradient w-full md:w-auto h-[42px] px-6 text-sm font-semibold tracking-wide"
+              >
+                {busy ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Đang phê duyệt…
+                  </span>
+                ) : (
+                  'Phê duyệt'
+                )}
+              </button>
+            </div>
           </div>
-        )}
 
-        {licenses.map((license) => {
-          const activeDevices = (license.license_installations ?? []).filter((item) => item.status === 'active');
+          {message && (
+            <div className="mt-5 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-4 text-sm text-slate-800 dark:text-slate-200 flex items-center gap-2.5">
+              <svg className="h-5 w-5 text-indigo-600 dark:text-indigo-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{message}</span>
+            </div>
+          )}
+        </form>
 
-          return (
-            <article key={license.id} className="rounded-lg border border-slate-200 bg-white p-6">
-              <div className="flex flex-col justify-between gap-4 sm:flex-row">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-lg font-semibold capitalize">{license.plan_code}</h2>
-                    <span className={`rounded px-2 py-1 text-xs font-semibold ${license.status === 'active' ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-700'}`}>
-                      {license.status}
-                    </span>
-                    {license.origin && <span className="rounded bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-700">{license.origin}</span>}
+        <div className="space-y-6">
+          {licenses.length === 0 && (
+            <div className="card-elevated p-8 text-center text-sm text-slate-600 dark:text-slate-400">
+              Tài khoản chưa có license. Bạn cần nhận trial hoặc mua gói trước khi liên kết máy.
+            </div>
+          )}
+
+          {licenses.map((license) => {
+            const activeDevices = (license.license_installations ?? []).filter((item) => item.status === 'active');
+
+            return (
+              <article key={license.id} className="card-elevated p-6 sm:p-8 mb-6 overflow-hidden relative">
+                <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-start">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <h2 className="text-xl font-bold capitalize text-slate-900 dark:text-slate-100">{license.plan_code}</h2>
+                      <span className={`badge-status ${license.status === 'active' ? 'badge-active' : 'badge-inactive'}`}>
+                        <span className="badge-dot" />
+                        {license.status}
+                      </span>
+                      {license.origin && (
+                        <span className="rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800/80">
+                          {license.origin}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs font-mono font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                      <span className="text-slate-400 dark:text-slate-500">ID:</span>
+                      LIC-{license.id.slice(0, 8).toUpperCase()}
+                    </p>
                   </div>
-                  <p className="mt-2 text-sm text-slate-500">LIC-{license.id.slice(0, 8).toUpperCase()}</p>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                        <svg className="h-4 w-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span>Nhân sự</span>
+                      </div>
+                      <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{license.max_employees}</p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                        <svg className="h-4 w-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span>Thiết bị</span>
+                      </div>
+                      <p className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                        {activeDevices.length}<span className="text-slate-400 font-normal text-sm">/{license.max_devices}</span>
+                      </p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                        <svg className="h-4 w-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>Hết hạn</span>
+                      </div>
+                      <p className="text-sm font-bold text-slate-900 dark:text-slate-100 pt-0.5">
+                        {license.expires_at ? new Intl.DateTimeFormat('vi-VN').format(new Date(license.expires_at)) : 'Không giới hạn'}
+                      </p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                        <svg className="h-4 w-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                        </svg>
+                        <span>Module</span>
+                      </div>
+                      <p className="text-xs font-semibold text-slate-900 dark:text-slate-100 pt-1">
+                        {license.enabled_modules.join(', ') || '—'}
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
-                <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
-                  <div><dt className="text-slate-500">Nhân sự</dt><dd className="font-semibold">{license.max_employees}</dd></div>
-                  <div><dt className="text-slate-500">Thiết bị</dt><dd className="font-semibold">{activeDevices.length}/{license.max_devices}</dd></div>
-                  <div><dt className="text-slate-500">Hết hạn</dt><dd className="font-semibold">{license.expires_at ? new Intl.DateTimeFormat('vi-VN').format(new Date(license.expires_at)) : 'Không giới hạn'}</dd></div>
-                  <div><dt className="text-slate-500">Module</dt><dd className="font-semibold">{license.enabled_modules.join(', ') || '—'}</dd></div>
-                </dl>
-              </div>
-
-              <div className="mt-5 border-t border-slate-200 pt-5">
-                <h3 className="text-sm font-semibold">Máy đã kích hoạt</h3>
-                {activeDevices.length === 0 ? (
-                  <p className="mt-3 text-sm text-slate-500">Chưa có máy nào.</p>
-                ) : (
-                  <div className="mt-3 overflow-x-auto">
-                    <table className="w-full text-left text-sm">
-                      <thead>
-                        <tr className="border-b border-slate-200 text-slate-500">
-                          <th className="py-2 pr-4">Tên máy</th>
-                          <th className="py-2 pr-4">Hardware ID</th>
-                          <th className="py-2 pr-4">Kích hoạt</th>
-                          <th className="py-2">Xác minh gần nhất</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {activeDevices.map((device) => (
-                          <tr key={device.id} className="border-b border-slate-100">
-                            <td className="py-3 pr-4 font-medium">{device.display_name || 'Máy nATime'}</td>
-                            <td className="py-3 pr-4 font-mono text-xs">{device.hardware_id_hash.slice(0, 12)}…{device.hardware_id_hash.slice(-8)}</td>
-                            <td className="py-3 pr-4">{new Intl.DateTimeFormat('vi-VN').format(new Date(device.activated_at))}</td>
-                            <td className="py-3">{device.last_validated_at ? new Intl.DateTimeFormat('vi-VN').format(new Date(device.last_validated_at)) : '—'}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                <div className="mt-6 border-t border-slate-200/80 dark:border-slate-800 pt-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                      <svg className="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      Máy đã kích hoạt ({activeDevices.length})
+                    </h3>
                   </div>
-                )}
-              </div>
-            </article>
-          );
-        })}
+
+                  {activeDevices.length === 0 ? (
+                    <p className="text-sm text-slate-500 dark:text-slate-400 italic bg-slate-50 dark:bg-slate-900/40 p-4 rounded-lg border border-dashed border-slate-200 dark:border-slate-800">
+                      Chưa có máy nào.
+                    </p>
+                  ) : (
+                    <div className="overflow-x-auto rounded-lg border border-slate-200/80 dark:border-slate-800">
+                      <table className="table-enhanced">
+                        <thead>
+                          <tr>
+                            <th>Tên máy</th>
+                            <th>Hardware ID</th>
+                            <th>Kích hoạt</th>
+                            <th>Xác minh gần nhất</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {activeDevices.map((device) => (
+                            <tr key={device.id}>
+                              <td className="font-semibold text-slate-900 dark:text-slate-100">
+                                <div className="flex items-center gap-2">
+                                  <span className="badge-status badge-active p-0 bg-transparent">
+                                    <span className="badge-dot" />
+                                  </span>
+                                  <span>{device.display_name || 'Máy nATime'}</span>
+                                </div>
+                              </td>
+                              <td>
+                                <code className="font-mono text-xs text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/80 px-2 py-1 rounded border border-slate-200/60 dark:border-slate-700/60 select-all">
+                                  {device.hardware_id_hash.slice(0, 12)}…{device.hardware_id_hash.slice(-8)}
+                                </code>
+                              </td>
+                              <td className="text-slate-600 dark:text-slate-400">
+                                {new Intl.DateTimeFormat('vi-VN').format(new Date(device.activated_at))}
+                              </td>
+                              <td className="text-slate-600 dark:text-slate-400">
+                                {device.last_validated_at ? new Intl.DateTimeFormat('vi-VN').format(new Date(device.last_validated_at)) : '—'}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
     </PortalShell>
   );
