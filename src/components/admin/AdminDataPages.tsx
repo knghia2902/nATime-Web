@@ -82,7 +82,7 @@ function CopyableId({ value }: { value: string }) {
   );
 }
 
-// ── Clean & Minimalist Event Badge (Centered container, left-aligned text inside) ──
+// ── Clean & Minimalist Event Badge ──
 function AuditEventBadge({ eventType }: { eventType: string }) {
   const type = eventType.toLowerCase();
 
@@ -467,24 +467,23 @@ const definitions = {
   }
 } as const;
 
-function getColHeaderAlignClass(kind: string, colKey: string): string {
+function getColAlignClasses(kind: string, colKey: string) {
   if (kind === 'audit') {
     if (['event_type', 'correlation_id', 'details', 'created_at'].includes(colKey)) {
-      return 'text-center';
+      return {
+        header: 'text-center justify-center',
+        cell: 'justify-center'
+      };
     }
-    return 'text-left';
+    return {
+      header: 'text-left justify-start',
+      cell: 'justify-start'
+    };
   }
-  return 'text-left';
-}
-
-function getColContentJustifyClass(kind: string, colKey: string): string {
-  if (kind === 'audit') {
-    if (['event_type', 'correlation_id', 'details', 'created_at'].includes(colKey)) {
-      return 'justify-center';
-    }
-    return 'justify-start';
-  }
-  return 'justify-start';
+  return {
+    header: 'text-left justify-start',
+    cell: 'justify-start'
+  };
 }
 
 export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
@@ -573,13 +572,15 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
             <thead>
               <tr className="border-b border-slate-200/80 bg-slate-50/60">
                 {definition.columns.map(([key, label]) => {
-                  const headerAlign = getColHeaderAlignClass(kind, key);
+                  const aligns = getColAlignClasses(kind, key);
                   return (
                     <th
                       key={key}
-                      className={`px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider align-middle ${headerAlign}`}
+                      className="px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider align-middle"
                     >
-                      {label}
+                      <div className={`flex items-center w-full ${aligns.header}`}>
+                        {label}
+                      </div>
                     </th>
                   );
                 })}
@@ -594,7 +595,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                   {definition.columns.map(([key]) => {
                     const val = row[key];
                     const isIdOrHash = key.includes('id') || key.includes('hash');
-                    const justifyClass = getColContentJustifyClass(kind, key);
+                    const aligns = getColAlignClasses(kind, key);
 
                     let renderedContent;
                     if (key === 'status') {
@@ -633,7 +634,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                         key={key}
                         className="px-4 py-3 text-slate-800 align-middle"
                       >
-                        <div className={`w-full flex items-center ${justifyClass} text-left`}>
+                        <div className={`flex items-center w-full ${aligns.cell} text-left`}>
                           {renderedContent}
                         </div>
                       </td>
