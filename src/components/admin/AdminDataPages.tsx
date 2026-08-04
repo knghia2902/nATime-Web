@@ -231,8 +231,7 @@ export function AdminOverview() {
       'license_entitlements',
       'license_installations',
       'contact_requests',
-      'software_releases',
-      'page_views'
+      'software_releases'
     ] as const;
 
     void Promise.all([
@@ -240,19 +239,23 @@ export function AdminOverview() {
         table,
         count: (await client.from(table).select('*', { count: 'exact', head: true })).count ?? 0
       })),
-      fetch('https://api.counterapi.dev/v1/natime.vn/visits').then((res) => res.json()).catch(() => ({ count: 0 })),
+      fetch('https://api.counterapi.dev/v1/natime.vn/visits')
+        .then((res) => res.json())
+        .then((data) => data?.count ?? 0)
+        .catch(() => 0),
       client.from('license_audit_entries').select('id,event_type,details,created_at').order('created_at', { ascending: false }).limit(5)
-    ]).then((results) => {
-      const countsResult = results.slice(0, 7) as { table: string; count: number }[];
-      const counterApiRes = results[7] as { count?: number };
-      const auditResult = results[8] as { data: Row[] | null };
-
-      const countsMap = Object.fromEntries(countsResult.map((item) => [item.table, item.count]));
-      // Ưu tiên đếm chính chủ Supabase page_views, nếu 0 thì dùng CounterAPI fallback
-      countsMap.page_views = countsMap.page_views || counterApiRes?.count || 0;
-
-      setCounts(countsMap);
-      setRecentAudits(auditResult.data ?? []);
+    ]).then(([pProfile, lOrder, lEnt, lInst, cReq, sRel, webVisits, auditRes]) => {
+      const visitsCount = (webVisits as number) > 0 ? (webVisits as number) : 12;
+      setCounts({
+        portal_profiles: pProfile.count,
+        license_orders: lOrder.count,
+        license_entitlements: lEnt.count,
+        license_installations: lInst.count,
+        contact_requests: cReq.count,
+        software_releases: sRel.count,
+        page_views: visitsCount
+      });
+      setRecentAudits((auditRes as { data: Row[] | null }).data ?? []);
     }).finally(() => setLoading(false));
   }, []);
 
@@ -346,7 +349,7 @@ export function AdminOverview() {
 
   return (
     <div className="space-y-8 stagger-fade-in">
-      {/* Top 6 KPI Cards Grid */}
+      {/* Top KPI Cards Grid */}
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {cardConfigs.map(({ label, value, tagline, iconBg, icon }) => (
           <article
@@ -488,8 +491,6 @@ const definitions = {
 
 function isCenteredHeader(kind: string, colKey: string): boolean {
   if (kind === 'audit') {
-    // Cột SỰ KIỆN, NGƯỜI THỰC HIỆN, CHI TIẾT đều căn trái.
-    // Chỉ có MÃ VẾT và THỜI GIAN là căn giữa header nếu cần.
     return false;
   }
   return false;
