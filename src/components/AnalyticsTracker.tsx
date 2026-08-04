@@ -2,23 +2,19 @@
 
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export function AnalyticsTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Không đếm cho các trang nội bộ Admin hoặc Portal
     if (!pathname || pathname.startsWith('/admin') || pathname.startsWith('/portal')) {
       return;
     }
 
-    // Gọi POST /api/visits (Cloudflare Pages Function cùng domain) để tăng lượt xem
-    // Dùng navigator.sendBeacon nếu có, fallback sang fetch
-    const url = '/api/visits';
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(url);
-    } else {
-      void fetch(url, { method: 'POST' }).catch(() => {});
+    // Gọi Supabase RPC để tăng lượt xem — cùng domain Supabase, CORS hoàn hảo
+    if (supabase) {
+      void supabase.rpc('increment_page_view').then(() => {}).then(() => {}, () => {});
     }
   }, [pathname]);
 

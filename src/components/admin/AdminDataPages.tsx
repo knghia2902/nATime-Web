@@ -255,44 +255,24 @@ export function AdminOverview() {
     }).finally(() => setLoading(false));
   }, []);
 
-  // Khôi phục số lượt xem từ localStorage ngay lập tức (hiện số cũ trước khi server trả về)
+  // Fetch lượt xem trang từ Supabase (cùng hệ thống, không CORS)
   useEffect(() => {
-    try {
-      const cached = localStorage.getItem('natime_pv');
-      if (cached) {
-        const val = parseInt(cached, 10);
-        if (val > 0) setCounts((prev) => ({ ...prev, page_views: val }));
-      }
-    } catch { /* ignore */ }
-  }, []);
-
-  // Fetch lượt xem trang qua Cloudflare Pages Function cùng domain (không CORS)
-  useEffect(() => {
-    let timer: ReturnType<typeof setInterval>;
+    const client = supabase;
+    if (!client) return;
     let cancelled = false;
 
-    const fetchVisits = async () => {
-      try {
-        const res = await fetch('/api/visits');
-        if (!res.ok) return;
-        const data = await res.json();
-        const countVal = data?.count;
-        if (!cancelled && typeof countVal === 'number' && countVal > 0) {
-          setCounts((prev) => ({ ...prev, page_views: countVal }));
-          try { localStorage.setItem('natime_pv', String(countVal)); } catch { /* ignore */ }
+    void client
+      .from('site_counters')
+      .select('count')
+      .eq('name', 'page_views')
+      .single()
+      .then(({ data }) => {
+        if (!cancelled && data && typeof data.count === 'number') {
+          setCounts((prev) => ({ ...prev, page_views: data.count }));
         }
-      } catch {
-        // Silently ignore — giá trị cache localStorage sẽ giữ nguyên
-      }
-    };
+      });
 
-    void fetchVisits();
-    timer = setInterval(() => void fetchVisits(), 15000);
-
-    return () => {
-      cancelled = true;
-      clearInterval(timer);
-    };
+    return () => { cancelled = true; };
   }, []);
 
   const cardConfigs = [
