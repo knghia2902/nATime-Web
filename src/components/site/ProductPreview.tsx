@@ -1,56 +1,65 @@
+'use client';
+
+import { ShieldCheck, Cpu, Clock, CheckCircle } from '@phosphor-icons/react';
+
 type PreviewKind = 'overview' | 'attendance' | 'devices';
 
-const rows = {
-  overview: [
-    ['Nhân viên 01', 'Phòng ban A', '08:02', 'Đúng giờ'],
-    ['Nhân viên 02', 'Phòng ban B', '08:07', 'Đã ghi nhận'],
-    ['Nhân viên 03', 'Phòng ban A', '08:15', 'Cần kiểm tra'],
-  ],
-  attendance: [
-    ['NV-001', 'Ca hành chính', '08:02', '17:04'],
-    ['NV-002', 'Ca sáng', '07:01', '16:03'],
-    ['NV-003', 'Ca hành chính', '08:10', '17:12'],
-  ],
-  devices: [
-    ['Thiết bị 01', 'Máy chấm công', 'Online', 'Đã đồng bộ'],
-    ['Thiết bị 02', 'Máy chấm công', 'Online', 'Sẵn sàng'],
-    ['Thiết bị 03', 'Máy chấm công', 'Offline', 'Cần kiểm tra'],
-  ],
-} satisfies Record<PreviewKind, string[][]>;
-
-const headings = {
-  overview: ['Nhân viên', 'Phòng ban', 'Giờ vào', 'Trạng thái'],
-  attendance: ['Mã nhân sự', 'Ca làm việc', 'Giờ vào', 'Giờ ra'],
-  devices: ['Thiết bị', 'Loại', 'Kết nối', 'Đồng bộ'],
-} satisfies Record<PreviewKind, string[]>;
-
 export default function ProductPreview({ kind = 'overview', compact = false }: { kind?: PreviewKind; compact?: boolean }) {
-  const title = kind === 'overview' ? 'Tổng quan vận hành' : kind === 'attendance' ? 'Lịch sử chấm công' : 'Quản lý thiết bị';
+  const info = {
+    overview: {
+      title: 'Hệ thống Quản lý nATime',
+      badge: 'Bản quyền Windows',
+      metrics: [
+        { label: 'Trạng thái máy chủ', value: 'Sẵn sàng (Local)', tone: 'emerald' },
+        { label: 'Hệ quản trị CSDL', value: 'SQL Server', tone: 'blue' },
+        { label: 'Bảo mật dữ liệu', value: 'AES-256 Encrypted', tone: 'indigo' },
+      ],
+    },
+    attendance: {
+      title: 'Xử lý Ca kíp & Giờ công',
+      badge: 'Thuật toán đối soát',
+      metrics: [
+        { label: 'Quy tắc ca làm việc', value: 'Linh hoạt ngày/tuần', tone: 'blue' },
+        { label: 'Tính toán tăng ca', value: 'Thời gian thực', tone: 'emerald' },
+        { label: 'Xử lý ca đêm', value: 'Xác thực qua ngày', tone: 'indigo' },
+      ],
+    },
+    devices: {
+      title: 'Kết nối Thiết bị Chấm công',
+      badge: 'Giao thức IoT LAN',
+      metrics: [
+        { label: 'Máy chấm công (MCC)', value: 'Đã kết nối', tone: 'emerald' },
+        { label: 'Đầu đọc FaceID', value: 'Sẵn sàng', tone: 'blue' },
+        { label: 'Đồng bộ từ xa', value: 'Tự động', tone: 'indigo' },
+      ],
+    },
+  }[kind];
+
   return (
-    <div className="overflow-hidden rounded-2xl border border-border/80 bg-card shadow-[0_28px_80px_-32px_rgba(15,23,42,0.38)]" aria-label={`Minh họa giao diện ${title}`}>
-      <div className="flex h-10 items-center justify-between border-b border-border bg-slate-950 px-4">
-        <div className="flex gap-1.5" aria-hidden="true"><span className="h-2.5 w-2.5 rounded-full bg-red-400" /><span className="h-2.5 w-2.5 rounded-full bg-amber-300" /><span className="h-2.5 w-2.5 rounded-full bg-emerald-400" /></div>
-        <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">nATime · UI illustration</span>
-      </div>
-      <div className="grid grid-cols-[76px_1fr] sm:grid-cols-[104px_1fr]">
-        <div className="border-r border-border bg-muted/50 p-3">
-          <div className="mb-5 flex items-center gap-2"><span className="grid h-7 w-7 place-items-center rounded-lg bg-primary text-[10px] font-black text-primary-foreground">nA</span><span className="hidden text-xs font-bold text-foreground sm:inline">nATime</span></div>
-          <div className="space-y-2" aria-hidden="true">{[64, 46, 58, 52, 62].map((width, index) => <div key={width} className={`h-2 rounded-full ${index === 0 ? 'bg-blue-200' : 'bg-border'}`} style={{ width: `${width}%` }} />)}</div>
-        </div>
-        <div className={compact ? 'p-4' : 'p-4 sm:p-6'}>
-          <div className="flex items-start justify-between gap-3"><div><p className="text-[10px] font-bold uppercase tracking-[0.14em] text-primary">Minh họa sản phẩm</p><h3 className="mt-1 text-sm font-bold text-foreground sm:text-base">{title}</h3></div><span className="rounded-md border border-border px-2 py-1 text-[9px] font-semibold text-muted">Windows</span></div>
-          {kind === 'overview' && <div className="mt-4 grid grid-cols-3 gap-2"><Metric label="Nhân sự" value="—" tone="blue" /><Metric label="Thiết bị" value="—" tone="emerald" /><Metric label="Cần xử lý" value="—" tone="amber" /></div>}
-          <div className="mt-4 overflow-hidden rounded-lg border border-border">
-            <div className="grid grid-cols-4 bg-muted/50">{headings[kind].map((heading) => <div key={heading} className="truncate px-2 py-2 text-[8px] font-bold uppercase tracking-wide text-muted sm:px-3 sm:text-[9px]">{heading}</div>)}</div>
-            {rows[kind].map((row) => <div key={row[0]} className="grid grid-cols-4 border-t border-border/50">{row.map((cell, index) => <div key={cell} className={`truncate px-2 py-2.5 text-[9px] sm:px-3 sm:text-[10px] ${index === 0 ? 'font-semibold text-foreground' : cell === 'Online' || cell === 'Đúng giờ' || cell === 'Đã ghi nhận' ? 'text-emerald-600' : cell === 'Offline' || cell === 'Cần kiểm tra' ? 'text-amber-600' : 'text-muted'}`}>{cell}</div>)}</div>)}
+    <div className="overflow-hidden rounded-2xl border border-border/80 bg-card p-6 shadow-md">
+      <div className="flex items-center justify-between border-b border-border/60 pb-4 mb-4">
+        <div className="flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-light text-primary">
+            {kind === 'devices' ? <Cpu size={18} weight="duotone" /> : kind === 'attendance' ? <Clock size={18} weight="duotone" /> : <ShieldCheck size={18} weight="duotone" />}
           </div>
+          <span className="font-bold text-sm text-foreground">{info.title}</span>
         </div>
+        <span className="rounded-full bg-muted/60 px-3 py-1 text-[11px] font-semibold text-muted">
+          {info.badge}
+        </span>
+      </div>
+
+      <div className="space-y-3">
+        {info.metrics.map((m) => (
+          <div key={m.label} className="flex items-center justify-between rounded-xl border border-border/60 bg-muted/30 px-4 py-3 text-xs">
+            <span className="font-medium text-muted">{m.label}</span>
+            <span className="flex items-center gap-1.5 font-bold text-foreground">
+              <CheckCircle size={14} className="text-emerald-500" weight="fill" />
+              <span>{m.value}</span>
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
-}
-
-function Metric({ label, value, tone }: { label: string; value: string; tone: 'blue' | 'emerald' | 'amber' }) {
-  const colors = { blue: 'bg-blue-50 text-blue-600', emerald: 'bg-emerald-50 text-emerald-700', amber: 'bg-amber-50 text-amber-700' };
-  return <div className={`rounded-lg p-2.5 ${colors[tone]}`}><p className="truncate text-[8px] font-semibold sm:text-[9px]">{label}</p><p className="mt-1 text-sm font-bold">{value}</p></div>;
 }
