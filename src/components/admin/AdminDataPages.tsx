@@ -74,7 +74,7 @@ function CopyableId({ value }: { value: string }) {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={1.5}
-            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 002-2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z"
           />
         </svg>
       )}
@@ -215,7 +215,7 @@ function StatusBadge({ status }: { status: string }) {
 
 // ── Redesigned Clean Admin Overview Page ──
 export function AdminOverview() {
-  const [counts, setCounts] = useState<Record<string, number>>({ page_views: 17 });
+  const [counts, setCounts] = useState<Record<string, number>>({});
   const [recentAudits, setRecentAudits] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -254,16 +254,38 @@ export function AdminOverview() {
     }).finally(() => setLoading(false));
   }, []);
 
-  // Fetch trực tiếp lượt xem trang từ CounterAPI thời gian thực
+  // Fetch trực tiếp lượt xem trang từ CounterAPI thời gian thực (Auto-Polling 5s)
   useEffect(() => {
-    void fetch('https://api.counterapi.dev/v1/natime.vn/visits')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && typeof data.count === 'number' && data.count > 0) {
-          setCounts((prev) => ({ ...prev, page_views: data.count }));
-        }
-      })
-      .catch(() => {});
+    let timer: ReturnType<typeof setInterval>;
+
+    const fetchVisits = () => {
+      const targetUrl = 'https://api.counterapi.dev/v1/natime.vn/visits';
+      void fetch(targetUrl)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && typeof data.count === 'number' && data.count > 0) {
+            setCounts((prev) => ({ ...prev, page_views: data.count }));
+          }
+        })
+        .catch(() => {
+          // Fallback dùng proxy nếu bị AdBlocker / CORS chặn trên trình duyệt người dùng
+          void fetch(`https://corsproxy.io/?${encodeURIComponent(targetUrl)}`)
+            .then((res) => res.json())
+            .then((data) => {
+              if (data && typeof data.count === 'number' && data.count > 0) {
+                setCounts((prev) => ({ ...prev, page_views: data.count }));
+              }
+            })
+            .catch(() => {});
+        });
+    };
+
+    fetchVisits();
+    timer = setInterval(fetchVisits, 5000);
+
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   const cardConfigs = [
@@ -372,7 +394,7 @@ export function AdminOverview() {
                   ) : value != null ? (
                     value.toLocaleString('vi-VN')
                   ) : (
-                    '—'
+                    <span className="inline-block h-7 w-14 animate-pulse rounded bg-slate-100" />
                   )}
                 </p>
               </div>
@@ -727,7 +749,7 @@ export function AdminContacts() {
         </div>
       ) : rows.length === 0 ? (
         <div className="rounded-2xl border border-slate-200/80 bg-white p-8 text-center text-sm font-normal text-slate-500 shadow-2xs">
-          Chưa có yêu cầu liên hệ nào.
+          Chưa me yêu cầu liên hệ nào.
         </div>
       ) : (
         rows.map((row) => (
