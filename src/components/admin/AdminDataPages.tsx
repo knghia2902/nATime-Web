@@ -55,7 +55,7 @@ function CopyableId({ value }: { value: string }) {
     <button
       type="button"
       onClick={handleCopy}
-      title={`Click để sao chép full: ${value}`}
+      title={`Click để sao chép: ${value}`}
       className="group relative inline-flex items-center gap-1.5 rounded-md bg-slate-100/90 px-2 py-1 font-mono text-xs font-normal text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-colors border border-slate-200/80 text-left max-w-full cursor-pointer shadow-2xs"
     >
       <span className="truncate">{formatShortId(value)}</span>
@@ -80,6 +80,145 @@ function CopyableId({ value }: { value: string }) {
       )}
     </button>
   );
+}
+
+// ── Event Badge Component for Audit Page ──
+function AuditEventBadge({ eventType }: { eventType: string }) {
+  const type = eventType.toLowerCase();
+
+  if (type === 'activation.requested') {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-800 border border-amber-200/80">
+        <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+        Yêu cầu kích hoạt
+      </span>
+    );
+  }
+  if (type === 'activation.approved') {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-800 border border-emerald-200/80">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        Đã duyệt kích hoạt
+      </span>
+    );
+  }
+  if (type === 'authority.issued') {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-800 border border-blue-200/80">
+        <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
+        Cấp bản quyền
+      </span>
+    );
+  }
+  if (type === 'activation.reissued' || type === 'authority.reissued') {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-md bg-sky-50 px-2.5 py-1 text-xs font-medium text-sky-800 border border-sky-200/80">
+        <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+        Cấp lại bản quyền
+      </span>
+    );
+  }
+  if (type === 'authority.revoked') {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-md bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-800 border border-rose-200/80">
+        <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
+        Thu hồi bản quyền
+      </span>
+    );
+  }
+  if (type === 'trial.claimed') {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-md bg-indigo-50 px-2.5 py-1 text-xs font-medium text-indigo-800 border border-indigo-200/80">
+        <span className="h-1.5 w-1.5 rounded-full bg-indigo-500" />
+        Trial 7 ngày
+      </span>
+    );
+  }
+  if (type === 'trial.expired') {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 border border-slate-200">
+        <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+        Hết hạn trial
+      </span>
+    );
+  }
+
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700 border border-slate-200">
+      <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+      {eventType}
+    </span>
+  );
+}
+
+// ── Friendly Format Audit Details JSON ──
+function AuditDetailsFormatter({ details }: { details: unknown }) {
+  if (!details || typeof details !== 'object') {
+    return <span className="text-slate-400 font-normal">—</span>;
+  }
+
+  const obj = details as Record<string, unknown>;
+
+  if (obj.displayName) {
+    return (
+      <span className="inline-flex items-center gap-1.5 text-xs text-slate-800 font-medium bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200/60">
+        💻 Tên máy: <strong className="font-semibold text-slate-900">{String(obj.displayName)}</strong>
+      </span>
+    );
+  }
+
+  if (obj.authorityLicenseId) {
+    return (
+      <span className="inline-flex items-center gap-1.5 text-xs text-slate-800 font-medium bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200/60">
+        🔑 License: <span className="font-mono text-slate-700">{formatShortId(String(obj.authorityLicenseId))}</span>
+        {obj.revision != null && <span className="text-slate-400 text-[11px]">(Rev #{String(obj.revision)})</span>}
+      </span>
+    );
+  }
+
+  if (obj.durationDays) {
+    return (
+      <span className="inline-flex items-center gap-1.5 text-xs text-slate-800 font-medium bg-indigo-50/60 px-2.5 py-1 rounded-md border border-indigo-100">
+        ⏱️ Thời hạn: <strong className="font-semibold text-indigo-900">{String(obj.durationDays)} ngày</strong>
+      </span>
+    );
+  }
+
+  const keys = Object.keys(obj);
+  if (keys.length === 0) return <span className="text-slate-400 font-normal">—</span>;
+
+  return (
+    <span className="text-xs font-mono text-slate-600 truncate block max-w-[280px]" title={JSON.stringify(obj)}>
+      {JSON.stringify(obj)}
+    </span>
+  );
+}
+
+// ── Correlation Tag Formatter ──
+function AuditCorrelationTag({ correlationId }: { correlationId: unknown }) {
+  const str = String(correlationId ?? '');
+  if (!str || str === '—') return <span className="text-slate-400 font-normal">—</span>;
+
+  const parts = str.split(':');
+  if (parts.length >= 2) {
+    const prefix = parts[0];
+    const value = parts.slice(1).join(':');
+
+    let badgeColor = 'bg-slate-100 text-slate-600';
+    if (prefix === 'activation') badgeColor = 'bg-blue-50 text-blue-700 border-blue-100';
+    if (prefix === 'trial') badgeColor = 'bg-indigo-50 text-indigo-700 border-indigo-100';
+
+    return (
+      <div className="flex items-center gap-1.5">
+        <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold border ${badgeColor} uppercase`}>
+          {prefix}
+        </span>
+        <CopyableId value={value} />
+      </div>
+    );
+  }
+
+  return <CopyableId value={str} />;
 }
 
 function StatusBadge({ status }: { status: string }) {
@@ -115,8 +254,10 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
+// ── Redesigned Rich Admin Overview Page ──
 export function AdminOverview() {
   const [counts, setCounts] = useState<Record<string, number>>({});
+  const [recentAudits, setRecentAudits] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -134,16 +275,19 @@ export function AdminOverview() {
       'software_releases'
     ] as const;
 
-    void Promise.all(
-      tables.map(async (table) => ({
+    void Promise.all([
+      ...tables.map(async (table) => ({
         table,
         count: (await client.from(table).select('*', { count: 'exact', head: true })).count ?? 0
-      }))
-    )
-      .then((items) => {
-        setCounts(Object.fromEntries(items.map((item) => [item.table, item.count])));
-      })
-      .finally(() => setLoading(false));
+      })),
+      client.from('license_audit_entries').select('id,event_type,details,created_at').order('created_at', { ascending: false }).limit(5)
+    ]).then((results) => {
+      const countsResult = results.slice(0, 6) as { table: string; count: number }[];
+      const auditResult = results[6] as { data: Row[] | null };
+
+      setCounts(Object.fromEntries(countsResult.map((item) => [item.table, item.count])));
+      setRecentAudits(auditResult.data ?? []);
+    }).finally(() => setLoading(false));
   }, []);
 
   const cardConfigs = [
@@ -151,8 +295,8 @@ export function AdminOverview() {
       key: 'portal_profiles',
       label: 'Khách hàng',
       value: counts.portal_profiles,
-      accentGradient: 'from-blue-500 to-blue-600',
-      iconBg: 'bg-blue-50 text-blue-600',
+      tagline: 'Tài khoản hoạt động',
+      iconBg: 'bg-blue-50 text-blue-600 border border-blue-100',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -163,8 +307,8 @@ export function AdminOverview() {
       key: 'license_orders',
       label: 'Đơn hàng',
       value: counts.license_orders,
-      accentGradient: 'from-emerald-500 to-teal-600',
-      iconBg: 'bg-emerald-50 text-emerald-600',
+      tagline: 'Thanh toán PayOS',
+      iconBg: 'bg-emerald-50 text-emerald-600 border border-emerald-100',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -175,8 +319,8 @@ export function AdminOverview() {
       key: 'license_entitlements',
       label: 'License',
       value: counts.license_entitlements,
-      accentGradient: 'from-amber-500 to-orange-600',
-      iconBg: 'bg-amber-50 text-amber-600',
+      tagline: 'Bản quyền đã cấp',
+      iconBg: 'bg-amber-50 text-amber-600 border border-amber-100',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
@@ -187,8 +331,8 @@ export function AdminOverview() {
       key: 'license_installations',
       label: 'Thiết bị',
       value: counts.license_installations,
-      accentGradient: 'from-blue-400 to-blue-600',
-      iconBg: 'bg-blue-50 text-blue-600',
+      tagline: 'Máy đã kích hoạt',
+      iconBg: 'bg-sky-50 text-sky-600 border border-sky-100',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -199,8 +343,8 @@ export function AdminOverview() {
       key: 'contact_requests',
       label: 'Liên hệ mới',
       value: counts.contact_requests,
-      accentGradient: 'from-rose-500 to-red-600',
-      iconBg: 'bg-rose-50 text-rose-600',
+      tagline: 'Yêu cầu hỗ trợ',
+      iconBg: 'bg-rose-50 text-rose-600 border border-rose-100',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -211,8 +355,8 @@ export function AdminOverview() {
       key: 'software_releases',
       label: 'Release',
       value: counts.software_releases,
-      accentGradient: 'from-sky-500 to-blue-600',
-      iconBg: 'bg-sky-50 text-sky-600',
+      tagline: 'Bộ cài Windows',
+      iconBg: 'bg-indigo-50 text-indigo-600 border border-indigo-100',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
@@ -222,32 +366,74 @@ export function AdminOverview() {
   ];
 
   return (
-    <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-      {cardConfigs.map(({ label, value, accentGradient, iconBg, icon }) => (
-        <article
-          key={label}
-          className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs p-6 flex flex-col justify-between group transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xs relative overflow-hidden"
-        >
-          <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${accentGradient}`} />
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-medium text-slate-700">{label}</span>
-            <div className={`p-2.5 rounded-xl ${iconBg} transition-transform duration-200 group-hover:scale-105`}>
-              {icon}
+    <div className="space-y-8 stagger-fade-in">
+      {/* Top 6 KPI Cards Grid */}
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        {cardConfigs.map(({ label, value, tagline, iconBg, icon }) => (
+          <article
+            key={label}
+            className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs transition-all duration-200 hover:shadow-xs hover:-translate-y-0.5 flex flex-col justify-between"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{label}</span>
+                <p className="text-2xl font-semibold text-slate-900 tracking-tight mt-1">
+                  {loading ? (
+                    <span className="inline-block h-7 w-14 animate-pulse rounded bg-slate-100" />
+                  ) : value != null ? (
+                    value.toLocaleString('vi-VN')
+                  ) : (
+                    '—'
+                  )}
+                </p>
+              </div>
+              <div className={`p-3 rounded-2xl ${iconBg} shadow-2xs`}>
+                {icon}
+              </div>
             </div>
+
+            <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span className="font-normal">{tagline}</span>
+              <span className="inline-flex items-center gap-1 font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">
+                ● Live
+              </span>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {/* Recent Activity Timeline Section */}
+      <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">
+          <div>
+            <h2 className="text-base font-semibold text-slate-900">Hoạt động vận hành gần đây</h2>
+            <p className="text-xs text-slate-500 font-normal mt-0.5">Nhật ký sự kiện license và kích hoạt thiết bị thời gian thực.</p>
           </div>
-          <div className="flex items-baseline justify-between mt-1">
-            <p className="text-2xl font-semibold text-slate-900 tracking-tight">
-              {loading ? (
-                <span className="inline-block h-7 w-16 animate-pulse rounded bg-slate-100" />
-              ) : value != null ? (
-                value.toLocaleString('vi-VN')
-              ) : (
-                '—'
-              )}
-            </p>
+          <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-100">
+            Realtime Audit Log
+          </span>
+        </div>
+
+        {loading ? (
+          <div className="p-8 text-center text-xs text-slate-400">Đang tải nhật ký hoạt động…</div>
+        ) : recentAudits.length === 0 ? (
+          <div className="p-8 text-center text-xs text-slate-400">Chưa có nhật ký hoạt động nào.</div>
+        ) : (
+          <div className="space-y-4">
+            {recentAudits.map((item) => (
+              <div key={String(item.id)} className="flex items-start justify-between gap-4 p-3.5 rounded-xl bg-slate-50/70 border border-slate-200/60 hover:bg-slate-50 transition">
+                <div className="flex items-center gap-3">
+                  <AuditEventBadge eventType={String(item.event_type ?? '')} />
+                  <AuditDetailsFormatter details={item.details} />
+                </div>
+                <span className="text-xs font-normal text-slate-400 shrink-0">
+                  {date(item.created_at)}
+                </span>
+              </div>
+            ))}
           </div>
-        </article>
-      ))}
+        )}
+      </div>
     </div>
   );
 }
@@ -325,6 +511,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
   const definition = definitions[kind];
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filterEvent, setFilterEvent] = useState<string>('all');
 
   useEffect(() => {
     let cancelled = false;
@@ -352,83 +539,126 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
     };
   }, [definition]);
 
+  const isAudit = kind === 'audit';
+  const filteredRows = isAudit && filterEvent !== 'all'
+    ? rows.filter((r) => String(r.event_type ?? '').toLowerCase().includes(filterEvent))
+    : rows;
+
   return (
-    <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="table-enhanced w-full text-left text-sm">
-          <thead>
-            <tr className="border-b border-slate-200/80 bg-slate-50/60">
-              {definition.columns.map(([key, label]) => (
-                <th key={key} className="px-4 py-3 font-medium text-xs text-slate-500 uppercase tracking-wider">
-                  {label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {rows.map((row, index) => (
-              <tr
-                key={String(row.id ?? row.user_id ?? index)}
-                className="hover:bg-slate-50/80 transition-colors"
+    <div className="space-y-4">
+      {/* Event Filter for Audit Page */}
+      {isAudit && (
+        <div className="flex items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-2xs flex-wrap">
+          <span className="text-xs font-medium text-slate-700">Lọc loại sự kiện:</span>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {[
+              ['all', 'Tất cả'],
+              ['requested', 'Yêu cầu kích hoạt'],
+              ['approved', 'Đã duyệt'],
+              ['issued', 'Cấp bản quyền'],
+              ['revoked', 'Thu hồi'],
+              ['trial', 'Trial 7 ngày']
+            ].map(([val, label]) => (
+              <button
+                key={val}
+                type="button"
+                onClick={() => setFilterEvent(val)}
+                className={`px-3 py-1 text-xs font-medium rounded-lg transition ${
+                  filterEvent === val
+                    ? 'bg-blue-600 text-white shadow-2xs'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70'
+                }`}
               >
-                {definition.columns.map(([key]) => {
-                  const val = row[key];
-                  const isIdOrHash = key.includes('id') || key.includes('hash');
-
-                  let renderedContent;
-                  if (key === 'status') {
-                    renderedContent = <StatusBadge status={String(val ?? '')} />;
-                  } else if (key.includes('_at')) {
-                    renderedContent = (
-                      <span className="text-slate-500 font-normal text-xs">{date(val)}</span>
-                    );
-                  } else if (key === 'amount_vnd') {
-                    renderedContent = (
-                      <span className="font-semibold text-slate-900 text-sm">
-                        {formatCurrency(val)}
-                      </span>
-                    );
-                  } else if (isIdOrHash) {
-                    renderedContent = <CopyableId value={cell(val)} />;
-                  } else {
-                    const strVal = cell(val);
-                    renderedContent = (
-                      <span className={`font-normal ${strVal === '—' ? 'text-slate-400' : 'text-slate-800'}`}>
-                        {strVal}
-                      </span>
-                    );
-                  }
-
-                  return (
-                    <td key={key} className="max-w-[320px] truncate px-4 py-3 text-slate-800">
-                      {renderedContent}
-                    </td>
-                  );
-                })}
-              </tr>
+                {label}
+              </button>
             ))}
-          </tbody>
-        </table>
-      </div>
-
-      {loading ? (
-        <div className="flex flex-col items-center justify-center p-12 text-slate-500">
-          <svg className="h-6 w-6 animate-spin text-blue-600 mb-2" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-          </svg>
-          <p className="text-sm font-medium">Đang tải dữ liệu…</p>
-        </div>
-      ) : (
-        rows.length === 0 && (
-          <div className="p-12 text-center text-sm font-normal text-slate-500">
-            <svg className="mx-auto h-8 w-8 text-slate-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-            </svg>
-            <p>Không có dữ liệu hoặc phiên MFA đã hết hạn.</p>
           </div>
-        )
+        </div>
       )}
+
+      <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="table-enhanced w-full text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200/80 bg-slate-50/60">
+                {definition.columns.map(([key, label]) => (
+                  <th key={key} className="px-4 py-3 font-medium text-xs text-slate-500 uppercase tracking-wider">
+                    {label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {filteredRows.map((row, index) => (
+                <tr
+                  key={String(row.id ?? row.user_id ?? index)}
+                  className="hover:bg-slate-50/80 transition-colors"
+                >
+                  {definition.columns.map(([key]) => {
+                    const val = row[key];
+                    const isIdOrHash = key.includes('id') || key.includes('hash');
+
+                    let renderedContent;
+                    if (key === 'status') {
+                      renderedContent = <StatusBadge status={String(val ?? '')} />;
+                    } else if (key === 'event_type') {
+                      renderedContent = <AuditEventBadge eventType={String(val ?? '')} />;
+                    } else if (key === 'details') {
+                      renderedContent = <AuditDetailsFormatter details={val} />;
+                    } else if (key === 'correlation_id') {
+                      renderedContent = <AuditCorrelationTag correlationId={val} />;
+                    } else if (key.includes('_at')) {
+                      renderedContent = (
+                        <span className="text-slate-500 font-normal text-xs">{date(val)}</span>
+                      );
+                    } else if (key === 'amount_vnd') {
+                      renderedContent = (
+                        <span className="font-semibold text-slate-900 text-sm">
+                          {formatCurrency(val)}
+                        </span>
+                      );
+                    } else if (isIdOrHash) {
+                      renderedContent = <CopyableId value={cell(val)} />;
+                    } else {
+                      const strVal = cell(val);
+                      renderedContent = (
+                        <span className={`font-normal ${strVal === '—' ? 'text-slate-400' : 'text-slate-800'}`}>
+                          {strVal}
+                        </span>
+                      );
+                    }
+
+                    return (
+                      <td key={key} className="max-w-[320px] truncate px-4 py-3 text-slate-800">
+                        {renderedContent}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {loading ? (
+          <div className="flex flex-col items-center justify-center p-12 text-slate-500">
+            <svg className="h-6 w-6 animate-spin text-blue-600 mb-2" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+            </svg>
+            <p className="text-sm font-medium">Đang tải dữ liệu…</p>
+          </div>
+        ) : (
+          filteredRows.length === 0 && (
+            <div className="p-12 text-center text-sm font-normal text-slate-500">
+              <svg className="mx-auto h-8 w-8 text-slate-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+              </svg>
+              <p>Không tìm thấy nhật ký phù hợp với bộ lọc.</p>
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 }
