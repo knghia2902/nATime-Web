@@ -10,14 +10,16 @@ type Product = {
   amount_vnd: number;
   max_employees: number;
   max_devices: number;
+  max_attendance_devices: number;
+  max_faceid_devices: number;
   enabled_modules: string[];
 };
 
 const verifiedCatalog: Product[] = [
-  { plan_code: 'standard', billing_period: 'monthly', amount_vnd: 490000, max_employees: 50, max_devices: 2, enabled_modules: ['Attendance'] },
-  { plan_code: 'standard', billing_period: 'yearly', amount_vnd: 4704000, max_employees: 50, max_devices: 2, enabled_modules: ['Attendance'] },
-  { plan_code: 'professional', billing_period: 'monthly', amount_vnd: 1490000, max_employees: 500, max_devices: 10, enabled_modules: ['Attendance', 'Access', 'Weighbridge', 'Assets'] },
-  { plan_code: 'professional', billing_period: 'yearly', amount_vnd: 14304000, max_employees: 500, max_devices: 10, enabled_modules: ['Attendance', 'Access', 'Weighbridge', 'Assets'] },
+  { plan_code: 'standard', billing_period: 'monthly', amount_vnd: 490000, max_employees: 50, max_devices: 2, max_attendance_devices: 2, max_faceid_devices: 0, enabled_modules: ['Attendance'] },
+  { plan_code: 'standard', billing_period: 'yearly', amount_vnd: 4704000, max_employees: 50, max_devices: 2, max_attendance_devices: 2, max_faceid_devices: 0, enabled_modules: ['Attendance'] },
+  { plan_code: 'professional', billing_period: 'monthly', amount_vnd: 1990000, max_employees: 1000, max_devices: 10, max_attendance_devices: 10, max_faceid_devices: 16, enabled_modules: ['Attendance', 'Access', 'Weighbridge', 'Assets'] },
+  { plan_code: 'professional', billing_period: 'yearly', amount_vnd: 19104000, max_employees: 1000, max_devices: 10, max_attendance_devices: 10, max_faceid_devices: 16, enabled_modules: ['Attendance', 'Access', 'Weighbridge', 'Assets'] },
 ];
 
 function formatVnd(value: number) {
@@ -30,6 +32,8 @@ function getModuleLabel(module: string, vi: boolean): string {
     case 'Access': return vi ? 'Kiểm soát ra vào' : 'Access control';
     case 'Weighbridge': return vi ? 'Trạm cân xe tải' : 'Weighbridge';
     case 'Assets': return vi ? 'Quản lý tài sản' : 'IT Asset Management';
+    case 'MCC': return vi ? 'Thiết bị MCC' : 'MCC Devices';
+    case 'FaceID': return vi ? 'Thiết bị FaceID' : 'FaceID Devices';
     default: return module;
   }
 }
@@ -44,7 +48,7 @@ export default function ProductPricing({ locale, compact = false }: { locale: 'v
     if (!supabase) return;
     void supabase
       .from('license_products')
-      .select('plan_code,billing_period,amount_vnd,max_employees,max_devices,enabled_modules')
+      .select('plan_code,billing_period,amount_vnd,max_employees,max_devices,max_attendance_devices,max_faceid_devices,enabled_modules')
       .eq('is_active', true)
       .then(({ data, error }) => {
         if (!error && data?.length) {
@@ -91,7 +95,10 @@ export default function ProductPricing({ locale, compact = false }: { locale: 'v
               <p className="mt-1 text-sm text-muted">/ {billing === 'monthly' ? (vi ? 'tháng' : 'month') : (vi ? 'năm' : 'year')}</p>
               <ul className="mt-6 flex-1 space-y-3 text-sm text-foreground/80">
                 <li>✓ {vi ? `Tối đa ${product.max_employees} nhân sự` : `Up to ${product.max_employees} employees`}</li>
-                <li>✓ {vi ? `Tối đa ${product.max_devices} thiết bị` : `Up to ${product.max_devices} devices`}</li>
+                <li>✓ {vi ? `Tối đa ${product.max_attendance_devices} máy MCC` : `Up to ${product.max_attendance_devices} MCC devices`}</li>
+                {product.max_faceid_devices > 0 && (
+                  <li>✓ {vi ? `Tối đa ${product.max_faceid_devices} máy FaceID` : `Up to ${product.max_faceid_devices} FaceID devices`}</li>
+                )}
                 {product.enabled_modules.map((module) => (
                   <li key={module}>✓ {getModuleLabel(module, vi)}</li>
                 ))}

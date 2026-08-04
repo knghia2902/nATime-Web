@@ -14,6 +14,8 @@ type AuthorityLicenseRow = {
   product_tier: string;
   max_employees: number;
   max_devices: number;
+  max_attendance_devices: number;
+  max_faceid_devices: number;
   expires_at_utc: string | null;
   enabled_modules: string[] | null;
   hardware_id: string;
@@ -111,7 +113,7 @@ async function validateLicense(request: Request): Promise<Response> {
 
   const { data, error } = await admin
     .from('license_authority_licenses')
-    .select('id, customer_name, product_tier, max_employees, max_devices, expires_at_utc, enabled_modules, hardware_id, issued_at_utc, not_before_utc, revision, revoked_at_utc')
+    .select('id, customer_name, product_tier, max_employees, max_devices, max_attendance_devices, max_faceid_devices, expires_at_utc, enabled_modules, hardware_id, issued_at_utc, not_before_utc, revision, revoked_at_utc')
     .eq('id', licenseId)
     .maybeSingle();
   if (error) throw new Error('INTERNAL_ERROR');
@@ -136,6 +138,8 @@ async function renewLicense(request: Request, licenseId: string): Promise<Respon
   const body = await request.json() as JsonRecord;
   const maxEmployees = requiredInteger(body.maxEmployees ?? body.MaxEmployees, 'MAX_EMPLOYEES_INVALID', 1);
   const maxDevices = requiredInteger(body.maxDevices ?? body.MaxDevices, 'MAX_DEVICES_INVALID', 0);
+  const maxAttendanceDevices = requiredInteger(body.maxAttendanceDevices ?? body.MaxAttendanceDevices ?? maxDevices, 'MAX_DEVICES_INVALID', 0);
+  const maxFaceIdDevices = requiredInteger(body.maxFaceIdDevices ?? body.MaxFaceIdDevices ?? 0, 'MAX_DEVICES_INVALID', 0);
   const expiresAtUtc = optionalTimestamp(body.expiresAtUtc ?? body.ExpiresAtUtc);
   const enabledModules = stringArray(body.enabledModules ?? body.EnabledModules, 64, 80);
   const correlationId = correlation(request);
@@ -143,6 +147,8 @@ async function renewLicense(request: Request, licenseId: string): Promise<Respon
     p_license_id: licenseId,
     p_max_employees: maxEmployees,
     p_max_devices: maxDevices,
+    p_max_attendance_devices: maxAttendanceDevices,
+    p_max_faceid_devices: maxFaceIdDevices,
     p_expires_at_utc: expiresAtUtc,
     p_enabled_modules: enabledModules,
     p_correlation_id: correlationId,
@@ -170,6 +176,8 @@ async function signedKey(license: AuthorityLicenseRow): Promise<string> {
     ProductTier: license.product_tier,
     MaxEmployees: license.max_employees,
     MaxDevices: license.max_devices,
+    MaxAttendanceDevices: license.max_attendance_devices ?? license.max_devices,
+    MaxFaceIdDevices: license.max_faceid_devices ?? 0,
     ExpiresAtUtc: normalizeTimestamp(license.expires_at_utc),
     EnabledModules: Array.from(new Set(license.enabled_modules ?? [])),
     HardwareId: license.hardware_id,

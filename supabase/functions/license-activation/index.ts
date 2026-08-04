@@ -117,7 +117,7 @@ async function approveActivation(
 
   const { data: entitlement, error: entitlementError } = await admin
     .from('license_entitlements')
-    .select('id, plan_code, status, max_employees, max_devices, enabled_modules, expires_at')
+    .select('id, plan_code, status, max_employees, max_devices, max_attendance_devices, max_faceid_devices, enabled_modules, expires_at')
     .eq('id', entitlementId)
     .eq('user_id', user.id)
     .maybeSingle();
@@ -159,6 +159,8 @@ async function approveActivation(
         productTier: entitlement.plan_code,
         maxEmployees: entitlement.max_employees,
         maxDevices: entitlement.max_devices,
+        maxAttendanceDevices: entitlement.max_attendance_devices ?? entitlement.max_devices,
+        maxFaceIdDevices: entitlement.max_faceid_devices ?? 0,
         expiresAtUtc: entitlement.expires_at,
         enabledModules: entitlement.enabled_modules,
         hardwareId: activation.hardware_id,

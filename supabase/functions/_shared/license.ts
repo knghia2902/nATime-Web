@@ -4,6 +4,8 @@ export type LicensePayload = {
   ProductTier: string;
   MaxEmployees: number;
   MaxDevices: number;
+  MaxAttendanceDevices: number;
+  MaxFaceIdDevices: number;
   ExpiresAtUtc: string | null;
   EnabledModules: string[];
   HardwareId: string;

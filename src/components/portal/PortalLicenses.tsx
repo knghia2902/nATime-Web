@@ -22,6 +22,8 @@ type Entitlement = {
   status: string;
   max_employees: number;
   max_devices: number;
+  max_attendance_devices: number;
+  max_faceid_devices: number;
   enabled_modules: string[];
   starts_at: string | null;
   expires_at: string | null;
@@ -43,7 +45,7 @@ export default function PortalLicenses() {
 
     const { data } = await supabase
       .from('license_entitlements')
-      .select('id,plan_code,origin,status,max_employees,max_devices,enabled_modules,starts_at,expires_at,license_installations(id,display_name,hardware_id_hash,status,activated_at,last_validated_at)')
+      .select('id,plan_code,origin,status,max_employees,max_devices,max_attendance_devices,max_faceid_devices,enabled_modules,starts_at,expires_at,license_installations(id,display_name,hardware_id_hash,status,activated_at,last_validated_at)')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
 
@@ -227,7 +229,7 @@ export default function PortalLicenses() {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-xl bg-muted/20 border border-border/80">
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 p-4 rounded-xl bg-muted/20 border border-border/80">
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5 text-xs font-bold text-muted">
                         <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -243,10 +245,22 @@ export default function PortalLicenses() {
                         <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        <span>Thiết bị</span>
+                        <span>MCC</span>
                       </div>
                       <p className="text-lg font-black text-foreground">
-                        {activeDevices.length}<span className="text-muted font-medium text-sm">/{license.max_devices}</span>
+                        {activeDevices.length}<span className="text-muted font-medium text-sm">/{license.max_attendance_devices}</span>
+                      </p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-muted">
+                        <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span>FaceID</span>
+                      </div>
+                      <p className="text-lg font-black text-foreground">
+                        0<span className="text-muted font-medium text-sm">/{license.max_faceid_devices}</span>
                       </p>
                     </div>
 
