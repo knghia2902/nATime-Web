@@ -622,7 +622,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                         key={key}
                         className="px-4 py-3 text-slate-800 align-middle text-left"
                       >
-                        <div className="mx-auto w-fit text-left">
+                        <div className="flex items-center w-full justify-start text-left">
                           {renderedContent}
                         </div>
                       </td>
