@@ -240,12 +240,18 @@ export function AdminOverview() {
         table,
         count: (await client.from(table).select('*', { count: 'exact', head: true })).count ?? 0
       })),
+      client.from('license_audit_entries').select('*', { count: 'exact', head: true }).eq('event_type', 'site.visited'),
       client.from('license_audit_entries').select('id,event_type,details,created_at').order('created_at', { ascending: false }).limit(5)
     ]).then((results) => {
       const countsResult = results.slice(0, 7) as { table: string; count: number }[];
-      const auditResult = results[7] as { data: Row[] | null };
+      const auditViewsCount = (results[7] as { count?: number }).count ?? 0;
+      const auditResult = results[8] as { data: Row[] | null };
 
-      setCounts(Object.fromEntries(countsResult.map((item) => [item.table, item.count])));
+      const countsMap = Object.fromEntries(countsResult.map((item) => [item.table, item.count]));
+      // Tổng lượt xem = page_views + audit site.visited
+      countsMap.page_views = (countsMap.page_views || 0) + auditViewsCount;
+
+      setCounts(countsMap);
       setRecentAudits(auditResult.data ?? []);
     }).finally(() => setLoading(false));
   }, []);
