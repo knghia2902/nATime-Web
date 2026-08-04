@@ -15,7 +15,7 @@ const links = [
 ];
 
 function SidebarIcon({ name, className }: { name: string; className?: string }) {
-  const cls = className || 'h-[18px] w-[18px]';
+  const cls = className || 'h-4 w-4 shrink-0';
   switch (name) {
     case 'dashboard':
       return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>;
@@ -43,7 +43,7 @@ export default function PortalShell({ title, description, children, actions }: {
   }, [loading, pathname, router, user]);
 
   if (loading || !user) {
-    return <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted">Đang kiểm tra tài khoản…</div>;
+    return <div className="flex min-h-screen items-center justify-center bg-slate-50 text-sm text-slate-600">Đang kiểm tra tài khoản…</div>;
   }
 
   async function logout() {
@@ -55,64 +55,75 @@ export default function PortalShell({ title, description, children, actions }: {
   const currentPage = links.find((l) => l.href === '/portal' ? pathname === l.href : pathname.startsWith(l.href));
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* ── Glass Topbar ── */}
-      <div className="glass-topbar sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-md">
+    <div className="min-h-screen bg-slate-50 text-slate-950">
+      {/* Glass Topbar */}
+      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <button onClick={() => setMobileOpen((v) => !v)} className="rounded-lg border border-border p-2 text-muted hover:bg-muted/50 md:hidden" aria-expanded={mobileOpen}>
+            <button onClick={() => setMobileOpen((v) => !v)} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 md:hidden" aria-expanded={mobileOpen}>
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
             </button>
             <nav className="hidden items-center gap-1.5 text-sm md:flex">
-              <Link href="/portal" className="font-medium text-muted hover:text-foreground">Cổng khách hàng</Link>
+              <Link href="/portal" className="font-medium text-slate-400 hover:text-slate-600">Cổng khách hàng</Link>
               {currentPage && currentPage.href !== '/portal' && <>
-                <svg className="h-3.5 w-3.5 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
-                <span className="font-semibold text-foreground">{currentPage.label}</span>
+                <svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                <span className="font-semibold text-slate-700">{currentPage.label}</span>
               </>}
             </nav>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/" className="hidden rounded-lg px-3 py-1.5 text-sm font-medium text-muted hover:bg-muted/50 sm:inline-flex">Website</Link>
-            <button onClick={logout} className="flex items-center gap-2 rounded-lg border border-border px-3 py-1.5 text-sm font-medium text-muted hover:bg-muted/50 transition">
+            <Link href="/" className="hidden rounded-lg px-3 py-1.5 text-sm font-medium text-slate-500 hover:bg-slate-100 sm:inline-flex">Website</Link>
+            <button onClick={logout} className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 transition">
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
               Đăng xuất
             </button>
           </div>
         </div>
-      </div>
+      </header>
 
       <div className="mx-auto grid max-w-[1400px] md:grid-cols-[240px_1fr]">
-        {/* ── Dark Sidebar ── */}
-        <aside className={`sidebar-dark ${mobileOpen ? 'block' : 'hidden'} border-b border-slate-800 p-4 md:block md:min-h-[calc(100vh-56px)] md:border-r md:border-b-0 md:border-slate-800 md:p-5`}>
-          {/* Logo */}
-          <Link href="/portal" className="mb-6 flex items-center gap-3 px-2">
-            <Image src="/logo.png" alt="" width={28} height={28} className="h-7 w-7 object-contain brightness-110" />
-            <div>
-              <span className="text-sm font-bold text-white">nATime</span>
-              <span className="ml-2 text-[10px] font-medium text-slate-500">Portal</span>
-            </div>
-          </Link>
+        {/* Dark Sidebar */}
+        <aside className={`border-r border-slate-800 bg-slate-900 p-4 text-slate-100 ${mobileOpen ? 'block' : 'hidden'} md:block md:min-h-[calc(100vh-56px)] md:p-5 flex flex-col justify-between`}>
+          <div>
+            {/* Logo */}
+            <Link href="/portal" className="mb-6 flex items-center gap-3 px-2">
+              <Image src="/logo.png" alt="nATime Logo" width={28} height={28} className="h-7 w-7 object-contain brightness-125" />
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-base font-bold tracking-tight text-white">nATime</span>
+                <span className="text-[10px] font-semibold tracking-wider text-blue-400 uppercase">Portal</span>
+              </div>
+            </Link>
 
-          <p className="sidebar-section-label">Quản lý dịch vụ</p>
-          <nav className="space-y-0.5">
-            {links.map((link) => {
-              const active = link.href === '/portal' ? pathname === link.href : pathname.startsWith(link.href);
-              return (
-                <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)} className={`sidebar-link ${active ? 'active' : ''}`}>
-                  <SidebarIcon name={link.icon} />
-                  {link.label}
-                </Link>
-              );
-            })}
-          </nav>
+            <p className="mb-2 px-2 text-[10px] font-bold tracking-widest text-slate-400 uppercase">Quản lý dịch vụ</p>
+            <nav className="space-y-1">
+              {links.map((link) => {
+                const active = link.href === '/portal' ? pathname === link.href : pathname.startsWith(link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition ${
+                      active
+                        ? 'bg-slate-800 text-white font-semibold border-l-2 border-blue-500 pl-2.5'
+                        : 'text-slate-300 hover:bg-slate-800/60 hover:text-white'
+                    }`}
+                  >
+                    <SidebarIcon name={link.icon} className={`h-4 w-4 shrink-0 ${active ? 'text-blue-400' : 'text-slate-400'}`} />
+                    <span className="truncate">{link.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
 
           {/* User Card */}
-          <div className="mt-auto pt-8">
-            <div className="rounded-xl border border-slate-700/50 bg-slate-800/50 p-4">
+          <div className="mt-8 pt-4 border-t border-slate-800">
+            <div className="rounded-xl border border-slate-800 bg-slate-800/60 p-3">
               <div className="flex items-center gap-3">
-                <span className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-xs font-bold text-white">{initials}</span>
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue-600 text-xs font-bold text-white">{initials}</span>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-white">{user.name || 'Khách hàng'}</p>
+                  <p className="truncate text-xs font-semibold text-white">{user.name || 'Khách hàng'}</p>
                   <p className="truncate text-[11px] text-slate-400">{user.email}</p>
                 </div>
               </div>
@@ -120,14 +131,14 @@ export default function PortalShell({ title, description, children, actions }: {
           </div>
         </aside>
 
-        {/* ── Main Content ── */}
+        {/* Main Content */}
         <main className="min-w-0 p-4 sm:p-6 lg:p-8">
-          <header className="header mb-6 sm:flex sm:items-start sm:justify-between sm:gap-4">
+          <header className="mb-6 sm:flex sm:items-start sm:justify-between sm:gap-4">
             <div>
-              <h1 className="title text-2xl font-bold tracking-tight text-foreground" style={{ margin: '0 0 3px 0', lineHeight: 1.2 }}>{title}</h1>
-              <p className="subtitle text-sm text-muted">{description}</p>
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900">{title}</h1>
+              <p className="mt-1 text-sm text-slate-500">{description}</p>
             </div>
-            {actions && <div className="header-actions mt-4 flex gap-2 sm:mt-0">{actions}</div>}
+            {actions && <div className="mt-4 flex gap-2 sm:mt-0">{actions}</div>}
           </header>
           <div>{children}</div>
         </main>
