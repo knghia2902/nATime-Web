@@ -1,7 +1,7 @@
 import PublicShell from './PublicShell';
 import Hero from '../sections/Hero';
 import Features from '../sections/Features';
-import Stats from '../sections/Stats';
+import Benefits from '../sections/Benefits';
 import CTA from '../sections/CTA';
 
 export default function HomeContent({ locale }: { locale: 'vi' | 'en' }) {
@@ -9,7 +9,7 @@ export default function HomeContent({ locale }: { locale: 'vi' | 'en' }) {
     <PublicShell locale={locale}>
       <Hero />
       <Features />
-      <Stats />
+      <Benefits />
       <CTA />
     </PublicShell>
   );

@@ -1,7 +1,7 @@
 import PublicShell from '@/components/site/PublicShell';
 import Hero from '@/components/sections/Hero';
 import Features from '@/components/sections/Features';
-import Stats from '@/components/sections/Stats';
+import Benefits from '@/components/sections/Benefits';
 import CTA from '@/components/sections/CTA';
 import { publicPageMetadata } from '@/lib/siteMetadata';
 
@@ -17,7 +17,7 @@ export default function Home() {
     <PublicShell locale="vi">
       <Hero />
       <Features />
-      <Stats />
+      <Benefits />
       <CTA />
     </PublicShell>
   );

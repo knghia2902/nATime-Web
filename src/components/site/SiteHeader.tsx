@@ -14,8 +14,8 @@ const labels = {
     home: 'Trang chủ',
     features: 'Tính năng',
     pricing: 'Bảng giá',
-    knowledge: 'Blog',
-    support: 'Liên hệ',
+    blog: 'Blog',
+    support: 'Support',
     login: 'Đăng nhập',
     portal: 'Cổng khách hàng',
     trial: 'Dùng thử miễn phí',
@@ -26,11 +26,11 @@ const labels = {
     home: 'Home',
     features: 'Features',
     pricing: 'Pricing',
-    knowledge: 'Blog',
-    support: 'Contact',
+    blog: 'Blog',
+    support: 'Support',
     login: 'Sign in',
-    portal: 'Customer portal',
-    trial: 'Start free trial',
+    portal: 'Portal',
+    trial: 'Start Free Trial',
     menu: 'Open menu',
     close: 'Close menu',
   },
@@ -46,13 +46,12 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const text = labels[locale];
-  const pathWithoutLocale = pathname.startsWith('/en') ? pathname.slice(3) || '/' : pathname;
-  const languageHref = locale === 'vi' ? `/en${pathname === '/' ? '' : pathname}` : pathWithoutLocale;
+
   const nav = [
     [text.home, localPath(locale, '/')],
     [text.features, localPath(locale, '/features')],
     [text.pricing, localPath(locale, '/pricing')],
-    [text.knowledge, localPath(locale, '/changelog')],
+    [text.blog, localPath(locale, '/changelog')],
     [text.support, localPath(locale, '/contact')],
   ];
 
@@ -63,13 +62,6 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
     return () => window.removeEventListener('scroll', update);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [open]);
-
   const isActive = (href: string) => {
     if (href === localPath(locale, '/')) return pathname === href;
     return pathname.startsWith(href);
@@ -77,60 +69,110 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <header className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ${scrolled ? 'border-border/80 bg-background/80 shadow-[0_1px_3px_rgba(15,23,42,.04),0_10px_30px_rgba(15,23,42,.04)] backdrop-blur-xl' : 'border-transparent bg-background/55 backdrop-blur-md'}`}>
-        <nav className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8" aria-label="Primary navigation">
-          <Link href={localPath(locale, '/')} className="group flex items-center gap-2.5" aria-label="nATime">
-            <Image src="/logo.png" alt="" width={34} height={34} className="h-[34px] w-[34px] object-contain transition-transform duration-300 group-hover:scale-105" />
-            <span className="text-[15px] font-extrabold tracking-[-0.02em] text-foreground">nATime</span>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? 'border-b border-border/80 bg-background/90 shadow-sm backdrop-blur-xl'
+            : 'border-b border-transparent bg-background/80 backdrop-blur-md'
+        }`}
+      >
+        <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8" aria-label="Global">
+          {/* Brand Logo */}
+          <Link href={localPath(locale, '/')} className="flex items-center gap-2.5">
+            <Image src="/logo.png" alt="nATime Logo" width={36} height={36} className="h-9 w-9 object-contain" />
+            <span className="text-xl font-extrabold tracking-tight text-[#1e3a8a] dark:text-white">nATime</span>
           </Link>
 
-          <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex">
+          {/* Center Nav Links */}
+          <div className="hidden lg:flex items-center gap-8">
             {nav.map(([label, href]) => (
-              <Link key={href} href={href} className={`relative rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors ${isActive(href) ? 'bg-blue-50 text-blue-600' : 'text-muted hover:bg-muted/80 hover:text-foreground'}`}>
+              <Link
+                key={href}
+                href={href}
+                className={`relative text-sm font-bold transition-colors ${
+                  isActive(href)
+                    ? 'text-primary'
+                    : 'text-foreground/80 hover:text-primary'
+                }`}
+              >
                 {label}
-                {isActive(href) && <span className="absolute bottom-0.5 left-1/2 h-[3px] w-[3px] -translate-x-1/2 rounded-full bg-blue-600" />}
+                {isActive(href) && (
+                  <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 rounded-full bg-primary" />
+                )}
               </Link>
             ))}
           </div>
 
-          <div className="hidden items-center gap-2 lg:flex">
+          {/* Right Action Buttons */}
+          <div className="hidden lg:flex items-center gap-4">
             <ThemeToggle />
-            <Link href={languageHref} className="grid h-9 min-w-9 place-items-center rounded-full border border-border bg-background px-2.5 text-xs font-bold text-muted transition hover:border-primary/30 hover:text-primary">{locale === 'vi' ? 'EN' : 'VI'}</Link>
-            <Link href={user ? '/portal' : '/login'} className="rounded-full px-3.5 py-2 text-sm font-semibold text-muted transition hover:bg-muted/80 hover:text-foreground">{user ? text.portal : text.login}</Link>
+            <Link
+              href={user ? '/portal' : '/login'}
+              className="rounded-full px-5 py-2.5 text-sm font-bold text-foreground hover:text-primary transition"
+            >
+              {user ? text.portal : text.login}
+            </Link>
+
             {!user && (
-              <Link href="/register?trial=standard" className="group relative ml-1 inline-flex h-9 items-center gap-1.5 overflow-hidden rounded-full bg-primary px-5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/25">
-                <span className="relative z-10">{text.trial}</span>
-                <span className="relative z-10 transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
+              <Link
+                href="/register?trial=standard"
+                className="inline-flex h-11 items-center justify-center rounded-xl bg-primary px-6 text-sm font-bold text-white shadow-md shadow-primary/25 hover:bg-primary-hover hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0"
+              >
+                {text.trial}
               </Link>
             )}
           </div>
 
-          <button type="button" onClick={() => setOpen((value) => !value)} className="relative grid h-9 w-9 place-items-center rounded-full border border-border bg-background text-muted shadow-sm lg:hidden hover:text-foreground" aria-label={open ? text.close : text.menu} aria-expanded={open}>
-            <span className="sr-only">{open ? text.close : text.menu}</span>
-            <span className="flex w-4 flex-col gap-1">
-              <span className={`h-0.5 rounded-full bg-current transition ${open ? 'translate-y-1.5 rotate-45' : ''}`} />
-              <span className={`h-0.5 rounded-full bg-current transition ${open ? 'opacity-0' : ''}`} />
-              <span className={`h-0.5 rounded-full bg-current transition ${open ? '-translate-y-1.5 -rotate-45' : ''}`} />
-            </span>
-          </button>
+          {/* Mobile hamburger */}
+          <div className="flex items-center gap-3 lg:hidden">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              className="grid h-10 w-10 place-items-center rounded-xl border border-border bg-card text-foreground"
+              aria-label={open ? text.close : text.menu}
+            >
+              <span className="flex w-5 flex-col gap-1.5">
+                <span className={`h-0.5 rounded-full bg-current transition ${open ? 'translate-y-2 rotate-45' : ''}`} />
+                <span className={`h-0.5 rounded-full bg-current transition ${open ? 'opacity-0' : ''}`} />
+                <span className={`h-0.5 rounded-full bg-current transition ${open ? '-translate-y-2 -rotate-45' : ''}`} />
+              </span>
+            </button>
+          </div>
         </nav>
       </header>
 
-      <div onClick={() => setOpen(false)} className={`fixed inset-0 z-40 bg-foreground/35 backdrop-blur-sm transition-opacity lg:hidden ${open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`} aria-hidden="true" />
-      <aside className={`fixed right-0 top-0 z-50 flex h-dvh w-[300px] max-w-[86vw] flex-col border-l border-border bg-background/96 shadow-2xl backdrop-blur-xl transition-transform duration-300 lg:hidden ${open ? 'translate-x-0' : 'translate-x-full'}`} aria-hidden={!open}>
-        <div className="flex h-16 items-center justify-between border-b border-border px-5">
-          <Link href={localPath(locale, '/')} onClick={() => setOpen(false)} className="flex items-center gap-2"><Image src="/logo.png" alt="" width={30} height={30} className="h-[30px] w-[30px] object-contain" /><span className="font-extrabold text-foreground">nATime</span></Link>
-          <button type="button" onClick={() => setOpen(false)} className="grid h-8 w-8 place-items-center rounded-full text-xl text-muted hover:bg-muted hover:text-foreground" aria-label={text.close}>×</button>
+      {/* Mobile Sidebar */}
+      {open && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-background p-6 lg:hidden">
+          <div className="flex items-center justify-between border-b border-border pb-4">
+            <Link href={localPath(locale, '/')} onClick={() => setOpen(false)} className="flex items-center gap-2">
+              <Image src="/logo.png" alt="nATime" width={32} height={32} />
+              <span className="text-lg font-bold text-foreground">nATime</span>
+            </Link>
+            <button onClick={() => setOpen(false)} className="text-2xl text-muted font-bold">×</button>
+          </div>
+          <div className="flex flex-col gap-4 py-6">
+            {nav.map(([label, href]) => (
+              <Link key={href} href={href} onClick={() => setOpen(false)} className="text-base font-bold text-foreground hover:text-primary">
+                {label}
+              </Link>
+            ))}
+          </div>
+          <div className="mt-auto space-y-3 pt-4 border-t border-border">
+            <Link href={user ? '/portal' : '/login'} onClick={() => setOpen(false)} className="block w-full text-center py-3 rounded-xl border border-border font-bold">
+              {user ? text.portal : text.login}
+            </Link>
+            {!user && (
+              <Link href="/register?trial=standard" onClick={() => setOpen(false)} className="block w-full text-center py-3 rounded-xl bg-primary text-white font-bold">
+                {text.trial}
+              </Link>
+            )}
+          </div>
         </div>
-        <div className="flex flex-1 flex-col gap-1 overflow-y-auto p-4">
-          {nav.map(([label, href]) => <Link key={href} href={href} onClick={() => setOpen(false)} className={`flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-semibold ${isActive(href) ? 'bg-blue-50 text-blue-600' : 'text-muted hover:bg-muted hover:text-foreground'}`}><span className={`h-1.5 w-1.5 rounded-full ${isActive(href) ? 'bg-blue-600' : 'bg-border'}`} />{label}</Link>)}
-        </div>
-        <div className="border-t border-border p-4">
-          <div className="mb-3 grid grid-cols-2 gap-2"><Link href={languageHref} className="rounded-lg border border-border px-3 py-2.5 text-center text-sm font-bold text-muted hover:text-foreground">{locale === 'vi' ? 'English' : 'Tiếng Việt'}</Link><Link href={user ? '/portal' : '/login'} className="rounded-lg border border-border px-3 py-2.5 text-center text-sm font-bold text-muted hover:text-foreground">{user ? text.portal : text.login}</Link></div>
-          {!user && <Link href="/register?trial=standard" onClick={() => setOpen(false)} className="flex h-11 items-center justify-center rounded-xl bg-primary text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20">{text.trial}</Link>}
-        </div>
-      </aside>
-      <div className="h-16" />
+      )}
+
+      <div className="h-20" />
     </>
   );
 }
