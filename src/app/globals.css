@@ -599,7 +599,7 @@ th, .th {
 }
 
 /* ========================================
-   Data Table Enhanced
+   Data Table Enhanced - Strict Alignment
    ======================================== */
 .table-enhanced {
   width: 100%;
@@ -612,7 +612,7 @@ th, .th {
 }
 
 .table-enhanced th {
-  text-align: left;
+  text-align: left !important;
   padding: 0.75rem 1.25rem;
   font-size: 0.75rem;
   font-weight: 700;
@@ -623,6 +623,7 @@ th, .th {
 }
 
 .table-enhanced td {
+  text-align: left !important;
   padding: 0.875rem 1.25rem;
   font-size: 0.875rem;
   color: var(--foreground);

@@ -56,7 +56,7 @@ function CopyableId({ value }: { value: string }) {
       type="button"
       onClick={handleCopy}
       title={`Click để sao chép full: ${value}`}
-      className="group relative inline-flex items-center justify-center gap-1 rounded-md bg-slate-100/80 px-2 py-0.5 font-mono text-xs font-normal text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 transition-colors border border-slate-200/60 cursor-pointer"
+      className="group relative inline-flex items-center justify-start gap-1 rounded-md bg-slate-100/80 px-2 py-0.5 font-mono text-xs font-normal text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 transition-colors border border-slate-200/60 cursor-pointer"
     >
       <span className="truncate">{formatShortId(value)}</span>
       {copied ? (
@@ -98,7 +98,7 @@ function AuditEventBadge({ eventType }: { eventType: string }) {
   else if (type === 'entitlement.modules.test_enabled') label = 'Bật module thử nghiệm';
 
   return (
-    <span className="inline-block rounded bg-slate-100/90 px-2 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70 text-center">
+    <span className="inline-block rounded bg-slate-100/90 px-2 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70 text-left">
       {label}
     </span>
   );
@@ -114,14 +114,14 @@ function AuditUserCell({ userId, profilesMap }: { userId: unknown; profilesMap?:
   const friendlyName = profilesMap?.[str];
   if (friendlyName && friendlyName.trim() !== '') {
     return (
-      <span className="inline-flex items-center justify-center gap-1 font-medium text-slate-800 text-xs" title={`UUID: ${str}`}>
+      <span className="inline-flex items-center justify-start gap-1 font-medium text-slate-800 text-xs" title={`UUID: ${str}`}>
         <span className="text-slate-400 font-normal text-[11px]">👤</span> {friendlyName}
       </span>
     );
   }
 
   return (
-    <span className="inline-flex items-center justify-center gap-1 font-normal text-slate-700 text-xs" title={`UUID đầy đủ: ${str}`}>
+    <span className="inline-flex items-center justify-start gap-1 font-normal text-slate-700 text-xs" title={`UUID đầy đủ: ${str}`}>
       Admin <span className="font-mono text-slate-500 text-[11px]">({str.slice(0, 8)})</span>
     </span>
   );
@@ -145,7 +145,7 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
 
   if (obj.authorityLicenseId) {
     return (
-      <span className="text-xs text-slate-700 font-normal inline-flex items-center justify-center gap-1.5">
+      <span className="text-xs text-slate-700 font-normal inline-flex items-center justify-start gap-1.5">
         Bản quyền <CopyableId value={String(obj.authorityLicenseId)} />
         {obj.revision != null && <span className="text-slate-400 text-[11px]">(Lần #{String(obj.revision)})</span>}
       </span>
@@ -164,7 +164,7 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
   if (keys.length === 0) return <span className="text-slate-400 font-normal">—</span>;
 
   return (
-    <span className="text-xs font-mono text-slate-600 truncate block max-w-[280px] mx-auto" title={JSON.stringify(obj)}>
+    <span className="text-xs font-mono text-slate-600 truncate block max-w-[280px]" title={JSON.stringify(obj)}>
       {JSON.stringify(obj)}
     </span>
   );
@@ -207,7 +207,7 @@ function StatusBadge({ status }: { status: string }) {
   if (normalized === 'closed') label = 'Đã đóng';
 
   return (
-    <span className={`inline-flex items-center justify-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}>
+    <span className={`inline-flex items-center justify-start gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}>
       <span className={`h-1.5 w-1.5 rounded-full ${dotStyle}`} />
       {label}
     </span>
@@ -473,9 +473,9 @@ function getColumnWidthClass(kind: string, colKey: string): string {
       case 'event_type':
         return 'w-[180px] min-w-[180px]';
       case 'user_id':
-        return 'w-[180px] min-w-[180px]';
+        return 'w-[200px] min-w-[200px]';
       case 'correlation_id':
-        return 'w-[170px] min-w-[170px]';
+        return 'w-[160px] min-w-[160px]';
       case 'details':
         return 'w-auto';
       case 'created_at':
@@ -595,13 +595,13 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
 
       <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="table-enhanced w-full text-center text-sm table-fixed">
+          <table className="table-enhanced w-full text-left text-sm table-fixed">
             <thead>
               <tr className="border-b border-slate-200/80 bg-slate-50/60">
                 {definition.columns.map(([key, label]) => (
                   <th
                     key={key}
-                    className={`px-4 py-3 font-medium text-xs text-slate-500 uppercase tracking-wider text-center align-middle ${getColumnWidthClass(kind, key)}`}
+                    className={`px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider text-left align-middle ${getColumnWidthClass(kind, key)}`}
                   >
                     {label}
                   </th>
@@ -653,9 +653,9 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                     return (
                       <td
                         key={key}
-                        className={`px-4 py-3 text-slate-800 text-center align-middle ${getColumnWidthClass(kind, key)}`}
+                        className={`px-4 py-3 text-slate-800 text-left align-middle ${getColumnWidthClass(kind, key)}`}
                       >
-                        <div className="flex items-center justify-center w-full text-center">
+                        <div className="flex items-center justify-start text-left w-full">
                           {renderedContent}
                         </div>
                       </td>
