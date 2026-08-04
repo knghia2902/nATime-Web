@@ -56,7 +56,7 @@ function CopyableId({ value }: { value: string }) {
       type="button"
       onClick={handleCopy}
       title={`Click để sao chép full: ${value}`}
-      className="group relative inline-flex items-center gap-1 rounded-md bg-slate-100/80 px-2 py-0.5 font-mono text-xs font-normal text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 transition-colors border border-slate-200/60 text-left max-w-full cursor-pointer"
+      className="group relative inline-flex items-center justify-center gap-1 rounded-md bg-slate-100/80 px-2 py-0.5 font-mono text-xs font-normal text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 transition-colors border border-slate-200/60 cursor-pointer"
     >
       <span className="truncate">{formatShortId(value)}</span>
       {copied ? (
@@ -98,32 +98,30 @@ function AuditEventBadge({ eventType }: { eventType: string }) {
   else if (type === 'entitlement.modules.test_enabled') label = 'Bật module thử nghiệm';
 
   return (
-    <span className="inline-block rounded bg-slate-100/90 px-2 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70">
+    <span className="inline-block rounded bg-slate-100/90 px-2 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70 text-center">
       {label}
     </span>
   );
 }
 
-// ── Clean Audit User Cell (Map UUID -> Friendly Name/Email) ──
+// ── Clean Audit User Cell ──
 function AuditUserCell({ userId, profilesMap }: { userId: unknown; profilesMap?: Record<string, string> }) {
   const str = cell(userId);
   if (str === '—') {
     return <span className="text-slate-400 font-normal text-xs">Tự động</span>;
   }
 
-  // Check if we have a mapped profile name or email
   const friendlyName = profilesMap?.[str];
   if (friendlyName && friendlyName.trim() !== '') {
     return (
-      <span className="inline-flex items-center gap-1 font-medium text-slate-800 text-xs" title={`UUID: ${str}`}>
+      <span className="inline-flex items-center justify-center gap-1 font-medium text-slate-800 text-xs" title={`UUID: ${str}`}>
         <span className="text-slate-400 font-normal text-[11px]">👤</span> {friendlyName}
       </span>
     );
   }
 
-  // Fallback: Display short readable admin badge
   return (
-    <span className="inline-flex items-center gap-1 font-normal text-slate-700 text-xs" title={`UUID đầy đủ: ${str}`}>
+    <span className="inline-flex items-center justify-center gap-1 font-normal text-slate-700 text-xs" title={`UUID đầy đủ: ${str}`}>
       Admin <span className="font-mono text-slate-500 text-[11px]">({str.slice(0, 8)})</span>
     </span>
   );
@@ -147,7 +145,7 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
 
   if (obj.authorityLicenseId) {
     return (
-      <span className="text-xs text-slate-700 font-normal flex items-center gap-1.5">
+      <span className="text-xs text-slate-700 font-normal inline-flex items-center justify-center gap-1.5">
         Bản quyền <CopyableId value={String(obj.authorityLicenseId)} />
         {obj.revision != null && <span className="text-slate-400 text-[11px]">(Lần #{String(obj.revision)})</span>}
       </span>
@@ -166,7 +164,7 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
   if (keys.length === 0) return <span className="text-slate-400 font-normal">—</span>;
 
   return (
-    <span className="text-xs font-mono text-slate-600 truncate block max-w-[280px]" title={JSON.stringify(obj)}>
+    <span className="text-xs font-mono text-slate-600 truncate block max-w-[280px] mx-auto" title={JSON.stringify(obj)}>
       {JSON.stringify(obj)}
     </span>
   );
@@ -177,7 +175,6 @@ function AuditCorrelationTag({ correlationId }: { correlationId: unknown }) {
   const str = cell(correlationId);
   if (str === '—') return <span className="text-slate-400 font-normal">—</span>;
 
-  // Extract ID part if present after colon (e.g., "activation:1ec1ad32..." -> "1ec1ad32...")
   const parts = str.split(':');
   const cleanVal = parts.length >= 2 ? parts.slice(1).join(':') : str;
 
@@ -210,7 +207,7 @@ function StatusBadge({ status }: { status: string }) {
   if (normalized === 'closed') label = 'Đã đóng';
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}>
+    <span className={`inline-flex items-center justify-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}>
       <span className={`h-1.5 w-1.5 rounded-full ${dotStyle}`} />
       {label}
     </span>
@@ -470,6 +467,52 @@ const definitions = {
   }
 } as const;
 
+function getColumnWidthClass(kind: string, colKey: string): string {
+  if (kind === 'audit') {
+    switch (colKey) {
+      case 'event_type':
+        return 'w-[180px] min-w-[180px]';
+      case 'user_id':
+        return 'w-[180px] min-w-[180px]';
+      case 'correlation_id':
+        return 'w-[170px] min-w-[170px]';
+      case 'details':
+        return 'w-auto';
+      case 'created_at':
+        return 'w-[160px] min-w-[160px]';
+      default:
+        return 'w-auto';
+    }
+  }
+
+  switch (colKey) {
+    case 'display_name':
+    case 'name':
+    case 'organization_name':
+    case 'company':
+      return 'w-[200px] min-w-[200px]';
+    case 'id':
+    case 'user_id':
+    case 'hardware_id_hash':
+    case 'entitlement_id':
+      return 'w-[180px] min-w-[180px]';
+    case 'status':
+    case 'plan_code':
+    case 'origin':
+    case 'billing_period':
+      return 'w-[140px] min-w-[140px]';
+    case 'amount_vnd':
+      return 'w-[150px] min-w-[150px]';
+    case 'created_at':
+    case 'expires_at':
+    case 'activated_at':
+    case 'last_validated_at':
+      return 'w-[160px] min-w-[160px]';
+    default:
+      return 'w-auto';
+  }
+}
+
 export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
   const definition = definitions[kind];
   const [rows, setRows] = useState<Row[]>([]);
@@ -489,7 +532,6 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
       };
     }
 
-    // Fetch table rows + portal_profiles map for friendly names
     void Promise.all([
       client.from(definition.table).select(definition.select).order('created_at', { ascending: false }).limit(100),
       client.from('portal_profiles').select('user_id,display_name,organization_name')
@@ -553,11 +595,14 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
 
       <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="table-enhanced w-full text-left text-sm">
+          <table className="table-enhanced w-full text-center text-sm table-fixed">
             <thead>
               <tr className="border-b border-slate-200/80 bg-slate-50/60">
                 {definition.columns.map(([key, label]) => (
-                  <th key={key} className="px-4 py-3 font-medium text-xs text-slate-500 uppercase tracking-wider">
+                  <th
+                    key={key}
+                    className={`px-4 py-3 font-medium text-xs text-slate-500 uppercase tracking-wider text-center align-middle ${getColumnWidthClass(kind, key)}`}
+                  >
                     {label}
                   </th>
                 ))}
@@ -606,8 +651,13 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                     }
 
                     return (
-                      <td key={key} className="max-w-[320px] truncate px-4 py-3 text-slate-800">
-                        {renderedContent}
+                      <td
+                        key={key}
+                        className={`px-4 py-3 text-slate-800 text-center align-middle ${getColumnWidthClass(kind, key)}`}
+                      >
+                        <div className="flex items-center justify-center w-full text-center">
+                          {renderedContent}
+                        </div>
                       </td>
                     );
                   })}
@@ -629,7 +679,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
           filteredRows.length === 0 && (
             <div className="p-12 text-center text-sm font-normal text-slate-500">
               <svg className="mx-auto h-8 w-8 text-slate-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
               </svg>
               <p>Không tìm thấy nhật ký phù hợp với bộ lọc.</p>
             </div>
