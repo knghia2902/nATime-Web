@@ -127,7 +127,7 @@ function AuditUserCell({ userId, profilesMap }: { userId: unknown; profilesMap?:
   );
 }
 
-// ── Clean Audit Details Formatter ──
+// ── Clean Audit Details Formatter (Removed "Lần #1, Lần #2") ──
 function AuditDetailsFormatter({ details }: { details: unknown }) {
   if (!details || typeof details !== 'object') {
     return <span className="text-slate-400 font-normal text-left">—</span>;
@@ -147,7 +147,6 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
     return (
       <span className="text-xs text-slate-700 font-normal inline-flex items-center justify-start gap-1.5 text-left">
         Bản quyền <CopyableId value={String(obj.authorityLicenseId)} />
-        {obj.revision != null && <span className="text-slate-400 text-[11px]">(Lần #{String(obj.revision)})</span>}
       </span>
     );
   }
@@ -467,11 +466,19 @@ const definitions = {
   }
 } as const;
 
-function isCenteredHeader(kind: string, colKey: string): boolean {
+function getColAlignClasses(kind: string, colKey: string) {
   if (kind === 'audit') {
-    return ['event_type', 'correlation_id', 'details', 'created_at'].includes(colKey);
+    if (['event_type', 'correlation_id'].includes(colKey)) {
+      return {
+        header: 'justify-center text-center',
+        cell: 'justify-center text-center'
+      };
+    }
   }
-  return false;
+  return {
+    header: 'justify-start text-left',
+    cell: 'justify-start text-left'
+  };
 }
 
 export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
@@ -560,15 +567,13 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
             <thead>
               <tr className="border-b border-slate-200/80 bg-slate-50/60">
                 {definition.columns.map(([key, label]) => {
-                  const centered = isCenteredHeader(kind, key);
+                  const aligns = getColAlignClasses(kind, key);
                   return (
                     <th
                       key={key}
-                      className={`px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider align-middle ${
-                        centered ? 'text-center' : 'text-left'
-                      }`}
+                      className="px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider align-middle"
                     >
-                      <div className={`flex items-center w-full ${centered ? 'justify-center text-center' : 'justify-start text-left'}`}>
+                      <div className={`flex items-center w-full ${aligns.header}`}>
                         {label}
                       </div>
                     </th>
@@ -585,6 +590,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                   {definition.columns.map(([key]) => {
                     const val = row[key];
                     const isIdOrHash = key.includes('id') || key.includes('hash');
+                    const aligns = getColAlignClasses(kind, key);
 
                     let renderedContent;
                     if (key === 'status') {
@@ -621,9 +627,9 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                     return (
                       <td
                         key={key}
-                        className="px-4 py-3 text-slate-800 align-middle text-left"
+                        className="px-4 py-3 text-slate-800 align-middle"
                       >
-                        <div className="flex items-center w-full justify-start text-left">
+                        <div className={`flex items-center w-full ${aligns.cell}`}>
                           {renderedContent}
                         </div>
                       </td>
