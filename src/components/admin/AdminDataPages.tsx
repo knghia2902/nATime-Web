@@ -49,14 +49,14 @@ function CopyableId({ value }: { value: string }) {
     setTimeout(() => setCopied(false), 1800);
   };
 
-  if (value === '—') return <span className="text-slate-400 font-normal">—</span>;
+  if (value === '—') return <span className="text-slate-400 font-normal text-left">—</span>;
 
   return (
     <button
       type="button"
       onClick={handleCopy}
       title={`Click để sao chép full: ${value}`}
-      className="group relative inline-flex items-center gap-1 rounded-md bg-slate-100/80 px-2 py-0.5 font-mono text-xs font-normal text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 transition-colors border border-slate-200/60 cursor-pointer"
+      className="group relative inline-flex items-center justify-start gap-1 rounded-md bg-slate-100/80 px-2 py-0.5 font-mono text-xs font-normal text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 transition-colors border border-slate-200/60 cursor-pointer text-left shrink-0"
     >
       <span className="truncate">{formatShortId(value)}</span>
       {copied ? (
@@ -82,7 +82,7 @@ function CopyableId({ value }: { value: string }) {
   );
 }
 
-// ── Clean & Minimalist Event Badge ──
+// ── Clean & Minimalist Event Badge (Centered container, left-aligned text inside) ──
 function AuditEventBadge({ eventType }: { eventType: string }) {
   const type = eventType.toLowerCase();
 
@@ -98,30 +98,30 @@ function AuditEventBadge({ eventType }: { eventType: string }) {
   else if (type === 'entitlement.modules.test_enabled') label = 'Bật module thử nghiệm';
 
   return (
-    <span className="inline-block rounded bg-slate-100/90 px-2.5 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70 text-center">
+    <span className="inline-block rounded bg-slate-100/90 px-2.5 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70 text-left shrink-0">
       {label}
     </span>
   );
 }
 
-// ── Clean Audit User Cell (NO ICON, text only) ──
+// ── Clean Audit User Cell (No icon, text left) ──
 function AuditUserCell({ userId, profilesMap }: { userId: unknown; profilesMap?: Record<string, string> }) {
   const str = cell(userId);
   if (str === '—') {
-    return <span className="text-slate-400 font-normal text-xs">Tự động</span>;
+    return <span className="text-slate-400 font-normal text-xs text-left">Tự động</span>;
   }
 
   const friendlyName = profilesMap?.[str];
   if (friendlyName && friendlyName.trim() !== '') {
     return (
-      <span className="font-semibold text-slate-800 text-xs" title={`UUID: ${str}`}>
+      <span className="font-semibold text-slate-800 text-xs text-left" title={`UUID: ${str}`}>
         {friendlyName}
       </span>
     );
   }
 
   return (
-    <span className="font-normal text-slate-700 text-xs" title={`UUID đầy đủ: ${str}`}>
+    <span className="font-normal text-slate-700 text-xs text-left" title={`UUID đầy đủ: ${str}`}>
       Admin <span className="font-mono text-slate-500 text-[11px]">({str.slice(0, 8)})</span>
     </span>
   );
@@ -130,14 +130,14 @@ function AuditUserCell({ userId, profilesMap }: { userId: unknown; profilesMap?:
 // ── Clean Audit Details Formatter ──
 function AuditDetailsFormatter({ details }: { details: unknown }) {
   if (!details || typeof details !== 'object') {
-    return <span className="text-slate-400 font-normal">—</span>;
+    return <span className="text-slate-400 font-normal text-left">—</span>;
   }
 
   const obj = details as Record<string, unknown>;
 
   if (obj.displayName) {
     return (
-      <span className="text-xs text-slate-700 font-normal">
+      <span className="text-xs text-slate-700 font-normal text-left">
         Tên máy: <span className="font-semibold text-slate-900">{String(obj.displayName)}</span>
       </span>
     );
@@ -145,7 +145,7 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
 
   if (obj.authorityLicenseId) {
     return (
-      <span className="text-xs text-slate-700 font-normal inline-flex items-center gap-1.5">
+      <span className="text-xs text-slate-700 font-normal inline-flex items-center justify-start gap-1.5 text-left">
         Bản quyền <CopyableId value={String(obj.authorityLicenseId)} />
         {obj.revision != null && <span className="text-slate-400 text-[11px]">(Lần #{String(obj.revision)})</span>}
       </span>
@@ -154,17 +154,17 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
 
   if (obj.durationDays) {
     return (
-      <span className="text-xs text-slate-700 font-normal">
+      <span className="text-xs text-slate-700 font-normal text-left">
         Thời hạn: <span className="font-semibold text-slate-900">{String(obj.durationDays)} ngày</span>
       </span>
     );
   }
 
   const keys = Object.keys(obj);
-  if (keys.length === 0) return <span className="text-slate-400 font-normal">—</span>;
+  if (keys.length === 0) return <span className="text-slate-400 font-normal text-left">—</span>;
 
   return (
-    <span className="text-xs font-mono text-slate-600 truncate block max-w-[280px]" title={JSON.stringify(obj)}>
+    <span className="text-xs font-mono text-slate-600 truncate block max-w-[280px] text-left" title={JSON.stringify(obj)}>
       {JSON.stringify(obj)}
     </span>
   );
@@ -173,7 +173,7 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
 // ── Clean Audit Correlation ID Cell ──
 function AuditCorrelationTag({ correlationId }: { correlationId: unknown }) {
   const str = cell(correlationId);
-  if (str === '—') return <span className="text-slate-400 font-normal">—</span>;
+  if (str === '—') return <span className="text-slate-400 font-normal text-left">—</span>;
 
   const parts = str.split(':');
   const cleanVal = parts.length >= 2 ? parts.slice(1).join(':') : str;
@@ -467,14 +467,24 @@ const definitions = {
   }
 } as const;
 
-function getColAlignClass(kind: string, colKey: string): string {
+function getColHeaderAlignClass(kind: string, colKey: string): string {
   if (kind === 'audit') {
-    if (['event_type', 'correlation_id', 'created_at'].includes(colKey)) {
+    if (['event_type', 'correlation_id', 'details', 'created_at'].includes(colKey)) {
       return 'text-center';
     }
     return 'text-left';
   }
   return 'text-left';
+}
+
+function getColContentJustifyClass(kind: string, colKey: string): string {
+  if (kind === 'audit') {
+    if (['event_type', 'correlation_id', 'details', 'created_at'].includes(colKey)) {
+      return 'justify-center';
+    }
+    return 'justify-start';
+  }
+  return 'justify-start';
 }
 
 export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
@@ -563,11 +573,11 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
             <thead>
               <tr className="border-b border-slate-200/80 bg-slate-50/60">
                 {definition.columns.map(([key, label]) => {
-                  const alignClass = getColAlignClass(kind, key);
+                  const headerAlign = getColHeaderAlignClass(kind, key);
                   return (
                     <th
                       key={key}
-                      className={`px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider align-middle ${alignClass}`}
+                      className={`px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider align-middle ${headerAlign}`}
                     >
                       {label}
                     </th>
@@ -584,7 +594,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                   {definition.columns.map(([key]) => {
                     const val = row[key];
                     const isIdOrHash = key.includes('id') || key.includes('hash');
-                    const alignClass = getColAlignClass(kind, key);
+                    const justifyClass = getColContentJustifyClass(kind, key);
 
                     let renderedContent;
                     if (key === 'status') {
@@ -621,9 +631,11 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                     return (
                       <td
                         key={key}
-                        className={`px-4 py-3 text-slate-800 align-middle ${alignClass}`}
+                        className="px-4 py-3 text-slate-800 align-middle"
                       >
-                        {renderedContent}
+                        <div className={`w-full flex items-center ${justifyClass} text-left`}>
+                          {renderedContent}
+                        </div>
                       </td>
                     );
                   })}
