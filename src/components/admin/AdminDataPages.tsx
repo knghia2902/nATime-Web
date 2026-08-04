@@ -231,7 +231,8 @@ export function AdminOverview() {
       'license_entitlements',
       'license_installations',
       'contact_requests',
-      'software_releases'
+      'software_releases',
+      'page_views'
     ] as const;
 
     void Promise.all([
@@ -241,8 +242,8 @@ export function AdminOverview() {
       })),
       client.from('license_audit_entries').select('id,event_type,details,created_at').order('created_at', { ascending: false }).limit(5)
     ]).then((results) => {
-      const countsResult = results.slice(0, 6) as { table: string; count: number }[];
-      const auditResult = results[6] as { data: Row[] | null };
+      const countsResult = results.slice(0, 7) as { table: string; count: number }[];
+      const auditResult = results[7] as { data: Row[] | null };
 
       setCounts(Object.fromEntries(countsResult.map((item) => [item.table, item.count])));
       setRecentAudits(auditResult.data ?? []);
@@ -307,6 +308,19 @@ export function AdminOverview() {
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      )
+    },
+    {
+      key: 'page_views',
+      label: 'Truy cập Web',
+      value: counts.page_views,
+      tagline: 'Lượt xem trang natime.vn',
+      iconBg: 'bg-purple-50 text-purple-600 border border-purple-100',
+      icon: (
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
         </svg>
       )
     },

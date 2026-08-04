@@ -45,12 +45,17 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+import { AnalyticsTracker } from '@/components/AnalyticsTracker';
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="vi" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <LanguageProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <AnalyticsTracker />
+            {children}
+          </AuthProvider>
         </LanguageProvider>
       </body>
     </html>
