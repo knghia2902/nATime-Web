@@ -43,7 +43,7 @@ export default function PortalShell({ title, description, children, actions }: {
   }, [loading, pathname, router, user]);
 
   if (loading || !user) {
-    return <div className="flex min-h-screen items-center justify-center bg-slate-50 text-sm text-slate-600">Đang kiểm tra tài khoản…</div>;
+    return <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted">Đang kiểm tra tài khoản…</div>;
   }
 
   async function logout() {
@@ -55,25 +55,25 @@ export default function PortalShell({ title, description, children, actions }: {
   const currentPage = links.find((l) => l.href === '/portal' ? pathname === l.href : pathname.startsWith(l.href));
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-950">
+    <div className="min-h-screen bg-background text-foreground">
       {/* ── Glass Topbar ── */}
-      <div className="glass-topbar sticky top-0 z-30">
+      <div className="glass-topbar sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <button onClick={() => setMobileOpen((v) => !v)} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 md:hidden" aria-expanded={mobileOpen}>
+            <button onClick={() => setMobileOpen((v) => !v)} className="rounded-lg border border-border p-2 text-muted hover:bg-muted/50 md:hidden" aria-expanded={mobileOpen}>
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
             </button>
             <nav className="hidden items-center gap-1.5 text-sm md:flex">
-              <Link href="/portal" className="font-medium text-slate-400 hover:text-slate-600">Cổng khách hàng</Link>
+              <Link href="/portal" className="font-medium text-muted hover:text-foreground">Cổng khách hàng</Link>
               {currentPage && currentPage.href !== '/portal' && <>
-                <svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
-                <span className="font-semibold text-slate-700">{currentPage.label}</span>
+                <svg className="h-3.5 w-3.5 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                <span className="font-semibold text-foreground">{currentPage.label}</span>
               </>}
             </nav>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/" className="hidden rounded-lg px-3 py-1.5 text-sm font-medium text-slate-500 hover:bg-slate-100 sm:inline-flex">Website</Link>
-            <button onClick={logout} className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 transition">
+            <Link href="/" className="hidden rounded-lg px-3 py-1.5 text-sm font-medium text-muted hover:bg-muted/50 sm:inline-flex">Website</Link>
+            <button onClick={logout} className="flex items-center gap-2 rounded-lg border border-border px-3 py-1.5 text-sm font-medium text-muted hover:bg-muted/50 transition">
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
               Đăng xuất
             </button>
@@ -110,7 +110,7 @@ export default function PortalShell({ title, description, children, actions }: {
           <div className="mt-auto pt-8">
             <div className="rounded-xl border border-slate-700/50 bg-slate-800/50 p-4">
               <div className="flex items-center gap-3">
-                <span className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-xs font-bold text-white">{initials}</span>
+                <span className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-xs font-bold text-white">{initials}</span>
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold text-white">{user.name || 'Khách hàng'}</p>
                   <p className="truncate text-[11px] text-slate-400">{user.email}</p>
@@ -124,8 +124,8 @@ export default function PortalShell({ title, description, children, actions }: {
         <main className="min-w-0 p-4 sm:p-6 lg:p-8">
           <header className="header mb-6 sm:flex sm:items-start sm:justify-between sm:gap-4">
             <div>
-              <h1 className="title text-2xl font-bold tracking-tight text-slate-900" style={{ margin: '0 0 3px 0', lineHeight: 1.2 }}>{title}</h1>
-              <p className="subtitle text-sm text-slate-500">{description}</p>
+              <h1 className="title text-2xl font-bold tracking-tight text-foreground" style={{ margin: '0 0 3px 0', lineHeight: 1.2 }}>{title}</h1>
+              <p className="subtitle text-sm text-muted">{description}</p>
             </div>
             {actions && <div className="header-actions mt-4 flex gap-2 sm:mt-0">{actions}</div>}
           </header>

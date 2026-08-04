@@ -18,7 +18,7 @@ export default function SiteFooter({ locale }: { locale: Locale }) {
   return (
     <footer className="relative overflow-hidden bg-slate-950 text-slate-300">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-      <div className="pointer-events-none absolute -left-32 bottom-0 h-80 w-80 rounded-full bg-blue-700/10 blur-3xl" aria-hidden="true" />
+      <div className="pointer-events-none absolute -left-32 bottom-0 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl" aria-hidden="true" />
       <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-[1.2fr_2fr] lg:px-8 lg:py-20">
         <div>
           <Link href={localPath(locale, '/')} className="group inline-flex items-center gap-2.5 text-white"><span className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5"><Image src="/logo.png" alt="" width={30} height={30} className="h-[30px] w-[30px] object-contain brightness-0 invert" /></span><span className="text-lg font-extrabold tracking-tight">nATime</span></Link>

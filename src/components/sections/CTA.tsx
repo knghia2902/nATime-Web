@@ -11,8 +11,8 @@ export default function CTA() {
   return (
     <section id="cta" className="relative py-24 overflow-hidden bg-background">
       {/* Subtle Background Radial Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(79,70,229,0.06),transparent_50%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(124,58,237,0.06),transparent_50%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(37,99,235,0.06),transparent_50%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(59,130,246,0.06),transparent_50%)] pointer-events-none" />
       
       {/* Subtle Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(128,128,128,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(128,128,128,0.02)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
@@ -21,7 +21,7 @@ export default function CTA() {
         <div className="relative rounded-2xl overflow-hidden border border-border bg-card p-8 md:p-16 shadow-xl">
           {/* Decorative glowing gradient inside card */}
           <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-          <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-violet-500/10 blur-3xl pointer-events-none" />
+          <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
             <span className="px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider text-primary bg-primary/5 border border-primary/15 mb-6 uppercase">

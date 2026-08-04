@@ -114,21 +114,21 @@ function StatCard({
       style={{ transitionDelay: `${index * 150}ms` }}
     >
       {/* Glassmorphism hover card */}
-      <div className="absolute inset-0 rounded-2xl border border-white/0 bg-white/0 backdrop-blur-0 transition-all duration-500 group-hover:border-white/10 group-hover:bg-white/[0.06] group-hover:backdrop-blur-sm group-hover:shadow-2xl group-hover:shadow-indigo-500/10" />
+      <div className="absolute inset-0 rounded-2xl border border-transparent bg-transparent backdrop-blur-0 transition-all duration-500 group-hover:border-blue-600/10 group-hover:bg-blue-600/[0.03] group-hover:backdrop-blur-sm group-hover:shadow-2xl group-hover:shadow-blue-500/10" />
 
       <div className="relative z-10">
         {/* Stat value */}
-        <span className="block text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl drop-shadow-[0_0_24px_rgba(129,140,248,0.3)]">
+        <span className="block text-4xl font-extrabold tracking-tight text-blue-600 sm:text-5xl lg:text-6xl drop-shadow-[0_0_24px_rgba(37,99,235,0.2)]">
           {stat.prefix}
           {formattedValue}
           {stat.suffix}
         </span>
 
         {/* Gradient accent line */}
-        <span className="mx-auto mt-4 block h-0.5 w-8 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-500 group-hover:w-12" />
+        <span className="mx-auto mt-4 block h-0.5 w-8 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 transition-all duration-500 group-hover:w-12" />
 
         {/* Label */}
-        <span className="mt-3 block text-sm font-medium tracking-wide text-indigo-200/80 uppercase sm:text-base">
+        <span className="mt-3 block text-sm font-medium tracking-wide text-muted uppercase sm:text-base">
           {t(stat.label)}
         </span>
       </div>
@@ -172,37 +172,37 @@ export default function Stats() {
       className="relative overflow-hidden py-20 sm:py-28 lg:py-32"
     >
       {/* Background gradient — dark indigo to purple */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-indigo-900 to-purple-900" />
+      <div className="absolute inset-0 bg-blue-50" />
 
       {/* Secondary radial glow */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(99,102,241,0.12), transparent)',
+            'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(37,99,235,0.08), transparent)',
         }}
       />
 
       {/* Animated gradient orbs */}
-      <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl" />
-      <div className="absolute right-1/4 bottom-0 h-96 w-96 rounded-full bg-purple-500/20 blur-3xl" />
-      <div className="absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/10 blur-3xl" />
+      <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl" />
+      <div className="absolute right-1/4 bottom-0 h-96 w-96 rounded-full bg-blue-300/10 blur-3xl" />
+      <div className="absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-400/10 blur-3xl" />
 
       {/* Grid pattern overlay */}
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+            'linear-gradient(rgba(37,99,235,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.05) 1px, transparent 1px)',
           backgroundSize: '64px 64px',
         }}
       />
 
       {/* Top edge gradient line */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent" />
 
       {/* Bottom edge gradient line */}
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-purple-400/40 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
@@ -223,7 +223,7 @@ export default function Stats() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="h-20 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent"
+                className="h-20 w-px bg-gradient-to-b from-transparent via-blue-600/10 to-transparent"
               />
             ))}
           </div>

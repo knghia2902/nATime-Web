@@ -78,7 +78,7 @@ export default function PortalOverview() {
       label: 'License hoạt động',
       value: String(summary.licenses),
       hint: 'Đã xác minh và còn hiệu lực',
-      iconBg: 'bg-indigo-50 text-indigo-600',
+      iconBg: 'bg-blue-50 text-blue-600',
       badgeClass: 'badge-status badge-active',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
@@ -114,7 +114,7 @@ export default function PortalOverview() {
       label: 'Hạn gần nhất',
       value: summary.nearestExpiry ? new Intl.DateTimeFormat('vi-VN').format(new Date(summary.nearestExpiry)) : '—',
       hint: 'Mốc gia hạn cần lưu ý',
-      iconBg: 'bg-violet-50 text-violet-600',
+      iconBg: 'bg-blue-50 text-blue-600',
       badgeClass: 'badge-status badge-inactive',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
@@ -150,8 +150,8 @@ export default function PortalOverview() {
         )}
 
         {/* Hero banner section */}
-        <section className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-indigo-500/20 text-white rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
-          <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
+        <section className="bg-gradient-to-r from-blue-900 via-blue-950 to-blue-900 border border-blue-500/20 text-white rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+          <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-blue-500/15 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
           <div className="relative z-10 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
@@ -173,7 +173,7 @@ export default function PortalOverview() {
             </div>
             <Link
               href="/portal/licenses"
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-bold text-slate-950 shadow-md hover:bg-slate-100 transition-all duration-200 group w-fit"
+              className="inline-flex items-center gap-2 rounded-xl bg-card px-5 py-2.5 text-sm font-bold text-foreground shadow-md hover:bg-muted/50 transition-all duration-200 group w-fit"
             >
               <span>Quản lý license</span>
               <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -186,14 +186,14 @@ export default function PortalOverview() {
         {/* Stat/KPI cards (4 cards grid) */}
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {cards.map((card, index) => (
-            <article key={card.label} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-200">
+            <article key={card.label} className="rounded-2xl border border-border bg-card p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-200">
               <div>
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2.5">
                     <div className={`grid h-9 w-9 place-items-center rounded-lg ${card.iconBg}`}>
                       {card.icon}
                     </div>
-                    <p className="text-sm font-bold text-slate-700">{card.label}</p>
+                    <p className="text-sm font-bold text-card-foreground">{card.label}</p>
                   </div>
                   <span className={card.badgeClass}>
                     <span className="badge-dot" />
@@ -201,30 +201,30 @@ export default function PortalOverview() {
                   </span>
                 </div>
                 <div className="mt-4">
-                  <p className="text-3xl font-black text-slate-900 tracking-tight">{card.value}</p>
+                  <p className="text-3xl font-black text-foreground tracking-tight">{card.value}</p>
                 </div>
               </div>
-              <p className="mt-3 text-xs font-medium leading-5 text-slate-500">{card.hint}</p>
+              <p className="mt-3 text-xs font-medium leading-5 text-muted">{card.hint}</p>
             </article>
           ))}
         </div>
 
         {/* Plan checkout section if plan search param exists */}
         {plan && (
-          <section className="rounded-2xl border border-indigo-200 bg-white p-6 sm:p-7 shadow-sm">
+          <section className="rounded-2xl border border-blue-200 bg-card p-6 sm:p-7 shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="grid h-10 w-10 place-items-center rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-600/20">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-blue-600 text-white shadow-md shadow-blue-600/20">
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5M3.75 6h16.5a1.5 1.5 0 011.5 1.5v9a1.5 1.5 0 01-1.5 1.5H3.75a1.5 1.5 0 01-1.5-1.5v-9A1.5 1.5 0 013.75 6z" />
                 </svg>
               </div>
               <div>
-                <h2 className="text-lg font-bold text-slate-900">Tiếp tục mua gói {plan === 'standard' ? 'Standard' : 'Professional'}</h2>
-                <p className="text-xs text-slate-500 font-medium">Thanh toán an toàn qua cổng PayOS</p>
+                <h2 className="text-lg font-bold text-foreground">Tiếp tục mua gói {plan === 'standard' ? 'Standard' : 'Professional'}</h2>
+                <p className="text-xs text-muted font-medium">Thanh toán an toàn qua cổng PayOS</p>
               </div>
             </div>
-            <p className="mt-3 text-sm text-slate-600 leading-relaxed font-medium">
-              Chu kỳ: <span className="font-bold text-slate-900">{billing === 'monthly' ? 'hàng tháng' : 'hàng năm'}</span>. Bạn sẽ được chuyển tới PayOS để thanh toán bằng VietQR/chuyển khoản.
+            <p className="mt-3 text-sm text-foreground leading-relaxed font-medium">
+              Chu kỳ: <span className="font-bold text-foreground">{billing === 'monthly' ? 'hàng tháng' : 'hàng năm'}</span>. Bạn sẽ được chuyển tới PayOS để thanh toán bằng VietQR/chuyển khoản.
             </p>
             <button
               onClick={checkout}
@@ -241,7 +241,7 @@ export default function PortalOverview() {
 
         {/* Section blocks (Trial Standard & Quick Actions) */}
         <div className="grid gap-6 lg:grid-cols-2">
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 shadow-sm flex flex-col justify-between">
+          <section className="rounded-2xl border border-border bg-card p-6 sm:p-7 shadow-sm flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3">
                 <div className="grid h-9 w-9 place-items-center rounded-lg bg-emerald-50 text-emerald-600">
@@ -249,9 +249,9 @@ export default function PortalOverview() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
                   </svg>
                 </div>
-                <h2 className="text-lg font-bold text-slate-900">Dùng thử Standard</h2>
+                <h2 className="text-lg font-bold text-foreground">Dùng thử Standard</h2>
               </div>
-              <p className="mt-3 text-sm leading-6 text-slate-600 font-medium">
+              <p className="mt-3 text-sm leading-6 text-muted font-medium">
                 Trial 7 ngày, tối đa 50 nhân sự và một thiết bị. Mỗi tài khoản và Hardware ID chỉ được dùng một lần.
               </p>
             </div>
@@ -267,29 +267,29 @@ export default function PortalOverview() {
             </button>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 shadow-sm flex flex-col justify-between">
+          <section className="rounded-2xl border border-border bg-card p-6 sm:p-7 shadow-sm flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3">
-                <div className="grid h-9 w-9 place-items-center rounded-lg bg-indigo-50 text-indigo-600">
+                <div className="grid h-9 w-9 place-items-center rounded-lg bg-blue-50 text-blue-600">
                   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
                   </svg>
                 </div>
-                <h2 className="text-lg font-bold text-slate-900">Hành động nhanh</h2>
+                <h2 className="text-lg font-bold text-foreground">Hành động nhanh</h2>
               </div>
               <div className="mt-4 flex flex-wrap gap-3">
                 <Link
                   href="/portal/licenses"
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-800 hover:border-indigo-300 hover:bg-slate-50 hover:text-indigo-600 transition-all duration-200 shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-bold text-foreground hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 shadow-sm"
                 >
-                  <svg className="h-4 w-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                  <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
                   </svg>
                   <span>Kích hoạt máy</span>
                 </Link>
                 <Link
                   href="/portal/orders"
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-800 hover:border-indigo-300 hover:bg-slate-50 hover:text-indigo-600 transition-all duration-200 shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-bold text-foreground hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 shadow-sm"
                 >
                   <svg className="h-4 w-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -298,7 +298,7 @@ export default function PortalOverview() {
                 </Link>
                 <Link
                   href="/portal/downloads"
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-800 hover:border-indigo-300 hover:bg-slate-50 hover:text-indigo-600 transition-all duration-200 shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-bold text-foreground hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 shadow-sm"
                 >
                   <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -311,8 +311,8 @@ export default function PortalOverview() {
         </div>
 
         {message && (
-          <div className="rounded-xl border border-slate-200 bg-slate-100 p-4 text-sm text-slate-800 flex items-start gap-3">
-            <svg className="h-5 w-5 text-slate-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="rounded-xl border border-border bg-muted/20 p-4 text-sm text-foreground flex items-start gap-3">
+            <svg className="h-5 w-5 text-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
             </svg>
             <p>{message}</p>

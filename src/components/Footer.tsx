@@ -100,16 +100,16 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="relative overflow-hidden bg-slate-900 dark:bg-slate-950">
+    <footer className="relative overflow-hidden bg-slate-900">
       {/* Subtle gradient accent at top */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
 
       {/* Background glow */}
       <div
         className="absolute bottom-0 left-1/2 h-[400px] w-[600px] -translate-x-1/2 translate-y-1/2 rounded-full opacity-[0.04]"
         style={{
           background:
-            'radial-gradient(circle, rgba(99,102,241,1) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(37,99,235,1) 0%, transparent 70%)',
         }}
       />
 
@@ -143,7 +143,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group/social flex h-9 w-9 items-center justify-center rounded-lg bg-slate-800 text-slate-400 transition-all duration-300 hover:bg-indigo-600 hover:text-white hover:shadow-lg hover:shadow-indigo-500/25 dark:bg-slate-800/50"
+                  className="group/social flex h-9 w-9 items-center justify-center rounded-lg bg-slate-800 text-slate-400 transition-all duration-300 hover:bg-blue-600 hover:text-white hover:shadow-lg hover:shadow-blue-500/25"
                   aria-label={social.name}
                 >
                   <social.icon className="h-[18px] w-[18px] transition-transform duration-300 group-hover/social:scale-110" />
@@ -168,7 +168,7 @@ export default function Footer() {
                       >
                         <span className="relative">
                           {t(link.label)}
-                          <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-300 group-hover/link:w-full" />
+                          <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-blue-400 to-blue-500 transition-all duration-300 group-hover/link:w-full" />
                         </span>
                       </Link>
                     ) : (
@@ -178,7 +178,7 @@ export default function Footer() {
                       >
                         <span className="relative">
                           {t(link.label)}
-                          <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-300 group-hover/link:w-full" />
+                          <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-blue-400 to-blue-500 transition-all duration-300 group-hover/link:w-full" />
                         </span>
                       </a>
                     )}

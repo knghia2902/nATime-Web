@@ -14,8 +14,8 @@ export default function LanguageToggle() {
       onClick={toggle}
       className="relative h-9 flex items-center gap-1.5 rounded-full border border-border
                  bg-card px-3 transition-all duration-300
-                 hover:bg-card-hover hover:border-primary/30
-                 hover:shadow-[0_0_12px_rgba(79,70,229,0.15)] cursor-pointer"
+                 hover:bg-accent hover:border-primary/30
+                 hover:shadow-[0_0_12px_rgba(37,99,235,0.15)] cursor-pointer"
       aria-label={locale === 'vi' ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
     >
       {/* Globe icon */}

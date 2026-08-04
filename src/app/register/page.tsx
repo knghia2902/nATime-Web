@@ -50,15 +50,15 @@ export default function RegisterPage() {
         </div>
       ) : (
         <form onSubmit={submit} className="space-y-5">
-          <label className="block text-sm font-semibold">Họ và tên<input required autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2.5 font-normal" /></label>
-          <label className="block text-sm font-semibold">Đơn vị <span className="font-normal text-slate-500">(không bắt buộc)</span><input autoComplete="organization" value={company} onChange={(event) => setCompany(event.target.value)} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2.5 font-normal" /></label>
-          <label className="block text-sm font-semibold">Email<input required type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2.5 font-normal" /></label>
-          <label className="block text-sm font-semibold">Mật khẩu<input required minLength={8} type="password" autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2.5 font-normal" /><span className="mt-1 block text-xs font-normal text-slate-500">Tối thiểu 8 ký tự.</span></label>
+          <label className="block text-sm font-semibold">Họ và tên<input required autoComplete="name" value={name} onChange={(event) => setName(event.target.value)} className="mt-2 w-full rounded-md border border-border px-3 py-2.5 font-normal" /></label>
+          <label className="block text-sm font-semibold">Đơn vị <span className="font-normal text-muted">(không bắt buộc)</span><input autoComplete="organization" value={company} onChange={(event) => setCompany(event.target.value)} className="mt-2 w-full rounded-md border border-border px-3 py-2.5 font-normal" /></label>
+          <label className="block text-sm font-semibold">Email<input required type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-md border border-border px-3 py-2.5 font-normal" /></label>
+          <label className="block text-sm font-semibold">Mật khẩu<input required minLength={8} type="password" autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-2 w-full rounded-md border border-border px-3 py-2.5 font-normal" /><span className="mt-1 block text-xs font-normal text-muted">Tối thiểu 8 ký tự.</span></label>
           <button disabled={busy} className="w-full rounded-md bg-blue-700 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-800 disabled:opacity-60">{busy ? 'Đang tạo tài khoản…' : 'Đăng ký'}</button>
           {error && <p role="alert" className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-800">{error}</p>}
         </form>
       )}
-      <p className="mt-6 border-t border-slate-200 pt-5 text-center text-sm text-slate-600">Đã có tài khoản? <Link href="/login" className="font-semibold text-blue-700 hover:underline">Đăng nhập</Link></p>
+      <p className="mt-6 border-t border-border pt-5 text-center text-sm text-muted">Đã có tài khoản? <Link href="/login" className="font-semibold text-blue-700 hover:underline">Đăng nhập</Link></p>
     </AuthFrame>
   );
 }

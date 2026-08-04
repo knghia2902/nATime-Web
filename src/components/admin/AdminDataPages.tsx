@@ -41,14 +41,14 @@ function CopyableId({ value }: { value: string }) {
     setTimeout(() => setCopied(false), 1800);
   };
 
-  if (value === '—') return <span className="text-slate-400">—</span>;
+  if (value === '—') return <span className="text-muted">—</span>;
 
   return (
     <button
       type="button"
       onClick={handleCopy}
       title={`Click để sao chép: ${value}`}
-      className="group relative inline-flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 font-mono text-xs font-bold text-slate-800 hover:bg-indigo-50 hover:text-indigo-700 transition-colors border border-slate-200 text-left max-w-full truncate cursor-pointer"
+      className="group relative inline-flex items-center gap-1.5 rounded-lg bg-muted/50 px-2.5 py-1 font-mono text-xs font-bold text-foreground hover:bg-blue-50 hover:text-blue-700 transition-colors border border-border text-left max-w-full truncate cursor-pointer"
     >
       <span className="truncate">{value}</span>
       {copied ? (
@@ -57,7 +57,7 @@ function CopyableId({ value }: { value: string }) {
         </span>
       ) : (
         <svg
-          className="h-3 w-3 shrink-0 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity"
+          className="h-3 w-3 shrink-0 text-muted opacity-0 group-hover:opacity-100 transition-opacity"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -77,8 +77,8 @@ function CopyableId({ value }: { value: string }) {
 function StatusBadge({ status }: { status: string }) {
   const normalized = status.toLowerCase();
 
-  let style = 'bg-slate-100 text-slate-700 border-slate-200';
-  let dotStyle = 'bg-slate-400';
+  let style = 'bg-muted/50 text-foreground border-border';
+  let dotStyle = 'bg-muted';
   let label = status;
 
   if (['active', 'published', 'verified', 'completed', 'paid', 'success'].includes(normalized)) {
@@ -88,11 +88,11 @@ function StatusBadge({ status }: { status: string }) {
     style = 'bg-amber-50 text-amber-800 border-amber-200';
     dotStyle = 'bg-amber-500';
   } else if (['new', 'open'].includes(normalized)) {
-    style = 'bg-indigo-50 text-indigo-800 border-indigo-200';
-    dotStyle = 'bg-indigo-500';
+    style = 'bg-blue-50 text-blue-800 border-blue-200';
+    dotStyle = 'bg-blue-500';
   } else if (['closed', 'disabled', 'cancelled', 'withdrawn', 'failed'].includes(normalized)) {
-    style = 'bg-slate-100 text-slate-700 border-slate-200';
-    dotStyle = 'bg-slate-400';
+    style = 'bg-muted/50 text-muted border-border';
+    dotStyle = 'bg-muted';
   }
 
   if (normalized === 'new') label = 'Mới';
@@ -143,8 +143,8 @@ export function AdminOverview() {
       key: 'portal_profiles',
       label: 'Khách hàng',
       value: counts.portal_profiles,
-      accentGradient: 'from-indigo-500 to-violet-500',
-      iconBg: 'bg-indigo-50 text-indigo-600',
+      accentGradient: 'from-blue-500 to-blue-500',
+      iconBg: 'bg-blue-50 text-blue-600',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -179,8 +179,8 @@ export function AdminOverview() {
       key: 'license_installations',
       label: 'Thiết bị',
       value: counts.license_installations,
-      accentGradient: 'from-purple-500 to-pink-500',
-      iconBg: 'bg-purple-50 text-purple-600',
+      accentGradient: 'from-blue-400 to-blue-600',
+      iconBg: 'bg-blue-50 text-blue-600',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -218,19 +218,19 @@ export function AdminOverview() {
       {cardConfigs.map(({ label, value, accentGradient, iconBg, icon }) => (
         <article
           key={label}
-          className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6 flex flex-col justify-between group transition-all duration-200 hover:-translate-y-1 hover:shadow-md relative overflow-hidden"
+          className="rounded-2xl border border-border bg-card shadow-sm p-6 flex flex-col justify-between group transition-all duration-200 hover:-translate-y-1 hover:shadow-md relative overflow-hidden"
         >
           <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${accentGradient}`} />
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-bold text-slate-700">{label}</span>
+            <span className="text-sm font-bold text-foreground">{label}</span>
             <div className={`p-2.5 rounded-xl ${iconBg} transition-transform duration-200 group-hover:scale-110`}>
               {icon}
             </div>
           </div>
           <div className="flex items-baseline justify-between mt-1">
-            <p className="text-3xl font-black text-slate-900 tracking-tight">
+            <p className="text-3xl font-black text-foreground tracking-tight">
               {loading ? (
-                <span className="inline-block h-8 w-16 animate-pulse rounded bg-slate-200" />
+                <span className="inline-block h-8 w-16 animate-pulse rounded bg-muted/50" />
               ) : value != null ? (
                 value.toLocaleString('vi-VN')
               ) : (
@@ -345,23 +345,23 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
   }, [definition]);
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+    <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
         <table className="table-enhanced w-full text-left text-sm">
           <thead>
             <tr>
               {definition.columns.map(([key, label]) => (
-                <th key={key} className="px-4 py-3.5 font-bold text-slate-700">
+                <th key={key} className="px-4 py-3.5 font-bold text-muted">
                   {label}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-border/50">
             {rows.map((row, index) => (
               <tr
                 key={String(row.id ?? row.user_id ?? index)}
-                className="hover:bg-slate-50 transition-colors"
+                className="hover:bg-muted/20 transition-colors"
               >
                 {definition.columns.map(([key]) => {
                   const val = row[key];
@@ -372,22 +372,22 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                     renderedContent = <StatusBadge status={String(val ?? '')} />;
                   } else if (key.includes('_at')) {
                     renderedContent = (
-                      <span className="text-slate-600 font-medium">{date(val)}</span>
+                      <span className="text-muted font-medium">{date(val)}</span>
                     );
                   } else if (key === 'amount_vnd') {
                     renderedContent = (
-                      <span className="font-black text-slate-900 text-base">
+                      <span className="font-black text-foreground text-base">
                         {formatCurrency(val)}
                       </span>
                     );
                   } else if (isIdOrHash) {
                     renderedContent = <CopyableId value={cell(val)} />;
                   } else {
-                    renderedContent = <span className="font-semibold text-slate-900">{cell(val)}</span>;
+                    renderedContent = <span className="font-semibold text-foreground">{cell(val)}</span>;
                   }
 
                   return (
-                    <td key={key} className="max-w-[320px] truncate px-4 py-3.5 text-slate-800">
+                    <td key={key} className="max-w-[320px] truncate px-4 py-3.5 text-foreground">
                       {renderedContent}
                     </td>
                   );
@@ -399,8 +399,8 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center p-12 text-slate-500">
-          <svg className="h-6 w-6 animate-spin text-indigo-600 mb-2" fill="none" viewBox="0 0 24 24">
+        <div className="flex flex-col items-center justify-center p-12 text-muted">
+          <svg className="h-6 w-6 animate-spin text-blue-600 mb-2" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
           </svg>
@@ -408,8 +408,8 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
         </div>
       ) : (
         rows.length === 0 && (
-          <div className="p-12 text-center text-sm font-medium text-slate-500">
-            <svg className="mx-auto h-8 w-8 text-slate-400 mb-2 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="p-12 text-center text-sm font-medium text-muted">
+            <svg className="mx-auto h-8 w-8 text-muted mb-2 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
             </svg>
             <p>Không có dữ liệu hoặc phiên MFA đã hết hạn.</p>
@@ -451,36 +451,36 @@ export function AdminContacts() {
   return (
     <div className="space-y-4">
       {loading ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-sm font-medium text-slate-500 shadow-sm">
-          <svg className="mx-auto h-6 w-6 animate-spin text-indigo-600 mb-2" fill="none" viewBox="0 0 24 24">
+        <div className="rounded-2xl border border-border bg-card p-8 text-center text-sm font-medium text-muted shadow-sm">
+          <svg className="mx-auto h-6 w-6 animate-spin text-blue-600 mb-2" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
           </svg>
           <p>Đang tải danh sách liên hệ…</p>
         </div>
       ) : rows.length === 0 ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-sm font-medium text-slate-500 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-8 text-center text-sm font-medium text-muted shadow-sm">
           Chưa có yêu cầu liên hệ nào.
         </div>
       ) : (
         rows.map((row) => (
           <article
             key={String(row.id)}
-            className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:shadow-md"
+            className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md"
           >
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
               <div className="space-y-2 flex-1">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <h2 className="font-bold text-slate-900 text-base">
+                  <h2 className="font-bold text-foreground text-base">
                     {cell(row.name)}
                   </h2>
-                  <span className="inline-flex items-center rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700 border border-slate-200">
+                  <span className="inline-flex items-center rounded-md bg-muted/50 px-2.5 py-1 text-xs font-semibold text-muted border border-border">
                     {cell(row.kind)}
                   </span>
                   <StatusBadge status={String(row.status ?? 'new')} />
                 </div>
 
-                <div className="flex items-center gap-3 text-xs text-slate-500 flex-wrap">
+                <div className="flex items-center gap-3 text-xs text-muted flex-wrap">
                   <span className="inline-flex items-center gap-1 font-medium">
                     <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -502,21 +502,21 @@ export function AdminContacts() {
                   <span className="font-medium">{date(row.created_at)}</span>
                 </div>
 
-                <div className="mt-3 rounded-xl bg-slate-50 p-4 border border-slate-200">
-                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-800 font-normal">
+                <div className="mt-3 rounded-xl bg-muted/20 p-4 border border-border">
+                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground font-normal">
                     {cell(row.message)}
                   </p>
                 </div>
               </div>
 
               <div className="shrink-0">
-                <label className="block text-xs font-semibold text-slate-500 mb-1 sm:sr-only">
+                <label className="block text-xs font-semibold text-muted mb-1 sm:sr-only">
                   Trạng thái
                 </label>
                 <select
                   value={String(row.status)}
                   onChange={(event) => void update(String(row.id), event.target.value)}
-                  className="h-9 rounded-lg border border-slate-300 bg-white px-3 text-xs font-bold text-slate-800 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100 cursor-pointer"
+                  className="h-9 rounded-lg border border-border bg-card px-3 text-xs font-bold text-foreground shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 cursor-pointer"
                 >
                   <option value="new">Mới</option>
                   <option value="in_progress">Đang xử lý</option>

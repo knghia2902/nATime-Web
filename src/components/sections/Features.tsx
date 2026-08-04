@@ -217,7 +217,7 @@ export default function Features() {
         <div className="absolute left-1/2 top-0 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.03] blur-3xl" />
         <div className="absolute bottom-0 right-0 h-[400px] w-[400px] translate-x-1/3 translate-y-1/3 rounded-full bg-primary/[0.04] blur-3xl" />
         <div
-          className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.015]"
           style={{
             backgroundImage: 'linear-gradient(rgba(79,70,229,1) 1px, transparent 1px), linear-gradient(90deg, rgba(79,70,229,1) 1px, transparent 1px)',
             backgroundSize: '64px 64px',
@@ -229,16 +229,16 @@ export default function Features() {
 
         {/* ── Section Header ── */}
         <div className={`mx-auto max-w-2xl text-center transition-all duration-700 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary dark:text-primary-light">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
             </svg>
             {t('Nền tảng toàn diện', 'Comprehensive Platform')}
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl lg:text-5xl">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
             {t('Tính năng nổi bật', 'Key Features')}
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <p className="mt-4 text-lg leading-relaxed text-muted">
             {t('Khám phá giao diện hệ thống trực quan sinh động từ các phân hệ cốt lõi của nATime.', 'Explore live interfaces from nATime\'s core system modules.')}
           </p>
         </div>
@@ -317,20 +317,20 @@ export default function Features() {
                       {feature.isMobile && isCenter ? (
                         /* ── 3-Phone Deck (Mobile center) ── */
                         <div className="flex items-center justify-center gap-5 py-8 w-full overflow-hidden select-none bg-card/30 rounded-xl backdrop-blur-md" style={{ minHeight: '420px' }}>
-                          <div className="max-w-[140px] w-full relative overflow-hidden rounded-[26px] border-[5px] border-slate-800 bg-background shadow-lg rotate-[-5deg] -mr-8 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
+                          <div className="max-w-[140px] w-full relative overflow-hidden rounded-[26px] border-[5px] border-border bg-background shadow-lg rotate-[-5deg] -mr-8 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
                             <img src="/screenshots/mobile_calendar.png" alt="nA Mobile Calendar" className="w-full h-auto object-cover rounded-[22px]" />
                           </div>
-                          <div className="max-w-[180px] w-full relative overflow-hidden rounded-[32px] border-[5px] border-slate-800 bg-background shadow-2xl z-10 hover:scale-[1.05] transition-all duration-300 cursor-pointer">
+                          <div className="max-w-[180px] w-full relative overflow-hidden rounded-[32px] border-[5px] border-border bg-background shadow-2xl z-10 hover:scale-[1.05] transition-all duration-300 cursor-pointer">
                             <img src="/screenshots/mobile.png" alt="nA Mobile Home" className="w-full h-auto object-cover rounded-[28px]" />
                           </div>
-                          <div className="max-w-[140px] w-full relative overflow-hidden rounded-[26px] border-[5px] border-slate-800 bg-background shadow-lg rotate-[5deg] -ml-8 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
+                          <div className="max-w-[140px] w-full relative overflow-hidden rounded-[26px] border-[5px] border-border bg-background shadow-lg rotate-[5deg] -ml-8 opacity-80 hover:opacity-100 hover:rotate-0 hover:scale-[1.05] hover:z-20 transition-all duration-300 cursor-pointer">
                             <img src="/screenshots/mobile_detail.png" alt="nA Mobile Detail" className="w-full h-auto object-cover rounded-[22px]" />
                           </div>
                         </div>
                       ) : (
                         /* ── Browser / Mobile side mockup ── */
                         <div className="rounded-xl overflow-hidden border border-border/70 bg-background shadow-2xl">
-                          <div className="flex items-center justify-between border-b border-border bg-slate-100/70 dark:bg-slate-900/60 px-3.5 py-2.5 select-none">
+                          <div className="flex items-center justify-between border-b border-border bg-muted/70 px-3.5 py-2.5 select-none">
                             <div className="flex items-center gap-1.5 shrink-0">
                               <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
                               <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/80" />
@@ -382,14 +382,14 @@ export default function Features() {
           >
             {/* Title + badge */}
             <div className="flex flex-wrap items-center gap-3 mb-3">
-              <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-indigo-600 text-white shadow-md shadow-primary/20`}>
+              <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-blue-600 text-white shadow-md shadow-primary/20`}>
                 {current.icon}
               </div>
-              <h3 className="text-lg font-bold text-zinc-900 dark:text-white">
+              <h3 className="text-lg font-bold text-foreground">
                 {t(current.titleVi, current.titleEn)}
               </h3>
               {current.comingSoon && (
-                <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-bold text-primary dark:bg-primary/20 dark:text-primary-light ring-1 ring-inset ring-primary/20">
+                <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-bold text-primary ring-1 ring-inset ring-primary/20">
                   {t('Sắp ra mắt', 'Coming Soon')}
                 </span>
               )}

@@ -32,9 +32,9 @@ export default function PortalOrders() {
 
   return (
     <PortalShell title="Đơn hàng" description="Trạng thái thanh toán được xác nhận từ webhook PayOS.">
-      <div className="card-elevated overflow-hidden border border-slate-200 bg-white shadow-sm rounded-2xl">
+      <div className="card-elevated overflow-hidden border border-border bg-card shadow-sm rounded-2xl">
         {orders.length === 0 ? (
-          <p className="p-8 text-center text-sm font-medium text-slate-500">Chưa có đơn hàng.</p>
+          <p className="p-8 text-center text-sm font-medium text-muted">Chưa có đơn hàng.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="table-enhanced">
@@ -52,17 +52,17 @@ export default function PortalOrders() {
                 {orders.map((order) => (
                   <tr key={order.id}>
                     <td>
-                      <code className="font-mono text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded border border-slate-200 select-all">
+                      <code className="font-mono text-xs font-bold text-muted bg-muted/50 px-2.5 py-1 rounded border border-border select-all">
                         {order.id.slice(0, 8).toUpperCase()}
                       </code>
                     </td>
-                    <td className="capitalize font-bold text-slate-900">
+                    <td className="capitalize font-bold text-foreground">
                       {order.plan_code}
                     </td>
-                    <td className="text-slate-600 font-medium">
+                    <td className="text-muted font-medium">
                       {order.billing_period === 'monthly' ? 'Hàng tháng' : 'Hàng năm'}
                     </td>
-                    <td className="font-black text-slate-900 text-base">
+                    <td className="font-black text-foreground text-base">
                       {new Intl.NumberFormat('vi-VN').format(order.amount_vnd)}đ
                     </td>
                     <td>
@@ -71,7 +71,7 @@ export default function PortalOrders() {
                         {order.status === 'paid' ? 'Đã thanh toán' : order.status}
                       </span>
                     </td>
-                    <td className="text-slate-600 font-medium">
+                    <td className="text-muted font-medium">
                       {new Intl.DateTimeFormat('vi-VN').format(new Date(order.created_at))}
                     </td>
                   </tr>

@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useLanguage } from '@/lib/i18n';
-import ThemeToggle from '@/components/ThemeToggle';
 import LanguageToggle from '@/components/LanguageToggle';
 import { useAuth } from '@/lib/authContext';
 
@@ -162,9 +161,9 @@ export default function Navbar() {
             <img
               src="/logo.png"
               alt="nATime Logo"
-              className="h-8 w-auto object-contain dark:brightness-110 dark:contrast-110 transition-all duration-300 group-hover:scale-[1.03]"
+              className="h-8 w-auto object-contain transition-all duration-300 group-hover:scale-[1.03]"
             />
-            <span className="text-[15px] font-bold tracking-tight text-zinc-900 dark:text-white transition-colors duration-300">
+            <span className="text-[15px] font-bold tracking-tight text-zinc-900 transition-colors duration-300">
               nATime
             </span>
           </Link>
@@ -203,7 +202,6 @@ export default function Navbar() {
 
           {/* ── Desktop Right Actions ──────────────────── */}
           <div className="hidden items-center gap-2 lg:flex">
-            <ThemeToggle />
             <LanguageToggle />
             <Link
               href={user ? "/dashboard" : "/register"}
@@ -232,7 +230,6 @@ export default function Navbar() {
 
           {/* ── Mobile Right Controls ──────────────────── */}
           <div className="flex items-center gap-2 lg:hidden">
-            <ThemeToggle />
             <LanguageToggle />
             <button
               ref={hamburgerRef}
@@ -289,7 +286,7 @@ export default function Navbar() {
             <img
               src="/logo.png"
               alt="nATime Logo"
-              className="h-7 w-auto object-contain dark:brightness-110"
+              className="h-7 w-auto object-contain"
             />
           <button
             onClick={closeMobile}
