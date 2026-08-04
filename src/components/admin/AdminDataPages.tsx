@@ -56,7 +56,7 @@ function CopyableId({ value }: { value: string }) {
       type="button"
       onClick={handleCopy}
       title={`Click để sao chép full: ${value}`}
-      className="group relative inline-flex items-center justify-start gap-1 rounded-md bg-slate-100/80 px-2 py-0.5 font-mono text-xs font-normal text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 transition-colors border border-slate-200/60 cursor-pointer"
+      className="group relative inline-flex items-center gap-1 rounded-md bg-slate-100/80 px-2 py-0.5 font-mono text-xs font-normal text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 transition-colors border border-slate-200/60 cursor-pointer"
     >
       <span className="truncate">{formatShortId(value)}</span>
       {copied ? (
@@ -74,7 +74,7 @@ function CopyableId({ value }: { value: string }) {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={1.5}
-            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 002-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
           />
         </svg>
       )}
@@ -98,7 +98,7 @@ function AuditEventBadge({ eventType }: { eventType: string }) {
   else if (type === 'entitlement.modules.test_enabled') label = 'Bật module thử nghiệm';
 
   return (
-    <span className="inline-block rounded bg-slate-100/90 px-2 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70 text-left">
+    <span className="inline-block rounded bg-slate-100/90 px-2.5 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70">
       {label}
     </span>
   );
@@ -114,14 +114,14 @@ function AuditUserCell({ userId, profilesMap }: { userId: unknown; profilesMap?:
   const friendlyName = profilesMap?.[str];
   if (friendlyName && friendlyName.trim() !== '') {
     return (
-      <span className="inline-flex items-center justify-start gap-1 font-medium text-slate-800 text-xs" title={`UUID: ${str}`}>
+      <span className="inline-flex items-center gap-1 font-medium text-slate-800 text-xs" title={`UUID: ${str}`}>
         <span className="text-slate-400 font-normal text-[11px]">👤</span> {friendlyName}
       </span>
     );
   }
 
   return (
-    <span className="inline-flex items-center justify-start gap-1 font-normal text-slate-700 text-xs" title={`UUID đầy đủ: ${str}`}>
+    <span className="inline-flex items-center gap-1 font-normal text-slate-700 text-xs" title={`UUID đầy đủ: ${str}`}>
       Admin <span className="font-mono text-slate-500 text-[11px]">({str.slice(0, 8)})</span>
     </span>
   );
@@ -145,7 +145,7 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
 
   if (obj.authorityLicenseId) {
     return (
-      <span className="text-xs text-slate-700 font-normal inline-flex items-center justify-start gap-1.5">
+      <span className="text-xs text-slate-700 font-normal inline-flex items-center gap-1.5">
         Bản quyền <CopyableId value={String(obj.authorityLicenseId)} />
         {obj.revision != null && <span className="text-slate-400 text-[11px]">(Lần #{String(obj.revision)})</span>}
       </span>
@@ -207,7 +207,7 @@ function StatusBadge({ status }: { status: string }) {
   if (normalized === 'closed') label = 'Đã đóng';
 
   return (
-    <span className={`inline-flex items-center justify-start gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}>
       <span className={`h-1.5 w-1.5 rounded-full ${dotStyle}`} />
       {label}
     </span>
@@ -467,52 +467,6 @@ const definitions = {
   }
 } as const;
 
-function getColumnWidthClass(kind: string, colKey: string): string {
-  if (kind === 'audit') {
-    switch (colKey) {
-      case 'event_type':
-        return 'w-[180px] min-w-[180px]';
-      case 'user_id':
-        return 'w-[200px] min-w-[200px]';
-      case 'correlation_id':
-        return 'w-[160px] min-w-[160px]';
-      case 'details':
-        return 'w-auto';
-      case 'created_at':
-        return 'w-[160px] min-w-[160px]';
-      default:
-        return 'w-auto';
-    }
-  }
-
-  switch (colKey) {
-    case 'display_name':
-    case 'name':
-    case 'organization_name':
-    case 'company':
-      return 'w-[200px] min-w-[200px]';
-    case 'id':
-    case 'user_id':
-    case 'hardware_id_hash':
-    case 'entitlement_id':
-      return 'w-[180px] min-w-[180px]';
-    case 'status':
-    case 'plan_code':
-    case 'origin':
-    case 'billing_period':
-      return 'w-[140px] min-w-[140px]';
-    case 'amount_vnd':
-      return 'w-[150px] min-w-[150px]';
-    case 'created_at':
-    case 'expires_at':
-    case 'activated_at':
-    case 'last_validated_at':
-      return 'w-[160px] min-w-[160px]';
-    default:
-      return 'w-auto';
-  }
-}
-
 export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
   const definition = definitions[kind];
   const [rows, setRows] = useState<Row[]>([]);
@@ -595,13 +549,13 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
 
       <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="table-enhanced w-full text-left text-sm table-fixed">
+          <table className="table-enhanced w-full text-left text-sm">
             <thead>
               <tr className="border-b border-slate-200/80 bg-slate-50/60">
                 {definition.columns.map(([key, label]) => (
                   <th
                     key={key}
-                    className={`px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider text-left align-middle ${getColumnWidthClass(kind, key)}`}
+                    className="px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider text-left align-middle"
                   >
                     {label}
                   </th>
@@ -653,11 +607,9 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                     return (
                       <td
                         key={key}
-                        className={`px-4 py-3 text-slate-800 text-left align-middle ${getColumnWidthClass(kind, key)}`}
+                        className="px-4 py-3 text-slate-800 text-left align-middle"
                       >
-                        <div className="flex items-center justify-start text-left w-full">
-                          {renderedContent}
-                        </div>
+                        {renderedContent}
                       </td>
                     );
                   })}
