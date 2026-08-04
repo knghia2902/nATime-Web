@@ -466,6 +466,15 @@ const definitions = {
   }
 } as const;
 
+function isCenteredHeader(kind: string, colKey: string): boolean {
+  if (kind === 'audit') {
+    // Cột SỰ KIỆN, NGƯỜI THỰC HIỆN, CHI TIẾT đều căn trái.
+    // Chỉ có MÃ VẾT và THỜI GIAN là căn giữa header nếu cần.
+    return false;
+  }
+  return false;
+}
+
 export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
   const definition = definitions[kind];
   const [rows, setRows] = useState<Row[]>([]);
@@ -551,16 +560,21 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
           <table className="table-enhanced w-full text-sm">
             <thead>
               <tr className="border-b border-slate-200/80 bg-slate-50/60">
-                {definition.columns.map(([key, label]) => (
-                  <th
-                    key={key}
-                    className="px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider align-middle text-left"
-                  >
-                    <div className="flex items-center w-full justify-start text-left">
-                      {label}
-                    </div>
-                  </th>
-                ))}
+                {definition.columns.map(([key, label]) => {
+                  const centered = isCenteredHeader(kind, key);
+                  return (
+                    <th
+                      key={key}
+                      className={`px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider align-middle ${
+                        centered ? 'text-center' : 'text-left'
+                      }`}
+                    >
+                      <div className={`flex items-center w-full ${centered ? 'justify-center text-center' : 'justify-start text-left'}`}>
+                        {label}
+                      </div>
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
