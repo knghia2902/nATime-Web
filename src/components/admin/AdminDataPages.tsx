@@ -239,24 +239,31 @@ export function AdminOverview() {
         table,
         count: (await client.from(table).select('*', { count: 'exact', head: true })).count ?? 0
       })),
-      fetch('https://api.counterapi.dev/v1/natime.vn/visits')
-        .then((res) => res.json())
-        .then((data) => data?.count ?? 0)
-        .catch(() => 0),
       client.from('license_audit_entries').select('id,event_type,details,created_at').order('created_at', { ascending: false }).limit(5)
-    ]).then(([pProfile, lOrder, lEnt, lInst, cReq, sRel, webVisits, auditRes]) => {
-      const visitsCount = (webVisits as number) > 0 ? (webVisits as number) : 12;
-      setCounts({
-        portal_profiles: pProfile.count,
-        license_orders: lOrder.count,
-        license_entitlements: lEnt.count,
-        license_installations: lInst.count,
-        contact_requests: cReq.count,
-        software_releases: sRel.count,
-        page_views: visitsCount
-      });
+    ]).then(([pProfile, lOrder, lEnt, lInst, cReq, sRel, auditRes]) => {
+      setCounts((prev) => ({
+        ...prev,
+        portal_profiles: pProfile.count ?? 0,
+        license_orders: lOrder.count ?? 0,
+        license_entitlements: lEnt.count ?? 0,
+        license_installations: lInst.count ?? 0,
+        contact_requests: cReq.count ?? 0,
+        software_releases: sRel.count ?? 0
+      }));
       setRecentAudits((auditRes as { data: Row[] | null }).data ?? []);
     }).finally(() => setLoading(false));
+  }, []);
+
+  // Fetch trực tiếp lượt xem trang từ CounterAPI thời gian thực
+  useEffect(() => {
+    void fetch('https://api.counterapi.dev/v1/natime.vn/visits')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && typeof data.count === 'number') {
+          setCounts((prev) => ({ ...prev, page_views: data.count }));
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const cardConfigs = [
@@ -360,7 +367,7 @@ export function AdminOverview() {
               <div>
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{label}</span>
                 <p className="text-2xl font-semibold text-slate-900 tracking-tight mt-1">
-                  {loading ? (
+                  {loading && value == null ? (
                     <span className="inline-block h-7 w-14 animate-pulse rounded bg-slate-100" />
                   ) : value != null ? (
                     value.toLocaleString('vi-VN')
