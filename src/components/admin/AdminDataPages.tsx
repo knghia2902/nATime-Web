@@ -231,7 +231,8 @@ export function AdminOverview() {
       'license_entitlements',
       'license_installations',
       'contact_requests',
-      'software_releases'
+      'software_releases',
+      'page_views'
     ] as const;
 
     void Promise.all([
@@ -242,12 +243,13 @@ export function AdminOverview() {
       fetch('https://api.counterapi.dev/v1/natime.vn/visits').then((res) => res.json()).catch(() => ({ count: 0 })),
       client.from('license_audit_entries').select('id,event_type,details,created_at').order('created_at', { ascending: false }).limit(5)
     ]).then((results) => {
-      const countsResult = results.slice(0, 6) as { table: string; count: number }[];
-      const counterApiRes = results[6] as { count?: number };
-      const auditResult = results[7] as { data: Row[] | null };
+      const countsResult = results.slice(0, 7) as { table: string; count: number }[];
+      const counterApiRes = results[7] as { count?: number };
+      const auditResult = results[8] as { data: Row[] | null };
 
       const countsMap = Object.fromEntries(countsResult.map((item) => [item.table, item.count]));
-      countsMap.page_views = counterApiRes?.count ?? 0;
+      // Ưu tiên đếm chính chủ Supabase page_views, nếu 0 thì dùng CounterAPI fallback
+      countsMap.page_views = countsMap.page_views || counterApiRes?.count || 0;
 
       setCounts(countsMap);
       setRecentAudits(auditResult.data ?? []);

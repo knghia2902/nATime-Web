@@ -2,12 +2,12 @@
 
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export function AnalyticsTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
-    // Không theo dõi trang /admin hoặc /portal để không đếm nội bộ
     if (!pathname || pathname.startsWith('/admin') || pathname.startsWith('/portal')) {
       return;
     }
@@ -23,13 +23,16 @@ export function AnalyticsTracker() {
 
     sessionStorage.setItem(key, String(now));
 
-    // Gọi API Counter toàn cầu dành cho natime.vn
-    void fetch('https://api.counterapi.dev/v1/natime.vn/visits/up')
-      .then((res) => res.json())
-      .then(() => {
-        // Tăng thành công 100%
-      })
-      .catch(() => {});
+    const client = supabase;
+    if (!client) return;
+
+    // Ghi nhận trực tiếp vào Supabase qua RPC chính chủ hoặc Insert
+    void client.rpc('log_site_visit', { p_path: pathname }).then(({ error }) => {
+      if (error) {
+        // Fallback insert trực tiếp nếu hàm RPC chưa được tạo
+        void client.from('page_views').insert({ path: pathname });
+      }
+    });
   }, [pathname]);
 
   return null;
