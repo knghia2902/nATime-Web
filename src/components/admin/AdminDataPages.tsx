@@ -255,42 +255,30 @@ export function AdminOverview() {
     }).finally(() => setLoading(false));
   }, []);
 
-  // Fetch lượt xem trang qua JSONP Script Tag với Auto-Polling 5s
+  // Fetch lượt xem trang qua Cloudflare Pages Function cùng domain (không CORS)
   useEffect(() => {
     let timer: ReturnType<typeof setInterval>;
+    let cancelled = false;
 
-    const fetchVisitsJSONP = () => {
-      const cbName = `__natime_pv_get_${Math.random().toString(36).substring(2, 9)}`;
-
-      (window as unknown as Record<string, (data: { count?: number }) => void>)[cbName] = (data) => {
+    const fetchVisits = async () => {
+      try {
+        const res = await fetch('/api/visits');
+        if (!res.ok) return;
+        const data = await res.json();
         const countVal = data?.count;
-        if (typeof countVal === 'number' && countVal > 0) {
+        if (!cancelled && typeof countVal === 'number' && countVal > 0) {
           setCounts((prev) => ({ ...prev, page_views: countVal }));
         }
-        try {
-          delete (window as unknown as Record<string, unknown>)[cbName];
-        } catch {
-          // ignore
-        }
-      };
-
-      const script = document.createElement('script');
-      script.src = `https://api.counterapi.dev/v1/natime.vn/visits?callback=${cbName}`;
-      script.async = true;
-      script.onload = () => {
-        if (script.parentNode) script.parentNode.removeChild(script);
-      };
-      script.onerror = () => {
-        if (script.parentNode) script.parentNode.removeChild(script);
-      };
-
-      document.body.appendChild(script);
+      } catch {
+        // Silently ignore — fallback value sẽ giữ nguyên
+      }
     };
 
-    fetchVisitsJSONP();
-    timer = setInterval(fetchVisitsJSONP, 5000);
+    void fetchVisits();
+    timer = setInterval(() => void fetchVisits(), 15000);
 
     return () => {
+      cancelled = true;
       clearInterval(timer);
     };
   }, []);
