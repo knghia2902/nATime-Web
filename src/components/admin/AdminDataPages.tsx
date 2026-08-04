@@ -33,13 +33,13 @@ function formatCurrency(amount: unknown) {
 }
 
 function formatShortId(value: string) {
-  if (value.length > 20 && value.includes('-')) {
-    return `${value.slice(0, 8)}...${value.slice(-6)}`;
+  if (value.length > 16 && (value.includes('-') || value.length > 24)) {
+    return `${value.slice(0, 8)}...${value.slice(-4)}`;
   }
   return value;
 }
 
-function CopyableId({ value, icon }: { value: string; icon?: string }) {
+function CopyableId({ value }: { value: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -56,9 +56,8 @@ function CopyableId({ value, icon }: { value: string; icon?: string }) {
       type="button"
       onClick={handleCopy}
       title={`Click để sao chép: ${value}`}
-      className="group relative inline-flex items-center gap-1.5 rounded-md bg-slate-100/90 px-2 py-0.5 font-mono text-xs font-normal text-slate-700 hover:bg-slate-200/80 hover:text-slate-900 transition-colors border border-slate-200/80 text-left max-w-full cursor-pointer shadow-2xs"
+      className="group relative inline-flex items-center gap-1 rounded-md bg-slate-100/80 px-2 py-0.5 font-mono text-xs font-normal text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 transition-colors border border-slate-200/60 text-left max-w-full cursor-pointer"
     >
-      {icon && <span className="text-slate-400 shrink-0">{icon}</span>}
       <span className="truncate">{formatShortId(value)}</span>
       {copied ? (
         <span className="shrink-0 text-[10px] font-sans font-medium text-emerald-700 bg-emerald-100 px-1 rounded">
@@ -83,55 +82,33 @@ function CopyableId({ value, icon }: { value: string; icon?: string }) {
   );
 }
 
-// ── Clean & Minimalist Event Badge Component for Audit Page ──
+// ── Clean & Minimalist Event Badge (No dots, no loud colors) ──
 function AuditEventBadge({ eventType }: { eventType: string }) {
   const type = eventType.toLowerCase();
 
   let label = eventType;
-  let dotColor = 'bg-slate-400';
-
-  if (type === 'activation.requested') {
-    label = 'Yêu cầu kích hoạt';
-    dotColor = 'bg-amber-500';
-  } else if (type === 'activation.approved') {
-    label = 'Đã duyệt kích hoạt';
-    dotColor = 'bg-emerald-500';
-  } else if (type === 'authority.issued') {
-    label = 'Cấp bản quyền';
-    dotColor = 'bg-blue-500';
-  } else if (type === 'activation.reissued' || type === 'authority.reissued') {
-    label = 'Cấp lại bản quyền';
-    dotColor = 'bg-sky-500';
-  } else if (type === 'authority.revoked') {
-    label = 'Thu hồi bản quyền';
-    dotColor = 'bg-rose-500';
-  } else if (type === 'trial.claimed') {
-    label = 'Trial 7 ngày';
-    dotColor = 'bg-indigo-500';
-  } else if (type === 'trial.expired') {
-    label = 'Hết hạn trial';
-    dotColor = 'bg-slate-400';
-  }
+  if (type === 'activation.requested') label = 'Yêu cầu kích hoạt';
+  else if (type === 'activation.approved') label = 'Đã duyệt kích hoạt';
+  else if (type === 'authority.issued') label = 'Cấp bản quyền';
+  else if (type === 'activation.reissued' || type === 'authority.reissued') label = 'Cấp lại bản quyền';
+  else if (type === 'authority.revoked') label = 'Thu hồi bản quyền';
+  else if (type === 'trial.claimed') label = 'Trial 7 ngày';
+  else if (type === 'trial.expired') label = 'Hết hạn trial';
 
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-100/90 px-2.5 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/80">
-      <span className={`h-1.5 w-1.5 rounded-full ${dotColor}`} />
+    <span className="inline-block rounded bg-slate-100/90 px-2 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70">
       {label}
     </span>
   );
 }
 
-// ── Clean Audit User Column Formatter ──
+// ── Clean Audit User Cell (Shows friendly label or clean ID) ──
 function AuditUserCell({ userId }: { userId: unknown }) {
   const str = cell(userId);
   if (str === '—') {
-    return (
-      <span className="inline-flex items-center gap-1 rounded-md bg-slate-50 px-2 py-0.5 text-xs font-normal text-slate-400 border border-slate-200/60">
-        ⚙️ Hệ thống
-      </span>
-    );
+    return <span className="text-slate-400 font-normal text-xs">Tự động</span>;
   }
-  return <CopyableId value={str} icon="👤" />;
+  return <CopyableId value={str} />;
 }
 
 // ── Clean Audit Details Formatter ──
@@ -145,14 +122,14 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
   if (obj.displayName) {
     return (
       <span className="text-xs text-slate-700 font-normal">
-        Máy: <strong className="font-medium text-slate-900">{String(obj.displayName)}</strong>
+        Tên máy: <span className="font-medium text-slate-900">{String(obj.displayName)}</span>
       </span>
     );
   }
 
   if (obj.authorityLicenseId) {
     return (
-      <span className="text-xs text-slate-700 font-normal flex items-center gap-1">
+      <span className="text-xs text-slate-700 font-normal flex items-center gap-1.5">
         License: <CopyableId value={String(obj.authorityLicenseId)} />
         {obj.revision != null && <span className="text-slate-400 text-[11px]">(Rev #{String(obj.revision)})</span>}
       </span>
@@ -162,7 +139,7 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
   if (obj.durationDays) {
     return (
       <span className="text-xs text-slate-700 font-normal">
-        Thời hạn: <strong className="font-medium text-slate-900">{String(obj.durationDays)} ngày</strong>
+        Thời hạn: <span className="font-medium text-slate-900">{String(obj.durationDays)} ngày</span>
       </span>
     );
   }
@@ -177,31 +154,16 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
   );
 }
 
-// ── Clean Audit Correlation Tag ──
+// ── Clean Audit Correlation ID Cell ──
 function AuditCorrelationTag({ correlationId }: { correlationId: unknown }) {
   const str = cell(correlationId);
   if (str === '—') return <span className="text-slate-400 font-normal">—</span>;
 
+  // Extract ID part if present after colon (e.g., "activation:1ec1ad32..." -> "1ec1ad32...")
   const parts = str.split(':');
-  if (parts.length >= 2) {
-    const prefix = parts[0];
-    const value = parts.slice(1).join(':');
+  const cleanVal = parts.length >= 2 ? parts.slice(1).join(':') : str;
 
-    let prefixLabel = prefix;
-    if (prefix === 'activation') prefixLabel = 'Kích hoạt';
-    if (prefix === 'trial') prefixLabel = 'Trial';
-
-    return (
-      <div className="flex items-center gap-1.5">
-        <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-500 border border-slate-200">
-          {prefixLabel}
-        </span>
-        <CopyableId value={value} />
-      </div>
-    );
-  }
-
-  return <CopyableId value={str} />;
+  return <CopyableId value={cleanVal} />;
 }
 
 function StatusBadge({ status }: { status: string }) {
@@ -482,8 +444,8 @@ const definitions = {
     select: 'id,user_id,event_type,correlation_id,details,created_at',
     columns: [
       ['event_type', 'Sự kiện'],
-      ['user_id', 'User'],
-      ['correlation_id', 'Correlation'],
+      ['user_id', 'Người thực hiện'],
+      ['correlation_id', 'Mã vết'],
       ['details', 'Chi tiết'],
       ['created_at', 'Thời gian']
     ]
