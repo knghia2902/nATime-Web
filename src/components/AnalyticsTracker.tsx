@@ -7,6 +7,7 @@ export function AnalyticsTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Không theo dõi trang /admin hoặc /portal để không đếm nội bộ
     if (!pathname || pathname.startsWith('/admin') || pathname.startsWith('/portal')) {
       return;
     }
@@ -15,19 +16,20 @@ export function AnalyticsTracker() {
     const now = Date.now();
     const lastVisit = sessionStorage.getItem(key);
 
-    // Giới hạn 2 phút mỗi lượt đếm lại cho cùng 1 tab để test tăng nhanh
-    if (lastVisit && now - parseInt(lastVisit, 10) < 2 * 60 * 1000) {
+    // Bỏ qua nếu cùng một tab vừa vào đường dẫn này dưới 3 phút
+    if (lastVisit && now - parseInt(lastVisit, 10) < 3 * 60 * 1000) {
       return;
     }
 
     sessionStorage.setItem(key, String(now));
 
-    // Gọi API Route Handler nội bộ
-    void fetch('/api/analytics', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ path: pathname })
-    }).catch(() => {});
+    // Gọi API Counter toàn cầu dành cho natime.vn
+    void fetch('https://api.counterapi.dev/v1/natime.vn/visits/up')
+      .then((res) => res.json())
+      .then(() => {
+        // Tăng thành công 100%
+      })
+      .catch(() => {});
   }, [pathname]);
 
   return null;
