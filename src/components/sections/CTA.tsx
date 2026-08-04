@@ -1,7 +1,9 @@
 'use client';
 
-import { useLanguage } from '@/lib/i18n';
 import Link from 'next/link';
+import { motion } from 'motion/react';
+import { ArrowRight, CheckCircle } from '@phosphor-icons/react';
+import { useLanguage } from '@/lib/i18n';
 import { useAuth } from '@/lib/authContext';
 
 export default function CTA() {
@@ -9,78 +11,70 @@ export default function CTA() {
   const { user } = useAuth();
 
   return (
-    <section id="cta" className="relative py-24 overflow-hidden bg-background">
-      {/* Subtle Background Radial Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(37,99,235,0.06),transparent_50%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(59,130,246,0.06),transparent_50%)] pointer-events-none" />
-      
-      {/* Subtle Grid Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(128,128,128,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(128,128,128,0.02)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+    <section id="cta" className="relative py-20 lg:py-28 overflow-hidden bg-background">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="relative rounded-3xl border border-border/80 bg-gradient-to-br from-card via-card to-primary-light/40 p-8 sm:p-12 lg:p-16 shadow-xl overflow-hidden"
+        >
+          {/* Ambient decorative glow */}
+          <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+          <div className="pointer-events-none absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl" />
 
-      <div className="container max-w-6xl mx-auto px-4 relative z-10">
-        <div className="relative rounded-2xl overflow-hidden border border-border bg-card p-8 md:p-16 shadow-xl">
-          {/* Decorative glowing gradient inside card */}
-          <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-          <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left Copy */}
+            <div className="lg:col-span-8 flex flex-col items-start">
+              <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl leading-tight">
+                {t(
+                  'Sẵn sàng hiện đại hóa hệ thống chấm công?',
+                  'Ready to modernize your time attendance?'
+                )}
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-muted sm:text-lg max-w-2xl">
+                {t(
+                  'Dùng thử 30 ngày đầy đủ tính năng. Cài đặt đơn giản trên hệ điều hành Windows.',
+                  '30-day full-feature trial. Simple setup on Windows Operating System.'
+                )}
+              </p>
 
-          <div className="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
-            <span className="px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider text-primary bg-primary/5 border border-primary/15 mb-6 uppercase">
-              {t('Dùng thử miễn phí', 'Get Started for Free')}
-            </span>
-
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-6 text-foreground">
-              {t(
-                'Sẵn sàng nâng tầm quản trị nhân sự và kiểm soát ra vào?',
-                'Ready to elevate attendance & gate access control?'
-              )}
-            </h2>
-
-            <p className="text-base sm:text-lg text-muted mb-8 leading-relaxed max-w-2xl">
-              {t(
-                'Bắt đầu ngay hôm nay với 30 ngày dùng thử miễn phí đầy đủ tính năng. Không yêu cầu thẻ tín dụng, hủy bất kỳ lúc nào.',
-                'Start today with a 30-day free trial containing all premium features. No credit card required, cancel anytime.'
-              )}
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <Link
-                href={user ? "/dashboard" : "/register"}
-                className="inline-flex h-12 items-center justify-center px-8 rounded-lg bg-primary text-white font-bold shadow-md shadow-primary/15 hover:bg-primary-hover transition-all hover:scale-[1.01] active:scale-[0.99] w-full sm:w-auto text-center cursor-pointer"
-              >
-                {t('Bắt đầu thử nghiệm', 'Start Free Trial')}
-              </Link>
-              
-              <Link 
-                href="/contact"
-                className="inline-flex h-12 items-center justify-center px-8 rounded-lg border border-border bg-card hover:bg-card-hover text-foreground font-semibold transition-all hover:scale-[1.01] active:scale-[0.99] w-full sm:w-auto text-center cursor-pointer"
-              >
-                {t('Liên hệ tư vấn', 'Contact Sales')}
-              </Link>
+              {/* Trust checklist */}
+              <div className="mt-6 flex flex-wrap gap-4 text-xs font-semibold text-muted">
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle size={16} className="text-emerald-500" weight="fill" />
+                  <span>{t('Kích hoạt tức thì', 'Instant activation')}</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle size={16} className="text-emerald-500" weight="fill" />
+                  <span>{t('Bảo mật dữ liệu tối đa', 'Max data security')}</span>
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle size={16} className="text-emerald-500" weight="fill" />
+                  <span>{t('Hỗ trợ kỹ thuật Onsite', 'Onsite setup support')}</span>
+                </span>
+              </div>
             </div>
 
-            {/* Trust factors */}
-            <div className="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-3 text-xs sm:text-sm text-muted">
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span>{t('Kích hoạt tức thì', 'Instant activation')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span>{t('Bảo mật dữ liệu tối đa', 'GDPR & AES-256 secure')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                </svg>
-                <span>{t('Hỗ trợ setup onsite', 'Onsite setup support')}</span>
-              </div>
+            {/* Right Action */}
+            <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-end items-stretch sm:items-center lg:items-end">
+              <Link
+                href={user ? '/portal' : '/register?trial=standard'}
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-7 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-hover hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer w-full text-center"
+              >
+                <span>{user ? t('Vào Portal', 'Go to Portal') : t('Đăng ký trải nghiệm', 'Register Trial')}</span>
+                <ArrowRight size={16} weight="bold" />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-card px-7 text-sm font-semibold text-foreground transition-all hover:bg-card-hover hover:border-primary/30 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer w-full text-center"
+              >
+                <span>{t('Yêu cầu báo giá', 'Request Quote')}</span>
+              </Link>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

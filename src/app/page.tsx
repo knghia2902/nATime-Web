@@ -1,9 +1,8 @@
-import Navbar from '@/components/Navbar';
+import PublicShell from '@/components/site/PublicShell';
 import Hero from '@/components/sections/Hero';
 import Features from '@/components/sections/Features';
 import Stats from '@/components/sections/Stats';
 import CTA from '@/components/sections/CTA';
-import Footer from '@/components/Footer';
 import { publicPageMetadata } from '@/lib/siteMetadata';
 
 export const metadata = publicPageMetadata(
@@ -15,15 +14,11 @@ export const metadata = publicPageMetadata(
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
-      <main className="flex-1 w-full">
-        <Hero />
-        <Features />
-        <Stats />
-        <CTA />
-      </main>
-      <Footer />
-    </>
+    <PublicShell locale="vi">
+      <Hero />
+      <Features />
+      <Stats />
+      <CTA />
+    </PublicShell>
   );
 }

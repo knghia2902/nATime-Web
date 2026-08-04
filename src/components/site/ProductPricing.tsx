@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { motion } from 'motion/react';
+import { CheckCircle, Lightning, Sparkle, ArrowRight } from '@phosphor-icons/react';
 import { supabase } from '@/lib/supabase';
 
 type Product = {
@@ -70,62 +72,154 @@ export default function ProductPricing({ locale, compact = false }: { locale: 'v
   const plans = useMemo(() => ['standard', 'professional'] as const, []);
 
   return (
-    <div>
+    <div className="w-full">
+      {/* Billing Switcher */}
       <div className="flex justify-center">
-        <div className="inline-flex rounded-md border border-border bg-card p-1" role="group" aria-label={vi ? 'Chu kỳ thanh toán' : 'Billing period'}>
-          <button type="button" onClick={() => setBilling('monthly')} className={`rounded px-4 py-2 text-sm font-semibold ${billing === 'monthly' ? 'bg-foreground text-background' : 'text-muted'}`}>
-            {vi ? 'Hàng tháng' : 'Monthly'}
+        <div className="inline-flex items-center rounded-full border border-border/80 bg-card p-1.5 shadow-sm">
+          <button
+            type="button"
+            onClick={() => setBilling('monthly')}
+            className={`rounded-full px-5 py-2 text-xs font-bold transition-all cursor-pointer ${
+              billing === 'monthly'
+                ? 'bg-primary text-white shadow-md'
+                : 'text-muted hover:text-foreground'
+            }`}
+          >
+            {vi ? 'Thanh toán Tháng' : 'Monthly Billing'}
           </button>
-          <button type="button" onClick={() => setBilling('yearly')} className={`rounded px-4 py-2 text-sm font-semibold ${billing === 'yearly' ? 'bg-foreground text-background' : 'text-muted'}`}>
-            {vi ? 'Hàng năm' : 'Yearly'}
+          <button
+            type="button"
+            onClick={() => setBilling('yearly')}
+            className={`rounded-full px-5 py-2 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+              billing === 'yearly'
+                ? 'bg-primary text-white shadow-md'
+                : 'text-muted hover:text-foreground'
+            }`}
+          >
+            <span>{vi ? 'Thanh toán Năm' : 'Yearly Billing'}</span>
+            <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400">
+              {vi ? 'Tiết kiệm' : 'Save'}
+            </span>
           </button>
         </div>
       </div>
 
-      <div className={`mt-8 grid gap-5 ${compact ? 'lg:grid-cols-3' : 'lg:grid-cols-3'}`}>
+      {/* Plan Grid */}
+      <div className={`mt-10 grid gap-8 ${compact ? 'lg:grid-cols-3' : 'lg:grid-cols-3'}`}>
         {plans.map((code) => {
           const product = products.find((item) => item.plan_code === code && item.billing_period === billing)
             ?? verifiedCatalog.find((item) => item.plan_code === code && item.billing_period === billing)!;
           const professional = code === 'professional';
 
           return (
-            <article key={code} className={`flex flex-col rounded-xl border bg-card p-6 ${professional ? 'border-primary ring-1 ring-primary' : 'border-border'}`}>
-              <p className="text-sm font-semibold text-primary">{professional ? 'Professional' : 'Standard'}</p>
-              <h3 className="mt-3 text-3xl font-bold tracking-tight text-foreground">{formatVnd(product.amount_vnd)}</h3>
-              <p className="mt-1 text-sm text-muted">/ {billing === 'monthly' ? (vi ? 'tháng' : 'month') : (vi ? 'năm' : 'year')}</p>
-              <ul className="mt-6 flex-1 space-y-3 text-sm text-foreground/80">
-                <li>✓ {vi ? `Tối đa ${product.max_employees} nhân sự` : `Up to ${product.max_employees} employees`}</li>
-                <li>✓ {vi ? `Tối đa ${product.max_attendance_devices} máy MCC` : `Up to ${product.max_attendance_devices} MCC devices`}</li>
-                {product.max_faceid_devices > 0 && (
-                  <li>✓ {vi ? `Tối đa ${product.max_faceid_devices} máy FaceID` : `Up to ${product.max_faceid_devices} FaceID devices`}</li>
-                )}
-                {product.enabled_modules.map((module) => (
-                  <li key={module}>✓ {getModuleLabel(module, vi)}</li>
-                ))}
-              </ul>
-              <Link href={`/portal?plan=${code}&billing=${billing}`} className={`mt-7 rounded-md px-4 py-3 text-center text-sm font-semibold ${professional ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'border border-border text-foreground hover:bg-muted'}`}>
-                {vi ? 'Chọn gói' : 'Choose plan'}
+            <motion.article
+              key={code}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className={`relative flex flex-col justify-between rounded-3xl border bg-card p-8 shadow-sm transition-all duration-300 ${
+                professional
+                  ? 'border-primary ring-2 ring-primary/20 shadow-xl lg:-translate-y-2'
+                  : 'border-border/80 hover:border-border'
+              }`}
+            >
+              {professional && (
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-1 text-xs font-bold text-white shadow-md">
+                  <Sparkle size={12} weight="fill" />
+                  <span>{vi ? 'Khuyên dùng' : 'Recommended'}</span>
+                </div>
+              )}
+
+              <div>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-extrabold text-foreground">
+                    {professional ? 'Professional' : 'Standard'}
+                  </h3>
+                </div>
+
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="text-4xl font-black tracking-tight text-foreground">
+                    {formatVnd(product.amount_vnd)}
+                  </span>
+                  <span className="text-xs font-semibold text-muted">
+                    / {billing === 'monthly' ? (vi ? 'tháng' : 'month') : (vi ? 'năm' : 'year')}
+                  </span>
+                </div>
+
+                <ul className="mt-8 space-y-3.5 text-sm font-medium text-foreground/90">
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle size={18} className="text-emerald-500 shrink-0" weight="fill" />
+                    <span>{vi ? `Tối đa ${product.max_employees} nhân sự` : `Up to ${product.max_employees} employees`}</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle size={18} className="text-emerald-500 shrink-0" weight="fill" />
+                    <span>{vi ? `Tối đa ${product.max_attendance_devices} Máy chấm công (MCC)` : `Up to ${product.max_attendance_devices} MCC devices`}</span>
+                  </li>
+                  {product.max_faceid_devices > 0 && (
+                    <li className="flex items-center gap-2.5">
+                      <CheckCircle size={18} className="text-emerald-500 shrink-0" weight="fill" />
+                      <span>{vi ? `Tối đa ${product.max_faceid_devices} Thiết bị FaceID` : `Up to ${product.max_faceid_devices} FaceID devices`}</span>
+                    </li>
+                  )}
+                  {product.enabled_modules.map((module) => (
+                    <li key={module} className="flex items-center gap-2.5">
+                      <CheckCircle size={18} className="text-emerald-500 shrink-0" weight="fill" />
+                      <span>{getModuleLabel(module, vi)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <Link
+                href={`/portal?plan=${code}&billing=${billing}`}
+                className={`mt-10 inline-flex h-12 items-center justify-center gap-2 rounded-xl text-sm font-bold transition-all ${
+                  professional
+                    ? 'bg-primary text-white shadow-lg shadow-primary/25 hover:bg-primary-hover hover:shadow-xl'
+                    : 'border border-border bg-card text-foreground hover:bg-card-hover hover:border-primary/30'
+                }`}
+              >
+                <span>{vi ? 'Chọn gói này' : 'Choose Plan'}</span>
+                <ArrowRight size={16} weight="bold" />
               </Link>
-            </article>
+            </motion.article>
           );
         })}
 
-        <article className="flex flex-col rounded-xl border border-border bg-muted/30 p-6">
-          <p className="text-sm font-semibold text-foreground/80">Enterprise</p>
-          <h3 className="mt-3 text-3xl font-bold tracking-tight text-foreground">{vi ? 'Liên hệ' : 'Contact us'}</h3>
-          <p className="mt-5 flex-1 text-sm leading-6 text-muted">
-            {vi ? 'Dành cho nhu cầu triển khai và giới hạn cần được khảo sát riêng.' : 'For deployments and limits that require a separate assessment.'}
-          </p>
-          <Link href={`${vi ? '' : '/en'}/contact?type=enterprise`} className="mt-7 rounded-md border border-border bg-card px-4 py-3 text-center text-sm font-semibold text-foreground hover:bg-muted">
-            {vi ? 'Gửi yêu cầu' : 'Send inquiry'}
+        {/* Enterprise Plan */}
+        <motion.article
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="flex flex-col justify-between rounded-3xl border border-border/80 bg-card/60 p-8 shadow-sm"
+        >
+          <div>
+            <h3 className="text-xl font-extrabold text-foreground">Enterprise</h3>
+            <div className="mt-4">
+              <span className="text-3xl font-black text-foreground">{vi ? 'Tùy chỉnh' : 'Custom'}</span>
+            </div>
+            <p className="mt-6 text-sm leading-relaxed text-muted">
+              {vi
+                ? 'Dành cho tập đoàn, dự án quy mô lớn hoặc yêu cầu khảo sát hạ tầng thiết bị riêng.'
+                : 'For large enterprises, custom deployments, or specific infrastructure needs.'}
+            </p>
+          </div>
+
+          <Link
+            href={`${vi ? '' : '/en'}/contact?type=enterprise`}
+            className="mt-10 inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-card text-sm font-bold text-foreground hover:bg-card-hover hover:border-primary/30 transition-all"
+          >
+            <span>{vi ? 'Liên hệ Enterprise' : 'Contact Enterprise'}</span>
+            <ArrowRight size={16} weight="bold" />
           </Link>
-        </article>
+        </motion.article>
       </div>
 
-      <p className="mt-5 text-center text-xs text-muted">
+      <p className="mt-6 text-center text-xs text-muted">
         {catalogLive
-          ? (vi ? 'Giá và giới hạn được tải từ danh mục sản phẩm nATime.' : 'Pricing and limits loaded from the nATime product catalog.')
-          : (vi ? 'Đang hiển thị danh mục giá đã xác minh gần nhất.' : 'Showing the latest verified pricing catalog.')}
+          ? (vi ? 'Giá và giới hạn được tải trực tiếp từ Supabase.' : 'Pricing and limits loaded directly from Supabase.')
+          : (vi ? 'Hiển thị danh mục giá đã xác minh gần nhất.' : 'Showing latest verified catalog.')}
       </p>
     </div>
   );

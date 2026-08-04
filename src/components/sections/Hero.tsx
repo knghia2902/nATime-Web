@@ -1,183 +1,137 @@
 'use client';
 
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion } from 'motion/react';
+import { ShieldCheck, Lightning, Buildings, ArrowRight } from '@phosphor-icons/react';
 import { useLanguage } from '@/lib/i18n';
 import { useAuth } from '@/lib/authContext';
-import Link from 'next/link';
 
 export default function Hero() {
   const { t } = useLanguage();
   const { user } = useAuth();
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-background">
-
-      {/* ── Background layers ── */}
+    <section className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden bg-background pt-20 pb-16 lg:pt-24 lg:pb-20">
+      {/* Background ambient lighting */}
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        {/* Top indigo radial */}
         <div
-          className="absolute -top-40 left-1/2 h-[700px] w-[900px] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
-          style={{ background: 'radial-gradient(ellipse at center, rgba(37,99,235,0.35) 0%, transparent 70%)' }}
+          className="absolute -top-32 left-1/2 h-[600px] w-[800px] -translate-x-1/2 rounded-full opacity-25 blur-3xl"
+          style={{ background: 'radial-gradient(ellipse at center, rgba(37,99,235,0.4) 0%, transparent 70%)' }}
         />
-        {/* Bottom right accent */}
         <div
-          className="absolute bottom-0 right-0 h-[400px] w-[500px] translate-x-1/4 translate-y-1/4 rounded-full opacity-20 blur-3xl"
-          style={{ background: 'radial-gradient(ellipse at center, rgba(59,130,246,0.4) 0%, transparent 70%)' }}
-        />
-        {/* Subtle grid */}
-        <div
-          className="absolute inset-0 opacity-[0.022]"
+          className="absolute inset-0 opacity-[0.02]"
           style={{
             backgroundImage: 'linear-gradient(rgba(37,99,235,1) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,1) 1px, transparent 1px)',
-            backgroundSize: '72px 72px',
+            backgroundSize: '64px 64px',
           }}
         />
       </div>
 
-      {/* ── Content ── */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-28 pb-16 md:pt-32 md:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
+          
+          {/* Left Column: Headline & Value Prop */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-start lg:col-span-6"
+          >
+            {/* 1. Eyebrow badge */}
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary-light px-3.5 py-1 text-xs font-semibold text-primary">
+              <Lightning size={14} weight="fill" />
+              <span>{t('Nền tảng Quản lý Chấm công & Thiết bị', 'Time Attendance & Device Management')}</span>
+            </div>
 
-          {/* ── Left: Text Content ── */}
-          <div className="flex flex-col items-start">
-
-
-
-            {/* Heading */}
-            <h1 className="hero-fade-in hero-delay-2 mb-5">
-              <span className="block text-5xl sm:text-6xl lg:text-7xl font-black text-foreground tracking-tight leading-[1.05] mb-3">
-                nATime
-              </span>
-              <span className="block text-2xl sm:text-3xl lg:text-[2rem] font-extrabold leading-snug tracking-tight">
-                <span className="text-foreground/90">
-                  {t('Giải pháp Chấm công', 'Smart Time Attendance')}
-                </span>
-                <br />
-                <span className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 bg-clip-text text-transparent">
-                  {t('& Kiểm soát Ra vào Thông minh', '& Access Control Solution')}
-                </span>
+            {/* 2. Headline (Max 2 lines) */}
+            <h1 className="mb-5 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-6xl leading-[1.1]">
+              nATime <br />
+              <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 bg-clip-text text-transparent">
+                {t('Chấm công & Ra vào Thông minh', 'Smart Access & Attendance')}
               </span>
             </h1>
 
-            {/* Description */}
-            <p className="hero-fade-in hero-delay-3 text-base sm:text-lg text-muted max-w-xl mb-9 leading-relaxed">
+            {/* 3. Subtext (Max 20 words) */}
+            <p className="mb-8 text-base leading-relaxed text-muted sm:text-lg max-w-[54ch]">
               {t(
-                'Nền tảng quản lý chấm công, kiểm soát ra vào và giám sát thiết bị toàn diện dành cho doanh nghiệp.',
-                'Enterprise-grade platform for time attendance, access control, and device monitoring.'
+                'Giải pháp chấm công self-host cài đặt trên Windows, tự động đối soát ca kíp và kết nối thiết bị IoT.',
+                'Self-hosted Windows attendance solution with automated shift reconciliation and IoT device integration.'
               )}
             </p>
 
-            {/* CTA Buttons */}
-            <div className="hero-fade-in hero-delay-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-12 w-full sm:w-auto">
+            {/* 4. Action Buttons */}
+            <div className="mb-10 flex flex-col gap-3.5 sm:flex-row sm:items-center w-full sm:w-auto">
               <Link
-                href={user ? '/dashboard' : '/register'}
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-7 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all duration-200 hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 active:shadow-md cursor-pointer w-full sm:w-auto"
+                href={user ? '/portal' : '/register?trial=standard'}
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-7 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-hover hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer w-full sm:w-auto"
               >
-                {t('Dùng thử miễn phí', 'Start Free Trial')}
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
+                <span>{user ? t('Vào Cổng Khách hàng', 'Customer Portal') : t('Dùng thử miễn phí', 'Start Free Trial')}</span>
+                <ArrowRight size={16} weight="bold" />
               </Link>
 
               <Link
                 href="/contact"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-card px-7 text-sm font-semibold text-foreground transition-all duration-200 hover:bg-primary/5 hover:border-primary/30 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer w-full sm:w-auto"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-card px-7 text-sm font-semibold text-foreground transition-all hover:bg-card-hover hover:border-primary/30 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer w-full sm:w-auto"
               >
-                {t('Liên hệ tư vấn', 'Contact Sales')}
+                <span>{t('Liên hệ tư vấn', 'Contact Sales')}</span>
               </Link>
             </div>
 
-            {/* Trust badges */}
-            <div className="hero-fade-in hero-delay-5 flex flex-wrap items-center gap-4 text-xs text-muted font-medium">
-              {[
-                { icon: '🔒', label: t('Bảo mật AES-256', 'AES-256 Secured') },
-                { icon: '⚡', label: t('.NET 10 hiệu năng cao', 'High-performance .NET 10') },
-                { icon: '🏢', label: t('On-premise / Cloud', 'On-premise / Cloud') },
-              ].map((badge) => (
-                <span key={badge.label} className="flex items-center gap-1.5 rounded-full border border-border/60 bg-card/50 px-3 py-1 backdrop-blur-sm">
-                  <span>{badge.icon}</span>
-                  <span>{badge.label}</span>
-                </span>
-              ))}
+            {/* Trust Badges */}
+            <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-muted">
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-border/80 bg-card/60 px-3 py-1.5">
+                <ShieldCheck size={16} className="text-emerald-500" weight="fill" />
+                <span>{t('Bảo mật AES-256', 'AES-256 Secured')}</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-border/80 bg-card/60 px-3 py-1.5">
+                <Lightning size={16} className="text-blue-500" weight="fill" />
+                <span>{t('.NET 10 Hiệu năng cao', 'High-performance .NET 10')}</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-border/80 bg-card/60 px-3 py-1.5">
+                <Buildings size={16} className="text-indigo-500" weight="fill" />
+                <span>{t('On-premise / Local Host', 'On-premise / Local Host')}</span>
+              </span>
             </div>
-          </div>
+          </motion.div>
 
-          {/* ── Right: Dashboard Mockup ── */}
-          <div className="hero-fade-in hero-delay-3 relative flex items-center justify-center lg:justify-end">
-            {/* Outer glow ring */}
-            <div
-              className="absolute inset-0 rounded-2xl opacity-40 blur-2xl -z-10"
-              style={{ background: 'radial-gradient(ellipse at center, rgba(37,99,235,0.25) 0%, transparent 70%)' }}
-            />
-
-            {/* Browser window mockup */}
-            <div className="relative w-full max-w-xl lg:max-w-none rounded-2xl overflow-hidden border border-border/70 bg-card shadow-[0_20px_80px_-10px_rgba(0,0,0,0.15)] transition-transform duration-700 hover:-translate-y-1">
-
-              {/* Window chrome */}
-              <div className="flex items-center justify-between border-b border-border bg-muted/80 px-4 py-3 select-none">
-                <div className="flex items-center gap-1.5 shrink-0">
+          {/* Right Column: Screenshot Mockup */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="relative lg:col-span-6 flex justify-center lg:justify-end"
+          >
+            <div className="relative w-full max-w-2xl rounded-2xl border border-border/80 bg-card shadow-2xl overflow-hidden">
+              {/* Window Chrome Header */}
+              <div className="flex items-center justify-between border-b border-border bg-muted/60 px-4 py-3 select-none">
+                <div className="flex items-center gap-2">
                   <span className="h-3 w-3 rounded-full bg-red-400/80" />
                   <span className="h-3 w-3 rounded-full bg-yellow-400/80" />
                   <span className="h-3 w-3 rounded-full bg-green-400/80" />
                 </div>
-                <div className="flex items-center gap-2 rounded-md bg-background px-4 py-1 text-[11px] text-muted border border-border/50 font-mono max-w-[240px] w-full justify-center">
-                  <svg className="w-3 h-3 text-muted/65 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                  <span className="truncate">app.natime.vn/dashboard</span>
+                <div className="rounded-md border border-border/50 bg-background px-3 py-0.5 text-center font-mono text-[11px] text-muted">
+                  app.natime.vn/dashboard
                 </div>
-                <div className="w-10 shrink-0" />
+                <div className="w-12" />
               </div>
 
-              {/* Screenshot */}
-              <div className="relative overflow-hidden bg-background">
-                <img
+              {/* Real Product Image */}
+              <div className="relative bg-background">
+                <Image
                   src="/screenshots/dashboard.png"
-                  alt="nATime Dashboard"
-                  className="w-full h-auto object-cover select-none"
+                  alt="nATime Dashboard Preview"
+                  width={1200}
+                  height={675}
+                  priority
+                  className="w-full h-auto object-cover"
                 />
-                {/* Bottom fade */}
-                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
               </div>
             </div>
-
-            {/* Floating stat card — top left */}
-            <div className="absolute -left-4 top-10 hidden sm:flex items-center gap-3 rounded-xl border border-border/60 bg-card/90 px-3.5 py-2.5 backdrop-blur-xl shadow-lg text-xs font-semibold text-foreground select-none">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500 text-base">✅</span>
-              <div>
-                <p className="text-[10px] font-normal text-muted">{t('Đồng bộ thiết bị', 'Device synced')}</p>
-                <p className="font-bold text-sm">24 {t('thiết bị online', 'devices online')}</p>
-              </div>
-            </div>
-
-            {/* Floating stat card — bottom right */}
-            <div className="absolute -right-4 bottom-12 hidden sm:flex items-center gap-3 rounded-xl border border-border/60 bg-card/90 px-3.5 py-2.5 backdrop-blur-xl shadow-lg text-xs font-semibold text-foreground select-none">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500 text-base">⏱️</span>
-              <div>
-                <p className="text-[10px] font-normal text-muted">{t('Hôm nay đúng giờ', 'On-time today')}</p>
-                <p className="font-bold text-sm">98.2%</p>
-              </div>
-            </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>
-
-      {/* ── Animations ── */}
-      <style jsx>{`
-        .hero-fade-in {
-          opacity: 0;
-          transform: translateY(20px);
-          animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes fadeInUp {
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .hero-delay-1 { animation-delay: 0.1s; }
-        .hero-delay-2 { animation-delay: 0.2s; }
-        .hero-delay-3 { animation-delay: 0.35s; }
-        .hero-delay-4 { animation-delay: 0.5s; }
-        .hero-delay-5 { animation-delay: 0.65s; }
-      `}</style>
     </section>
   );
 }

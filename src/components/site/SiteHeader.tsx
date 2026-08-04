@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/authContext';
+import ThemeToggle from '@/components/ThemeToggle';
 
 type Locale = 'vi' | 'en';
 
@@ -92,14 +93,14 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
             ))}
           </div>
 
-          <div className="hidden items-center gap-1.5 lg:flex">
-            <Link href={languageHref} className="grid h-9 min-w-9 place-items-center rounded-full border border-border bg-background px-2.5 text-xs font-bold text-muted transition hover:border-blue-200 hover:text-blue-600">{locale === 'vi' ? 'EN' : 'VI'}</Link>
+          <div className="hidden items-center gap-2 lg:flex">
+            <ThemeToggle />
+            <Link href={languageHref} className="grid h-9 min-w-9 place-items-center rounded-full border border-border bg-background px-2.5 text-xs font-bold text-muted transition hover:border-primary/30 hover:text-primary">{locale === 'vi' ? 'EN' : 'VI'}</Link>
             <Link href={user ? '/portal' : '/login'} className="rounded-full px-3.5 py-2 text-sm font-semibold text-muted transition hover:bg-muted/80 hover:text-foreground">{user ? text.portal : text.login}</Link>
             {!user && (
-              <Link href="/register?trial=standard" className="group relative ml-1 inline-flex h-9 items-center gap-1.5 overflow-hidden rounded-full bg-primary px-5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-xl hover:shadow-primary/25">
+              <Link href="/register?trial=standard" className="group relative ml-1 inline-flex h-9 items-center gap-1.5 overflow-hidden rounded-full bg-primary px-5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/25">
                 <span className="relative z-10">{text.trial}</span>
                 <span className="relative z-10 transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
-                <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
               </Link>
             )}
           </div>
