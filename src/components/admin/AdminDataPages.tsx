@@ -48,11 +48,11 @@ function CopyableId({ value }: { value: string }) {
       type="button"
       onClick={handleCopy}
       title={`Click để sao chép: ${value}`}
-      className="group relative inline-flex items-center gap-1.5 rounded bg-slate-100 dark:bg-slate-800/80 px-2 py-0.5 font-mono text-xs text-slate-700 dark:text-slate-300 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-950/60 dark:hover:text-indigo-400 transition-colors border border-slate-200/80 dark:border-slate-700/60 text-left max-w-full truncate cursor-pointer"
+      className="group relative inline-flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 font-mono text-xs font-bold text-slate-800 hover:bg-indigo-50 hover:text-indigo-700 transition-colors border border-slate-200 text-left max-w-full truncate cursor-pointer"
     >
       <span className="truncate">{value}</span>
       {copied ? (
-        <span className="shrink-0 text-[10px] font-sans font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/80 px-1 rounded">
+        <span className="shrink-0 text-[10px] font-sans font-bold text-emerald-700 bg-emerald-100 px-1 rounded">
           Đã chép!
         </span>
       ) : (
@@ -77,21 +77,21 @@ function CopyableId({ value }: { value: string }) {
 function StatusBadge({ status }: { status: string }) {
   const normalized = status.toLowerCase();
 
-  let style = 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border-slate-200 dark:border-slate-700';
+  let style = 'bg-slate-100 text-slate-700 border-slate-200';
   let dotStyle = 'bg-slate-400';
   let label = status;
 
   if (['active', 'published', 'verified', 'completed', 'paid', 'success'].includes(normalized)) {
-    style = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60';
+    style = 'bg-emerald-50 text-emerald-800 border-emerald-200';
     dotStyle = 'bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.5)]';
   } else if (['pending', 'in_progress', 'draft', 'processing'].includes(normalized)) {
-    style = 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 border-amber-200 dark:border-amber-800/60';
+    style = 'bg-amber-50 text-amber-800 border-amber-200';
     dotStyle = 'bg-amber-500';
   } else if (['new', 'open'].includes(normalized)) {
-    style = 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800/60';
+    style = 'bg-indigo-50 text-indigo-800 border-indigo-200';
     dotStyle = 'bg-indigo-500';
   } else if (['closed', 'disabled', 'cancelled', 'withdrawn', 'failed'].includes(normalized)) {
-    style = 'bg-slate-100 text-slate-600 dark:bg-slate-800/80 dark:text-slate-400 border-slate-200 dark:border-slate-700';
+    style = 'bg-slate-100 text-slate-700 border-slate-200';
     dotStyle = 'bg-slate-400';
   }
 
@@ -100,7 +100,7 @@ function StatusBadge({ status }: { status: string }) {
   if (normalized === 'closed') label = 'Đã đóng';
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${style}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold border ${style}`}>
       <span className={`h-1.5 w-1.5 rounded-full ${dotStyle}`} />
       {label}
     </span>
@@ -222,7 +222,7 @@ export function AdminOverview() {
         >
           <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${accentGradient}`} />
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-semibold text-slate-700">{label}</span>
+            <span className="text-sm font-bold text-slate-700">{label}</span>
             <div className={`p-2.5 rounded-xl ${iconBg} transition-transform duration-200 group-hover:scale-110`}>
               {icon}
             </div>
@@ -345,23 +345,23 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
   }, [definition]);
 
   return (
-    <div className="card-elevated overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
       <div className="overflow-x-auto">
         <table className="table-enhanced w-full text-left text-sm">
           <thead>
             <tr>
               {definition.columns.map(([key, label]) => (
-                <th key={key} className="px-4 py-3 font-semibold text-slate-600 dark:text-slate-300">
+                <th key={key} className="px-4 py-3.5 font-bold text-slate-700">
                   {label}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+          <tbody className="divide-y divide-slate-100">
             {rows.map((row, index) => (
               <tr
                 key={String(row.id ?? row.user_id ?? index)}
-                className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors"
+                className="hover:bg-slate-50 transition-colors"
               >
                 {definition.columns.map(([key]) => {
                   const val = row[key];
@@ -372,22 +372,22 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                     renderedContent = <StatusBadge status={String(val ?? '')} />;
                   } else if (key.includes('_at')) {
                     renderedContent = (
-                      <span className="text-slate-600 dark:text-slate-400 font-medium">{date(val)}</span>
+                      <span className="text-slate-600 font-medium">{date(val)}</span>
                     );
                   } else if (key === 'amount_vnd') {
                     renderedContent = (
-                      <span className="font-semibold text-slate-900 dark:text-slate-100">
+                      <span className="font-black text-slate-900 text-base">
                         {formatCurrency(val)}
                       </span>
                     );
                   } else if (isIdOrHash) {
                     renderedContent = <CopyableId value={cell(val)} />;
                   } else {
-                    renderedContent = cell(val);
+                    renderedContent = <span className="font-semibold text-slate-900">{cell(val)}</span>;
                   }
 
                   return (
-                    <td key={key} className="max-w-[320px] truncate px-4 py-3.5 text-slate-700 dark:text-slate-300">
+                    <td key={key} className="max-w-[320px] truncate px-4 py-3.5 text-slate-800">
                       {renderedContent}
                     </td>
                   );
@@ -399,16 +399,16 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center p-12 text-slate-500 dark:text-slate-400">
+        <div className="flex flex-col items-center justify-center p-12 text-slate-500">
           <svg className="h-6 w-6 animate-spin text-indigo-600 mb-2" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
           </svg>
-          <p className="text-sm font-medium">Đang tải dữ liệu…</p>
+          <p className="text-sm font-semibold">Đang tải dữ liệu…</p>
         </div>
       ) : (
         rows.length === 0 && (
-          <div className="p-12 text-center text-sm text-slate-500 dark:text-slate-400">
+          <div className="p-12 text-center text-sm font-medium text-slate-500">
             <svg className="mx-auto h-8 w-8 text-slate-400 mb-2 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
             </svg>
@@ -451,7 +451,7 @@ export function AdminContacts() {
   return (
     <div className="space-y-4">
       {loading ? (
-        <div className="card-elevated p-8 text-center text-sm text-slate-500 dark:text-slate-400">
+        <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-sm font-medium text-slate-500 shadow-sm">
           <svg className="mx-auto h-6 w-6 animate-spin text-indigo-600 mb-2" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
@@ -459,7 +459,7 @@ export function AdminContacts() {
           <p>Đang tải danh sách liên hệ…</p>
         </div>
       ) : rows.length === 0 ? (
-        <div className="card-elevated p-8 text-center text-sm text-slate-500 dark:text-slate-400">
+        <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-sm font-medium text-slate-500 shadow-sm">
           Chưa có yêu cầu liên hệ nào.
         </div>
       ) : (
@@ -474,7 +474,7 @@ export function AdminContacts() {
                   <h2 className="font-bold text-slate-900 text-base">
                     {cell(row.name)}
                   </h2>
-                  <span className="inline-flex items-center rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600 border border-slate-200/60">
+                  <span className="inline-flex items-center rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700 border border-slate-200">
                     {cell(row.kind)}
                   </span>
                   <StatusBadge status={String(row.status ?? 'new')} />
@@ -502,7 +502,7 @@ export function AdminContacts() {
                   <span className="font-medium">{date(row.created_at)}</span>
                 </div>
 
-                <div className="mt-3 rounded-xl bg-slate-50 p-4 border border-slate-200/80">
+                <div className="mt-3 rounded-xl bg-slate-50 p-4 border border-slate-200">
                   <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-800 font-normal">
                     {cell(row.message)}
                   </p>
@@ -516,7 +516,7 @@ export function AdminContacts() {
                 <select
                   value={String(row.status)}
                   onChange={(event) => void update(String(row.id), event.target.value)}
-                  className="h-9 rounded-lg border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-800 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 cursor-pointer"
+                  className="h-9 rounded-lg border border-slate-300 bg-white px-3 text-xs font-bold text-slate-800 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100 cursor-pointer"
                 >
                   <option value="new">Mới</option>
                   <option value="in_progress">Đang xử lý</option>
