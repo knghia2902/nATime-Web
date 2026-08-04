@@ -144,7 +144,7 @@ export function AdminOverview() {
       label: 'Khách hàng',
       value: counts.portal_profiles,
       accentGradient: 'from-indigo-500 to-violet-500',
-      iconBg: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400',
+      iconBg: 'bg-indigo-50 text-indigo-600',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -156,7 +156,7 @@ export function AdminOverview() {
       label: 'Đơn hàng',
       value: counts.license_orders,
       accentGradient: 'from-emerald-500 to-teal-500',
-      iconBg: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400',
+      iconBg: 'bg-emerald-50 text-emerald-600',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -168,7 +168,7 @@ export function AdminOverview() {
       label: 'License',
       value: counts.license_entitlements,
       accentGradient: 'from-amber-500 to-orange-500',
-      iconBg: 'bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400',
+      iconBg: 'bg-amber-50 text-amber-600',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
@@ -180,7 +180,7 @@ export function AdminOverview() {
       label: 'Thiết bị',
       value: counts.license_installations,
       accentGradient: 'from-purple-500 to-pink-500',
-      iconBg: 'bg-purple-50 text-purple-600 dark:bg-purple-950/60 dark:text-purple-400',
+      iconBg: 'bg-purple-50 text-purple-600',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -192,7 +192,7 @@ export function AdminOverview() {
       label: 'Liên hệ mới',
       value: counts.contact_requests,
       accentGradient: 'from-rose-500 to-red-500',
-      iconBg: 'bg-rose-50 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400',
+      iconBg: 'bg-rose-50 text-rose-600',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -204,7 +204,7 @@ export function AdminOverview() {
       label: 'Release',
       value: counts.software_releases,
       accentGradient: 'from-sky-500 to-blue-500',
-      iconBg: 'bg-sky-50 text-sky-600 dark:bg-sky-950/60 dark:text-sky-400',
+      iconBg: 'bg-sky-50 text-sky-600',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
@@ -218,19 +218,19 @@ export function AdminOverview() {
       {cardConfigs.map(({ label, value, accentGradient, iconBg, icon }) => (
         <article
           key={label}
-          className="card-elevated relative overflow-hidden p-6 flex flex-col justify-between group transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+          className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6 flex flex-col justify-between group transition-all duration-200 hover:-translate-y-1 hover:shadow-md relative overflow-hidden"
         >
           <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${accentGradient}`} />
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">{label}</span>
+            <span className="text-sm font-semibold text-slate-700">{label}</span>
             <div className={`p-2.5 rounded-xl ${iconBg} transition-transform duration-200 group-hover:scale-110`}>
               {icon}
             </div>
           </div>
           <div className="flex items-baseline justify-between mt-1">
-            <p className="text-3xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">
+            <p className="text-3xl font-black text-slate-900 tracking-tight">
               {loading ? (
-                <span className="inline-block h-8 w-16 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
+                <span className="inline-block h-8 w-16 animate-pulse rounded bg-slate-200" />
               ) : value != null ? (
                 value.toLocaleString('vi-VN')
               ) : (
@@ -466,22 +466,22 @@ export function AdminContacts() {
         rows.map((row) => (
           <article
             key={String(row.id)}
-            className="card-elevated p-6 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all hover:shadow-md"
+            className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:shadow-md"
           >
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
               <div className="space-y-2 flex-1">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <h2 className="font-semibold text-slate-900 dark:text-slate-100 text-base">
+                  <h2 className="font-bold text-slate-900 text-base">
                     {cell(row.name)}
                   </h2>
-                  <span className="inline-flex items-center rounded-md bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-xs font-medium text-slate-600 dark:text-slate-400">
+                  <span className="inline-flex items-center rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600 border border-slate-200/60">
                     {cell(row.kind)}
                   </span>
                   <StatusBadge status={String(row.status ?? 'new')} />
                 </div>
 
-                <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 flex-wrap">
-                  <span className="inline-flex items-center gap-1">
+                <div className="flex items-center gap-3 text-xs text-slate-500 flex-wrap">
+                  <span className="inline-flex items-center gap-1 font-medium">
                     <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
@@ -490,7 +490,7 @@ export function AdminContacts() {
                   <span>·</span>
                   {row.company ? (
                     <>
-                      <span className="inline-flex items-center gap-1">
+                      <span className="inline-flex items-center gap-1 font-medium">
                         <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
@@ -499,24 +499,24 @@ export function AdminContacts() {
                       <span>·</span>
                     </>
                   ) : null}
-                  <span>{date(row.created_at)}</span>
+                  <span className="font-medium">{date(row.created_at)}</span>
                 </div>
 
-                <div className="mt-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 p-4 border border-slate-100 dark:border-slate-800">
-                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                <div className="mt-3 rounded-xl bg-slate-50 p-4 border border-slate-200/80">
+                  <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-800 font-normal">
                     {cell(row.message)}
                   </p>
                 </div>
               </div>
 
               <div className="shrink-0">
-                <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1 sm:sr-only">
+                <label className="block text-xs font-semibold text-slate-500 mb-1 sm:sr-only">
                   Trạng thái
                 </label>
                 <select
                   value={String(row.status)}
                   onChange={(event) => void update(String(row.id), event.target.value)}
-                  className="h-9 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 text-xs font-medium text-slate-700 dark:text-slate-200 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 cursor-pointer"
+                  className="h-9 rounded-lg border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-800 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 cursor-pointer"
                 >
                   <option value="new">Mới</option>
                   <option value="in_progress">Đang xử lý</option>

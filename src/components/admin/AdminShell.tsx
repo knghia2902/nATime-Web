@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { FormEvent, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
@@ -167,7 +168,7 @@ export default function AdminShell({ children }: { children: ReactNode }) {
         {/* Dark Sidebar */}
         <aside className="sidebar-dark sidebar-admin hidden border-r border-slate-800 p-4 md:block md:min-h-[calc(100vh-56px)] md:p-5">
           <Link href="/admin" className="mb-5 flex items-center gap-3 px-2">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-orange-500 to-red-500 text-xs font-bold text-white">nA</span>
+            <Image src="/logo.png" alt="nATime Logo" width={28} height={28} className="h-7 w-7 object-contain brightness-110" />
             <div>
               <span className="text-sm font-bold text-white">nATime</span>
               <span className="ml-2 text-[10px] font-medium text-slate-500">Admin</span>
