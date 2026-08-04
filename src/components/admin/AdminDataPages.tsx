@@ -55,7 +55,7 @@ function CopyableId({ value }: { value: string }) {
     <button
       type="button"
       onClick={handleCopy}
-      title={`Click để sao chép: ${value}`}
+      title={`Click để sao chép full: ${value}`}
       className="group relative inline-flex items-center gap-1 rounded-md bg-slate-100/80 px-2 py-0.5 font-mono text-xs font-normal text-slate-600 hover:bg-slate-200/80 hover:text-slate-900 transition-colors border border-slate-200/60 text-left max-w-full cursor-pointer"
     >
       <span className="truncate">{formatShortId(value)}</span>
@@ -74,7 +74,7 @@ function CopyableId({ value }: { value: string }) {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={1.5}
-            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 002-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z"
           />
         </svg>
       )}
@@ -82,7 +82,7 @@ function CopyableId({ value }: { value: string }) {
   );
 }
 
-// ── Clean & Minimalist Event Badge (No dots, no loud colors) ──
+// ── Clean & Minimalist Event Badge ──
 function AuditEventBadge({ eventType }: { eventType: string }) {
   const type = eventType.toLowerCase();
 
@@ -91,9 +91,11 @@ function AuditEventBadge({ eventType }: { eventType: string }) {
   else if (type === 'activation.approved') label = 'Đã duyệt kích hoạt';
   else if (type === 'authority.issued') label = 'Cấp bản quyền';
   else if (type === 'activation.reissued' || type === 'authority.reissued') label = 'Cấp lại bản quyền';
+  else if (type === 'authority.renewed') label = 'Gia hạn bản quyền';
   else if (type === 'authority.revoked') label = 'Thu hồi bản quyền';
-  else if (type === 'trial.claimed') label = 'Trial 7 ngày';
-  else if (type === 'trial.expired') label = 'Hết hạn trial';
+  else if (type === 'trial.claimed') label = 'Dùng thử 7 ngày';
+  else if (type === 'trial.expired') label = 'Hết hạn dùng thử';
+  else if (type === 'entitlement.modules.test_enabled') label = 'Bật module thử nghiệm';
 
   return (
     <span className="inline-block rounded bg-slate-100/90 px-2 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70">
@@ -102,13 +104,29 @@ function AuditEventBadge({ eventType }: { eventType: string }) {
   );
 }
 
-// ── Clean Audit User Cell (Shows friendly label or clean ID) ──
-function AuditUserCell({ userId }: { userId: unknown }) {
+// ── Clean Audit User Cell (Map UUID -> Friendly Name/Email) ──
+function AuditUserCell({ userId, profilesMap }: { userId: unknown; profilesMap?: Record<string, string> }) {
   const str = cell(userId);
   if (str === '—') {
     return <span className="text-slate-400 font-normal text-xs">Tự động</span>;
   }
-  return <CopyableId value={str} />;
+
+  // Check if we have a mapped profile name or email
+  const friendlyName = profilesMap?.[str];
+  if (friendlyName && friendlyName.trim() !== '') {
+    return (
+      <span className="inline-flex items-center gap-1 font-medium text-slate-800 text-xs" title={`UUID: ${str}`}>
+        <span className="text-slate-400 font-normal text-[11px]">👤</span> {friendlyName}
+      </span>
+    );
+  }
+
+  // Fallback: Display short readable admin badge
+  return (
+    <span className="inline-flex items-center gap-1 font-normal text-slate-700 text-xs" title={`UUID đầy đủ: ${str}`}>
+      Admin <span className="font-mono text-slate-500 text-[11px]">({str.slice(0, 8)})</span>
+    </span>
+  );
 }
 
 // ── Clean Audit Details Formatter ──
@@ -130,8 +148,8 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
   if (obj.authorityLicenseId) {
     return (
       <span className="text-xs text-slate-700 font-normal flex items-center gap-1.5">
-        License: <CopyableId value={String(obj.authorityLicenseId)} />
-        {obj.revision != null && <span className="text-slate-400 text-[11px]">(Rev #{String(obj.revision)})</span>}
+        Bản quyền <CopyableId value={String(obj.authorityLicenseId)} />
+        {obj.revision != null && <span className="text-slate-400 text-[11px]">(Lần #{String(obj.revision)})</span>}
       </span>
     );
   }
@@ -457,6 +475,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterEvent, setFilterEvent] = useState<string>('all');
+  const [profilesMap, setProfilesMap] = useState<Record<string, string>>({});
 
   useEffect(() => {
     let cancelled = false;
@@ -469,16 +488,27 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
         cancelled = true;
       };
     }
-    void client
-      .from(definition.table)
-      .select(definition.select)
-      .order('created_at', { ascending: false })
-      .limit(100)
-      .then(({ data }) => {
-        if (cancelled) return;
-        setRows((data as Row[] | null) ?? []);
-        setLoading(false);
-      });
+
+    // Fetch table rows + portal_profiles map for friendly names
+    void Promise.all([
+      client.from(definition.table).select(definition.select).order('created_at', { ascending: false }).limit(100),
+      client.from('portal_profiles').select('user_id,display_name,organization_name')
+    ]).then(([tableRes, profileRes]) => {
+      if (cancelled) return;
+
+      if (profileRes.data) {
+        const map: Record<string, string> = {};
+        for (const p of profileRes.data) {
+          const name = p.display_name || p.organization_name;
+          if (p.user_id && name) map[p.user_id] = name;
+        }
+        setProfilesMap(map);
+      }
+
+      setRows((tableRes.data as Row[] | null) ?? []);
+      setLoading(false);
+    });
+
     return () => {
       cancelled = true;
     };
@@ -549,7 +579,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                     } else if (key === 'event_type') {
                       renderedContent = <AuditEventBadge eventType={String(val ?? '')} />;
                     } else if (key === 'user_id' && isAudit) {
-                      renderedContent = <AuditUserCell userId={val} />;
+                      renderedContent = <AuditUserCell userId={val} profilesMap={profilesMap} />;
                     } else if (key === 'details') {
                       renderedContent = <AuditDetailsFormatter details={val} />;
                     } else if (key === 'correlation_id') {
@@ -599,7 +629,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
           filteredRows.length === 0 && (
             <div className="p-12 text-center text-sm font-normal text-slate-500">
               <svg className="mx-auto h-8 w-8 text-slate-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
               </svg>
               <p>Không tìm thấy nhật ký phù hợp với bộ lọc.</p>
             </div>
