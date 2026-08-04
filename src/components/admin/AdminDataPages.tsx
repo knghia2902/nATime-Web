@@ -255,6 +255,17 @@ export function AdminOverview() {
     }).finally(() => setLoading(false));
   }, []);
 
+  // Khôi phục số lượt xem từ localStorage ngay lập tức (hiện số cũ trước khi server trả về)
+  useEffect(() => {
+    try {
+      const cached = localStorage.getItem('natime_pv');
+      if (cached) {
+        const val = parseInt(cached, 10);
+        if (val > 0) setCounts((prev) => ({ ...prev, page_views: val }));
+      }
+    } catch { /* ignore */ }
+  }, []);
+
   // Fetch lượt xem trang qua Cloudflare Pages Function cùng domain (không CORS)
   useEffect(() => {
     let timer: ReturnType<typeof setInterval>;
@@ -268,9 +279,10 @@ export function AdminOverview() {
         const countVal = data?.count;
         if (!cancelled && typeof countVal === 'number' && countVal > 0) {
           setCounts((prev) => ({ ...prev, page_views: countVal }));
+          try { localStorage.setItem('natime_pv', String(countVal)); } catch { /* ignore */ }
         }
       } catch {
-        // Silently ignore — fallback value sẽ giữ nguyên
+        // Silently ignore — giá trị cache localStorage sẽ giữ nguyên
       }
     };
 
@@ -387,7 +399,7 @@ export function AdminOverview() {
                   {value != null ? (
                     value.toLocaleString('vi-VN')
                   ) : (
-                    <span className="inline-block h-7 w-14 animate-pulse rounded bg-slate-100" />
+                    <span className="text-slate-300">—</span>
                   )}
                 </p>
               </div>
