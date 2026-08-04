@@ -33,79 +33,97 @@ export default function PortalAccount() {
 
   return (
     <PortalShell title="Tài khoản" description="Thông tin người sở hữu đơn hàng và license.">
-      <div className="max-w-3xl space-y-6 stagger-fade-in">
-        {/* Profile Card */}
-        <section className="rounded-2xl border border-border bg-card p-6 sm:p-8 shadow-sm">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 border-b border-border pb-6 mb-6">
-            <span className="grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 text-xl font-bold text-white shadow-md shadow-blue-500/20">
-              {initials}
-            </span>
-            <div>
-              <h2 className="text-xl font-bold text-foreground">{name || 'Chủ tài khoản'}</h2>
-              <p className="text-sm font-medium text-muted mt-0.5">{user?.email}</p>
-              {company && (
-                <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-muted/50 border border-border px-3 py-1 text-xs font-semibold text-muted">
-                  🏢 {company}
-                </span>
-              )}
+      <div className="grid gap-8 lg:grid-cols-12 stagger-fade-in">
+        {/* Main Form (Column 1 - 7 cols) */}
+        <section className="lg:col-span-7 space-y-6">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 shadow-xs">
+            {/* Header user info */}
+            <div className="flex items-center gap-4 border-b border-slate-100 pb-5 mb-6">
+              <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-blue-600 text-lg font-bold text-white shadow-sm">
+                {initials}
+              </span>
+              <div className="min-w-0">
+                <h2 className="text-lg font-bold text-slate-900 truncate">{name || 'Chủ tài khoản'}</h2>
+                <p className="text-sm font-medium text-slate-500 truncate mt-0.5">{user?.email}</p>
+              </div>
             </div>
-          </div>
 
-          <form onSubmit={save} className="space-y-5">
-            <div className="grid gap-5 sm:grid-cols-2">
-              <label className="block text-sm font-semibold text-muted">
-                Email đăng nhập
+            <form onSubmit={save} className="space-y-5">
+              <div>
+                <label className="block text-sm font-semibold text-slate-900 mb-1.5">Email đăng nhập</label>
                 <input
                   value={user?.email ?? ''}
                   disabled
-                  className="mt-2 w-full rounded-xl border border-border bg-muted/50 px-4 py-2.5 font-semibold text-muted cursor-not-allowed text-sm"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-100/80 px-4 py-2.5 font-medium text-slate-500 cursor-not-allowed text-sm"
                 />
-              </label>
+                <p className="mt-1.5 text-xs text-slate-400">Email không thể thay đổi sau khi đăng ký.</p>
+              </div>
 
-              <label className="block text-sm font-semibold text-muted">
-                Họ và tên
+              <div>
+                <label className="block text-sm font-semibold text-slate-900 mb-1.5">Họ và tên</label>
                 <input
                   required
                   value={name}
                   onChange={(event) => setName(event.target.value)}
-                  className="mt-2 w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  placeholder="Nhập họ và tên"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-900 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                 />
-              </label>
-            </div>
+              </div>
 
-            <label className="block text-sm font-semibold text-muted">
-              Đơn vị / Công ty
-              <input
-                value={company}
-                onChange={(event) => setCompany(event.target.value)}
-                placeholder="Tên công ty hoặc tổ chức"
-                className="mt-2 w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              />
-            </label>
+              <div>
+                <label className="block text-sm font-semibold text-slate-900 mb-1.5">Đơn vị / Công ty</label>
+                <input
+                  value={company}
+                  onChange={(event) => setCompany(event.target.value)}
+                  placeholder="Tên công ty hoặc tổ chức"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-900 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
 
-            <div className="pt-2">
-              <button disabled={busy} className="btn-gradient px-6 py-2.5">
-                {busy ? 'Đang lưu…' : 'Lưu thay đổi'}
-              </button>
-            </div>
+              <div className="pt-2">
+                <button disabled={busy} className="btn-gradient px-6 py-2.5 text-sm font-semibold rounded-xl text-white bg-blue-600 hover:bg-blue-700 transition shadow-xs">
+                  {busy ? 'Đang lưu…' : 'Lưu thay đổi'}
+                </button>
+              </div>
 
-            {message && (
-              <p className={`rounded-xl p-4 text-sm font-semibold ${message.includes('cập nhật') ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-800 border border-red-200'}`}>
-                {message}
-              </p>
-            )}
-          </form>
+              {message && (
+                <p className={`rounded-xl p-4 text-sm font-medium ${message.includes('cập nhật') ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-800 border border-red-200'}`}>
+                  {message}
+                </p>
+              )}
+            </form>
+          </div>
         </section>
 
-        {/* Invoice Info Disclaimer */}
-        <section className="rounded-2xl border border-border bg-card p-6 sm:p-7 shadow-sm">
-          <div className="flex items-start gap-3">
-            <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-600 text-lg border border-blue-100">📄</span>
-            <div>
-              <h3 className="font-bold text-foreground text-base">Thông tin hóa đơn GTGT</h3>
-              <p className="mt-1 text-sm leading-relaxed text-muted font-medium">
-                Thông tin hóa đơn được ghi nhận theo từng đơn hàng khi checkout qua PayOS. Hệ thống chưa tự động xuất hóa đơn điện tử GTGT trực tiếp trên website. Nếu cần xuất hóa đơn doanh nghiệp, vui lòng liên hệ bộ phận hỗ trợ sau khi thanh toán.
-              </p>
+        {/* Side Info Cards (Column 2 - 5 cols) */}
+        <section className="lg:col-span-5 space-y-6">
+          {/* Invoice Info Disclaimer */}
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
+            <div className="flex items-start gap-3.5">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-600 text-lg border border-blue-100">
+                📄
+              </span>
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">Hóa đơn GTGT</h3>
+                <p className="mt-2 text-xs leading-relaxed text-slate-600 font-medium">
+                  Thông tin hóa đơn được ghi nhận theo từng đơn hàng khi checkout qua PayOS. Nếu cần xuất hóa đơn điện tử doanh nghiệp, vui lòng liên hệ bộ phận hỗ trợ sau khi thanh toán.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Account Security Card */}
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
+            <div className="flex items-start gap-3.5">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-50 text-emerald-600 text-lg border border-emerald-100">
+                🛡️
+              </span>
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">Bảo mật tài khoản</h3>
+                <p className="mt-2 text-xs leading-relaxed text-slate-600 font-medium">
+                  Tài khoản nATime được bảo mật thông qua Supabase Auth và liên kết bản quyền theo Email đăng ký.
+                </p>
+              </div>
             </div>
           </div>
         </section>

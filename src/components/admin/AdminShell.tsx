@@ -100,23 +100,23 @@ export default function AdminShell({ children }: { children: ReactNode }) {
 
   // ── Loading state ──
   if (loading || access === 'checking') return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-900">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50">
       <div className="flex flex-col items-center gap-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-600 border-t-blue-500" />
-        <p className="text-sm text-slate-400">Đang kiểm tra quyền quản trị…</p>
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-blue-600" />
+        <p className="text-sm font-medium text-slate-500">Đang kiểm tra quyền quản trị…</p>
       </div>
     </div>
   );
 
   // ── Denied state ──
   if (access === 'denied') return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-900 p-6">
-      <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-800/90 p-8 text-center shadow-xl">
-        <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-red-500/10 text-red-400">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
+      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-md">
+        <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-red-50 text-red-600">
           <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
         </div>
-        <h1 className="text-xl font-bold text-white">Không có quyền truy cập</h1>
-        <p className="mt-3 text-sm leading-6 text-slate-400">Tài khoản này không nằm trong danh sách Super Admin.</p>
+        <h1 className="text-xl font-bold text-slate-900">Không có quyền truy cập</h1>
+        <p className="mt-3 text-sm leading-6 text-slate-500">Tài khoản này không nằm trong danh sách Super Admin.</p>
         <Link href="/portal" className="mt-6 inline-flex rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition">Về Cổng khách hàng</Link>
       </div>
     </div>
@@ -124,10 +124,10 @@ export default function AdminShell({ children }: { children: ReactNode }) {
 
   // ── MFA state ──
   if (access === 'mfa') return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-900 p-6">
-      <form onSubmit={verify} className="w-full max-w-md rounded-2xl border border-slate-800 bg-white p-8 shadow-2xl">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
+      <form onSubmit={verify} className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-xl">
         <div className="mb-5 flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-red-500 text-white">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-xs">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
           </span>
           <div>
@@ -146,32 +146,32 @@ export default function AdminShell({ children }: { children: ReactNode }) {
 
   // ── Main Admin Layout ──
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Topbar */}
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur-md">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased">
+      {/* Light Topbar */}
+      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <nav className="flex items-center gap-1.5 text-sm">
-              <span className="font-medium text-slate-400">Admin</span>
+            <nav className="flex items-center gap-2 text-sm">
+              <span className="font-medium text-slate-500">Admin</span>
               <svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
               <span className="font-semibold text-slate-900">{currentItem.label}</span>
             </nav>
           </div>
           <div className="flex items-center gap-3">
-            <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold text-orange-700">Super Admin</span>
+            <span className="rounded-full bg-orange-50 border border-orange-200 px-3 py-0.5 text-xs font-bold text-orange-700">Super Admin</span>
             <Link href="/portal" className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 transition">Portal</Link>
           </div>
         </div>
       </header>
 
       <div className="mx-auto grid max-w-[1400px] md:grid-cols-[240px_1fr]">
-        {/* Dark Sidebar */}
-        <aside className="hidden border-r border-slate-800 bg-slate-900 p-4 text-slate-100 md:block md:min-h-[calc(100vh-56px)] md:p-5">
+        {/* Harmonious Light Sidebar */}
+        <aside className="hidden border-r border-slate-200/80 bg-[#f8fafc] p-4 text-slate-800 md:block md:min-h-[calc(100vh-56px)] md:p-5">
           <Link href="/admin" className="mb-6 flex items-center gap-3 px-2">
-            <Image src="/logo.png" alt="nATime Logo" width={28} height={28} className="h-7 w-7 object-contain brightness-125" />
+            <Image src="/logo.png" alt="nATime Logo" width={28} height={28} className="h-7 w-7 object-contain" />
             <div className="flex items-baseline gap-1.5">
-              <span className="text-base font-bold tracking-tight text-white">nATime</span>
-              <span className="text-[10px] font-semibold tracking-wider text-orange-400 uppercase">Admin</span>
+              <span className="text-base font-bold tracking-tight text-slate-900">nATime</span>
+              <span className="text-[10px] font-bold tracking-wider text-orange-600 uppercase bg-orange-50 px-1.5 py-0.5 rounded border border-orange-200">Admin</span>
             </div>
           </Link>
 
@@ -187,11 +187,11 @@ export default function AdminShell({ children }: { children: ReactNode }) {
                       href={item.href}
                       className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition ${
                         active
-                          ? 'bg-slate-800 text-white font-semibold border-l-2 border-orange-500 pl-2.5'
-                          : 'text-slate-300 hover:bg-slate-800/60 hover:text-white'
+                          ? 'bg-orange-50/80 text-orange-700 font-semibold border-l-3 border-orange-500 pl-2.5 shadow-2xs'
+                          : 'text-slate-600 hover:bg-slate-200/60 hover:text-slate-900'
                       }`}
                     >
-                      <AdminIcon name={item.icon} className={`h-4 w-4 shrink-0 ${active ? 'text-orange-400' : 'text-slate-400'}`} />
+                      <AdminIcon name={item.icon} className={`h-4 w-4 shrink-0 ${active ? 'text-orange-600' : 'text-slate-400'}`} />
                       <span className="truncate">{item.label}</span>
                     </Link>
                   );
@@ -203,7 +203,7 @@ export default function AdminShell({ children }: { children: ReactNode }) {
 
         {/* Main Content */}
         <main className="min-w-0 p-4 sm:p-6 lg:p-8">
-          <header className="mb-6">
+          <header className="mb-6 border-b border-slate-200/60 pb-5">
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">{currentItem.label}</h1>
             <p className="mt-1 text-sm text-slate-500">{currentItem.description}</p>
           </header>
