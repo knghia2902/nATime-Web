@@ -74,7 +74,7 @@ function CopyableId({ value }: { value: string }) {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={1.5}
-            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 002-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z"
           />
         </svg>
       )}
@@ -98,13 +98,13 @@ function AuditEventBadge({ eventType }: { eventType: string }) {
   else if (type === 'entitlement.modules.test_enabled') label = 'Bật module thử nghiệm';
 
   return (
-    <span className="inline-block rounded bg-slate-100/90 px-2.5 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70">
+    <span className="inline-block rounded bg-slate-100/90 px-2.5 py-0.5 text-xs font-normal text-slate-700 border border-slate-200/70 text-center">
       {label}
     </span>
   );
 }
 
-// ── Clean Audit User Cell ──
+// ── Clean Audit User Cell (NO ICON, text only) ──
 function AuditUserCell({ userId, profilesMap }: { userId: unknown; profilesMap?: Record<string, string> }) {
   const str = cell(userId);
   if (str === '—') {
@@ -114,14 +114,14 @@ function AuditUserCell({ userId, profilesMap }: { userId: unknown; profilesMap?:
   const friendlyName = profilesMap?.[str];
   if (friendlyName && friendlyName.trim() !== '') {
     return (
-      <span className="inline-flex items-center gap-1 font-medium text-slate-800 text-xs" title={`UUID: ${str}`}>
-        <span className="text-slate-400 font-normal text-[11px]">👤</span> {friendlyName}
+      <span className="font-semibold text-slate-800 text-xs" title={`UUID: ${str}`}>
+        {friendlyName}
       </span>
     );
   }
 
   return (
-    <span className="inline-flex items-center gap-1 font-normal text-slate-700 text-xs" title={`UUID đầy đủ: ${str}`}>
+    <span className="font-normal text-slate-700 text-xs" title={`UUID đầy đủ: ${str}`}>
       Admin <span className="font-mono text-slate-500 text-[11px]">({str.slice(0, 8)})</span>
     </span>
   );
@@ -138,7 +138,7 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
   if (obj.displayName) {
     return (
       <span className="text-xs text-slate-700 font-normal">
-        Tên máy: <span className="font-medium text-slate-900">{String(obj.displayName)}</span>
+        Tên máy: <span className="font-semibold text-slate-900">{String(obj.displayName)}</span>
       </span>
     );
   }
@@ -155,7 +155,7 @@ function AuditDetailsFormatter({ details }: { details: unknown }) {
   if (obj.durationDays) {
     return (
       <span className="text-xs text-slate-700 font-normal">
-        Thời hạn: <span className="font-medium text-slate-900">{String(obj.durationDays)} ngày</span>
+        Thời hạn: <span className="font-semibold text-slate-900">{String(obj.durationDays)} ngày</span>
       </span>
     );
   }
@@ -467,6 +467,16 @@ const definitions = {
   }
 } as const;
 
+function getColAlignClass(kind: string, colKey: string): string {
+  if (kind === 'audit') {
+    if (['event_type', 'correlation_id', 'created_at'].includes(colKey)) {
+      return 'text-center';
+    }
+    return 'text-left';
+  }
+  return 'text-left';
+}
+
 export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
   const definition = definitions[kind];
   const [rows, setRows] = useState<Row[]>([]);
@@ -549,17 +559,20 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
 
       <div className="rounded-2xl border border-slate-200/80 bg-white shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="table-enhanced w-full text-left text-sm">
+          <table className="table-enhanced w-full text-sm">
             <thead>
               <tr className="border-b border-slate-200/80 bg-slate-50/60">
-                {definition.columns.map(([key, label]) => (
-                  <th
-                    key={key}
-                    className="px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider text-left align-middle"
-                  >
-                    {label}
-                  </th>
-                ))}
+                {definition.columns.map(([key, label]) => {
+                  const alignClass = getColAlignClass(kind, key);
+                  return (
+                    <th
+                      key={key}
+                      className={`px-4 py-3 font-semibold text-xs text-slate-500 uppercase tracking-wider align-middle ${alignClass}`}
+                    >
+                      {label}
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -571,6 +584,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                   {definition.columns.map(([key]) => {
                     const val = row[key];
                     const isIdOrHash = key.includes('id') || key.includes('hash');
+                    const alignClass = getColAlignClass(kind, key);
 
                     let renderedContent;
                     if (key === 'status') {
@@ -607,7 +621,7 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                     return (
                       <td
                         key={key}
-                        className="px-4 py-3 text-slate-800 text-left align-middle"
+                        className={`px-4 py-3 text-slate-800 align-middle ${alignClass}`}
                       >
                         {renderedContent}
                       </td>
