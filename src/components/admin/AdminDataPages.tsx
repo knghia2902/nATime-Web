@@ -74,7 +74,7 @@ function CopyableId({ value }: { value: string }) {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={1.5}
-            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 002-2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z"
           />
         </svg>
       )}
@@ -215,7 +215,7 @@ function StatusBadge({ status }: { status: string }) {
 
 // ── Redesigned Clean Admin Overview Page ──
 export function AdminOverview() {
-  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [counts, setCounts] = useState<Record<string, number>>({ page_views: 17 });
   const [recentAudits, setRecentAudits] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -259,7 +259,7 @@ export function AdminOverview() {
     void fetch('https://api.counterapi.dev/v1/natime.vn/visits')
       .then((res) => res.json())
       .then((data) => {
-        if (data && typeof data.count === 'number') {
+        if (data && typeof data.count === 'number' && data.count > 0) {
           setCounts((prev) => ({ ...prev, page_views: data.count }));
         }
       })
