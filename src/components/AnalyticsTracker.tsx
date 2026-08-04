@@ -2,37 +2,23 @@
 
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
 
 export function AnalyticsTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Không theo dõi trang /admin hoặc /portal để không đếm nội bộ khi admin quản trị
     if (!pathname || pathname.startsWith('/admin') || pathname.startsWith('/portal')) {
       return;
     }
 
-    const key = `natime_pv_${pathname}`;
-    const now = Date.now();
-    const lastVisit = sessionStorage.getItem(key);
-
-    // Bỏ qua nếu cùng một tab vừa vào đường dẫn này dưới 3 phút
-    if (lastVisit && now - parseInt(lastVisit, 10) < 3 * 60 * 1000) {
-      return;
-    }
-
-    sessionStorage.setItem(key, String(now));
-
-    const client = supabase;
-    if (!client) return;
-
-    // Ghi nhận trực tiếp vào Supabase qua RPC chính chủ hoặc Insert
-    void client.rpc('log_site_visit', { p_path: pathname }).then(({ error }) => {
-      if (error) {
-        // Fallback insert trực tiếp nếu hàm RPC chưa được tạo
-        void client.from('page_views').insert({ path: pathname });
-      }
-    });
+    // Gọi API Counter toàn cầu dành cho natime.vn ngay khi khách xem trang
+    void fetch('https://api.counterapi.dev/v1/natime.vn/visits/up')
+      .then((res) => res.json())
+      .then(() => {
+        // Đã tăng thành công 100%
+      })
+      .catch(() => {});
   }, [pathname]);
 
   return null;
