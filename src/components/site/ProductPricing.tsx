@@ -2,8 +2,6 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { motion } from 'motion/react';
-import { CheckCircle, Lightning, Sparkle, ArrowRight } from '@phosphor-icons/react';
 import { supabase } from '@/lib/supabase';
 
 type Product = {
@@ -28,23 +26,10 @@ function formatVnd(value: number) {
   return new Intl.NumberFormat('vi-VN').format(value) + 'đ';
 }
 
-function getModuleLabel(module: string, vi: boolean): string {
-  switch (module) {
-    case 'Attendance': return vi ? 'Chấm công' : 'Attendance';
-    case 'Access': return vi ? 'Kiểm soát ra vào' : 'Access control';
-    case 'Weighbridge': return vi ? 'Trạm cân xe tải' : 'Weighbridge';
-    case 'Assets': return vi ? 'Quản lý tài sản' : 'IT Asset Management';
-    case 'MCC': return vi ? 'Thiết bị MCC' : 'MCC Devices';
-    case 'FaceID': return vi ? 'Thiết bị FaceID' : 'FaceID Devices';
-    default: return module;
-  }
-}
-
-export default function ProductPricing({ locale, compact = false }: { locale: 'vi' | 'en'; compact?: boolean }) {
+export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
   const vi = locale === 'vi';
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('yearly');
   const [products, setProducts] = useState<Product[]>(verifiedCatalog);
-  const [catalogLive, setCatalogLive] = useState(false);
 
   useEffect(() => {
     if (!supabase) return;
@@ -64,25 +49,32 @@ export default function ProductPricing({ locale, compact = false }: { locale: 'v
             };
           });
           setProducts(mergedProducts as Product[]);
-          setCatalogLive(true);
         }
       });
   }, []);
 
-  const plans = useMemo(() => ['standard', 'professional'] as const, []);
+  const standardProduct = useMemo(() => {
+    return products.find((item) => item.plan_code === 'standard' && item.billing_period === billing)
+      ?? verifiedCatalog.find((item) => item.plan_code === 'standard' && item.billing_period === billing)!;
+  }, [products, billing]);
+
+  const proProduct = useMemo(() => {
+    return products.find((item) => item.plan_code === 'professional' && item.billing_period === billing)
+      ?? verifiedCatalog.find((item) => item.plan_code === 'professional' && item.billing_period === billing)!;
+  }, [products, billing]);
 
   return (
     <div className="w-full">
-      {/* Billing Switcher */}
-      <div className="flex justify-center">
-        <div className="inline-flex items-center rounded-full border border-border/80 bg-card p-1.5 shadow-sm">
+      {/* Billing Switcher - Industrial Style */}
+      <div className="flex justify-center mb-10">
+        <div className="inline-flex border hairline bg-white p-1">
           <button
             type="button"
             onClick={() => setBilling('monthly')}
-            className={`rounded-full px-5 py-2 text-xs font-bold transition-all cursor-pointer ${
+            className={`px-5 py-2 font-mono text-[13px] font-semibold transition-colors cursor-pointer ${
               billing === 'monthly'
-                ? 'bg-primary text-white shadow-md'
-                : 'text-muted hover:text-foreground'
+                ? 'bg-ink text-paper'
+                : 'text-ink/60 hover:text-ink'
             }`}
           >
             {vi ? 'Thanh toán Tháng' : 'Monthly Billing'}
@@ -90,137 +82,166 @@ export default function ProductPricing({ locale, compact = false }: { locale: 'v
           <button
             type="button"
             onClick={() => setBilling('yearly')}
-            className={`rounded-full px-5 py-2 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+            className={`px-5 py-2 font-mono text-[13px] font-semibold transition-colors cursor-pointer flex items-center gap-2 ${
               billing === 'yearly'
-                ? 'bg-primary text-white shadow-md'
-                : 'text-muted hover:text-foreground'
+                ? 'bg-ink text-paper'
+                : 'text-ink/60 hover:text-ink'
             }`}
           >
             <span>{vi ? 'Thanh toán Năm' : 'Yearly Billing'}</span>
-            <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400">
-              {vi ? 'Tiết kiệm' : 'Save'}
+            <span className="text-[11px] px-1.5 py-0.5 bg-amber text-ink font-bold">
+              {vi ? 'Tiết kiệm 20%' : 'Save 20%'}
             </span>
           </button>
         </div>
       </div>
 
-      {/* Plan Grid */}
-      <div className={`mt-10 grid gap-8 ${compact ? 'lg:grid-cols-3' : 'lg:grid-cols-3'}`}>
-        {plans.map((code) => {
-          const product = products.find((item) => item.plan_code === code && item.billing_period === billing)
-            ?? verifiedCatalog.find((item) => item.plan_code === code && item.billing_period === billing)!;
-          const professional = code === 'professional';
+      {/* Pricing Cards - 3 Columns Bento Grid (Matching pricing.html) */}
+      <section className="grid md:grid-cols-3 gap-px bg-ink/10">
+        {/* Standard Plan */}
+        <div className="bg-paper p-8 flex flex-col">
+          <p className="font-mono text-[11px] text-teal mb-2">STANDARD</p>
+          <h3 className="font-display font-bold text-[22px] text-ink mb-1">Standard</h3>
+          <p className="font-body text-[13px] text-ink/60 mb-6">
+            {vi ? 'Cho doanh nghiệp vừa và nhỏ, quản lý chấm công tự động.' : 'For small & medium teams managing attendance.'}
+          </p>
+          <p className="font-mono text-[34px] font-semibold text-ink mb-1">
+            {formatVnd(standardProduct.amount_vnd)}
+            <span className="text-[14px] text-ink/50">/{billing === 'monthly' ? (vi ? 'tháng' : 'mo') : (vi ? 'năm' : 'yr')}</span>
+          </p>
+          <p className="font-body text-[12px] text-ink/50 mb-8">
+            {vi
+              ? `Tối đa ${standardProduct.max_employees} nhân sự · ${standardProduct.max_attendance_devices} Máy chấm công`
+              : `Up to ${standardProduct.max_employees} employees · ${standardProduct.max_attendance_devices} devices`}
+          </p>
+          <ul className="font-body text-[13px] text-ink/70 space-y-2.5 mb-8 flex-1">
+            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Module Chấm công & Ca kíp' : 'Attendance & Shift module'}</li>
+            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Báo cáo tổng hợp tự động' : 'Auto summary reports'}</li>
+            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Hỗ trợ kỹ thuật 8/5' : '8/5 Technical support'}</li>
+            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Cài đặt Windows self-host' : 'Self-hosted Windows setup'}</li>
+          </ul>
+          <Link
+            href={`/portal?plan=standard&billing=${billing}`}
+            className="text-center border hairline font-body text-[14px] font-semibold px-6 py-3 hover:bg-white transition-colors text-ink"
+          >
+            {vi ? 'Chọn gói Standard' : 'Choose Standard'}
+          </Link>
+        </div>
 
-          return (
-            <motion.article
-              key={code}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className={`relative flex flex-col justify-between rounded-3xl border bg-card p-8 shadow-sm transition-all duration-300 ${
-                professional
-                  ? 'border-primary ring-2 ring-primary/20 shadow-xl lg:-translate-y-2'
-                  : 'border-border/80 hover:border-border'
-              }`}
-            >
-              {professional && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-1 text-xs font-bold text-white shadow-md">
-                  <Sparkle size={12} weight="fill" />
-                  <span>{vi ? 'Khuyên dùng' : 'Recommended'}</span>
-                </div>
-              )}
-
-              <div>
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-extrabold text-foreground">
-                    {professional ? 'Professional' : 'Standard'}
-                  </h3>
-                </div>
-
-                <div className="mt-4 flex items-baseline gap-1">
-                  <span className="text-4xl font-black tracking-tight text-foreground">
-                    {formatVnd(product.amount_vnd)}
-                  </span>
-                  <span className="text-xs font-semibold text-muted">
-                    / {billing === 'monthly' ? (vi ? 'tháng' : 'month') : (vi ? 'năm' : 'year')}
-                  </span>
-                </div>
-
-                <ul className="mt-8 space-y-3.5 text-sm font-medium text-foreground/90">
-                  <li className="flex items-center gap-2.5">
-                    <CheckCircle size={18} className="text-emerald-500 shrink-0" weight="fill" />
-                    <span>{vi ? `Tối đa ${product.max_employees} nhân sự` : `Up to ${product.max_employees} employees`}</span>
-                  </li>
-                  <li className="flex items-center gap-2.5">
-                    <CheckCircle size={18} className="text-emerald-500 shrink-0" weight="fill" />
-                    <span>{vi ? `Tối đa ${product.max_attendance_devices} Máy chấm công (MCC)` : `Up to ${product.max_attendance_devices} MCC devices`}</span>
-                  </li>
-                  {product.max_faceid_devices > 0 && (
-                    <li className="flex items-center gap-2.5">
-                      <CheckCircle size={18} className="text-emerald-500 shrink-0" weight="fill" />
-                      <span>{vi ? `Tối đa ${product.max_faceid_devices} Thiết bị FaceID` : `Up to ${product.max_faceid_devices} FaceID devices`}</span>
-                    </li>
-                  )}
-                  {product.enabled_modules.map((module) => (
-                    <li key={module} className="flex items-center gap-2.5">
-                      <CheckCircle size={18} className="text-emerald-500 shrink-0" weight="fill" />
-                      <span>{getModuleLabel(module, vi)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <Link
-                href={`/portal?plan=${code}&billing=${billing}`}
-                className={`mt-10 inline-flex h-12 items-center justify-center gap-2 rounded-xl text-sm font-bold transition-all ${
-                  professional
-                    ? 'bg-primary text-white shadow-lg shadow-primary/25 hover:bg-primary-hover hover:shadow-xl'
-                    : 'border border-border bg-card text-foreground hover:bg-card-hover hover:border-primary/30'
-                }`}
-              >
-                <span>{vi ? 'Chọn gói này' : 'Choose Plan'}</span>
-                <ArrowRight size={16} weight="bold" />
-              </Link>
-            </motion.article>
-          );
-        })}
+        {/* Professional Plan - Featured (Matching pricing.html bg-graphite border-2 border-amber) */}
+        <div className="bg-graphite p-8 flex flex-col border-2 border-amber -my-px md:-my-0">
+          <p className="font-mono text-[11px] text-amber mb-2">{vi ? 'PROFESSIONAL · PHỔ BIẾN NHẤT' : 'PROFESSIONAL · MOST POPULAR'}</p>
+          <h3 className="font-display font-bold text-[22px] text-paper mb-1">Professional</h3>
+          <p className="font-body text-[13px] text-paper/60 mb-6">
+            {vi ? 'Cho doanh nghiệp quy mô lớn: chấm công, kiểm soát ra vào & FaceID.' : 'For large teams: attendance, access control & FaceID.'}
+          </p>
+          <p className="font-mono text-[34px] font-semibold text-paper mb-1">
+            {formatVnd(proProduct.amount_vnd)}
+            <span className="text-[14px] text-paper/50">/{billing === 'monthly' ? (vi ? 'tháng' : 'mo') : (vi ? 'năm' : 'yr')}</span>
+          </p>
+          <p className="font-body text-[12px] text-paper/50 mb-8">
+            {vi
+              ? `Tối đa ${proProduct.max_employees} nhân sự · ${proProduct.max_attendance_devices} MCC · ${proProduct.max_faceid_devices} FaceID`
+              : `Up to ${proProduct.max_employees} employees · ${proProduct.max_attendance_devices} MCC · ${proProduct.max_faceid_devices} FaceID`}
+          </p>
+          <ul className="font-body text-[13px] text-paper/80 space-y-2.5 mb-8 flex-1">
+            <li className="flex gap-2"><span className="text-amber">✓</span>{vi ? 'Toàn bộ module: Chấm công & Access Control' : 'All modules: Attendance & Access'}</li>
+            <li className="flex gap-2"><span className="text-amber">✓</span>{vi ? 'Tích hợp máy chấm công FaceID' : 'FaceID device integration'}</li>
+            <li className="flex gap-2"><span className="text-amber">✓</span>{vi ? 'API kết nối phần mềm lương / ERP' : 'Payroll / ERP API integration'}</li>
+            <li className="flex gap-2"><span className="text-amber">✓</span>{vi ? 'Hỗ trợ kỹ thuật 24/7' : '24/7 Technical support'}</li>
+          </ul>
+          <Link
+            href={`/portal?plan=professional&billing=${billing}`}
+            className="text-center bg-amber text-ink font-body text-[14px] font-semibold px-6 py-3 hover:bg-amber/90 transition-colors"
+          >
+            {vi ? 'Chọn gói Professional' : 'Choose Professional'}
+          </Link>
+        </div>
 
         {/* Enterprise Plan */}
-        <motion.article
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-col justify-between rounded-3xl border border-border/80 bg-card/60 p-8 shadow-sm"
-        >
-          <div>
-            <h3 className="text-xl font-extrabold text-foreground">Enterprise</h3>
-            <div className="mt-4">
-              <span className="text-3xl font-black text-foreground">{vi ? 'Tùy chỉnh' : 'Custom'}</span>
-            </div>
-            <p className="mt-6 text-sm leading-relaxed text-muted">
-              {vi
-                ? 'Dành cho tập đoàn, dự án quy mô lớn hoặc yêu cầu khảo sát hạ tầng thiết bị riêng.'
-                : 'For large enterprises, custom deployments, or specific infrastructure needs.'}
-            </p>
-          </div>
-
+        <div className="bg-paper p-8 flex flex-col">
+          <p className="font-mono text-[11px] text-teal mb-2">{vi ? 'ENTERPRISE' : 'ENTERPRISE'}</p>
+          <h3 className="font-display font-bold text-[22px] text-ink mb-1">Enterprise</h3>
+          <p className="font-body text-[13px] text-ink/60 mb-6">
+            {vi ? 'Cho tập đoàn nhiều nhà máy, hạ tầng & triển khai riêng.' : 'For multi-branch enterprise requiring custom deployment.'}
+          </p>
+          <p className="font-mono text-[24px] font-semibold text-ink mb-1">{vi ? 'Liên hệ báo giá' : 'Custom Quote'}</p>
+          <p className="font-body text-[12px] text-ink/50 mb-8">{vi ? 'Không giới hạn nhân sự & thiết bị' : 'Unlimited employees & devices'}</p>
+          <ul className="font-body text-[13px] text-ink/70 space-y-2.5 mb-8 flex-1">
+            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Triển khai On-premise hoặc Private Cloud' : 'On-premise or Private Cloud'}</li>
+            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Quản lý tập trung đa chi nhánh' : 'Centralized multi-branch system'}</li>
+            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Đội ngũ kỹ thuật khảo sát & hỗ trợ riêng' : 'Dedicated support & survey team'}</li>
+            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Cam kết SLA dịch vụ cao nhất' : 'Highest SLA guarantee'}</li>
+          </ul>
           <Link
-            href={`${vi ? '' : '/en'}/contact?type=enterprise`}
-            className="mt-10 inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-card text-sm font-bold text-foreground hover:bg-card-hover hover:border-primary/30 transition-all"
+            href="/contact?type=enterprise"
+            className="text-center border hairline font-body text-[14px] font-semibold px-6 py-3 hover:bg-white transition-colors text-ink"
           >
-            <span>{vi ? 'Liên hệ Enterprise' : 'Contact Enterprise'}</span>
-            <ArrowRight size={16} weight="bold" />
+            {vi ? 'Liên hệ Enterprise' : 'Contact Enterprise'}
           </Link>
-        </motion.article>
-      </div>
+        </div>
+      </section>
 
-      <p className="mt-6 text-center text-xs text-muted">
-        {catalogLive
-          ? (vi ? 'Giá và giới hạn được tải trực tiếp từ Supabase.' : 'Pricing and limits loaded directly from Supabase.')
-          : (vi ? 'Hiển thị danh mục giá đã xác minh gần nhất.' : 'Showing latest verified catalog.')}
-      </p>
+      {/* Comparison Table (Matching pricing.html) */}
+      <section className="max-w-6xl mx-auto px-6 pb-20 border-t hairline pt-14 mt-14">
+        <h2 className="font-display font-bold text-[24px] text-ink mb-8">{vi ? 'So sánh tính năng theo từng gói' : 'Feature Comparison'}</h2>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left font-body text-[13px]">
+            <thead>
+              <tr className="border-b-2 border-ink/20">
+                <th className="py-3 pr-4 text-ink/50 font-medium">Tính năng / Module</th>
+                <th className="py-3 px-4 text-ink/50 font-medium text-center">Standard</th>
+                <th className="py-3 px-4 text-ink/50 font-medium text-center">Professional</th>
+                <th className="py-3 px-4 text-ink/50 font-medium text-center">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody className="font-mono text-[13px]">
+              <tr className="border-b hairline">
+                <td className="py-3 pr-4 font-body">Giới hạn nhân sự</td>
+                <td className="text-center text-teal">50 nhân sự</td>
+                <td className="text-center text-teal">1.000 nhân sự</td>
+                <td className="text-center text-teal">Không giới hạn</td>
+              </tr>
+              <tr className="border-b hairline">
+                <td className="py-3 pr-4 font-body">Máy chấm công (MCC)</td>
+                <td className="text-center text-teal">2 thiết bị</td>
+                <td className="text-center text-teal">10 thiết bị</td>
+                <td className="text-center text-teal">Không giới hạn</td>
+              </tr>
+              <tr className="border-b hairline">
+                <td className="py-3 pr-4 font-body">Thiết bị FaceID</td>
+                <td className="text-center text-ink/30">—</td>
+                <td className="text-center text-teal">16 thiết bị</td>
+                <td className="text-center text-teal">Không giới hạn</td>
+              </tr>
+              <tr className="border-b hairline">
+                <td className="py-3 pr-4 font-body">Module Chấm công & Ca kíp</td>
+                <td className="text-center text-teal">✓</td>
+                <td className="text-center text-teal">✓</td>
+                <td className="text-center text-teal">✓</td>
+              </tr>
+              <tr className="border-b hairline">
+                <td className="py-3 pr-4 font-body">Module Kiểm soát ra vào (Access)</td>
+                <td className="text-center text-ink/30">—</td>
+                <td className="text-center text-teal">✓</td>
+                <td className="text-center text-teal">✓</td>
+              </tr>
+              <tr className="border-b hairline">
+                <td className="py-3 pr-4 font-body">API tích hợp phần mềm lương / ERP</td>
+                <td className="text-center text-ink/30">—</td>
+                <td className="text-center text-teal">✓</td>
+                <td className="text-center text-teal">✓</td>
+              </tr>
+              <tr>
+                <td className="py-3 pr-4 font-body">Hỗ trợ kỹ thuật</td>
+                <td className="text-center text-teal">8/5</td>
+                <td className="text-center text-teal">24/7</td>
+                <td className="text-center text-teal">Đội ngũ riêng SLA</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 }
