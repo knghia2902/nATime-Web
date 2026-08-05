@@ -46,7 +46,7 @@ export default function SiteFooter({ locale }: { locale: Locale }) {
           </p>
           <ul className="font-body text-[13px] space-y-2">
             <li><Link href={localPath(locale, '/about')} className="hover:text-paper">{vi ? 'Giới thiệu' : 'About'}</Link></li>
-            <li><Link href={localPath(locale, '/changelog')} className="hover:text-paper">{vi ? 'Nhật ký thay đổi' : 'Changelog'}</Link></li>
+            <li><Link href={localPath(locale, '/blog')} className="hover:text-paper">{vi ? 'Nhật ký thay đổi' : 'Changelog'}</Link></li>
             <li><Link href={localPath(locale, '/blog')} className="hover:text-paper">Blog</Link></li>
             <li><Link href={localPath(locale, '/contact')} className="hover:text-paper">{vi ? 'Liên hệ' : 'Contact'}</Link></li>
           </ul>
