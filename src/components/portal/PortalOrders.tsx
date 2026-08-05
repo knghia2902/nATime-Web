@@ -32,54 +32,59 @@ export default function PortalOrders() {
 
   return (
     <PortalShell title="Đơn hàng" description="Trạng thái thanh toán được xác nhận từ webhook PayOS.">
-      <div className="card-elevated overflow-hidden border border-border bg-card shadow-sm rounded-2xl">
-        {orders.length === 0 ? (
-          <p className="p-8 text-center text-sm font-medium text-muted">Chưa có đơn hàng.</p>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="table-enhanced">
-              <thead>
-                <tr>
-                  <th>Mã</th>
-                  <th>Gói</th>
-                  <th>Chu kỳ</th>
-                  <th>Số tiền</th>
-                  <th>Trạng thái</th>
-                  <th>Ngày tạo</th>
+      <div className="space-y-6">
+        <p className="font-mono text-[11px] text-teal tracking-wide">03 / ĐƠN HÀNG</p>
+        <div className="border hairline overflow-x-auto">
+          <table className="w-full text-left font-body text-[13px]">
+            <thead>
+              <tr className="border-b hairline bg-white/60">
+                <th className="py-3 px-4 text-ink/50 font-medium">Mã đơn</th>
+                <th className="py-3 px-4 text-ink/50 font-medium">Ngày</th>
+                <th className="py-3 px-4 text-ink/50 font-medium">Gói</th>
+                <th className="py-3 px-4 text-ink/50 font-medium">Chu kỳ</th>
+                <th className="py-3 px-4 text-ink/50 font-medium">Số tiền</th>
+                <th className="py-3 px-4 text-ink/50 font-medium">Thanh toán</th>
+              </tr>
+            </thead>
+            <tbody className="font-mono text-[12px]">
+              {orders.length === 0 ? (
+                <tr className="bg-white">
+                  <td colSpan={6} className="py-6 px-4 text-center text-ink/50 font-body">
+                    Chưa có đơn hàng.
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {orders.map((order) => (
-                  <tr key={order.id}>
-                    <td>
-                      <code className="font-mono text-xs font-bold text-muted bg-muted/50 px-2.5 py-1 rounded border border-border select-all">
-                        {order.id.slice(0, 8).toUpperCase()}
-                      </code>
-                    </td>
-                    <td className="capitalize font-bold text-foreground">
-                      {order.plan_code}
-                    </td>
-                    <td className="text-muted font-medium">
-                      {order.billing_period === 'monthly' ? 'Hàng tháng' : 'Hàng năm'}
-                    </td>
-                    <td className="font-black text-foreground text-base">
-                      {new Intl.NumberFormat('vi-VN').format(order.amount_vnd)}đ
-                    </td>
-                    <td>
-                      <span className={`badge-status ${order.status === 'paid' ? 'badge-active' : 'badge-pending'}`}>
-                        <span className="badge-dot" />
-                        {order.status === 'paid' ? 'Đã thanh toán' : order.status}
-                      </span>
-                    </td>
-                    <td className="text-muted font-medium">
-                      {new Intl.DateTimeFormat('vi-VN').format(new Date(order.created_at))}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+              ) : (
+                orders.map((order) => {
+                  const isPaid = order.status === 'paid';
+                  return (
+                    <tr key={order.id} className="border-b hairline bg-white">
+                      <td className="py-3 px-4 font-bold text-ink">
+                        INV-{order.id.slice(0, 8).toUpperCase()}
+                      </td>
+                      <td className="py-3 px-4 text-ink/60">
+                        {new Intl.DateTimeFormat('vi-VN').format(new Date(order.created_at))}
+                      </td>
+                      <td className="py-3 px-4 font-body font-semibold capitalize text-ink">
+                        {order.plan_code}
+                      </td>
+                      <td className="py-3 px-4 font-body text-ink/70">
+                        {order.billing_period === 'monthly' ? 'Hàng tháng' : 'Hàng năm'}
+                      </td>
+                      <td className="py-3 px-4 text-ink font-semibold">
+                        {new Intl.NumberFormat('vi-VN').format(order.amount_vnd)}đ
+                      </td>
+                      <td className="py-3 px-4">
+                        <span className={`px-2 py-0.5 ${isPaid ? 'bg-teal/10 text-teal' : 'bg-amber/10 text-amber'}`}>
+                          {isPaid ? 'Đã thanh toán' : order.status}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </PortalShell>
   );
