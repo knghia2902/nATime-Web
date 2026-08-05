@@ -1,109 +1,64 @@
-'use client';
-
-import { motion } from 'motion/react';
-import { ScanFace, CalendarDays, FileText, BarChart3, Users, Settings } from 'lucide-react';
-import { useLanguage } from '@/lib/i18n';
-
 export default function Features() {
-  const { t } = useLanguage();
+  const stats = [
+    { value: '120+', label: 'nh\u00e0 m\u00e1y \u0111ang v\u1eadn h\u00e0nh tr\u00ean nATime' },
+    { value: '99.9%', label: 'th\u1eddi gian ho\u1ea1t \u0111\u1ed9ng h\u1ec7 th\u1ed1ng' },
+    { value: '<200ms', label: '\u0111\u1ed9 tr\u1ec5 ghi nh\u1eadn s\u1ef1 ki\u1ec7n' },
+    { value: '24/7', label: 'gi\u00e1m s\u00e1t v\u00e0 h\u1ed7 tr\u1ee3 k\u1ef9 thu\u1eadt' },
+  ];
 
-  const features = [
+  const modules = [
     {
-      id: 'attendance',
-      title: t('Chấm công đa dạng', 'Diverse Attendance'),
-      desc: t('Hỗ trợ Face ID, GPS, Wi-Fi, QR Code và máy chấm công.', 'Supports Face ID, GPS, Wi-Fi, QR Code, and biometric devices.'),
-      icon: ScanFace,
-      bgColor: 'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950/50 dark:border-blue-900 dark:text-blue-400',
+      num: '01',
+      title: 'Ch\u1ea5m c\u00f4ng',
+      desc: 'Ghi nh\u1eadn gi\u1edd v\u00e0o/ra b\u1eb1ng v\u00e2n tay, khu\u00f4n m\u1eb7t ho\u1eb7c th\u1ebb t\u1eeb. T\u1ef1 \u0111\u1ed9ng t\u00ednh c\u00f4ng, t\u0103ng ca v\u00e0 ngh\u1ec9 ph\u00e9p \u2014 kh\u00f4ng c\u1ea7n \u0111\u1ed1i so\u00e1t tay.',
     },
     {
-      id: 'shift',
-      title: t('Quản lý ca làm việc', 'Shift Management'),
-      desc: t('Thiết lập ca linh hoạt, xoay ca tự động, phù hợp mọi mô hình.', 'Flexible shift setup, auto rotation, suitable for any business model.'),
-      icon: CalendarDays,
-      bgColor: 'bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-950/50 dark:border-emerald-900 dark:text-emerald-400',
+      num: '02',
+      title: 'Ki\u1ec3m so\u00e1t ra v\u00e0o',
+      desc: 'Ph\u00e2n quy\u1ec1n c\u1eeda v\u00e0 khu v\u1ef1c theo t\u1eebng nh\u00e2n s\u1ef1, nh\u00e0 th\u1ea7u ho\u1eb7c kh\u00e1ch. Nh\u1eadt k\u00fd ra v\u00e0o ghi nh\u1eadn t\u1ee9c th\u00ec, tra c\u1ee9u theo th\u1eddi gian th\u1ef1c.',
     },
     {
-      id: 'requests',
-      title: t('Quản lý đơn từ', 'Request Management'),
-      desc: t('Đề nghị, xin phép, tăng ca dễ dàng, duyệt nhanh chóng.', 'Easy leave, overtime, and request submissions with fast approval.'),
-      icon: FileText,
-      bgColor: 'bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-950/50 dark:border-amber-900 dark:text-amber-400',
+      num: '03',
+      title: 'Tr\u1ea1m c\u00e2n',
+      desc: 'K\u1ebft n\u1ed1i tr\u1ef1c ti\u1ebfp \u0111\u1ea7u c\u00e2n \u0111i\u1ec7n t\u1eed. \u0110\u1ed1i chi\u1ebfu phi\u1ebfu c\u00e2n t\u1ef1 \u0111\u1ed9ng, ph\u00e1t hi\u1ec7n sai l\u1ec7ch kh\u1ed1i l\u01b0\u1ee3ng ngay t\u1ea1i c\u1ed5ng.',
     },
     {
-      id: 'reports',
-      title: t('Báo cáo trực quan', 'Visual Reports'),
-      desc: t('Hệ thống báo cáo đa dạng, dễ theo dõi và xuất dữ liệu.', 'Diverse reporting system, easy tracking and data exports.'),
-      icon: BarChart3,
-      bgColor: 'bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-950/50 dark:border-purple-900 dark:text-purple-400',
-    },
-    {
-      id: 'employees',
-      title: t('Quản lý nhân sự', 'Personnel Management'),
-      desc: t('Thông tin nhân sự tập trung, đồng bộ và bảo mật.', 'Centralized employee information, synchronized and secure.'),
-      icon: Users,
-      bgColor: 'bg-teal-50 text-teal-600 border-teal-100 dark:bg-teal-950/50 dark:border-teal-900 dark:text-teal-400',
-    },
-    {
-      id: 'settings',
-      title: t('Tùy chỉnh linh hoạt', 'Flexible Customization'),
-      desc: t('Phân quyền chi tiết, cấu hình theo nhu cầu doanh nghiệp.', 'Granular permissions and configuration tailored to enterprise needs.'),
-      icon: Settings,
-      bgColor: 'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950/50 dark:border-blue-900 dark:text-blue-400',
+      num: '04',
+      title: 'Qu\u1ea3n l\u00fd t\u00e0i s\u1ea3n',
+      desc: 'G\u1eafn m\u00e3 \u0111\u1ecbnh danh cho t\u1eebng thi\u1ebft b\u1ecb. Theo d\u00f5i v\u1ecb tr\u00ed, l\u1ecbch b\u1ea3o tr\u00ec v\u00e0 kh\u1ea5u hao theo th\u1eddi gian th\u1ef1c.',
     },
   ];
 
   return (
-    <section id="features" className="relative bg-background py-20 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-14 text-left"
-        >
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 block mb-2">
-            {t('TÍNH NĂNG NỔI BẬT', 'FEATURE HIGHLIGHTS')}
-          </span>
-          <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-            {t('Đầy đủ tính năng - Dễ dàng sử dụng', 'Full Featured - Easy to Use')}
-          </h2>
-        </motion.div>
-
-        {/* 6 Feature Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-5">
-          {features.map((item, idx) => {
-            const Icon = item.icon;
-            return (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className="group relative rounded-2xl border border-slate-100 bg-card p-6 shadow-sm dark:border-slate-800 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col justify-between"
-              >
-                <div>
-                  <div className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl border ${item.bgColor}`}>
-                    <Icon className="h-7 w-7" />
-                  </div>
-
-                  <h3 className="text-base font-extrabold text-foreground mb-2">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-xs leading-relaxed text-muted">
-                    {item.desc}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
+    <>
+      {/* Stats Bar */}
+      <section className="border-y hairline bg-white/40">
+        <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 divide-x hairline">
+          {stats.map((stat, i) => (
+            <div key={i} className={`px-6 ${i === 0 ? 'pl-0' : ''}`}>
+              <p className="font-mono text-[28px] font-semibold text-ink">{stat.value}</p>
+              <p className="font-body text-[13px] text-ink/60 mt-1">{stat.label}</p>
+            </div>
+          ))}
         </div>
+      </section>
 
-      </div>
-    </section>
+      {/* Modules Bento */}
+      <section className="max-w-6xl mx-auto px-6 py-20">
+        <p className="font-mono text-[12px] text-teal tracking-wide mb-3">B\u1ed0N MODULE</p>
+        <h2 className="font-display font-bold text-[28px] md:text-[34px] text-ink max-w-lg mb-12">
+          T\u1eebng module v\u1eadn h\u00e0nh \u0111\u1ed9c l\u1eadp, d\u1eef li\u1ec7u lu\u00f4n \u0111\u1ed3ng b\u1ed9.
+        </h2>
+        <div className="grid md:grid-cols-2 gap-px bg-ink/10">
+          {modules.map((mod) => (
+            <div key={mod.num} className="bg-paper p-8 md:p-10">
+              <span className="font-mono text-[11px] text-teal">{mod.num}</span>
+              <h3 className="font-display font-bold text-[20px] text-ink mt-2 mb-3">{mod.title}</h3>
+              <p className="font-body text-[14px] text-ink/65 leading-relaxed">{mod.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }

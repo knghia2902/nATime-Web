@@ -6,8 +6,8 @@ import CTA from '@/components/sections/CTA';
 import { publicPageMetadata } from '@/lib/siteMetadata';
 
 export const metadata = publicPageMetadata(
-  'Phần mềm chấm công cho doanh nghiệp',
-  'nATime giúp doanh nghiệp quản lý chấm công và thiết bị bằng bộ cài Windows self-host.',
+  'nATime - Nen tang van hanh nha may',
+  'nATime hop nhat cham cong, kiem soat ra vao, tram can va quan ly tai san vao mot he thong duy nhat.',
   '/',
   'vi',
 );

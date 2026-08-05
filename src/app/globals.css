@@ -14,8 +14,17 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
-  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
+  /* Industrial Design Tokens */
+  --color-ink: #12181F;
+  --color-paper: #EDEFEA;
+  --color-steel: #3E5468;
+  --color-graphite: #232B35;
+  --color-amber: #E2963A;
+  --color-teal: #2F7D6B;
+  --font-sans: var(--font-body), 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-display), 'Be Vietnam Pro', ui-sans-serif, sans-serif;
+  --font-body: var(--font-body), 'IBM Plex Sans', ui-sans-serif, sans-serif;
+  --font-mono: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace;
   --animate-fade-in-up: fade-in-up 0.6s ease-out both;
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
@@ -27,8 +36,6 @@
 
 /* ========================================
    Design Tokens - Light Only
-   Radius scale: 8px (inputs) / 12px (cards) / 16px (containers)
-   Accent: Blue 600 (#2563eb) - single color, locked
    ======================================== */
 :root {
   color-scheme: light;
@@ -98,8 +105,8 @@ body {
 }
 
 ::selection {
-  background-color: var(--primary);
-  color: #ffffff;
+  background-color: #E2963A;
+  color: #12181F;
 }
 
 /* ========================================
@@ -120,13 +127,57 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: #E2963A;
 }
 
 /* Firefox */
 * {
   scrollbar-width: thin;
   scrollbar-color: #94a3b8 transparent;
+}
+
+/* ========================================
+   Industrial Design Utilities
+   ======================================== */
+.hairline {
+  border-color: rgba(18, 24, 31, 0.14);
+}
+
+.diag-corner {
+  position: relative;
+}
+
+.diag-corner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid #E2963A;
+  border-left: 2px solid #E2963A;
+}
+
+.diag-corner::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  border-bottom: 2px solid #E2963A;
+  border-right: 2px solid #E2963A;
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 32s linear infinite;
+}
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 /* ========================================
@@ -218,18 +269,6 @@ body {
 .delay-500 { animation-delay: 500ms; }
 .delay-600 { animation-delay: 600ms; }
 .delay-700 { animation-delay: 700ms; }
-
-/* ========================================
-   Gradient Text Utility
-   Blue accent only - no purple
-   ======================================== */
-.text-gradient {
-  background: linear-gradient(135deg, #2563eb, #3b82f6, #2563eb);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
 /* ========================================
    nATime Webportal Compatibility Classes
@@ -375,7 +414,6 @@ th, .th {
 
 /* ========================================
    Gradient CTA Button
-   Solid Blue 600 - replaces AI-purple gradient
    ======================================== */
 .btn-gradient {
   display: inline-flex;

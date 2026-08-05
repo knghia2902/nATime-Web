@@ -1,108 +1,22 @@
-'use client';
-
-import Link from 'next/link';
-import { motion } from 'motion/react';
-import { Clock, ShieldCheck, FileCheck, ArrowRight } from 'lucide-react';
-import { useLanguage } from '@/lib/i18n';
-
 export default function Benefits() {
-  const { t } = useLanguage();
-
   return (
-    <section className="relative bg-background py-16 sm:py-24 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50/40 via-white to-blue-50/60 dark:border-blue-900/40 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/30 p-8 sm:p-12 lg:p-16 shadow-lg">
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
-            
-            {/* Left Copy */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="lg:col-span-5 flex flex-col items-start"
-            >
-              <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 block mb-3">
-                {t('LỢI ÍCH KHI SỬ DỤNG nATime', 'BENEFITS OF USING nATime')}
-              </span>
-
-              <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl lg:text-5xl leading-tight mb-5">
-                {t('Tối ưu thời gian', 'Optimize Time')} <br />
-                <span className="text-blue-600 dark:text-blue-500">
-                  {t('Nâng cao hiệu suất', 'Boost Performance')}
-                </span>
-              </h2>
-
-              <p className="text-base leading-relaxed text-muted mb-8 max-w-md">
-                {t(
-                  'nATime giúp doanh nghiệp tự động hóa việc chấm công, giảm thiểu sai sót và tiết kiệm thời gian quản lý.',
-                  'nATime helps businesses automate time attendance, minimize errors, and save management time.'
-                )}
-              </p>
-
-              <Link
-                href="/features"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 text-sm font-bold text-white shadow-md shadow-blue-600/20 hover:bg-blue-700 transition"
-              >
-                <span>{t('Tìm hiểu thêm', 'Learn More')}</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </motion.div>
-
-            {/* Center/Right Items List & Graphic */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-12 gap-8 items-center"
-            >
-              {/* 3 Benefit cards column */}
-              <div className="sm:col-span-7 space-y-4">
-                <div className="flex items-start gap-4 rounded-2xl border border-blue-100 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-800">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400">
-                    <Clock className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-base text-foreground">{t('Tiết kiệm thời gian', 'Save Time')}</h3>
-                    <p className="text-xs text-muted mt-1">{t('Giảm 80% thời gian xử lý chấm công', 'Reduce attendance processing time by 80%')}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4 rounded-2xl border border-emerald-100 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-800">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400">
-                    <ShieldCheck className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-base text-foreground">{t('Chính xác tuyệt đối', 'Absolute Accuracy')}</h3>
-                    <p className="text-xs text-muted mt-1">{t('Dữ liệu minh bạch, hạn chế sai sót', 'Transparent data, minimize errors')}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4 rounded-2xl border border-red-100 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-800">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600 dark:bg-red-950 dark:text-red-400">
-                    <FileCheck className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-base text-foreground">{t('Tuân thủ pháp luật', 'Legal Compliance')}</h3>
-                    <p className="text-xs text-muted mt-1">{t('Đáp ứng đầy đủ quy định về lao động', 'Fully compliant with labor regulations')}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Graphic Illustration Column */}
-              <div className="sm:col-span-5 flex items-center justify-center">
-                <div className="relative w-full max-w-[220px] aspect-square rounded-3xl bg-gradient-to-tr from-blue-600 to-cyan-500 p-6 flex flex-col items-center justify-center text-white shadow-xl text-center">
-                  <div className="text-5xl mb-2">📊</div>
-                  <div className="text-2xl font-extrabold">+80%</div>
-                  <div className="text-xs font-medium text-blue-100 mt-1">{t('Hiệu suất quản lý', 'Management Efficiency')}</div>
-                </div>
-              </div>
-
-            </motion.div>
-
-          </div>
+    <section className="bg-ink text-paper">
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        <p className="font-mono text-[12px] text-amber tracking-wide mb-8">
+          \u0110\u01af\u1ee2C TIN D\u00d9NG B\u1edeI C\u00c1C NH\u00c0 M\u00c1Y T\u1ea0I VI\u1ec6T NAM
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 font-display font-bold text-[20px] text-paper/50">
+          <span>Th\u00e0nh Long JSC</span>
+          <span>Ph\u00fa Gia Logistics</span>
+          <span>\u0110\u1ed3ng T\u00e2m Group</span>
+          <span>Kim S\u01a1n Manufacturing</span>
         </div>
+        <blockquote className="font-body text-[18px] md:text-[22px] leading-relaxed mt-12 max-w-2xl">
+          &ldquo;Ch\u00fang t\u00f4i \u0111\u1ed1i chi\u1ebfu \u0111\u01b0\u1ee3c t\u1eebng phi\u1ebfu c\u00e2n v\u1edbi t\u1eebng ca ra v\u00e0o ch\u1ec9 trong v\u00e0i gi\u00e2y \u2014 \u0111i\u1ec1u m\u00e0 tr\u01b0\u1edbc \u0111\u00e2y m\u1ea5t c\u1ea3 bu\u1ed5i l\u00e0m vi\u1ec7c th\u1ee7 c\u00f4ng.&rdquo;
+        </blockquote>
+        <p className="font-mono text-[12px] text-paper/50 mt-4">
+          \u2014 Tr\u01b0\u1edfng ph\u00f2ng v\u1eadn h\u00e0nh, Th\u00e0nh Long JSC
+        </p>
       </div>
     </section>
   );
