@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import type { ReactNode } from 'react';
 import ContactForm from './ContactForm';
 import MobilePreviewDownload from './MobilePreviewDownload';
 import ProductPricing from './ProductPricing';
@@ -9,182 +8,183 @@ import ReleaseDownload from './ReleaseDownload';
 type Locale = 'vi' | 'en';
 
 /* ================================================================
-   SHARED LAYOUT HELPERS
-   ================================================================ */
-function Intro({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
-  return (
-    <section className="border-b hairline bg-white/40 py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl px-6">
-        <p className="font-mono text-[12px] text-teal tracking-wide mb-4">{eyebrow}</p>
-        <h1 className="font-display font-extrabold text-[36px] md:text-[46px] leading-[1.1] text-ink max-w-2xl">{title}</h1>
-        <p className="font-body text-[16px] text-ink/70 mt-5 max-w-xl leading-relaxed">{description}</p>
-      </div>
-    </section>
-  );
-}
-
-/* ================================================================
-   FEATURES PAGE
+   FEATURES PAGE (Matching features.html)
    ================================================================ */
 export function FeaturesContent({ locale }: { locale: Locale }) {
   const vi = locale === 'vi';
 
-  const modules = [
-    {
-      num: '01',
-      tag: vi ? '01 / CHẤM CÔNG & CA KÍP' : '01 / ATTENDANCE & SHIFTS',
-      title: vi ? 'Tính công tự động, không đối soát tay.' : 'Auto payroll, no manual reconciliation.',
-      points: vi
-        ? [
-            'Chấm công bằng vân tay, khuôn mặt hoặc thẻ từ, đồng bộ đa chi nhánh.',
-            'Tự động tính giờ công, tăng ca, đi trễ, nghỉ phép theo quy chế riêng từng nhà máy.',
-            'Xuất bảng công trực tiếp sang phần mềm lương, không cần nhập liệu lại.',
-          ]
-        : [
-            'Fingerprint, face, or card attendance with multi-branch sync.',
-            'Auto-calculate hours, overtime, late arrivals per factory rules.',
-            'Export payroll directly to salary software.',
-          ],
-      panel: (
-        <div className="bg-graphite p-6">
-          <p className="font-mono text-[11px] text-paper/50 mb-4">{vi ? 'BẢNG CÔNG HÔM NAY · XƯỞNG 2' : 'TODAY\'S SHEET · WORKSHOP 2'}</p>
-          <div className="space-y-2 font-mono text-[12px]">
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>NV-0482 · Trần Văn An</span><span className="text-teal">07:58 → —</span></div>
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>NV-0511 · Lê Thị Bình</span><span className="text-teal">07:52 → —</span></div>
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>NV-0398 · Phạm Quốc Cường</span><span className="text-amber">08:14 → Đi trễ</span></div>
-            <div className="flex justify-between text-paper/70"><span>NV-0627 · Nguyễn Thị Dung</span><span className="text-teal">07:49 → —</span></div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      num: '02',
-      tag: vi ? '02 / KIỂM SOÁT RA VÀO' : '02 / ACCESS CONTROL',
-      title: vi ? 'Biết chính xác ai đang ở khu vực nào, lúc nào.' : 'Know exactly who is where, when.',
-      points: vi
-        ? [
-            'Phân quyền cửa và khu vực theo từng nhân sự, nhà thầu hoặc khách.',
-            'Cảnh báo tức thời khi có thẻ hết hạn hoặc truy cập trái phép.',
-            'Nhật ký ra vào lưu trữ đầy đủ, tra cứu theo người, cửa hoặc thời gian.',
-          ]
-        : [
-            'Per-person, contractor, or guest door/zone permissions.',
-            'Instant alerts for expired cards or unauthorized access.',
-            'Full access logs searchable by person, door, or time.',
-          ],
-      panel: (
-        <div className="bg-graphite p-6">
-          <p className="font-mono text-[11px] text-paper/50 mb-4">{vi ? 'NHẬT KÝ RA VÀO · CỔNG B' : 'ACCESS LOG · GATE B'}</p>
-          <div className="space-y-2 font-mono text-[12px]">
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>07:58:47</span><span className="text-teal">{vi ? 'Nhà thầu #114 · vào' : 'Contractor #114 · in'}</span></div>
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>08:02:10</span><span className="text-teal">{vi ? 'NV-0482 · vào khu vực hạn chế' : 'NV-0482 · restricted zone'}</span></div>
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>08:05:33</span><span className="text-amber">{vi ? 'Thẻ khách #002 · từ chối — hết hạn' : 'Guest #002 · denied — expired'}</span></div>
-            <div className="flex justify-between text-paper/70"><span>08:09:02</span><span className="text-teal">{vi ? 'Nhà thầu #114 · ra' : 'Contractor #114 · out'}</span></div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      num: '03',
-      tag: vi ? '03 / QUẢN LÝ THIẾT BỊ & MCC' : '03 / DEVICE MANAGEMENT',
-      title: vi ? 'Kết nối máy chấm công trực tiếp, theo dõi trạng thái online.' : 'Directly connect attendance devices, monitor online status.',
-      points: vi
-        ? [
-            'Khai báo máy chấm công (vân tay, FaceID, thẻ từ) theo từng chi nhánh.',
-            'Tự động tải nhật ký sự kiện chấm công về cơ sở dữ liệu cục bộ.',
-            'Giám sát kết nối mạng và cảnh báo mất kết nối thiết bị ngay tức thì.',
-          ]
-        : [
-            'Register attendance devices per branch.',
-            'Auto-pull attendance event logs to local database.',
-            'Monitor connectivity and instant disconnect alerts.',
-          ],
-      panel: (
-        <div className="bg-graphite p-6">
-          <p className="font-mono text-[11px] text-paper/50 mb-4">{vi ? 'DANH SÁCH THIẾT BỊ · 4 MÁY' : 'DEVICE LIST · 4 UNITS'}</p>
-          <div className="space-y-2 font-mono text-[12px]">
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>MCC Gate-01 (192.168.1.100)</span><span className="text-teal">Online · MCC</span></div>
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>MCC Workshop-02 (192.168.1.101)</span><span className="text-teal">Online · MCC</span></div>
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>FaceID Cổng A (192.168.1.105)</span><span className="text-amber">Chờ đồng bộ · FaceID</span></div>
-            <div className="flex justify-between text-paper/70"><span>MCC Kho B (192.168.1.110)</span><span className="text-teal">Online · MCC</span></div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      num: '04',
-      tag: vi ? '04 / QUẢN LÝ THÔNG TIN & BẢN QUYỀN' : '04 / LICENSING & SYSTEM',
-      title: vi ? 'Cài đặt Windows self-host, kích hoạt bản quyền nATime.' : 'Windows self-host install, activate nATime license.',
-      points: vi
-        ? [
-            'Cài đặt trực tiếp trên máy chủ Windows của doanh nghiệp, làm chủ dữ liệu.',
-            'Kích hoạt bản quyền qua Cổng khách hàng theo Hardware ID.',
-            'Cập nhật bộ cài an toàn được ký số mã nguồn Authenticode.',
-          ]
-        : [
-            'Install directly on company Windows server, full data control.',
-            'Activate license via Customer Portal by Hardware ID.',
-            'Safe updates digitally signed with Authenticode code signing.',
-          ],
-      panel: (
-        <div className="bg-graphite p-6">
-          <p className="font-mono text-[11px] text-paper/50 mb-4">{vi ? 'THÔNG TIN BẢN QUYỀN · NATIVE' : 'LICENSE INFO · NATIVE'}</p>
-          <div className="space-y-2 font-mono text-[12px]">
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>Gói bản quyền</span><span className="text-amber">Professional</span></div>
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>Giới hạn nhân sự</span><span className="text-teal">1.000 nhân sự</span></div>
-            <div className="flex justify-between text-paper/70 border-b border-white/10 pb-2"><span>Thiết bị cho phép</span><span className="text-teal">10 MCC · 16 FaceID</span></div>
-            <div className="flex justify-between text-paper/70"><span>Trạng thái</span><span className="text-teal">Đã kích hoạt</span></div>
-          </div>
-        </div>
-      ),
-    },
-  ];
-
   return (
     <PublicShell locale={locale}>
-      {/* Hero */}
+      {/* Header */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
-        <p className="font-mono text-[12px] text-teal tracking-wide mb-4">{vi ? 'TÍNH NĂNG' : 'FEATURES'}</p>
-        <h1 className="font-display font-extrabold text-[36px] md:text-[46px] leading-[1.1] text-ink max-w-2xl">
-          {vi ? 'Bốn nhóm nghiệp vụ, một nền tảng vận hành duy nhất.' : 'Four operational modules, one unified platform.'}
+        <p className="font-sans text-[13px] font-600 text-indigo mb-3">{vi ? 'TÍNH NĂNG' : 'FEATURES'}</p>
+        <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
+          {vi ? 'Bốn module, một nguồn dữ liệu vận hành duy nhất.' : 'Four modules, one unified operational data source.'}
         </h1>
-        <p className="font-body text-[16px] text-ink/70 mt-5 max-w-xl leading-relaxed">
+        <p className="font-sans text-[16px] text-sub mt-5 max-w-xl leading-relaxed">
           {vi
-            ? 'nATime hợp nhất chấm công, phân ca kíp, kiểm soát ra vào và quản lý kết nối thiết bị — dữ liệu luôn chính xác và đồng bộ.'
-            : 'nATime unifies attendance, shift scheduling, access control, and device management.'}
+            ? 'Mỗi module hoạt động độc lập theo nhu cầu của từng nhà máy, nhưng chia sẻ chung một lớp dữ liệu — để báo cáo, cảnh báo và đối soát luôn khớp nhau, ngay trên cùng một giao diện.'
+            : 'Each module operates independently based on factory needs, but shares a single data layer for reporting and reconciliation.'}
         </p>
       </section>
 
-      {/* Modules */}
-      {modules.map((mod, i) => {
-        const reversed = i % 2 !== 0;
-        return (
-          <section key={mod.num} className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-12 items-center border-t hairline">
-            <div className={reversed ? 'md:order-2' : ''}>
-              <span className="font-mono text-[11px] text-teal">{mod.tag}</span>
-              <h2 className="font-display font-bold text-[26px] text-ink mt-3 mb-4">{mod.title}</h2>
-              <ul className="font-body text-[14px] text-ink/70 space-y-3">
-                {mod.points.map((p) => (
-                  <li key={p} className="flex gap-3">
-                    <span className="text-amber font-semibold">→</span>{p}
-                  </li>
-                ))}
-              </ul>
+      {/* MODULE 01 — CHẤM CÔNG */}
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-12 items-center border-t border-line">
+        <div>
+          <div className="w-10 h-10 rounded-lg bg-indigo-soft flex items-center justify-center mb-4">
+            <span className="w-4.5 h-4.5 rounded-sm bg-indigo" />
+          </div>
+          <span className="font-sans text-[13px] font-600 text-indigo">{vi ? '01 / CHẤM CÔNG' : '01 / ATTENDANCE'}</span>
+          <h2 className="font-sans font-700 text-[26px] text-ink mt-2 mb-4">
+            {vi ? 'Tính công tự động, không đối soát tay.' : 'Auto payroll calculation, no manual checks.'}
+          </h2>
+          <ul className="font-sans text-[14px] text-sub space-y-3">
+            <li className="flex gap-3"><span className="text-indigo font-700">→</span>Chấm công bằng vân tay, khuôn mặt hoặc thẻ từ, đồng bộ đa chi nhánh.</li>
+            <li className="flex gap-3"><span className="text-indigo font-700">→</span>Tự động tính giờ công, tăng ca, đi trễ, nghỉ phép theo quy chế riêng.</li>
+            <li className="flex gap-3"><span className="text-indigo font-700">→</span>Xuất bảng công trực tiếp sang phần mềm lương, không cần nhập lại.</li>
+          </ul>
+        </div>
+        <div className="bg-white border border-line rounded-2xl shadow-card overflow-hidden">
+          <div className="flex items-center gap-1.5 px-4 h-10 border-b border-line bg-page">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose/40" /><span className="w-2.5 h-2.5 rounded-full bg-amber/40" /><span className="w-2.5 h-2.5 rounded-full bg-emerald/40" />
+            <span className="font-sans text-[11px] text-sub/60 ml-3">Bảng công · Xưởng 2</span>
+          </div>
+          <div className="divide-y divide-line">
+            <div className="flex items-center justify-between px-4 py-3">
+              <div><p className="font-sans text-[13px] text-ink">Trần Văn An</p><p className="font-sans text-[11px] text-sub">NV-0482</p></div>
+              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">07:58</span>
             </div>
-            <div className={reversed ? 'md:order-1' : ''}>
-              {mod.panel}
+            <div className="flex items-center justify-between px-4 py-3">
+              <div><p className="font-sans text-[13px] text-ink">Lê Thị Bình</p><p className="font-sans text-[11px] text-sub">NV-0511</p></div>
+              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">07:52</span>
             </div>
-          </section>
-        );
-      })}
+            <div className="flex items-center justify-between px-4 py-3">
+              <div><p className="font-sans text-[13px] text-ink">Phạm Quốc Cường</p><p className="font-sans text-[11px] text-sub">NV-0398</p></div>
+              <span className="font-sans text-[12px] font-600 text-rose bg-rose-soft px-2.5 py-1 rounded-full">Đi muộn</span>
+            </div>
+            <div className="flex items-center justify-between px-4 py-3">
+              <div><p className="font-sans text-[13px] text-ink">Nguyễn Thị Dung</p><p className="font-sans text-[11px] text-sub">NV-0627</p></div>
+              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">07:49</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MODULE 02 — KIỂM SOÁT RA VÀO */}
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-12 items-center border-t border-line">
+        <div className="bg-white border border-line rounded-2xl shadow-card overflow-hidden md:order-1 order-2">
+          <div className="flex items-center gap-1.5 px-4 h-10 border-b border-line bg-page">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose/40" /><span className="w-2.5 h-2.5 rounded-full bg-amber/40" /><span className="w-2.5 h-2.5 rounded-full bg-emerald/40" />
+            <span className="font-sans text-[11px] text-sub/60 ml-3">Nhật ký ra vào · Cổng B</span>
+          </div>
+          <div className="divide-y divide-line">
+            <div className="flex items-center justify-between px-4 py-3">
+              <div><p className="font-sans text-[13px] text-ink">Nhà thầu #114</p><p className="font-sans text-[11px] text-sub">07:58:47 · vào</p></div>
+              <span className="w-2 h-2 rounded-full bg-emerald" />
+            </div>
+            <div className="flex items-center justify-between px-4 py-3">
+              <div><p className="font-sans text-[13px] text-ink">NV-0482</p><p className="font-sans text-[11px] text-sub">08:02:10 · khu vực hạn chế</p></div>
+              <span className="w-2 h-2 rounded-full bg-emerald" />
+            </div>
+            <div className="flex items-center justify-between px-4 py-3">
+              <div><p className="font-sans text-[13px] text-ink">Thẻ khách #002</p><p className="font-sans text-[11px] text-sub">08:05:33 · từ chối, hết hạn</p></div>
+              <span className="w-2 h-2 rounded-full bg-rose" />
+            </div>
+          </div>
+        </div>
+        <div className="order-1 md:order-2">
+          <div className="w-10 h-10 rounded-lg bg-emerald-soft flex items-center justify-center mb-4">
+            <span className="w-4.5 h-4.5 rounded-sm bg-emerald" />
+          </div>
+          <span className="font-sans text-[13px] font-600 text-emerald">{vi ? '02 / KIỂM SOÁT RA VÀO' : '02 / ACCESS CONTROL'}</span>
+          <h2 className="font-sans font-700 text-[26px] text-ink mt-2 mb-4">
+            {vi ? 'Biết chính xác ai đang ở khu vực nào, lúc nào.' : 'Know exactly who is in which area, when.'}
+          </h2>
+          <ul className="font-sans text-[14px] text-sub space-y-3">
+            <li className="flex gap-3"><span className="text-emerald font-700">→</span>Phân quyền cửa và khu vực theo từng nhân sự, nhà thầu hoặc khách.</li>
+            <li className="flex gap-3"><span className="text-emerald font-700">→</span>Cảnh báo tức thời khi có thẻ hết hạn hoặc truy cập trái phép.</li>
+            <li className="flex gap-3"><span className="text-emerald font-700">→</span>Nhật ký ra vào lưu trữ đầy đủ, tra cứu theo người, cửa hoặc thời gian.</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* MODULE 03 — TRẠM CÂN */}
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-12 items-center border-t border-line">
+        <div>
+          <div className="w-10 h-10 rounded-lg bg-amber-soft flex items-center justify-center mb-4">
+            <span className="w-4.5 h-4.5 rounded-sm bg-amber" />
+          </div>
+          <span className="font-sans text-[13px] font-600 text-amber">{vi ? '03 / TRẠM CÂN' : '03 / WEIGHBRIDGE'}</span>
+          <h2 className="font-sans font-700 text-[26px] text-ink mt-2 mb-4">
+            {vi ? 'Mỗi phiếu cân đều được đối chiếu tự động.' : 'Every weigh ticket is automatically cross-checked.'}
+          </h2>
+          <ul className="font-sans text-[14px] text-sub space-y-3">
+            <li className="flex gap-3"><span className="text-amber font-700">→</span>Kết nối trực tiếp đầu cân điện tử, ghi nhận khối lượng thời gian thực.</li>
+            <li className="flex gap-3"><span className="text-amber font-700">→</span>Tự động đối chiếu phiếu cân với đơn hàng và biển số xe.</li>
+            <li className="flex gap-3"><span className="text-amber font-700">→</span>Phát hiện sai lệch khối lượng bất thường ngay tại cổng cân.</li>
+          </ul>
+        </div>
+        <div className="bg-white border border-line rounded-2xl shadow-card overflow-hidden">
+          <div className="flex items-center gap-1.5 px-4 h-10 border-b border-line bg-page">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose/40" /><span className="w-2.5 h-2.5 rounded-full bg-amber/40" /><span className="w-2.5 h-2.5 rounded-full bg-emerald/40" />
+            <span className="font-sans text-[11px] text-sub/60 ml-3">Phiếu cân #20260804-118</span>
+          </div>
+          <div className="p-5">
+            <p className="font-sans font-800 text-[36px] text-ink leading-none">18.420<span className="text-[16px] text-sub font-500 ml-1">kg</span></p>
+            <p className="font-sans text-[12px] text-sub mt-1.5 mb-4">Xe 51C-224.19 · Đơn hàng PO-4471</p>
+            <div className="flex items-center justify-between border-t border-line pt-4">
+              <span className="font-sans text-[13px] text-sub">Đối chiếu đơn hàng</span>
+              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">Khớp</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MODULE 04 — QUẢN LÝ TÀI SẢN */}
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-12 items-center border-t border-line">
+        <div className="bg-white border border-line rounded-2xl shadow-card overflow-hidden md:order-1 order-2">
+          <div className="flex items-center gap-1.5 px-4 h-10 border-b border-line bg-page">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose/40" /><span className="w-2.5 h-2.5 rounded-full bg-amber/40" /><span className="w-2.5 h-2.5 rounded-full bg-emerald/40" />
+            <span className="font-sans text-[11px] text-sub/60 ml-3">Tài sản · Xưởng 2</span>
+          </div>
+          <div className="divide-y divide-line">
+            <div className="flex items-center justify-between px-4 py-3">
+              <div><p className="font-sans text-[13px] text-ink">FL-07 · Xe nâng</p></div>
+              <span className="font-sans text-[12px] font-600 text-amber bg-amber-soft px-2.5 py-1 rounded-full">Bảo trì 3 ngày</span>
+            </div>
+            <div className="flex items-center justify-between px-4 py-3">
+              <div><p className="font-sans text-[13px] text-ink">CM-22 · Máy nén khí</p></div>
+              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">Hoạt động</span>
+            </div>
+            <div className="flex items-center justify-between px-4 py-3">
+              <div><p className="font-sans text-[13px] text-ink">GT-03 · Xe nâng tay</p></div>
+              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">Hoạt động</span>
+            </div>
+          </div>
+        </div>
+        <div className="order-1 md:order-2">
+          <div className="w-10 h-10 rounded-lg bg-sky-soft flex items-center justify-center mb-4">
+            <span className="w-4.5 h-4.5 rounded-sm bg-sky" />
+          </div>
+          <span className="font-sans text-[13px] font-600 text-sky">{vi ? '04 / QUẢN LÝ TÀI SẢN' : '04 / ASSET MANAGEMENT'}</span>
+          <h2 className="font-sans font-700 text-[26px] text-ink mt-2 mb-4">
+            {vi ? 'Theo dõi thiết bị từ khi mua đến khi thanh lý.' : 'Track equipment from purchase to disposal.'}
+          </h2>
+          <ul className="font-sans text-[14px] text-sub space-y-3">
+            <li className="flex gap-3"><span className="text-sky font-700">→</span>Gắn mã định danh riêng cho từng thiết bị, dễ dàng tra cứu.</li>
+            <li className="flex gap-3"><span className="text-sky font-700">→</span>Lịch bảo trì định kỳ, nhắc hạn tự động trước khi thiết bị hỏng.</li>
+            <li className="flex gap-3"><span className="text-sky font-700">→</span>Theo dõi khấu hao và vị trí thiết bị theo thời gian thực.</li>
+          </ul>
+        </div>
+      </section>
 
       {/* Bottom CTA */}
-      <section className="max-w-6xl mx-auto px-6 py-20 text-center border-t hairline">
-        <h2 className="font-display font-bold text-[28px] md:text-[34px] text-ink max-w-xl mx-auto mb-6">
-          {vi ? 'Sẵn sàng dùng thử nATime cho doanh nghiệp của bạn?' : 'Ready to try nATime for your business?'}
+      <section className="max-w-6xl mx-auto px-6 py-20 text-center border-t border-line">
+        <h2 className="font-sans font-700 text-[28px] md:text-[34px] text-ink max-w-xl mx-auto mb-6">
+          {vi ? 'Xem cả bốn module hoạt động trên dữ liệu thật của bạn.' : 'See all four modules running on your real data.'}
         </h2>
-        <Link href="/register?trial=standard" className="inline-block bg-ink text-paper font-body text-[14px] font-medium px-7 py-3.5 hover:bg-graphite transition-colors">
-          {vi ? 'Dùng thử miễn phí 7 ngày' : 'Start 7-Day Free Trial'}
+        <Link href="/contact" className="inline-block bg-indigo text-white font-sans text-[14px] font-600 px-7 py-3.5 rounded-lg hover:bg-indigo-700 transition-colors">
+          {vi ? 'Yêu cầu demo' : 'Request Demo'}
         </Link>
       </section>
     </PublicShell>
@@ -192,7 +192,7 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
 }
 
 /* ================================================================
-   PRICING PAGE
+   PRICING PAGE (Matching pricing.html)
    ================================================================ */
 export function PricingContent({ locale }: { locale: Locale }) {
   const vi = locale === 'vi';
@@ -201,27 +201,25 @@ export function PricingContent({ locale }: { locale: Locale }) {
     <PublicShell locale={locale}>
       {/* Header */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14 text-center">
-        <p className="font-mono text-[12px] text-teal tracking-wide mb-4">{vi ? 'BẢNG GIÁ & BẢN QUYỀN' : 'PRICING & LICENSING'}</p>
-        <h1 className="font-display font-extrabold text-[36px] md:text-[46px] leading-[1.1] text-ink max-w-2xl mx-auto">
-          {vi ? 'Chọn gói bản quyền theo quy mô sử dụng.' : 'Choose a license plan for your scale.'}
+        <p className="font-sans text-[13px] font-600 text-indigo mb-3">{vi ? 'BẢNG GIÁ' : 'PRICING'}</p>
+        <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl mx-auto">
+          {vi ? 'Chọn gói theo quy mô nhà máy của bạn.' : 'Choose a plan based on your factory scale.'}
         </h1>
-        <p className="font-body text-[16px] text-ink/70 mt-5 max-w-lg mx-auto leading-relaxed">
+        <p className="font-sans text-[16px] text-sub mt-5 max-w-lg mx-auto leading-relaxed">
           {vi
-            ? 'Thanh toán trực tiếp qua PayOS, kích hoạt bản quyền nhanh chóng qua Cổng khách hàng. Mỗi tài khoản đủ điều kiện nhận 1 lần Trial Standard miễn phí.'
-            : 'Pay directly via PayOS, activate license quickly via Customer Portal.'}
+            ? 'Giá tính theo số đầu đọc và số nhân sự quản lý. Không phí ẩn, không ràng buộc hợp đồng dài hạn.'
+            : 'Priced per reader and managed staff count. No hidden fees.'}
         </p>
       </section>
 
       {/* Product Pricing Component */}
-      <section className="max-w-6xl mx-auto px-6 pb-20">
-        <ProductPricing locale={locale} />
-      </section>
+      <ProductPricing locale={locale} />
     </PublicShell>
   );
 }
 
 /* ================================================================
-   CONTACT PAGE - Matching contact.html 100%
+   CONTACT PAGE (Matching contact.html)
    ================================================================ */
 export function ContactContent({ locale }: { locale: Locale }) {
   const vi = locale === 'vi';
@@ -230,65 +228,65 @@ export function ContactContent({ locale }: { locale: Locale }) {
     <PublicShell locale={locale}>
       {/* Header Section */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
-        <p className="font-mono text-[12px] text-teal tracking-wide mb-4">{vi ? 'LIÊN HỆ' : 'CONTACT'}</p>
-        <h1 className="font-display font-extrabold text-[36px] md:text-[46px] leading-[1.1] text-ink max-w-2xl">
+        <p className="font-sans text-[13px] font-600 text-indigo mb-3">{vi ? 'LIÊN HỆ' : 'CONTACT'}</p>
+        <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
           {vi ? 'Nói chuyện với đội ngũ triển khai nATime.' : 'Talk to the nATime deployment team.'}
         </h1>
-        <p className="font-body text-[16px] text-ink/70 mt-5 max-w-xl leading-relaxed">
+        <p className="font-sans text-[16px] text-sub mt-5 max-w-xl leading-relaxed">
           {vi
             ? 'Để lại thông tin, chúng tôi sẽ liên hệ trong vòng 1 ngày làm việc để sắp xếp buổi demo trên chính dữ liệu nhà máy của bạn.'
-            : 'Leave your details, we will contact you within 1 business day to arrange a demo on your factory data.'}
+            : 'Leave your details, we will contact you within 1 business day for a live demo.'}
         </p>
       </section>
 
       {/* Main Grid: Form Left 1.1fr, Info Right 0.9fr */}
-      <section className="max-w-6xl mx-auto px-6 pb-20 grid md:grid-cols-[1.1fr_0.9fr] gap-12">
+      <section className="max-w-6xl mx-auto px-6 pb-20 grid md:grid-cols-[1.1fr_0.9fr] gap-8">
         {/* Form */}
         <ContactForm locale={locale} />
 
-        {/* Info Cards Column */}
+        {/* Info Column */}
         <div className="space-y-6">
           {/* Office Card */}
-          <div className="bg-graphite text-paper p-6">
-            <p className="font-mono text-[11px] text-paper/50 mb-4">{vi ? 'VĂN PHÒNG' : 'OFFICE'}</p>
-            <p className="font-body text-[14px] leading-relaxed mb-1">{vi ? 'Khu công nghiệp Sóng Thần, Dĩ An' : 'Song Than Industrial Zone, Di An'}</p>
-            <p className="font-body text-[14px] leading-relaxed mb-4">{vi ? 'Bình Dương, Việt Nam' : 'Binh Duong, Vietnam'}</p>
-            <div className="border-t border-white/10 pt-4 space-y-2 font-mono text-[13px] text-paper/70">
-              <div className="flex justify-between"><span>Hotline</span><span className="text-amber">1900 6868</span></div>
-              <div className="flex justify-between"><span>Email</span><span className="text-amber">hotro@natime.vn</span></div>
-              <div className="flex justify-between"><span>{vi ? 'Giờ hỗ trợ' : 'Support hours'}</span><span className="text-teal">24/7</span></div>
+          <div className="bg-ink rounded-2xl text-white p-6">
+            <p className="font-sans text-[12px] font-600 text-white/50 uppercase tracking-wider mb-4">{vi ? 'VĂN PHÒNG' : 'OFFICE'}</p>
+            <p className="font-sans text-[14px] leading-relaxed mb-1">{vi ? 'Khu công nghiệp Sóng Thần, Dĩ An' : 'Song Than Industrial Zone, Di An'}</p>
+            <p className="font-sans text-[14px] leading-relaxed mb-4">{vi ? 'Bình Dương, Việt Nam' : 'Binh Duong, Vietnam'}</p>
+            <div className="border-t border-white/10 pt-4 space-y-2.5 font-sans text-[13px] text-white/70">
+              <div className="flex justify-between"><span>Hotline</span><span className="text-indigo-300 font-600">1900 6868</span></div>
+              <div className="flex justify-between"><span>Email</span><span className="text-indigo-300 font-600">hotro@natime.vn</span></div>
+              <div className="flex justify-between"><span>{vi ? 'Giờ hỗ trợ' : 'Support hours'}</span><span className="text-emerald-400 font-600">24/7</span></div>
             </div>
           </div>
 
           {/* Location Map Card */}
-          <div className="diag-corner border hairline p-6">
-            <p className="font-mono text-[11px] text-ink/40 mb-4">{vi ? 'SƠ ĐỒ VỊ TRÍ' : 'LOCATION MAP'}</p>
-            <div className="aspect-[4/3] bg-[repeating-linear-gradient(0deg,transparent,transparent_19px,rgba(18,24,31,0.08)_20px),repeating-linear-gradient(90deg,transparent,transparent_19px,rgba(18,24,31,0.08)_20px)] relative">
-              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-amber" />
-              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 mt-4 font-mono text-[10px] text-ink/50 whitespace-nowrap">nATime HQ</span>
+          <div className="bg-white border border-line rounded-2xl shadow-card p-6">
+            <p className="font-sans text-[12px] font-600 text-sub/70 uppercase tracking-wider mb-4">{vi ? 'SƠ ĐỒ VỊ TRÍ' : 'LOCATION MAP'}</p>
+            <div className="aspect-[4/3] rounded-xl bg-page relative overflow-hidden">
+              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-indigo ring-4 ring-indigo-soft" />
+              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 mt-5 font-sans text-[11px] text-sub whitespace-nowrap">nATime HQ</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* Support Channels Section */}
-      <section className="border-t hairline bg-white/40">
-        <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 divide-x hairline">
-          <div className="px-6 first:pl-0">
-            <p className="font-mono text-[11px] text-teal mb-2">HOTLINE</p>
-            <p className="font-body text-[14px] text-ink/70 leading-relaxed">
+      <section className="border-t border-line bg-white">
+        <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-6">
+          <div>
+            <p className="font-sans text-[12px] font-600 text-indigo mb-2">HOTLINE</p>
+            <p className="font-sans text-[14px] text-sub leading-relaxed">
               {vi ? 'Gọi trực tiếp đội hỗ trợ kỹ thuật, phản hồi trong 5 phút cho các sự cố khẩn.' : 'Direct line to technical support, 5-minute response for urgent issues.'}
             </p>
           </div>
-          <div className="px-6">
-            <p className="font-mono text-[11px] text-teal mb-2">EMAIL</p>
-            <p className="font-body text-[14px] text-ink/70 leading-relaxed">
+          <div>
+            <p className="font-sans text-[12px] font-600 text-emerald mb-2">EMAIL</p>
+            <p className="font-sans text-[14px] text-sub leading-relaxed">
               {vi ? 'Gửi yêu cầu chi tiết, đội triển khai phản hồi trong vòng 1 ngày làm việc.' : 'Send detailed requests, deployment team responds within 1 business day.'}
             </p>
           </div>
-          <div className="px-6">
-            <p className="font-mono text-[11px] text-teal mb-2">{vi ? 'TẠI HIỆN TRƯỜNG' : 'ON-SITE'}</p>
-            <p className="font-body text-[14px] text-ink/70 leading-relaxed">
+          <div>
+            <p className="font-sans text-[12px] font-600 text-amber mb-2">{vi ? 'TẠI HIỆN TRƯỜNG' : 'ON-SITE'}</p>
+            <p className="font-sans text-[14px] text-sub leading-relaxed">
               {vi ? 'Đội kỹ thuật khảo sát trực tiếp tại nhà máy trước khi triển khai chính thức.' : 'Technical team surveys your factory before official deployment.'}
             </p>
           </div>
@@ -305,8 +303,16 @@ export function DownloadContent({ locale }: { locale: Locale }) {
   const vi = locale === 'vi';
   return (
     <PublicShell locale={locale}>
-      <Intro eyebrow="Windows x64" title={vi ? 'Tải bộ cài nATime đã xác minh' : 'Download verified nATime installer'} description={vi ? 'Bộ cài đi qua kiểm tra chữ ký số Authenticode và SHA-256 trước khi được công khai.' : 'The installer passes digital signature and SHA-256 verification.'} />
-      <section className="mx-auto max-w-4xl px-4 py-20 sm:px-6">
+      <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
+        <p className="font-sans text-[13px] font-600 text-indigo mb-3">TẢI XUỐNG</p>
+        <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
+          {vi ? 'Tải bộ cài nATime đã xác minh' : 'Download verified nATime installer'}
+        </h1>
+        <p className="font-sans text-[16px] text-sub mt-5 max-w-xl leading-relaxed">
+          {vi ? 'Bộ cài đi qua kiểm tra chữ ký số Authenticode và SHA-256 trước khi được công khai.' : 'The installer passes digital signature and SHA-256 verification.'}
+        </p>
+      </section>
+      <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
         <ReleaseDownload locale={locale} />
         <MobilePreviewDownload locale={locale} />
       </section>
@@ -325,24 +331,32 @@ export function DocsContent({ locale }: { locale: Locale }) {
         ['5. Xác minh', 'Tải lại trạng thái bản quyền, kiểm tra gói, hạn dùng, Hardware ID và module được cấp phép.'],
       ]
     : [
-        ['1. Download', 'Download the current Windows release and verify its SHA-256.'],
-        ['2. Install', 'Run the installer with Administrator permissions and wait for service configuration.'],
-        ['3. Open nATime', 'Open local address provided by installer and sign in to admin account.'],
-        ['4. Activate', 'Open Settings, License, create a link code and approve it from customer portal.'],
-        ['5. Verify', 'Reload license status and verify plan, expiry, Hardware ID and licensed modules.'],
+        ['1. Download', 'Download current Windows release and verify its SHA-256.'],
+        ['2. Install', 'Run installer with Administrator permissions.'],
+        ['3. Open nATime', 'Open local address provided by installer.'],
+        ['4. Activate', 'Open Settings, License, create link code and approve from portal.'],
+        ['5. Verify', 'Reload license status and verify plan, expiry and modules.'],
       ];
 
   return (
     <PublicShell locale={locale}>
-      <Intro eyebrow={vi ? 'TÀI LIỆU' : 'DOCUMENTATION'} title={vi ? 'Cài đặt và kích hoạt theo từng bước' : 'Install and activate step by step'} description={vi ? 'Quy trình dưới đây bám theo bộ cài Windows và hệ thống license đang hoạt động.' : 'This flow follows the current Windows installer and licensing system.'} />
-      <section className="mx-auto max-w-4xl px-4 py-20 sm:px-6">
+      <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
+        <p className="font-sans text-[13px] font-600 text-indigo mb-3">TÀI LIỆU</p>
+        <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
+          {vi ? 'Cài đặt và kích hoạt theo từng bước' : 'Install and activate step by step'}
+        </h1>
+        <p className="font-sans text-[16px] text-sub mt-5 max-w-xl leading-relaxed">
+          {vi ? 'Quy trình dưới đây bám theo bộ cài Windows và hệ thống license đang hoạt động.' : 'This flow follows the current Windows installer and licensing system.'}
+        </p>
+      </section>
+      <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
         <div className="space-y-4">
           {steps.map(([title, text], index) => (
-            <article key={title} className="grid grid-cols-[48px_1fr] gap-4 border hairline p-6">
-              <span className="grid h-10 w-10 place-items-center bg-ink text-paper text-sm font-extrabold font-mono">{index + 1}</span>
+            <article key={title} className="grid grid-cols-[48px_1fr] gap-4 bg-white border border-line rounded-xl p-6 shadow-card">
+              <span className="grid h-10 w-10 place-items-center bg-indigo text-white text-sm font-extrabold font-sans rounded-lg">{index + 1}</span>
               <div>
                 <h2 className="text-lg font-bold text-ink">{title.replace(/^\d+\.\s*/, '')}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-ink/70">{text}</p>
+                <p className="mt-2 text-sm leading-relaxed text-sub">{text}</p>
               </div>
             </article>
           ))}
@@ -356,15 +370,23 @@ export function AboutContent({ locale }: { locale: Locale }) {
   const vi = locale === 'vi';
   return (
     <PublicShell locale={locale}>
-      <Intro eyebrow={vi ? 'GIỚI THIỆU' : 'ABOUT'} title={vi ? 'Phần mềm tập trung vào vận hành thực tế' : 'Software focused on real operations'} description={vi ? 'nATime được phát triển cho nhu cầu chấm công và quản lý thiết bị của doanh nghiệp.' : 'nATime is built for business attendance and device management needs.'} />
-      <section className="mx-auto grid max-w-4xl gap-8 px-4 py-16 sm:px-6 md:grid-cols-2">
-        <article className="border hairline p-8">
+      <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
+        <p className="font-sans text-[13px] font-600 text-indigo mb-3">GIỚI THIỆU</p>
+        <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
+          {vi ? 'Phần mềm tập trung vào vận hành thực tế' : 'Software focused on real operations'}
+        </h1>
+        <p className="font-sans text-[16px] text-sub mt-5 max-w-xl leading-relaxed">
+          {vi ? 'nATime được phát triển cho nhu cầu chấm công và quản lý thiết bị của doanh nghiệp.' : 'nATime is built for business attendance and device management needs.'}
+        </p>
+      </section>
+      <section className="mx-auto grid max-w-4xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-2">
+        <article className="bg-white border border-line rounded-xl p-8 shadow-card">
           <h2 className="text-xl font-bold text-ink">{vi ? 'Nguyên tắc sản phẩm' : 'Product Principle'}</h2>
-          <p className="mt-3 leading-relaxed text-ink/70">{vi ? 'Chỉ công bố tính năng đã được phê duyệt, kiểm thử và có cơ chế cấp phép rõ ràng.' : 'Only approved, tested capabilities with clear licensing are published.'}</p>
+          <p className="mt-3 leading-relaxed text-sub">{vi ? 'Chỉ công bố tính năng đã được phê duyệt, kiểm thử và có cơ chế cấp phép rõ ràng.' : 'Only approved, tested capabilities with clear licensing are published.'}</p>
         </article>
-        <article className="border hairline p-8">
+        <article className="bg-white border border-line rounded-xl p-8 shadow-card">
           <h2 className="text-xl font-bold text-ink">{vi ? 'Mô hình triển khai' : 'Deployment Model'}</h2>
-          <p className="mt-3 leading-relaxed text-ink/70">{vi ? 'Ứng dụng được cài trên Windows của khách hàng; tài khoản natime.vn dùng để mua và quản lý bản quyền.' : 'The application is installed on customer Windows machine; natime.vn account manages licenses.'}</p>
+          <p className="mt-3 leading-relaxed text-sub">{vi ? 'Ứng dụng được cài trên Windows của khách hàng; tài khoản natime.vn dùng để mua và quản lý bản quyền.' : 'The application is installed on customer Windows machine; natime.vn account manages licenses.'}</p>
         </article>
       </section>
     </PublicShell>
@@ -439,16 +461,20 @@ export function PolicyContent({ locale, kind }: { locale: Locale; kind: PolicyKi
 
   return (
     <PublicShell locale={locale}>
-      <Intro eyebrow={vi ? 'CHÍNH SÁCH' : 'POLICY'} title={policyContent.title} description={policyContent.lead} />
-      <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-        <p className="mb-8 text-xs font-semibold text-ink/50">
+      <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
+        <p className="font-sans text-[13px] font-600 text-indigo mb-3">CHÍNH SÁCH</p>
+        <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">{policyContent.title}</h1>
+        <p className="font-sans text-[16px] text-sub mt-5 max-w-xl leading-relaxed">{policyContent.lead}</p>
+      </section>
+      <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+        <p className="mb-8 text-xs font-semibold text-sub">
           {vi ? 'Cập nhật: 15/07/2026.' : 'Updated: 15 July 2026.'}
         </p>
         <div className="space-y-8">
           {policyContent.sections.map(([title, text]) => (
             <section key={title}>
               <h2 className="text-xl font-bold text-ink">{title}</h2>
-              <p className="mt-2 leading-relaxed text-ink/70">{text}</p>
+              <p className="mt-2 leading-relaxed text-sub">{text}</p>
             </section>
           ))}
         </div>

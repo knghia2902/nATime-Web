@@ -1,8 +1,16 @@
 import type { Metadata } from 'next';
-import { Be_Vietnam_Pro, IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
+import { Inter, Be_Vietnam_Pro, IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
 import { LanguageProvider } from '@/lib/i18n';
 import { AuthProvider } from '@/lib/authContext';
+import { AnalyticsTracker } from '@/components/AnalyticsTracker';
 import './globals.css';
+
+const inter = Inter({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 const beVietnamPro = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
@@ -28,11 +36,11 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://natime.vn'),
   title: {
-    default: 'nATime - Nen tang van hanh nha may',
+    default: 'nATime — Nền tảng vận hành nhà máy',
     template: '%s | nATime',
   },
   description:
-    'nATime hop nhat cham cong, kiem soat ra vao, tram can va quan ly tai san vao mot he thong duy nhat.',
+    'nATime hợp nhất chấm công, kiểm soát ra vào, trạm cân và quản lý tài sản vào một hệ thống duy nhất.',
   keywords: ['cham cong', 'kiem soat ra vao', 'tram can', 'quan ly tai san', 'nATime', 'nha may'],
   authors: [{ name: 'nATime' }],
   creator: 'nATime',
@@ -43,23 +51,21 @@ export const metadata: Metadata = {
     alternateLocale: 'en_US',
     url: 'https://natime.vn',
     siteName: 'nATime',
-    title: 'nATime - Nen tang van hanh nha may',
-    description: 'Hop nhat cham cong, kiem soat ra vao, tram can va quan ly tai san.',
+    title: 'nATime — Nền tảng vận hành nhà máy',
+    description: 'Hợp nhất chấm công, kiểm soát ra vào, trạm cân và quản lý tài sản.',
   },
   twitter: {
     card: 'summary',
-    title: 'nATime - Nen tang van hanh nha may',
-    description: 'Hop nhat cham cong, kiem soat ra vao, tram can va quan ly tai san.',
+    title: 'nATime — Nền tảng vận hành nhà máy',
+    description: 'Hợp nhất chấm công, kiểm soát ra vào, trạm cân và quản lý tài sản.',
   },
   robots: { index: true, follow: true },
 };
 
-import { AnalyticsTracker } from '@/components/AnalyticsTracker';
-
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="vi" className={`${beVietnamPro.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable}`}>
-      <body className="min-h-screen bg-background font-body text-foreground antialiased">
+    <html lang="vi" className={`${inter.variable} ${beVietnamPro.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable}`}>
+      <body className="min-h-screen bg-page font-sans text-ink antialiased">
         <LanguageProvider>
           <AuthProvider>
             <AnalyticsTracker />

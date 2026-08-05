@@ -1,62 +1,71 @@
 export default function Features() {
-  const stats = [
-    { value: '500+', label: 'doanh nghiệp đang vận hành nATime' },
-    { value: '99.9%', label: 'thời gian hoạt động dịch vụ' },
-    { value: '<200ms', label: 'độ trễ phản hồi máy chấm công' },
-    { value: '24/7', label: 'hỗ trợ kỹ thuật & bản quyền' },
-  ];
-
-  const modules = [
-    {
-      num: '01',
-      title: 'Chấm công & Ca kíp',
-      desc: 'Quản lý dữ liệu chấm công từ vân tay, khuôn mặt hoặc thẻ từ. Tự động tính công, tăng ca và nghỉ phép theo quy chế riêng từng doanh nghiệp.',
-    },
-    {
-      num: '02',
-      title: 'Thiết bị & Kết nối',
-      desc: 'Khai báo máy chấm công (MCC, FaceID), theo dõi trạng thái kết nối trực tuyến và thực hiện đồng bộ sự kiện tức thời.',
-    },
-    {
-      num: '03',
-      title: 'Kiểm soát ra vào (Access Control)',
-      desc: 'Phân quyền truy cập cửa và khu vực hạn chế. Module chỉ bật khi gói bản quyền Professional được cấp phép.',
-    },
-    {
-      num: '04',
-      title: 'Tích hợp & Bảng lương',
-      desc: 'Kết xuất dữ liệu bảng công tự động, mở API tích hợp trực tiếp sang phần mềm tính lương hoặc hệ thống ERP.',
-    },
-  ];
-
   return (
     <>
-      {/* Stats Bar */}
-      <section className="border-y hairline bg-white/40">
-        <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 divide-x hairline">
-          {stats.map((stat, i) => (
-            <div key={i} className={`px-6 ${i === 0 ? 'pl-0' : ''}`}>
-              <p className="font-mono text-[28px] font-semibold text-ink">{stat.value}</p>
-              <p className="font-body text-[13px] text-ink/60 mt-1">{stat.label}</p>
-            </div>
-          ))}
+      {/* STATS */}
+      <section className="max-w-6xl mx-auto px-6 pb-20 grid grid-cols-2 md:grid-cols-4 gap-5">
+        <div className="bg-white border border-line rounded-xl p-5 shadow-card">
+          <div className="w-9 h-9 rounded-lg bg-indigo-soft flex items-center justify-center mb-3">
+            <span className="w-4 h-4 rounded-sm bg-indigo" />
+          </div>
+          <p className="font-sans font-700 text-[24px] text-ink leading-none">120+</p>
+          <p className="font-sans text-[13px] text-sub mt-1.5">nhà máy đang vận hành</p>
+        </div>
+        <div className="bg-white border border-line rounded-xl p-5 shadow-card">
+          <div className="w-9 h-9 rounded-lg bg-emerald-soft flex items-center justify-center mb-3">
+            <span className="w-4 h-4 rounded-sm bg-emerald" />
+          </div>
+          <p className="font-sans font-700 text-[24px] text-ink leading-none">99.9%</p>
+          <p className="font-sans text-[13px] text-sub mt-1.5">thời gian hoạt động</p>
+        </div>
+        <div className="bg-white border border-line rounded-xl p-5 shadow-card">
+          <div className="w-9 h-9 rounded-lg bg-amber-soft flex items-center justify-center mb-3">
+            <span className="w-4 h-4 rounded-sm bg-amber" />
+          </div>
+          <p className="font-sans font-700 text-[24px] text-ink leading-none">&lt;200ms</p>
+          <p className="font-sans text-[13px] text-sub mt-1.5">độ trễ ghi nhận sự kiện</p>
+        </div>
+        <div className="bg-white border border-line rounded-xl p-5 shadow-card">
+          <div className="w-9 h-9 rounded-lg bg-sky-soft flex items-center justify-center mb-3">
+            <span className="w-4 h-4 rounded-sm bg-sky" />
+          </div>
+          <p className="font-sans font-700 text-[24px] text-ink leading-none">24/7</p>
+          <p className="font-sans text-[13px] text-sub mt-1.5">giám sát & hỗ trợ</p>
         </div>
       </section>
 
-      {/* Modules Bento */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
-        <p className="font-mono text-[12px] text-teal tracking-wide mb-3">TÍNH NĂNG NỔI BẬT</p>
-        <h2 className="font-display font-bold text-[28px] md:text-[34px] text-ink max-w-lg mb-12">
-          Quản lý toàn diện chấm công và thiết bị trên một nền tảng.
-        </h2>
-        <div className="grid md:grid-cols-2 gap-px bg-ink/10">
-          {modules.map((mod) => (
-            <div key={mod.num} className="bg-paper p-8 md:p-10">
-              <span className="font-mono text-[11px] text-teal">{mod.num}</span>
-              <h3 className="font-display font-bold text-[20px] text-ink mt-2 mb-3">{mod.title}</h3>
-              <p className="font-body text-[14px] text-ink/65 leading-relaxed">{mod.desc}</p>
+      {/* MODULES */}
+      <section className="max-w-6xl mx-auto px-6 pb-20">
+        <p className="font-sans text-[13px] font-600 text-indigo mb-2">BỐN MODULE</p>
+        <h2 className="font-sans font-700 text-[28px] md:text-[32px] text-ink max-w-lg mb-10">Từng module vận hành độc lập, dữ liệu luôn đồng bộ.</h2>
+        <div className="grid md:grid-cols-2 gap-5">
+          <div className="bg-white border border-line rounded-xl p-6 shadow-card">
+            <div className="w-10 h-10 rounded-lg bg-indigo-soft flex items-center justify-center mb-4">
+              <span className="w-4.5 h-4.5 rounded-sm bg-indigo" />
             </div>
-          ))}
+            <h3 className="font-sans font-700 text-[17px] text-ink mb-2">Chấm công</h3>
+            <p className="font-sans text-[14px] text-sub leading-relaxed">Ghi nhận giờ vào/ra bằng vân tay, khuôn mặt hoặc thẻ từ. Tự động tính công, tăng ca và nghỉ phép.</p>
+          </div>
+          <div className="bg-white border border-line rounded-xl p-6 shadow-card">
+            <div className="w-10 h-10 rounded-lg bg-emerald-soft flex items-center justify-center mb-4">
+              <span className="w-4.5 h-4.5 rounded-sm bg-emerald" />
+            </div>
+            <h3 className="font-sans font-700 text-[17px] text-ink mb-2">Kiểm soát ra vào</h3>
+            <p className="font-sans text-[14px] text-sub leading-relaxed">Phân quyền cửa và khu vực theo từng nhân sự, nhà thầu hoặc khách. Nhật ký ra vào tức thời.</p>
+          </div>
+          <div className="bg-white border border-line rounded-xl p-6 shadow-card">
+            <div className="w-10 h-10 rounded-lg bg-amber-soft flex items-center justify-center mb-4">
+              <span className="w-4.5 h-4.5 rounded-sm bg-amber" />
+            </div>
+            <h3 className="font-sans font-700 text-[17px] text-ink mb-2">Trạm cân</h3>
+            <p className="font-sans text-[14px] text-sub leading-relaxed">Kết nối trực tiếp đầu cân điện tử. Đối chiếu phiếu cân tự động, chống gian lận khối lượng.</p>
+          </div>
+          <div className="bg-white border border-line rounded-xl p-6 shadow-card">
+            <div className="w-10 h-10 rounded-lg bg-sky-soft flex items-center justify-center mb-4">
+              <span className="w-4.5 h-4.5 rounded-sm bg-sky" />
+            </div>
+            <h3 className="font-sans font-700 text-[17px] text-ink mb-2">Quản lý tài sản</h3>
+            <p className="font-sans text-[14px] text-sub leading-relaxed">Gắn mã định danh cho từng thiết bị, theo dõi vị trí, lịch bảo trì và khấu hao.</p>
+          </div>
         </div>
       </section>
     </>

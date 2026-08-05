@@ -4,60 +4,65 @@ import { useState } from 'react';
 import Link from 'next/link';
 import PublicShell from '@/components/site/PublicShell';
 
-const filters = ['Tất cả', 'Chấm công', 'Thiết bị', 'Bản quyền', 'Vận hành'];
+const filters = ['Tất cả', 'Chấm công', 'Trạm cân', 'Vận hành', 'Sản phẩm'];
 
 const featuredPost = {
-  category: 'BẢN QUYỀN & HỆ THỐNG',
-  readTime: '8 phút đọc',
-  title: 'Kích hoạt bản quyền nATime trên Windows self-host qua Cổng khách hàng',
-  desc: 'Hướng dẫn chi tiết quy trình tạo mã liên kết trên ứng dụng máy chủ và phê duyệt quyền tự động qua Cổng khách hàng natime.vn.',
+  category: 'TRẠM CÂN · 12 phút đọc',
+  title: 'Cách một nhà máy vật liệu xây dựng loại bỏ hoàn toàn phiếu cân giấy',
+  desc: 'Từ đối soát thủ công mỗi ca đến đối chiếu tự động theo thời gian thực — hành trình triển khai trạm cân điện tử tại Đồng Tâm Group.',
   date: '04.08.2026',
-  quote: 'Tự động hóa 100% quy trình cấp phép bản quyền cho bộ cài Windows self-host.',
-  badge: 'HƯỚNG DẪN',
+  quote: '"Giảm 40% thời gian đối soát phiếu cân sau 3 tháng triển khai nATime tại Đồng Tâm Group."',
+  badge: 'Case study',
 };
 
 const articles = [
   {
     category: 'Chấm công',
     tag: 'CHẤM CÔNG · 6 phút đọc',
-    title: 'Ba sai lầm phổ biến khi cấu hình ca gãy và ca qua đêm',
-    desc: 'Những lưu ý quan trọng khi thiết lập khung giờ vào/ra để kết quả tính công chính xác.',
+    title: 'Ba sai lầm phổ biến khi triển khai chấm công vân tay tại nhà máy',
+    desc: 'Từ chọn sai vị trí đầu đọc đến bỏ qua ca gãy — những lỗi khiến dữ liệu chấm công sai lệch.',
     date: '28.07.2026',
-  },
-  {
-    category: 'Thiết bị',
-    tag: 'THIẾT BỊ · 8 phút đọc',
-    title: 'Giám sát kết nối máy chấm công Hikvision và MCC tập trung',
-    desc: 'Cách nATime theo dõi trạng thái trực tuyến và tự động kéo nhật ký sự kiện.',
-    date: '19.07.2026',
+    color: 'text-indigo',
   },
   {
     category: 'Vận hành',
-    tag: 'VẬN HÀNH · 4 phút đọc',
+    tag: 'VẬN HÀNH · 8 phút đọc',
+    title: 'Kiểm soát nhà thầu phụ ra vào công trường: bài toán không chỉ là chiếc thẻ',
+    desc: 'Khi có hàng chục nhà thầu phụ mỗi ngày, phân quyền theo khu vực trở thành yêu cầu bắt buộc.',
+    date: '19.07.2026',
+    color: 'text-emerald',
+  },
+  {
+    category: 'Sản phẩm',
+    tag: 'SẢN PHẨM · 4 phút đọc',
     title: 'nATime ra mắt API tích hợp trực tiếp với phần mềm lương',
     desc: 'Bảng công giờ có thể đẩy thẳng sang hệ thống lương, không cần xuất file trung gian.',
     date: '05.07.2026',
+    color: 'text-sky',
   },
   {
-    category: 'Bản quyền',
-    tag: 'BẢN QUYỀN · 7 phút đọc',
-    title: 'Vì sao dữ liệu sinh trắc học và mật khẩu không bao giờ rời khỏi máy chủ cục bộ',
-    desc: 'Kiến trúc bảo mật của nATime đảm bảo an toàn tuyệt đối cho doanh nghiệp.',
+    category: 'Trạm cân',
+    tag: 'TÀI SẢN · 7 phút đọc',
+    title: 'Vì sao nhà máy của bạn nên gắn mã định danh cho từng chiếc xe nâng',
+    desc: 'Chi phí bảo trì đột xuất giảm rõ rệt khi lịch bảo trì được nhắc tự động.',
     date: '22.06.2026',
+    color: 'text-amber',
   },
   {
     category: 'Vận hành',
     tag: 'VẬN HÀNH · 5 phút đọc',
-    title: 'Cách đối soát dữ liệu chấm công giữa các chi nhánh',
-    desc: 'Mô hình kết nối đa điểm giúp ban quản trị theo dõi giờ công toàn công ty theo thời gian thực.',
+    title: 'Đọc nhật ký ra vào như một nhà điều tra: 5 dấu hiệu bất thường',
+    desc: 'Những mẫu hình lặp lại trong nhật ký ra vào thường là dấu hiệu sớm của rủi ro an ninh.',
     date: '14.06.2026',
+    color: 'text-emerald',
   },
   {
-    category: 'Bản quyền',
-    tag: 'BẢN QUYỀN · 9 phút đọc',
-    title: 'Xác minh chữ ký số Authenticode trước khi cài đặt bộ cài Windows',
-    desc: 'Hướng dẫn kiểm tra mã băm SHA-256 và chữ ký số được công bố minh bạch.',
+    category: 'Trạm cân',
+    tag: 'TRẠM CÂN · 9 phút đọc',
+    title: 'Chuẩn kết nối đầu cân điện tử: những gì đội IT nhà máy cần biết',
+    desc: 'Hướng dẫn kỹ thuật để tích hợp đầu cân hiện có với hệ thống nATime.',
     date: '02.06.2026',
+    color: 'text-indigo',
   },
 ];
 
@@ -72,8 +77,8 @@ export default function BlogPage() {
     <PublicShell locale="vi">
       {/* HEADER SECTION */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-10">
-        <p className="font-mono text-[12px] text-teal tracking-wide mb-4">BLOG</p>
-        <h1 className="font-display font-extrabold text-[36px] md:text-[46px] leading-[1.1] text-ink max-w-2xl">
+        <p className="font-sans text-[13px] font-600 text-indigo mb-3">BLOG</p>
+        <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
           Ghi chép từ hiện trường vận hành.
         </h1>
         <div className="flex flex-wrap gap-2 mt-8">
@@ -84,10 +89,10 @@ export default function BlogPage() {
                 key={filter}
                 type="button"
                 onClick={() => setActiveFilter(filter)}
-                className={`font-body text-[13px] px-3 py-1.5 transition-colors cursor-pointer ${
+                className={`font-sans text-[13px] px-3.5 py-1.5 rounded-full transition-colors cursor-pointer ${
                   active
-                    ? 'bg-ink text-paper'
-                    : 'border hairline text-ink/60 hover:text-ink hover:border-ink/40'
+                    ? 'bg-indigo text-white font-600'
+                    : 'border border-line text-sub bg-white hover:text-ink'
                 }`}
               >
                 {filter}
@@ -101,57 +106,57 @@ export default function BlogPage() {
       <section className="max-w-6xl mx-auto px-6 pb-14">
         <Link
           href="/docs"
-          className="grid md:grid-cols-[0.9fr_1.1fr] gap-8 border hairline p-6 md:p-8 hover:border-ink/30 transition-colors block"
+          className="grid md:grid-cols-[0.9fr_1.1fr] gap-8 bg-white border border-line rounded-2xl shadow-card p-6 md:p-8 hover:border-indigo/40 transition-colors block"
         >
-          <div className="bg-graphite p-6 flex flex-col justify-between min-h-[220px]">
-            <span className="font-mono text-[11px] text-paper/50">{featuredPost.badge}</span>
-            <div className="font-mono text-amber text-[13px] leading-relaxed">
-              &ldquo;{featuredPost.quote}&rdquo;
+          <div className="bg-ink rounded-xl p-6 flex flex-col justify-between min-h-[220px]">
+            <span className="font-sans text-[11px] font-600 text-white/50 uppercase tracking-wider">{featuredPost.badge}</span>
+            <div className="font-sans text-indigo-300 text-[15px] leading-relaxed font-500">
+              {featuredPost.quote}
             </div>
           </div>
           <div className="flex flex-col justify-center">
-            <span className="font-mono text-[11px] text-teal mb-2">
-              {featuredPost.category} · {featuredPost.readTime}
+            <span className="font-sans text-[12px] font-600 text-indigo mb-2">
+              {featuredPost.category}
             </span>
-            <h2 className="font-display font-bold text-[24px] text-ink mb-3 leading-snug">
+            <h2 className="font-sans font-700 text-[24px] text-ink mb-3 leading-snug">
               {featuredPost.title}
             </h2>
-            <p className="font-body text-[14px] text-ink/65 leading-relaxed mb-4">
+            <p className="font-sans text-[14px] text-sub leading-relaxed mb-4">
               {featuredPost.desc}
             </p>
-            <span className="font-mono text-[12px] text-ink/40">{featuredPost.date}</span>
+            <span className="font-sans text-[12px] text-sub/70">{featuredPost.date}</span>
           </div>
         </Link>
       </section>
 
       {/* ARTICLES GRID */}
-      <section className="max-w-6xl mx-auto px-6 pb-20 grid md:grid-cols-3 gap-8">
+      <section className="max-w-6xl mx-auto px-6 pb-20 grid md:grid-cols-3 gap-6">
         {filteredArticles.map((article) => (
           <Link
             key={article.title}
             href="/docs"
-            className="block border hairline p-6 hover:border-ink/30 transition-colors"
+            className="block bg-white border border-line rounded-xl shadow-card p-6 hover:border-indigo/40 transition-colors"
           >
-            <span className="font-mono text-[11px] text-teal">{article.tag}</span>
-            <h3 className="font-display font-bold text-[18px] text-ink mt-2 mb-3 leading-snug">
+            <span className={`font-sans text-[12px] font-600 ${article.color}`}>{article.tag}</span>
+            <h3 className="font-sans font-700 text-[18px] text-ink mt-2 mb-3 leading-snug">
               {article.title}
             </h3>
-            <p className="font-body text-[13px] text-ink/60 leading-relaxed mb-4">
+            <p className="font-sans text-[13px] text-sub leading-relaxed mb-4">
               {article.desc}
             </p>
-            <span className="font-mono text-[11px] text-ink/40">{article.date}</span>
+            <span className="font-sans text-[11px] text-sub/70">{article.date}</span>
           </Link>
         ))}
       </section>
 
       {/* NEWSLETTER */}
-      <section className="bg-ink text-paper">
-        <div className="max-w-6xl mx-auto px-6 py-14 flex flex-col md:flex-row items-center justify-between gap-6">
+      <section className="max-w-6xl mx-auto px-6 pb-24">
+        <div className="bg-ink rounded-2xl px-8 py-10 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h2 className="font-display font-bold text-[22px] mb-1">
+            <h2 className="font-sans font-700 text-[22px] text-white mb-1">
               Nhận ghi chép vận hành mới nhất
             </h2>
-            <p className="font-body text-[13px] text-paper/60">
+            <p className="font-sans text-[13px] text-white/60">
               Một email mỗi tháng, không spam.
             </p>
           </div>
@@ -159,11 +164,11 @@ export default function BlogPage() {
             <input
               type="email"
               placeholder="email@congty.vn"
-              className="bg-transparent border hairline border-white/20 px-4 py-2.5 font-body text-[14px] text-paper placeholder:text-paper/40 flex-1 md:w-64"
+              className="bg-white/10 border border-white/15 rounded-lg px-4 py-2.5 font-sans text-[14px] text-white placeholder:text-white/40 flex-1 md:w-64"
             />
             <button
               type="submit"
-              className="bg-amber text-ink font-body text-[14px] font-semibold px-5 py-2.5 whitespace-nowrap cursor-pointer hover:bg-amber/90 transition-colors"
+              className="bg-indigo text-white font-sans text-[14px] font-600 rounded-lg px-5 py-2.5 whitespace-nowrap hover:bg-indigo-700 transition-colors"
             >
               Đăng ký
             </button>

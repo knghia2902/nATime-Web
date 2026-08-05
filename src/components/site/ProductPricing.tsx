@@ -23,12 +23,12 @@ const verifiedCatalog: Product[] = [
 ];
 
 function formatVnd(value: number) {
-  return new Intl.NumberFormat('vi-VN').format(value) + 'đ';
+  return new Intl.NumberFormat('vi-VN').format(value);
 }
 
 export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
   const vi = locale === 'vi';
-  const [billing, setBilling] = useState<'monthly' | 'yearly'>('yearly');
+  const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
   const [products, setProducts] = useState<Product[]>(verifiedCatalog);
 
   useEffect(() => {
@@ -64,182 +64,128 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
   }, [products, billing]);
 
   return (
-    <div className="w-full">
-      {/* Billing Switcher - Industrial Style */}
-      <div className="flex justify-center mb-10">
-        <div className="inline-flex border hairline bg-white p-1">
-          <button
-            type="button"
-            onClick={() => setBilling('monthly')}
-            className={`px-5 py-2 font-mono text-[13px] font-semibold transition-colors cursor-pointer ${
-              billing === 'monthly'
-                ? 'bg-ink text-paper'
-                : 'text-ink/60 hover:text-ink'
-            }`}
-          >
-            {vi ? 'Thanh toán Tháng' : 'Monthly Billing'}
-          </button>
-          <button
-            type="button"
-            onClick={() => setBilling('yearly')}
-            className={`px-5 py-2 font-mono text-[13px] font-semibold transition-colors cursor-pointer flex items-center gap-2 ${
-              billing === 'yearly'
-                ? 'bg-ink text-paper'
-                : 'text-ink/60 hover:text-ink'
-            }`}
-          >
-            <span>{vi ? 'Thanh toán Năm' : 'Yearly Billing'}</span>
-            <span className="text-[11px] px-1.5 py-0.5 bg-amber text-ink font-bold">
-              {vi ? 'Tiết kiệm 20%' : 'Save 20%'}
-            </span>
-          </button>
-        </div>
-      </div>
-
-      {/* Pricing Cards - 3 Columns Bento Grid (Matching pricing.html) */}
-      <section className="grid md:grid-cols-3 gap-px bg-ink/10">
-        {/* Standard Plan */}
-        <div className="bg-paper p-8 flex flex-col">
-          <p className="font-mono text-[11px] text-teal mb-2">STANDARD</p>
-          <h3 className="font-display font-bold text-[22px] text-ink mb-1">Standard</h3>
-          <p className="font-body text-[13px] text-ink/60 mb-6">
-            {vi ? 'Cho doanh nghiệp vừa và nhỏ, quản lý chấm công tự động.' : 'For small & medium teams managing attendance.'}
+    <div className="w-full font-sans">
+      {/* 3 PLAN CARDS (Matching pricing.html) */}
+      <section className="max-w-6xl mx-auto px-6 pb-20 grid md:grid-cols-3 gap-6">
+        {/* STANDARD */}
+        <div className="bg-white border border-line rounded-2xl shadow-card p-8 flex flex-col">
+          <p className="font-sans text-[12px] font-600 text-indigo mb-2">STANDARD</p>
+          <h3 className="font-sans font-700 text-[22px] text-ink mb-1">Module Chấm công</h3>
+          <p className="font-sans text-[13px] text-sub mb-6">Cho nhà máy quy mô nhỏ, cần bắt đầu với một điểm kiểm soát.</p>
+          <p className="font-sans text-[34px] font-800 text-ink mb-1">
+            {formatVnd(standardProduct.amount_vnd)}<span className="text-[14px] text-sub font-500">đ/tháng</span>
           </p>
-          <p className="font-mono text-[34px] font-semibold text-ink mb-1">
-            {formatVnd(standardProduct.amount_vnd)}
-            <span className="text-[14px] text-ink/50">/{billing === 'monthly' ? (vi ? 'tháng' : 'mo') : (vi ? 'năm' : 'yr')}</span>
+          <p className="font-sans text-[13px] text-sub mb-8">
+            hoặc 4.704.000đ/năm <span className="text-emerald font-600">(tiết kiệm 20%)</span>
           </p>
-          <p className="font-body text-[12px] text-ink/50 mb-8">
-            {vi
-              ? `Tối đa ${standardProduct.max_employees} nhân sự · ${standardProduct.max_attendance_devices} Máy chấm công`
-              : `Up to ${standardProduct.max_employees} employees · ${standardProduct.max_attendance_devices} devices`}
-          </p>
-          <ul className="font-body text-[13px] text-ink/70 space-y-2.5 mb-8 flex-1">
-            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Module Chấm công & Ca kíp' : 'Attendance & Shift module'}</li>
-            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Báo cáo tổng hợp tự động' : 'Auto summary reports'}</li>
-            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Hỗ trợ kỹ thuật 8/5' : '8/5 Technical support'}</li>
-            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Cài đặt Windows self-host' : 'Self-hosted Windows setup'}</li>
+          <ul className="font-sans text-[13px] text-sub space-y-3 mb-8 flex-1">
+            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Module Chấm công</li>
+            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Báo cáo cơ bản</li>
+            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Hỗ trợ kỹ thuật 24/7</li>
           </ul>
           <Link
-            href={`/portal?plan=standard&billing=${billing}`}
-            className="text-center border hairline font-body text-[14px] font-semibold px-6 py-3 hover:bg-white transition-colors text-ink"
+            href="/contact"
+            className="text-center border border-line font-sans text-[14px] font-600 text-ink px-6 py-3 rounded-lg hover:bg-page transition-colors"
           >
-            {vi ? 'Chọn gói Standard' : 'Choose Standard'}
+            Bắt đầu dùng thử
           </Link>
         </div>
 
-        {/* Professional Plan - Featured (Matching pricing.html bg-graphite border-2 border-amber) */}
-        <div className="bg-graphite p-8 flex flex-col border-2 border-amber -my-px md:-my-0">
-          <p className="font-mono text-[11px] text-amber mb-2">{vi ? 'PROFESSIONAL · PHỔ BIẾN NHẤT' : 'PROFESSIONAL · MOST POPULAR'}</p>
-          <h3 className="font-display font-bold text-[22px] text-paper mb-1">Professional</h3>
-          <p className="font-body text-[13px] text-paper/60 mb-6">
-            {vi ? 'Cho doanh nghiệp quy mô lớn: chấm công, kiểm soát ra vào & FaceID.' : 'For large teams: attendance, access control & FaceID.'}
+        {/* PROFESSIONAL (FEATURED) */}
+        <div className="bg-ink rounded-2xl shadow-card p-8 flex flex-col relative md:-my-2">
+          <span className="absolute top-0 -translate-y-1/2 left-8 bg-indigo text-white font-sans text-[11px] font-700 px-3 py-1 rounded-full">
+            PHỔ BIẾN NHẤT
+          </span>
+          <p className="font-sans text-[12px] font-600 text-indigo-300 mb-2 mt-2">PROFESSIONAL</p>
+          <h3 className="font-sans font-700 text-[22px] text-white mb-1">Cả bốn module</h3>
+          <p className="font-sans text-[13px] text-white/60 mb-6">Cho nhà máy vận hành đầy đủ: người, cửa, cân và tài sản.</p>
+          <p className="font-sans text-[34px] font-800 text-white mb-1">
+            {formatVnd(proProduct.amount_vnd)}<span className="text-[14px] text-white/50 font-500">đ/tháng</span>
           </p>
-          <p className="font-mono text-[34px] font-semibold text-paper mb-1">
-            {formatVnd(proProduct.amount_vnd)}
-            <span className="text-[14px] text-paper/50">/{billing === 'monthly' ? (vi ? 'tháng' : 'mo') : (vi ? 'năm' : 'yr')}</span>
+          <p className="font-sans text-[13px] text-white/60 mb-8">
+            hoặc 19.104.000đ/năm <span className="text-emerald-400 font-600">(tiết kiệm 20%)</span>
           </p>
-          <p className="font-body text-[12px] text-paper/50 mb-8">
-            {vi
-              ? `Tối đa ${proProduct.max_employees} nhân sự · ${proProduct.max_attendance_devices} MCC · ${proProduct.max_faceid_devices} FaceID`
-              : `Up to ${proProduct.max_employees} employees · ${proProduct.max_attendance_devices} MCC · ${proProduct.max_faceid_devices} FaceID`}
-          </p>
-          <ul className="font-body text-[13px] text-paper/80 space-y-2.5 mb-8 flex-1">
-            <li className="flex gap-2"><span className="text-amber">✓</span>{vi ? 'Toàn bộ module: Chấm công & Access Control' : 'All modules: Attendance & Access'}</li>
-            <li className="flex gap-2"><span className="text-amber">✓</span>{vi ? 'Tích hợp máy chấm công FaceID' : 'FaceID device integration'}</li>
-            <li className="flex gap-2"><span className="text-amber">✓</span>{vi ? 'API kết nối phần mềm lương / ERP' : 'Payroll / ERP API integration'}</li>
-            <li className="flex gap-2"><span className="text-amber">✓</span>{vi ? 'Hỗ trợ kỹ thuật 24/7' : '24/7 Technical support'}</li>
+          <ul className="font-sans text-[13px] text-white/80 space-y-3 mb-8 flex-1">
+            <li className="flex gap-2.5"><span className="text-emerald-400">✓</span>Toàn bộ 4 module, dữ liệu đồng bộ</li>
+            <li className="flex gap-2.5"><span className="text-emerald-400">✓</span>Cảnh báo và đối chiếu tự động</li>
+            <li className="flex gap-2.5"><span className="text-emerald-400">✓</span>API tích hợp phần mềm lương / ERP</li>
+            <li className="flex gap-2.5"><span className="text-emerald-400">✓</span>Hỗ trợ kỹ thuật 24/7</li>
           </ul>
           <Link
-            href={`/portal?plan=professional&billing=${billing}`}
-            className="text-center bg-amber text-ink font-body text-[14px] font-semibold px-6 py-3 hover:bg-amber/90 transition-colors"
+            href="/contact"
+            className="text-center bg-indigo text-white font-sans text-[14px] font-600 px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors"
           >
-            {vi ? 'Chọn gói Professional' : 'Choose Professional'}
+            Yêu cầu demo
           </Link>
         </div>
 
-        {/* Enterprise Plan */}
-        <div className="bg-paper p-8 flex flex-col">
-          <p className="font-mono text-[11px] text-teal mb-2">{vi ? 'ENTERPRISE' : 'ENTERPRISE'}</p>
-          <h3 className="font-display font-bold text-[22px] text-ink mb-1">Enterprise</h3>
-          <p className="font-body text-[13px] text-ink/60 mb-6">
-            {vi ? 'Cho tập đoàn nhiều nhà máy, hạ tầng & triển khai riêng.' : 'For multi-branch enterprise requiring custom deployment.'}
-          </p>
-          <p className="font-mono text-[24px] font-semibold text-ink mb-1">{vi ? 'Liên hệ báo giá' : 'Custom Quote'}</p>
-          <p className="font-body text-[12px] text-ink/50 mb-8">{vi ? 'Không giới hạn nhân sự & thiết bị' : 'Unlimited employees & devices'}</p>
-          <ul className="font-body text-[13px] text-ink/70 space-y-2.5 mb-8 flex-1">
-            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Triển khai On-premise hoặc Private Cloud' : 'On-premise or Private Cloud'}</li>
-            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Quản lý tập trung đa chi nhánh' : 'Centralized multi-branch system'}</li>
-            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Đội ngũ kỹ thuật khảo sát & hỗ trợ riêng' : 'Dedicated support & survey team'}</li>
-            <li className="flex gap-2"><span className="text-teal">✓</span>{vi ? 'Cam kết SLA dịch vụ cao nhất' : 'Highest SLA guarantee'}</li>
+        {/* ENTERPRISE */}
+        <div className="bg-white border border-line rounded-2xl shadow-card p-8 flex flex-col">
+          <p className="font-sans text-[12px] font-600 text-indigo mb-2">ENTERPRISE</p>
+          <h3 className="font-sans font-700 text-[22px] text-ink mb-1">Đa chi nhánh</h3>
+          <p className="font-sans text-[13px] text-sub mb-6">Cho tập đoàn nhiều nhà máy, cần triển khai và hạ tầng riêng.</p>
+          <p className="font-sans text-[24px] font-800 text-ink mb-1">Liên hệ báo giá</p>
+          <p className="font-sans text-[13px] text-sub mb-8">không giới hạn nhân sự</p>
+          <ul className="font-sans text-[13px] text-sub space-y-3 mb-8 flex-1">
+            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Triển khai on-premise hoặc private cloud</li>
+            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Quản lý tập trung nhiều chi nhánh</li>
+            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Đội ngũ hỗ trợ triển khai riêng</li>
+            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Hỗ trợ kỹ thuật 24/7</li>
           </ul>
           <Link
             href="/contact?type=enterprise"
-            className="text-center border hairline font-body text-[14px] font-semibold px-6 py-3 hover:bg-white transition-colors text-ink"
+            className="text-center border border-line font-sans text-[14px] font-600 text-ink px-6 py-3 rounded-lg hover:bg-page transition-colors"
           >
-            {vi ? 'Liên hệ Enterprise' : 'Contact Enterprise'}
+            Liên hệ tư vấn
           </Link>
         </div>
       </section>
 
-      {/* Comparison Table (Matching pricing.html) */}
-      <section className="max-w-6xl mx-auto px-6 pb-20 border-t hairline pt-14 mt-14">
-        <h2 className="font-display font-bold text-[24px] text-ink mb-8">{vi ? 'So sánh tính năng theo từng gói' : 'Feature Comparison'}</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left font-body text-[13px]">
+      {/* COMPARISON TABLE (Matching pricing.html) */}
+      <section className="max-w-6xl mx-auto px-6 pb-20 border-t border-line pt-14">
+        <h2 className="font-sans font-700 text-[24px] text-ink mb-8">So sánh module theo từng gói</h2>
+        <div className="bg-white border border-line rounded-2xl shadow-card overflow-hidden overflow-x-auto">
+          <table className="w-full text-left font-sans text-[13px]">
             <thead>
-              <tr className="border-b-2 border-ink/20">
-                <th className="py-3 pr-4 text-ink/50 font-medium">Tính năng / Module</th>
-                <th className="py-3 px-4 text-ink/50 font-medium text-center">Standard</th>
-                <th className="py-3 px-4 text-ink/50 font-medium text-center">Professional</th>
-                <th className="py-3 px-4 text-ink/50 font-medium text-center">Enterprise</th>
+              <tr className="border-b border-line bg-page">
+                <th className="py-3.5 px-5 text-sub font-600">Module</th>
+                <th className="py-3.5 px-5 text-sub font-600 text-center">Standard</th>
+                <th className="py-3.5 px-5 text-sub font-600 text-center">Professional</th>
+                <th className="py-3.5 px-5 text-sub font-600 text-center">Enterprise</th>
               </tr>
             </thead>
-            <tbody className="font-mono text-[13px]">
-              <tr className="border-b hairline">
-                <td className="py-3 pr-4 font-body">Giới hạn nhân sự</td>
-                <td className="text-center text-teal">50 nhân sự</td>
-                <td className="text-center text-teal">1.000 nhân sự</td>
-                <td className="text-center text-teal">Không giới hạn</td>
-              </tr>
-              <tr className="border-b hairline">
-                <td className="py-3 pr-4 font-body">Máy chấm công (MCC)</td>
-                <td className="text-center text-teal">2 thiết bị</td>
-                <td className="text-center text-teal">10 thiết bị</td>
-                <td className="text-center text-teal">Không giới hạn</td>
-              </tr>
-              <tr className="border-b hairline">
-                <td className="py-3 pr-4 font-body">Thiết bị FaceID</td>
-                <td className="text-center text-ink/30">—</td>
-                <td className="text-center text-teal">16 thiết bị</td>
-                <td className="text-center text-teal">Không giới hạn</td>
-              </tr>
-              <tr className="border-b hairline">
-                <td className="py-3 pr-4 font-body">Module Chấm công & Ca kíp</td>
-                <td className="text-center text-teal">✓</td>
-                <td className="text-center text-teal">✓</td>
-                <td className="text-center text-teal">✓</td>
-              </tr>
-              <tr className="border-b hairline">
-                <td className="py-3 pr-4 font-body">Module Kiểm soát ra vào (Access)</td>
-                <td className="text-center text-ink/30">—</td>
-                <td className="text-center text-teal">✓</td>
-                <td className="text-center text-teal">✓</td>
-              </tr>
-              <tr className="border-b hairline">
-                <td className="py-3 pr-4 font-body">API tích hợp phần mềm lương / ERP</td>
-                <td className="text-center text-ink/30">—</td>
-                <td className="text-center text-teal">✓</td>
-                <td className="text-center text-teal">✓</td>
-              </tr>
-              <tr>
-                <td className="py-3 pr-4 font-body">Hỗ trợ kỹ thuật</td>
-                <td className="text-center text-teal">8/5</td>
-                <td className="text-center text-teal">24/7</td>
-                <td className="text-center text-teal">Đội ngũ riêng SLA</td>
-              </tr>
+            <tbody className="divide-y divide-line">
+              <tr><td className="py-3.5 px-5 text-ink">Chấm công</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
+              <tr><td className="py-3.5 px-5 text-ink">Kiểm soát ra vào</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
+              <tr><td className="py-3.5 px-5 text-ink">Trạm cân</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
+              <tr><td className="py-3.5 px-5 text-ink">Quản lý tài sản</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
+              <tr><td className="py-3.5 px-5 text-ink">API / tích hợp ERP</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
+              <tr><td className="py-3.5 px-5 text-ink">Hỗ trợ kỹ thuật 24/7</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
             </tbody>
           </table>
+        </div>
+      </section>
+
+      {/* FAQ SECTION (Matching pricing.html) */}
+      <section className="max-w-6xl mx-auto px-6 pb-24 border-t border-line pt-14">
+        <h2 className="font-sans font-700 text-[24px] text-ink mb-8">Câu hỏi thường gặp</h2>
+        <div className="grid md:grid-cols-2 gap-5">
+          <div className="bg-white border border-line rounded-xl p-5">
+            <p className="font-sans font-600 text-[14px] text-ink mb-2">Có thể đổi gói sau khi đã dùng không?</p>
+            <p className="font-sans text-[13px] text-sub leading-relaxed">Có. Bạn có thể nâng cấp lên gói Professional hoặc Enterprise bất kỳ lúc nào, phần chênh lệch được tính theo số ngày còn lại.</p>
+          </div>
+          <div className="bg-white border border-line rounded-xl p-5">
+            <p className="font-sans font-600 text-[14px] text-ink mb-2">Thiết bị hiện có của nhà máy có dùng được không?</p>
+            <p className="font-sans text-[13px] text-sub leading-relaxed">Phần lớn đầu đọc vân tay, camera và đầu cân phổ biến trên thị trường đều tương thích. Đội kỹ thuật sẽ khảo sát trước khi triển khai.</p>
+          </div>
+          <div className="bg-white border border-line rounded-xl p-5">
+            <p className="font-sans font-600 text-[14px] text-ink mb-2">Có hỗ trợ triển khai on-premise không?</p>
+            <p className="font-sans text-[13px] text-sub leading-relaxed">Có, ở gói Enterprise. Phù hợp với nhà máy yêu cầu dữ liệu lưu trữ nội bộ vì lý do bảo mật hoặc quy định riêng.</p>
+          </div>
+          <div className="bg-white border border-line rounded-xl p-5">
+            <p className="font-sans font-600 text-[14px] text-ink mb-2">Thời gian triển khai mất bao lâu?</p>
+            <p className="font-sans text-[13px] text-sub leading-relaxed">Trung bình 1–2 tuần cho một module, tuỳ số lượng thiết bị và độ phức tạp hạ tầng mạng hiện có.</p>
+          </div>
         </div>
       </section>
     </div>

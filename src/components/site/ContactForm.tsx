@@ -35,10 +35,10 @@ export default function ContactForm({ locale }: { locale: 'vi' | 'en' }) {
   }
 
   return (
-    <form onSubmit={submit} className="border hairline p-8 space-y-5">
+    <form onSubmit={submit} className="bg-white border border-line rounded-2xl shadow-card p-8 space-y-5">
       <div className="grid md:grid-cols-2 gap-5">
         <div>
-          <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+          <label className="font-sans text-[13px] text-sub block mb-1.5">
             {vi ? 'Họ và tên' : 'Full name'}
           </label>
           <input
@@ -46,25 +46,25 @@ export default function ContactForm({ locale }: { locale: 'vi' | 'en' }) {
             name="name"
             type="text"
             placeholder={vi ? 'Nguyễn Văn A' : 'John Doe'}
-            className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
+            className="w-full border border-line rounded-lg px-3.5 py-2.5 font-sans text-[14px] bg-white outline-none focus:border-indigo"
           />
         </div>
         <div>
-          <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+          <label className="font-sans text-[13px] text-sub block mb-1.5">
             {vi ? 'Công ty' : 'Company'}
           </label>
           <input
             name="company"
             type="text"
             placeholder={vi ? 'Tên nhà máy / công ty' : 'Factory / company name'}
-            className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
+            className="w-full border border-line rounded-lg px-3.5 py-2.5 font-sans text-[14px] bg-white outline-none focus:border-indigo"
           />
         </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-5">
         <div>
-          <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+          <label className="font-sans text-[13px] text-sub block mb-1.5">
             {vi ? 'Email công việc' : 'Work email'}
           </label>
           <input
@@ -72,29 +72,29 @@ export default function ContactForm({ locale }: { locale: 'vi' | 'en' }) {
             name="email"
             type="email"
             placeholder={vi ? 'ban@congty.vn' : 'you@company.com'}
-            className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
+            className="w-full border border-line rounded-lg px-3.5 py-2.5 font-sans text-[14px] bg-white outline-none focus:border-indigo"
           />
         </div>
         <div>
-          <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+          <label className="font-sans text-[13px] text-sub block mb-1.5">
             {vi ? 'Số điện thoại' : 'Phone number'}
           </label>
           <input
             name="phone"
             type="text"
             placeholder="09xx xxx xxx"
-            className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
+            className="w-full border border-line rounded-lg px-3.5 py-2.5 font-sans text-[14px] bg-white outline-none focus:border-indigo"
           />
         </div>
       </div>
 
       <div>
-        <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+        <label className="font-sans text-[13px] text-sub block mb-1.5">
           {vi ? 'Bạn quan tâm module nào?' : 'Which module interests you?'}
         </label>
         <select
           name="kind"
-          className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
+          className="w-full border border-line rounded-lg px-3.5 py-2.5 font-sans text-[14px] bg-white outline-none focus:border-indigo"
         >
           <option value="all">{vi ? 'Cả bốn module' : 'All four modules'}</option>
           <option value="attendance">{vi ? 'Chấm công' : 'Attendance'}</option>
@@ -105,7 +105,7 @@ export default function ContactForm({ locale }: { locale: 'vi' | 'en' }) {
       </div>
 
       <div>
-        <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+        <label className="font-sans text-[13px] text-sub block mb-1.5">
           {vi ? 'Lời nhắn' : 'Message'}
         </label>
         <textarea
@@ -113,7 +113,7 @@ export default function ContactForm({ locale }: { locale: 'vi' | 'en' }) {
           name="message"
           rows={4}
           placeholder={vi ? 'Cho chúng tôi biết quy mô nhà máy và nhu cầu cụ thể của bạn' : 'Tell us about your factory scale and specific needs'}
-          className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white resize-none outline-none focus:border-ink"
+          className="w-full border border-line rounded-lg px-3.5 py-2.5 font-sans text-[14px] bg-white resize-none outline-none focus:border-indigo"
         />
       </div>
 
@@ -124,19 +124,19 @@ export default function ContactForm({ locale }: { locale: 'vi' | 'en' }) {
         <button
           type="submit"
           disabled={status === 'sending'}
-          className="bg-ink text-paper font-body text-[14px] font-medium px-7 py-3 hover:bg-graphite transition-colors cursor-pointer disabled:opacity-60"
+          className="bg-indigo text-white font-sans text-[14px] font-600 rounded-lg px-7 py-3 hover:bg-indigo-700 transition-colors cursor-pointer disabled:opacity-60"
         >
           {status === 'sending' ? (vi ? 'Đang gửi...' : 'Sending...') : (vi ? 'Gửi yêu cầu' : 'Submit Request')}
         </button>
 
         {status === 'sent' && (
-          <p className="font-mono text-[12px] text-teal">
+          <p className="font-sans text-[13px] text-emerald font-600">
             ✓ {vi ? 'Yêu cầu đã được ghi nhận.' : 'Request submitted successfully.'}
           </p>
         )}
 
         {status === 'error' && (
-          <p className="font-mono text-[12px] text-amber">
+          <p className="font-sans text-[13px] text-rose font-600">
             ✕ {vi ? 'Chưa thể gửi form. Vui lòng email hotro@natime.vn.' : 'Error sending form. Please email hotro@natime.vn.'}
           </p>
         )}
