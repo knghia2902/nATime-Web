@@ -1,4 +1,12 @@
-import { ChangelogContent } from '@/components/site/PublicPages';
-import { publicPageMetadata } from '@/lib/siteMetadata';
-export const metadata = publicPageMetadata('Changelog', 'Published nATime Windows release history.', '/changelog', 'en');
-export default function EnglishChangelogPage() { return <ChangelogContent locale="en" />; }
+import type { Metadata } from 'next';
+import BlogPage from '../../blog/page';
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'Notes from factory operations and nATime development.',
+  alternates: { canonical: '/blog', languages: { vi: '/blog', en: '/en/blog' } },
+};
+
+export default function EnglishChangelogPage() {
+  return <BlogPage />;
+}
