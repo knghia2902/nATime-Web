@@ -8,44 +8,52 @@ import { useAuth } from '@/lib/authContext';
 import { supabase } from '@/lib/supabase';
 
 const sections = [
-  {
-    group: 'VẬN HÀNH',
-    items: [
-      { label: 'Tổng quan', href: '/admin', num: '01' },
-      { label: 'Khách hàng', href: '/admin/customers', num: '02' },
-      { label: 'Đơn hàng', href: '/admin/orders', num: '03' },
-    ],
-  },
-  {
-    group: 'LICENSE',
-    items: [
-      { label: 'License', href: '/admin/licenses', num: '04' },
-      { label: 'Thiết bị', href: '/admin/devices', num: '05' },
-    ],
-  },
-  {
-    group: 'HỆ THỐNG',
-    items: [
-      { label: 'Release Windows', href: '/admin/releases', num: '06' },
-      { label: 'Liên hệ', href: '/admin/contacts', num: '07' },
-      { label: 'Audit', href: '/admin/audit', num: '08' },
-    ],
-  },
+  { group: 'Vận hành', items: [
+    { label: 'Tổng quan', href: '/admin', icon: 'chart', description: 'Số liệu vận hành lấy trực tiếp từ Supabase.' },
+    { label: 'Khách hàng', href: '/admin/customers', icon: 'users', description: 'Hồ sơ chủ tài khoản.' },
+    { label: 'Đơn hàng', href: '/admin/orders', icon: 'receipt', description: 'Trạng thái PayOS và số tiền.' },
+  ]},
+  { group: 'License', items: [
+    { label: 'License', href: '/admin/licenses', icon: 'key', description: 'Entitlement đã cấp cho khách hàng.' },
+    { label: 'Thiết bị', href: '/admin/devices', icon: 'device', description: 'Máy đã liên kết với license.' },
+  ]},
+  { group: 'Hệ thống', items: [
+    { label: 'Release Windows', href: '/admin/releases', icon: 'upload', description: 'Upload, xác minh và phát hành bộ cài Windows.' },
+    { label: 'Liên hệ', href: '/admin/contacts', icon: 'mail', description: 'Yêu cầu từ website và Enterprise.' },
+    { label: 'Audit', href: '/admin/audit', icon: 'shield', description: 'Lịch sử license và thao tác quản trị.' },
+  ]},
 ];
 
 const allItems = sections.flatMap((s) => s.items);
 
+function AdminIcon({ name, className }: { name: string; className?: string }) {
+  const cls = className || 'h-4 w-4 shrink-0';
+  switch (name) {
+    case 'chart': return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>;
+    case 'users': return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>;
+    case 'receipt': return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg>;
+    case 'key': return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" /></svg>;
+    case 'device': return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" /></svg>;
+    case 'upload': return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>;
+    case 'mail': return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>;
+    case 'shield': return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>;
+    default: return null;
+  }
+}
+
+function describeMfaError(error: { code?: string; message: string }) {
+  if (error.code === 'mfa_factor_name_conflict') return 'Một thiết lập MFA cùng tên đang bị dang dở. Hãy bấm Thử lại để tạo mã QR mới.';
+  if (error.code === 'too_many_enrolled_mfa_factors') return 'Tài khoản đang có quá nhiều phương thức MFA. Hãy gỡ phương thức không còn sử dụng trong Supabase Auth.';
+  if (error.code === 'mfa_totp_enroll_not_enabled') return 'TOTP chưa được bật trong cấu hình Supabase Auth.';
+  return error.message;
+}
+
 export default function AdminShell({ children }: { children: ReactNode }) {
-  const { user, loading } = useAuth();
-  const router = useRouter();
-  const pathname = usePathname();
+  const { user, loading } = useAuth(); const router = useRouter(); const pathname = usePathname();
   const initialPath = useRef(pathname);
+  const currentItem = allItems.find((item) => item.href === pathname) ?? allItems[0];
   const [access, setAccess] = useState<'checking' | 'denied' | 'mfa' | 'allowed'>('checking');
-  const [factorId, setFactorId] = useState('');
-  const [qr, setQr] = useState('');
-  const [code, setCode] = useState('');
-  const [mfaError, setMfaError] = useState('');
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [factorId, setFactorId] = useState(''); const [qr, setQr] = useState(''); const [code, setCode] = useState(''); const [mfaError, setMfaError] = useState('');
   const checkingMfa = useRef(false);
   const enrollingMfa = useRef(false);
 
@@ -54,272 +62,153 @@ export default function AdminShell({ children }: { children: ReactNode }) {
     checkingMfa.current = true;
     setMfaError('');
     try {
-      const { data: administrator, error: administratorError } = await supabase
-        .from('portal_admins')
-        .select('user_id')
-        .eq('user_id', user.id)
-        .eq('role', 'super_admin')
-        .eq('is_active', true)
-        .maybeSingle();
-
-      if (administratorError) {
-        setMfaError(administratorError.message);
-        setAccess('mfa');
-        return;
-      }
-      if (!administrator) {
-        setAccess('denied');
-        return;
-      }
+      const { data: administrator, error: administratorError } = await supabase.from('portal_admins').select('user_id').eq('user_id', user.id).eq('role', 'super_admin').eq('is_active', true).maybeSingle();
+      if (administratorError) { setMfaError(administratorError.message); setAccess('mfa'); return; }
+      if (!administrator) { setAccess('denied'); return; }
 
       const { data: assurance, error: assuranceError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-      if (assuranceError) {
-        setMfaError(assuranceError.message);
-        setAccess('mfa');
-        return;
-      }
-      if (assurance?.currentLevel === 'aal2') {
-        setAccess('allowed');
-        return;
-      }
+      if (assuranceError) { setMfaError(describeMfaError(assuranceError)); setAccess('mfa'); return; }
+      if (assurance?.currentLevel === 'aal2') { setAccess('allowed'); return; }
 
       const { data: factors, error: factorsError } = await supabase.auth.mfa.listFactors();
-      if (factorsError) {
-        setMfaError(factorsError.message);
-        setAccess('mfa');
-        return;
-      }
+      if (factorsError) { setMfaError(describeMfaError(factorsError)); setAccess('mfa'); return; }
       const verified = factors?.totp.find((factor) => factor.status === 'verified');
-      if (verified) {
-        setFactorId(verified.id);
-        setQr('');
-        setAccess('mfa');
-        return;
-      }
+      if (verified) { setFactorId(verified.id); setQr(''); setAccess('mfa'); return; }
 
-      setFactorId('');
-      setQr('');
-      setCode('');
-      setAccess('mfa');
+      setFactorId(''); setQr(''); setCode(''); setAccess('mfa');
     } finally {
       checkingMfa.current = false;
     }
   }, [user]);
 
-  useEffect(() => {
-    if (!loading && !user) router.replace(`/login?redirect=${encodeURIComponent(initialPath.current)}`);
-    else if (!loading && user) queueMicrotask(() => void check());
-  }, [check, loading, router, user]);
+  useEffect(() => { if (!loading && !user) router.replace(`/login?redirect=${encodeURIComponent(initialPath.current)}`); else if (!loading && user) queueMicrotask(() => void check()); }, [check, loading, router, user]);
 
   async function enrollMfa() {
     if (!supabase || enrollingMfa.current) return;
     enrollingMfa.current = true;
     setMfaError('');
     try {
-      const { data: enrolled, error: enrollError } = await supabase.auth.mfa.enroll({
-        factorType: 'totp',
-        friendlyName: 'nATime Super Admin',
-      });
-      if (enrollError || !enrolled) {
-        setMfaError(enrollError?.message || 'Không thể tạo MFA.');
-        return;
-      }
-      setFactorId(enrolled.id);
-      setQr(enrolled.totp.qr_code);
+      const { data: enrolled, error: enrollError } = await supabase.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'nATime Super Admin' });
+      if (enrollError || !enrolled) { setMfaError(enrollError ? describeMfaError(enrollError) : 'Không thể tạo MFA.'); return; }
+      setFactorId(enrolled.id); setQr(enrolled.totp.qr_code); setCode('');
     } finally {
       enrollingMfa.current = false;
     }
   }
 
-  async function verifyMfa(e: FormEvent) {
-    e.preventDefault();
-    if (!supabase || !code) return;
-    setMfaError('');
-    try {
-      let targetFactorId = factorId;
-      if (!targetFactorId) {
-        const { data: enrolled, error: enrollError } = await supabase.auth.mfa.enroll({
-          factorType: 'totp',
-          friendlyName: 'nATime Super Admin',
-        });
-        if (enrollError || !enrolled) {
-          setMfaError(enrollError?.message || 'Không thể tạo MFA.');
-          return;
-        }
-        targetFactorId = enrolled.id;
-      }
-      const { data: challenge, error: challengeError } = await supabase.auth.mfa.challenge({ factorId: targetFactorId });
-      if (challengeError || !challenge) {
-        setMfaError(challengeError?.message || 'Không thể tạo challenge MFA.');
-        return;
-      }
-      const { error: verifyError } = await supabase.auth.mfa.verify({ factorId: targetFactorId, challengeId: challenge.id, code });
-      if (verifyError) {
-        setMfaError(verifyError.message);
-        return;
-      }
-      setAccess('allowed');
-    } catch (err: unknown) {
-      setMfaError(err instanceof Error ? err.message : 'Xác thực MFA thất bại.');
-    }
-  }
+  async function verify(event: FormEvent) { event.preventDefault(); if (!supabase || !factorId) return; setMfaError(''); const { error } = await supabase.auth.mfa.challengeAndVerify({ factorId, code }); if (error) { setMfaError(error.message); return; } setAccess('allowed'); }
 
-  if (loading || access === 'checking') {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-paper text-sm text-ink/60 font-mono">
-        Đang kiểm tra quyền Admin…
+  // ── Loading state ──
+  if (loading || access === 'checking') return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-blue-600" />
+        <p className="text-sm font-normal text-slate-500">Đang kiểm tra quyền quản trị…</p>
       </div>
-    );
-  }
+    </div>
+  );
 
-  if (access === 'denied') {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-paper p-6">
-        <div className="max-w-md border hairline bg-white p-8 text-center space-y-4">
-          <p className="font-mono text-[11px] text-amber">TRUY CẬP BỊ TỪ CHỐI</p>
-          <h1 className="font-display font-bold text-xl text-ink">Quyền hạn không đủ</h1>
-          <p className="font-body text-sm text-ink/70 leading-relaxed">Tài khoản hiện tại không có quyền Super Admin.</p>
-          <Link href="/portal" className="inline-block bg-ink text-paper font-body text-[13px] px-5 py-2.5 hover:bg-graphite">
-            Về Cổng khách hàng
-          </Link>
+  // ── Denied state ──
+  if (access === 'denied') return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
+      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-md">
+        <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-red-50 text-red-600">
+          <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
         </div>
+        <h1 className="text-xl font-semibold text-slate-900">Không có quyền truy cập</h1>
+        <p className="mt-3 text-sm leading-6 font-normal text-slate-500">Tài khoản này không nằm trong danh sách Super Admin.</p>
+        <Link href="/portal" className="mt-6 inline-flex rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition">Về Cổng khách hàng</Link>
       </div>
-    );
-  }
+    </div>
+  );
 
-  if (access === 'mfa') {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-paper p-6">
-        <div className="max-w-md w-full border hairline bg-white p-8 space-y-6">
+  // ── MFA state ──
+  if (access === 'mfa') return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
+      <form onSubmit={verify} className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-xl">
+        <div className="mb-5 flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-2xs">
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+          </span>
           <div>
-            <p className="font-mono text-[11px] text-teal mb-1">MFA AUTHENTICATION</p>
-            <h1 className="font-display font-bold text-2xl text-ink">Xác thực 2 yếu tố</h1>
-            <p className="font-body text-xs text-ink/60 mt-1">Yêu cầu xác thực Authenticator để vào trang Quản trị.</p>
+            <h1 className="text-lg font-semibold text-slate-900">Xác thực Super Admin</h1>
+            <p className="text-xs font-normal text-slate-500">MFA bắt buộc trước khi truy cập</p>
           </div>
-          {mfaError && <p className="font-mono text-xs text-amber border hairline p-3 bg-amber/5">{mfaError}</p>}
-          {!factorId && !qr && (
-            <button onClick={enrollMfa} className="w-full bg-ink text-paper font-body text-sm font-semibold py-3 hover:bg-graphite">
-              Thiết lập mã QR Authenticator
-            </button>
-          )}
-          {qr && (
-            <div className="text-center space-y-3">
-              <p className="font-body text-xs text-ink/70">Quét mã QR bằng Google Authenticator:</p>
-              <img src={qr} alt="MFA QR Code" className="mx-auto h-44 w-44 border hairline p-2" />
-            </div>
-          )}
-          <form onSubmit={verifyMfa} className="space-y-4">
-            <div>
-              <label className="font-body text-xs text-ink/60 block mb-1">Mã xác thực 6 chữ số</label>
-              <input
-                type="text"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-                placeholder="123456"
-                className="w-full border hairline px-3.5 py-2 font-mono text-base tracking-widest text-center bg-white"
-                maxLength={6}
-              />
-            </div>
-            <button type="submit" className="w-full bg-amber text-ink font-body text-sm font-bold py-3 hover:bg-amber/90">
-              Xác nhận mã OTP
-            </button>
-          </form>
         </div>
-      </div>
-    );
-  }
+        <p className="text-sm leading-6 font-normal text-slate-600">Nhập mã 6 số từ ứng dụng xác thực (Google Authenticator, Authy…).</p>
+        {!factorId && !mfaError && <div className="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4"><p className="text-sm leading-6 font-normal text-blue-900">Tài khoản chưa có TOTP. Bấm nút bên dưới một lần để tạo mã QR thiết lập.</p><button type="button" onClick={() => void enrollMfa()} className="btn-gradient mt-3 w-full font-medium">Tạo mã QR</button></div>}
+        {qr && <div className="mt-5 text-center"><div className="mx-auto inline-block rounded-2xl border border-slate-200 bg-white p-3 shadow-2xs"><img src={qr} alt="Mã QR thiết lập MFA" className="h-48 w-48" /></div><p className="mt-3 text-xs font-normal text-slate-500">Quét QR một lần bằng ứng dụng xác thực.</p></div>}
+        {factorId && <><input required inputMode="numeric" pattern="[0-9]{6}" value={code} onChange={(event) => setCode(event.target.value)} className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3.5 text-center font-mono text-xl tracking-[0.4em] outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" placeholder="000000" /><button className="btn-gradient mt-4 w-full font-medium">Xác minh</button></>}
+        {mfaError && <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3"><p className="text-sm font-normal text-red-700">{mfaError}</p>{!factorId && <button type="button" onClick={() => void enrollMfa()} className="mt-3 rounded-lg border border-red-300 px-3 py-2 text-sm font-medium text-red-800 hover:bg-red-100">Thử lại</button>}</div>}
+      </form>
+    </div>
+  );
 
-  const initials = (user?.name || user?.email || 'AD').slice(0, 2).toUpperCase();
-
+  // ── Main Admin Layout ──
   return (
-    <div className="min-h-screen bg-paper text-ink font-body antialiased flex flex-col md:flex-row">
-      {/* ── Left Sidebar (Industrial Dark Graphite Admin Style) ── */}
-      <aside
-        className={`w-64 shrink-0 bg-graphite text-paper flex flex-col justify-between fixed left-0 top-0 bottom-0 z-40 transition-transform md:translate-x-0 ${
-          mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-        }`}
-      >
-        <div className="overflow-y-auto">
-          {/* Logo Brand Header */}
-          <Link
-            href="/admin"
-            className="flex items-center gap-2.5 px-6 h-16 border-b border-white/10 font-display font-extrabold text-[16px] tracking-tight text-paper"
-          >
-            <Image src="/logo.png" alt="nATime" width={24} height={24} className="h-6 w-6 object-contain" />
-            <span>natime</span>
-            <span className="text-paper/40 font-medium text-[12px] font-mono">/admin</span>
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased">
+      {/* Light Topbar */}
+      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 sm:px-6">
+          <div className="flex items-center gap-3">
+            <nav className="flex items-center gap-2 text-sm">
+              <span className="font-normal text-slate-500">Admin</span>
+              <svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+              <span className="font-semibold text-slate-900">{currentItem.label}</span>
+            </nav>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="rounded-full bg-orange-50 border border-orange-200 px-3 py-0.5 text-xs font-semibold text-orange-700">Super Admin</span>
+            <Link href="/portal" className="rounded-lg px-3 py-1.5 text-sm font-normal text-slate-600 hover:bg-slate-100 transition">Portal</Link>
+          </div>
+        </div>
+      </header>
+
+      <div className="mx-auto grid max-w-[1400px] md:grid-cols-[240px_1fr]">
+        {/* Harmonious Light Sidebar */}
+        <aside className="hidden border-r border-slate-200/80 bg-[#f8fafc] p-4 text-slate-800 md:block md:min-h-[calc(100vh-56px)] md:p-5">
+          <Link href="/admin" className="mb-6 flex items-center gap-3 px-2">
+            <Image src="/logo.png" alt="nATime Logo" width={26} height={26} className="h-6.5 w-6.5 object-contain" />
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-base font-semibold tracking-tight text-slate-900">nATime</span>
+              <span className="text-[10px] font-medium tracking-wider text-orange-600 uppercase bg-orange-50 px-1.5 py-0.5 rounded border border-orange-200/80">Admin</span>
+            </div>
           </Link>
 
-          {/* Nav Groups */}
-          <nav className="px-3 py-6 font-body text-[14px]">
-            {sections.map((sec) => (
-              <div key={sec.group} className="mb-4">
-                <p className="font-mono text-[11px] text-paper/35 tracking-wide px-3 mb-2">{sec.group}</p>
-                <div className="space-y-0.5">
-                  {sec.items.map((item) => {
-                    const active = item.href === '/admin' ? pathname === item.href : pathname.startsWith(item.href);
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setMobileOpen(false)}
-                        className={`flex items-center gap-3 px-3 py-2.5 transition-colors ${
-                          active
-                            ? 'bg-white/10 text-paper font-semibold'
-                            : 'text-paper/70 hover:bg-white/5 hover:text-paper'
-                        }`}
-                      >
-                        <span className={`font-mono text-[11px] ${active ? 'text-amber font-bold' : 'text-paper/40'}`}>
-                          {item.num}
-                        </span>
-                        <span>{item.label}</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </nav>
-        </div>
+          {sections.map((section) => (
+            <div key={section.group} className="mb-5">
+              <p className="mb-2 px-2 text-[10px] font-semibold tracking-widest text-slate-400 uppercase">{section.group}</p>
+              <nav className="space-y-0.5">
+                {section.items.map((item) => {
+                  const active = item.href === pathname;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
+                        active
+                          ? 'bg-orange-50/80 text-orange-700 font-medium border-l-2 border-orange-500 pl-2.5 shadow-2xs'
+                          : 'text-slate-600 font-normal hover:bg-slate-200/50 hover:text-slate-900'
+                      }`}
+                    >
+                      <AdminIcon name={item.icon} className={`h-4 w-4 shrink-0 ${active ? 'text-orange-600' : 'text-slate-400'}`} />
+                      <span className="truncate">{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+          ))}
+        </aside>
 
-        {/* Admin Footer User Card */}
-        <div className="px-6 py-5 border-t border-white/10 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-amber/20 text-amber font-mono text-[12px] flex items-center justify-center shrink-0 font-bold">
-            {initials}
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-body text-[13px] text-paper truncate font-semibold">{user?.name || 'Admin'}</p>
-            <p className="font-mono text-[11px] text-paper/40">Quản trị viên</p>
-          </div>
-        </div>
-      </aside>
-
-      {/* ── Main Admin Content ── */}
-      <div className="md:ml-64 flex-1 flex flex-col min-w-0">
-        {/* Topbar matching admin.html */}
-        <header className="sticky top-0 z-20 bg-paper/95 backdrop-blur border-b hairline h-16 flex items-center justify-between px-6 md:px-8">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setMobileOpen((v) => !v)}
-              className="md:hidden p-2 text-ink/70 hover:text-ink"
-              aria-label="Toggle menu"
-            >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-            <input
-              type="text"
-              placeholder="Tìm khách hàng, license, thiết bị..."
-              className="border hairline px-3.5 py-2 font-body text-[13px] bg-white w-64 md:w-80 outline-none focus:border-ink"
-            />
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-[11px] text-teal hidden sm:inline-block">● Hệ thống hoạt động bình thường</span>
-          </div>
-        </header>
-
-        <main className="p-6 md:p-8 flex-1">{children}</main>
+        {/* Main Content */}
+        <main className="min-w-0 p-4 sm:p-6 lg:p-8">
+          <header className="mb-6 border-b border-slate-200/60 pb-4">
+            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900">{currentItem.label}</h1>
+            <p className="mt-1 text-sm font-normal text-slate-500">{currentItem.description}</p>
+          </header>
+          <div>{children}</div>
+        </main>
       </div>
     </div>
   );

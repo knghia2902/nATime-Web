@@ -29,56 +29,104 @@ export default function PortalAccount() {
     setMessage(error ? error.message : 'Thông tin tài khoản đã được cập nhật.');
   }
 
+  const initials = (name || user?.email || '?').slice(0, 2).toUpperCase();
+
   return (
     <PortalShell title="Tài khoản" description="Thông tin người sở hữu đơn hàng và license.">
-      <div className="space-y-6">
-        <p className="font-mono text-[11px] text-teal tracking-wide">05 / TÀI KHOẢN</p>
-        <div className="border hairline bg-white p-6 max-w-lg space-y-5">
-          <div>
-            <label className="font-body text-[13px] text-ink/60 block mb-1.5">Email đăng nhập</label>
-            <input
-              value={user?.email ?? ''}
-              disabled
-              className="w-full border hairline px-3.5 py-2.5 font-mono text-[14px] bg-paper text-ink/50 cursor-not-allowed"
-            />
+      <div className="grid gap-8 lg:grid-cols-12 stagger-fade-in">
+        {/* Main Form (Column 1 - 7 cols) */}
+        <section className="lg:col-span-7 space-y-6">
+          <div className="rounded-2xl border border-slate-200/80 bg-white p-6 sm:p-7 shadow-2xs">
+            {/* Header user info */}
+            <div className="flex items-center gap-4 border-b border-slate-100 pb-5 mb-6">
+              <span className="grid h-13 w-13 shrink-0 place-items-center rounded-2xl bg-blue-600 text-base font-semibold text-white shadow-2xs">
+                {initials}
+              </span>
+              <div className="min-w-0">
+                <h2 className="text-lg font-semibold text-slate-900 truncate">{name || 'Chủ tài khoản'}</h2>
+                <p className="text-sm font-normal text-slate-500 truncate mt-0.5">{user?.email}</p>
+              </div>
+            </div>
+
+            <form onSubmit={save} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Email đăng nhập</label>
+                <input
+                  value={user?.email ?? ''}
+                  disabled
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-2.5 font-normal text-slate-500 cursor-not-allowed text-sm"
+                />
+                <p className="mt-1.5 text-xs text-slate-400 font-normal">Email không thể thay đổi sau khi đăng ký.</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Họ và tên</label>
+                <input
+                  required
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="Nhập họ và tên"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-normal text-slate-900 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Đơn vị / Công ty</label>
+                <input
+                  value={company}
+                  onChange={(event) => setCompany(event.target.value)}
+                  placeholder="Tên công ty hoặc tổ chức"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-normal text-slate-900 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                />
+              </div>
+
+              <div className="pt-2">
+                <button disabled={busy} className="btn-gradient px-6 py-2.5 text-sm font-medium rounded-xl text-white bg-blue-600 hover:bg-blue-700 transition shadow-2xs">
+                  {busy ? 'Đang lưu…' : 'Lưu thay đổi'}
+                </button>
+              </div>
+
+              {message && (
+                <p className={`rounded-xl p-4 text-sm font-normal ${message.includes('cập nhật') ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-800 border border-red-200'}`}>
+                  {message}
+                </p>
+              )}
+            </form>
+          </div>
+        </section>
+
+        {/* Side Info Cards (Column 2 - 5 cols) */}
+        <section className="lg:col-span-5 space-y-6">
+          {/* Invoice Info Disclaimer */}
+          <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs">
+            <div className="flex items-start gap-3.5">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-600 text-base border border-blue-100/80">
+                📄
+              </span>
+              <div>
+                <h3 className="font-semibold text-slate-900 text-sm">Hóa đơn GTGT</h3>
+                <p className="mt-1.5 text-xs leading-relaxed text-slate-500 font-normal">
+                  Thông tin hóa đơn được ghi nhận theo từng đơn hàng khi checkout qua PayOS. Nếu cần xuất hóa đơn điện tử doanh nghiệp, vui lòng liên hệ bộ phận hỗ trợ sau khi thanh toán.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <label className="font-body text-[13px] text-ink/60 block mb-1.5">Tên công ty</label>
-            <input
-              type="text"
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              placeholder="Tên công ty hoặc tổ chức"
-              className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
-            />
+          {/* Account Security Card */}
+          <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-2xs">
+            <div className="flex items-start gap-3.5">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-emerald-50 text-emerald-600 text-base border border-emerald-100/80">
+                🛡️
+              </span>
+              <div>
+                <h3 className="font-semibold text-slate-900 text-sm">Bảo mật tài khoản</h3>
+                <p className="mt-1.5 text-xs leading-relaxed text-slate-500 font-normal">
+                  Tài khoản nATime được bảo mật thông qua Supabase Auth và liên kết bản quyền theo Email đăng ký.
+                </p>
+              </div>
+            </div>
           </div>
-
-          <div>
-            <label className="font-body text-[13px] text-ink/60 block mb-1.5">Người liên hệ chính</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Họ và tên người liên hệ"
-              className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
-            />
-          </div>
-
-          <button
-            onClick={save}
-            disabled={busy}
-            className="bg-ink text-paper font-body text-[13px] font-semibold px-5 py-2.5 hover:bg-graphite transition-colors cursor-pointer disabled:opacity-50"
-          >
-            {busy ? 'Đang lưu…' : 'Lưu thay đổi'}
-          </button>
-
-          {message && (
-            <p className="font-mono text-xs text-teal border hairline p-3 bg-paper">
-              {message}
-            </p>
-          )}
-        </div>
+        </section>
       </div>
     </PortalShell>
   );
