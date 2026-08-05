@@ -192,7 +192,7 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
 }
 
 /* ================================================================
-   PRICING PAGE - Real ProductPricing Component Integration
+   PRICING PAGE
    ================================================================ */
 export function PricingContent({ locale }: { locale: Locale }) {
   const vi = locale === 'vi';
@@ -212,7 +212,7 @@ export function PricingContent({ locale }: { locale: Locale }) {
         </p>
       </section>
 
-      {/* Product Pricing Component with Real Supabase Catalog */}
+      {/* Product Pricing Component */}
       <section className="max-w-6xl mx-auto px-6 pb-20">
         <ProductPricing locale={locale} />
       </section>
@@ -221,50 +221,75 @@ export function PricingContent({ locale }: { locale: Locale }) {
 }
 
 /* ================================================================
-   CONTACT PAGE
+   CONTACT PAGE - Matching contact.html 100%
    ================================================================ */
 export function ContactContent({ locale }: { locale: Locale }) {
   const vi = locale === 'vi';
 
   return (
     <PublicShell locale={locale}>
-      {/* Header */}
+      {/* Header Section */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
         <p className="font-mono text-[12px] text-teal tracking-wide mb-4">{vi ? 'LIÊN HỆ' : 'CONTACT'}</p>
         <h1 className="font-display font-extrabold text-[36px] md:text-[46px] leading-[1.1] text-ink max-w-2xl">
-          {vi ? 'Trao đổi với đội ngũ nATime.' : 'Talk to nATime team.'}
+          {vi ? 'Nói chuyện với đội ngũ triển khai nATime.' : 'Talk to the nATime deployment team.'}
         </h1>
         <p className="font-body text-[16px] text-ink/70 mt-5 max-w-xl leading-relaxed">
           {vi
-            ? 'Gửi yêu cầu gói Enterprise, hỗ trợ kỹ thuật hoặc câu hỏi trước khi mua. Đội ngũ nATime sẽ liên hệ trong vòng 1 ngày làm việc.'
-            : 'Send Enterprise inquiry or technical question. We will contact you within 1 business day.'}
+            ? 'Để lại thông tin, chúng tôi sẽ liên hệ trong vòng 1 ngày làm việc để sắp xếp buổi demo trên chính dữ liệu nhà máy của bạn.'
+            : 'Leave your details, we will contact you within 1 business day to arrange a demo on your factory data.'}
         </p>
       </section>
 
-      {/* Form + Info */}
+      {/* Main Grid: Form Left 1.1fr, Info Right 0.9fr */}
       <section className="max-w-6xl mx-auto px-6 pb-20 grid md:grid-cols-[1.1fr_0.9fr] gap-12">
         {/* Form */}
         <ContactForm locale={locale} />
 
-        {/* Info */}
+        {/* Info Cards Column */}
         <div className="space-y-6">
+          {/* Office Card */}
           <div className="bg-graphite text-paper p-6">
-            <p className="font-mono text-[11px] text-paper/50 mb-4">{vi ? 'VĂN PHÒNG & KÊNH HỖ TRỢ' : 'OFFICE & SUPPORT'}</p>
-            <p className="font-body text-[14px] leading-relaxed mb-1">{vi ? 'Công ty Cổ phần Công nghệ nATime' : 'nATime Technology Corp'}</p>
-            <p className="font-body text-[14px] leading-relaxed mb-4">{vi ? 'Bình Dương & TP. Hồ Chí Minh, Việt Nam' : 'Binh Duong & HCMC, Vietnam'}</p>
+            <p className="font-mono text-[11px] text-paper/50 mb-4">{vi ? 'VĂN PHÒNG' : 'OFFICE'}</p>
+            <p className="font-body text-[14px] leading-relaxed mb-1">{vi ? 'Khu công nghiệp Sóng Thần, Dĩ An' : 'Song Than Industrial Zone, Di An'}</p>
+            <p className="font-body text-[14px] leading-relaxed mb-4">{vi ? 'Bình Dương, Việt Nam' : 'Binh Duong, Vietnam'}</p>
             <div className="border-t border-white/10 pt-4 space-y-2 font-mono text-[13px] text-paper/70">
               <div className="flex justify-between"><span>Hotline</span><span className="text-amber">1900 6868</span></div>
-              <div className="flex justify-between"><span>Email</span><span className="text-amber">support@natime.vn</span></div>
+              <div className="flex justify-between"><span>Email</span><span className="text-amber">hotro@natime.vn</span></div>
               <div className="flex justify-between"><span>{vi ? 'Giờ hỗ trợ' : 'Support hours'}</span><span className="text-teal">24/7</span></div>
             </div>
           </div>
 
+          {/* Location Map Card */}
           <div className="diag-corner border hairline p-6">
-            <p className="font-mono text-[11px] text-ink/40 mb-4">{vi ? 'XÁC MINH BỘ CÀI' : 'INSTALLER VERIFICATION'}</p>
-            <p className="font-body text-[13px] text-ink/70 leading-relaxed">
-              {vi
-                ? 'Bộ cài nATime Windows x64 được ký số bằng chứng thư mã nguồn hợp lệ (Authenticode). Vui lòng kiểm tra mã SHA-256 công bố tại trang Tải xuống trước khi cài đặt.'
-                : 'nATime Windows x64 installer is digitally signed with Authenticode. Please verify SHA-256 before installing.'}
+            <p className="font-mono text-[11px] text-ink/40 mb-4">{vi ? 'SƠ ĐỒ VỊ TRÍ' : 'LOCATION MAP'}</p>
+            <div className="aspect-[4/3] bg-[repeating-linear-gradient(0deg,transparent,transparent_19px,rgba(18,24,31,0.08)_20px),repeating-linear-gradient(90deg,transparent,transparent_19px,rgba(18,24,31,0.08)_20px)] relative">
+              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-amber" />
+              <span className="absolute top-1/2 left-1/2 -translate-x-1/2 mt-4 font-mono text-[10px] text-ink/50 whitespace-nowrap">nATime HQ</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Support Channels Section */}
+      <section className="border-t hairline bg-white/40">
+        <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 divide-x hairline">
+          <div className="px-6 first:pl-0">
+            <p className="font-mono text-[11px] text-teal mb-2">HOTLINE</p>
+            <p className="font-body text-[14px] text-ink/70 leading-relaxed">
+              {vi ? 'Gọi trực tiếp đội hỗ trợ kỹ thuật, phản hồi trong 5 phút cho các sự cố khẩn.' : 'Direct line to technical support, 5-minute response for urgent issues.'}
+            </p>
+          </div>
+          <div className="px-6">
+            <p className="font-mono text-[11px] text-teal mb-2">EMAIL</p>
+            <p className="font-body text-[14px] text-ink/70 leading-relaxed">
+              {vi ? 'Gửi yêu cầu chi tiết, đội triển khai phản hồi trong vòng 1 ngày làm việc.' : 'Send detailed requests, deployment team responds within 1 business day.'}
+            </p>
+          </div>
+          <div className="px-6">
+            <p className="font-mono text-[11px] text-teal mb-2">{vi ? 'TẠI HIỆN TRƯỜNG' : 'ON-SITE'}</p>
+            <p className="font-body text-[14px] text-ink/70 leading-relaxed">
+              {vi ? 'Đội kỹ thuật khảo sát trực tiếp tại nhà máy trước khi triển khai chính thức.' : 'Technical team surveys your factory before official deployment.'}
             </p>
           </div>
         </div>
@@ -341,18 +366,6 @@ export function AboutContent({ locale }: { locale: Locale }) {
           <h2 className="text-xl font-bold text-ink">{vi ? 'Mô hình triển khai' : 'Deployment Model'}</h2>
           <p className="mt-3 leading-relaxed text-ink/70">{vi ? 'Ứng dụng được cài trên Windows của khách hàng; tài khoản natime.vn dùng để mua và quản lý bản quyền.' : 'The application is installed on customer Windows machine; natime.vn account manages licenses.'}</p>
         </article>
-      </section>
-    </PublicShell>
-  );
-}
-
-export function ChangelogContent({ locale }: { locale: Locale }) {
-  const vi = locale === 'vi';
-  return (
-    <PublicShell locale={locale}>
-      <Intro eyebrow={vi ? 'NHẬT KÝ THAY ĐỔI' : 'CHANGELOG'} title={vi ? 'Các phiên bản đã phát hành' : 'Published releases'} description={vi ? 'Danh sách chỉ lấy từ những release Windows đã được xác minh và công khai.' : 'This list contains verified and published Windows releases.'} />
-      <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-        <ReleaseDownload locale={locale} changelog />
       </section>
     </PublicShell>
   );

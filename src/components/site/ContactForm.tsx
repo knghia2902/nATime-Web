@@ -1,7 +1,6 @@
 'use client';
 
 import { FormEvent, useRef, useState } from 'react';
-import { PaperPlaneRight, CheckCircle, Warning } from '@phosphor-icons/react';
 import { supabase } from '@/lib/supabase';
 
 export default function ContactForm({ locale }: { locale: 'vi' | 'en' }) {
@@ -23,6 +22,7 @@ export default function ContactForm({ locale }: { locale: 'vi' | 'en' }) {
         name: form.get('name'),
         email: form.get('email'),
         company: form.get('company'),
+        phone: form.get('phone'),
         kind: form.get('kind'),
         message: form.get('message'),
       },
@@ -35,96 +35,109 @@ export default function ContactForm({ locale }: { locale: 'vi' | 'en' }) {
   }
 
   return (
-    <form onSubmit={submit} className="rounded-3xl border border-border/80 bg-card p-6 sm:p-10 shadow-lg">
-      <div className="grid gap-6 sm:grid-cols-2">
+    <form onSubmit={submit} className="border hairline p-8 space-y-5">
+      <div className="grid md:grid-cols-2 gap-5">
         <div>
-          <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2">
-            {vi ? 'Họ và tên' : 'Full Name'} <span className="text-red-500">*</span>
+          <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+            {vi ? 'Họ và tên' : 'Full name'}
           </label>
           <input
             required
             name="name"
+            type="text"
             placeholder={vi ? 'Nguyễn Văn A' : 'John Doe'}
-            className="w-full rounded-xl border border-border/80 bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+            className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
           />
         </div>
-
         <div>
-          <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2">
-            Email <span className="text-red-500">*</span>
-          </label>
-          <input
-            required
-            type="email"
-            name="email"
-            placeholder="a@congty.com"
-            className="w-full rounded-xl border border-border/80 bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
-          />
-        </div>
-
-        <div>
-          <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2">
-            {vi ? 'Tên Đơn vị / Công ty' : 'Company Name'}
+          <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+            {vi ? 'Công ty' : 'Company'}
           </label>
           <input
             name="company"
-            placeholder={vi ? 'Công ty CP ABC' : 'ABC Corporation'}
-            className="w-full rounded-xl border border-border/80 bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+            type="text"
+            placeholder={vi ? 'Tên nhà máy / công ty' : 'Factory / company name'}
+            className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
           />
-        </div>
-
-        <div>
-          <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2">
-            {vi ? 'Loại yêu cầu' : 'Inquiry Type'}
-          </label>
-          <select
-            name="kind"
-            className="w-full rounded-xl border border-border/80 bg-background px-4 py-3 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
-          >
-            <option value="general">{vi ? 'Thông tin chung' : 'General Inquiry'}</option>
-            <option value="enterprise">Enterprise</option>
-            <option value="support">{vi ? 'Hỗ trợ khách hàng' : 'Customer Support'}</option>
-          </select>
         </div>
       </div>
 
-      <div className="mt-6">
-        <label className="block text-xs font-bold text-foreground uppercase tracking-wider mb-2">
-          {vi ? 'Nội dung tin nhắn' : 'Message'} <span className="text-red-500">*</span>
+      <div className="grid md:grid-cols-2 gap-5">
+        <div>
+          <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+            {vi ? 'Email công việc' : 'Work email'}
+          </label>
+          <input
+            required
+            name="email"
+            type="email"
+            placeholder={vi ? 'ban@congty.vn' : 'you@company.com'}
+            className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
+          />
+        </div>
+        <div>
+          <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+            {vi ? 'Số điện thoại' : 'Phone number'}
+          </label>
+          <input
+            name="phone"
+            type="text"
+            placeholder="09xx xxx xxx"
+            className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+          {vi ? 'Bạn quan tâm module nào?' : 'Which module interests you?'}
+        </label>
+        <select
+          name="kind"
+          className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white outline-none focus:border-ink"
+        >
+          <option value="all">{vi ? 'Cả bốn module' : 'All four modules'}</option>
+          <option value="attendance">{vi ? 'Chấm công' : 'Attendance'}</option>
+          <option value="access">{vi ? 'Kiểm soát ra vào' : 'Access Control'}</option>
+          <option value="weighbridge">{vi ? 'Trạm cân' : 'Weighbridge'}</option>
+          <option value="assets">{vi ? 'Quản lý tài sản' : 'Asset Management'}</option>
+        </select>
+      </div>
+
+      <div>
+        <label className="font-body text-[13px] text-ink/60 block mb-1.5">
+          {vi ? 'Lời nhắn' : 'Message'}
         </label>
         <textarea
           required
           name="message"
-          rows={5}
-          placeholder={vi ? 'Mô tả nhu cầu của bạn...' : 'Describe your inquiry...'}
-          className="w-full rounded-xl border border-border/80 bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+          rows={4}
+          placeholder={vi ? 'Cho chúng tôi biết quy mô nhà máy và nhu cầu cụ thể của bạn' : 'Tell us about your factory scale and specific needs'}
+          className="w-full border hairline px-3.5 py-2.5 font-body text-[14px] bg-white resize-none outline-none focus:border-ink"
         />
       </div>
 
       {/* Honeypot field */}
       <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
-      <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex items-center justify-between gap-4 pt-2">
         <button
           type="submit"
           disabled={status === 'sending'}
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-8 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:bg-primary-hover hover:shadow-xl disabled:opacity-60 cursor-pointer"
+          className="bg-ink text-paper font-body text-[14px] font-medium px-7 py-3 hover:bg-graphite transition-colors cursor-pointer disabled:opacity-60"
         >
-          <span>{status === 'sending' ? (vi ? 'Đang gửi...' : 'Sending...') : (vi ? 'Gửi yêu cầu' : 'Send Inquiry')}</span>
-          <PaperPlaneRight size={16} weight="bold" />
+          {status === 'sending' ? (vi ? 'Đang gửi...' : 'Sending...') : (vi ? 'Gửi yêu cầu' : 'Submit Request')}
         </button>
 
         {status === 'sent' && (
-          <p className="flex items-center gap-2 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-            <CheckCircle size={18} weight="fill" />
-            <span>{vi ? 'Yêu cầu đã được ghi nhận.' : 'Inquiry received successfully.'}</span>
+          <p className="font-mono text-[12px] text-teal">
+            ✓ {vi ? 'Yêu cầu đã được ghi nhận.' : 'Request submitted successfully.'}
           </p>
         )}
 
         {status === 'error' && (
-          <p className="flex items-center gap-2 text-sm font-semibold text-red-600 dark:text-red-400">
-            <Warning size={18} weight="fill" />
-            <span>{vi ? 'Chưa thể gửi form. Vui lòng email support@natime.vn.' : 'Failed to send form. Please email support@natime.vn.'}</span>
+          <p className="font-mono text-[12px] text-amber">
+            ✕ {vi ? 'Chưa thể gửi form. Vui lòng email hotro@natime.vn.' : 'Error sending form. Please email hotro@natime.vn.'}
           </p>
         )}
       </div>
