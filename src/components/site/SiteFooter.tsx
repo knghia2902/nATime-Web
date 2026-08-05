@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 type Locale = 'vi' | 'en';
@@ -14,51 +15,53 @@ export default function SiteFooter({ locale }: { locale: Locale }) {
       <div className="max-w-6xl mx-auto px-6 py-14 grid grid-cols-2 md:grid-cols-5 gap-10">
         {/* Logo & Intro */}
         <div className="col-span-2">
-          <div className="flex items-center gap-2 font-display font-[800] text-lg text-paper mb-3">
-            <span className="w-2 h-2 rounded-full bg-amber inline-block" /> natime
-          </div>
-          <p className="font-body text-[13px] leading-relaxed max-w-xs">
+          <Link href={localPath(locale, '/')} className="flex items-center gap-2.5 font-display font-extrabold text-xl text-paper mb-3">
+            <Image src="/logo.png" alt="nATime" width={28} height={28} className="h-7 w-7 object-contain" />
+            <span>nATime</span>
+          </Link>
+          <p className="font-body text-[13px] leading-relaxed max-w-xs text-paper/60">
             {vi
-              ? 'N\u1ec1n t\u1ea3ng v\u1eadn h\u00e0nh nh\u00e0 m\u00e1y h\u1ee3p nh\u1ea5t: ch\u1ea5m c\u00f4ng, ki\u1ec3m so\u00e1t ra v\u00e0o, tr\u1ea1m c\u00e2n v\u00e0 qu\u1ea3n l\u00fd t\u00e0i s\u1ea3n.'
-              : 'Unified factory operations: attendance, access control, weighing station and asset management.'}
+              ? 'Giải pháp chấm công và quản lý thiết bị thông minh dành cho doanh nghiệp, cài đặt trên Windows self-host.'
+              : 'Smart time attendance and device management software for enterprises, installed on self-hosted Windows.'}
           </p>
         </div>
 
-        {/* S\u1ea3n ph\u1ea9m */}
+        {/* Sản phẩm */}
         <div>
           <p className="font-body text-[12px] uppercase tracking-wider text-paper/40 mb-3">
-            {vi ? 'S\u1ea3n ph\u1ea9m' : 'Products'}
+            {vi ? 'Sản phẩm' : 'Products'}
           </p>
           <ul className="font-body text-[13px] space-y-2">
-            <li><Link href={localPath(locale, '/features')} className="hover:text-paper">{vi ? 'Ch\u1ea5m c\u00f4ng' : 'Attendance'}</Link></li>
-            <li><Link href={localPath(locale, '/features')} className="hover:text-paper">{vi ? 'Ki\u1ec3m so\u00e1t ra v\u00e0o' : 'Access Control'}</Link></li>
-            <li><Link href={localPath(locale, '/features')} className="hover:text-paper">{vi ? 'Tr\u1ea1m c\u00e2n' : 'Weighing'}</Link></li>
-            <li><Link href={localPath(locale, '/features')} className="hover:text-paper">{vi ? 'Qu\u1ea3n l\u00fd t\u00e0i s\u1ea3n' : 'Assets'}</Link></li>
+            <li><Link href={localPath(locale, '/features')} className="hover:text-paper">{vi ? 'Tính năng' : 'Features'}</Link></li>
+            <li><Link href={localPath(locale, '/pricing')} className="hover:text-paper">{vi ? 'Bảng giá' : 'Pricing'}</Link></li>
+            <li><Link href={localPath(locale, '/download')} className="hover:text-paper">{vi ? 'Tải bộ cài' : 'Downloads'}</Link></li>
+            <li><Link href={localPath(locale, '/docs')} className="hover:text-paper">{vi ? 'Hướng dẫn' : 'Docs'}</Link></li>
           </ul>
         </div>
 
-        {/* C\u00f4ng ty */}
+        {/* Công ty */}
         <div>
           <p className="font-body text-[12px] uppercase tracking-wider text-paper/40 mb-3">
-            {vi ? 'C\u00f4ng ty' : 'Company'}
+            {vi ? 'Công ty' : 'Company'}
           </p>
           <ul className="font-body text-[13px] space-y-2">
-            <li><Link href={localPath(locale, '/')} className="hover:text-paper">{vi ? 'Trang ch\u1ee7' : 'Home'}</Link></li>
-            <li><Link href={localPath(locale, '/pricing')} className="hover:text-paper">{vi ? 'B\u1ea3ng gi\u00e1' : 'Pricing'}</Link></li>
+            <li><Link href={localPath(locale, '/about')} className="hover:text-paper">{vi ? 'Giới thiệu' : 'About'}</Link></li>
+            <li><Link href={localPath(locale, '/changelog')} className="hover:text-paper">{vi ? 'Nhật ký thay đổi' : 'Changelog'}</Link></li>
             <li><Link href={localPath(locale, '/blog')} className="hover:text-paper">Blog</Link></li>
-            <li><Link href={localPath(locale, '/contact')} className="hover:text-paper">{vi ? 'Li\u00ean h\u1ec7' : 'Contact'}</Link></li>
+            <li><Link href={localPath(locale, '/contact')} className="hover:text-paper">{vi ? 'Liên hệ' : 'Contact'}</Link></li>
           </ul>
         </div>
 
-        {/* Li\u00ean h\u1ec7 */}
+        {/* Hỗ trợ & Pháp lý */}
         <div>
           <p className="font-body text-[12px] uppercase tracking-wider text-paper/40 mb-3">
-            {vi ? 'Li\u00ean h\u1ec7' : 'Contact'}
+            {vi ? 'Pháp lý' : 'Legal'}
           </p>
           <ul className="font-body text-[13px] space-y-2">
-            <li>hotro@natime.vn</li>
-            <li>1900 6868</li>
-            <li>{vi ? 'B\u00ecnh D\u01b0\u01a1ng, Vi\u1ec7t Nam' : 'Binh Duong, Vietnam'}</li>
+            <li><Link href={localPath(locale, '/privacy')} className="hover:text-paper">{vi ? 'Bảo mật' : 'Privacy'}</Link></li>
+            <li><Link href={localPath(locale, '/terms')} className="hover:text-paper">{vi ? 'Điều khoản' : 'Terms'}</Link></li>
+            <li><Link href={localPath(locale, '/payment-delivery-policy')} className="hover:text-paper">{vi ? 'Thanh toán' : 'Payment'}</Link></li>
+            <li><Link href={localPath(locale, '/refund-policy')} className="hover:text-paper">{vi ? 'Hoàn tiền' : 'Refund'}</Link></li>
           </ul>
         </div>
       </div>
@@ -66,8 +69,8 @@ export default function SiteFooter({ locale }: { locale: Locale }) {
       {/* Bottom bar */}
       <div className="border-t border-white/10">
         <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between gap-2 font-mono text-[11px] text-paper/40">
-          <span>&copy; 2026 natime.vn</span>
-          <span>{vi ? 'N\u1ec1n t\u1ea3ng v\u1eadn h\u00e0nh nh\u00e0 m\u00e1y' : 'Factory operations platform'}</span>
+          <span>© 2026 natime.vn — Bản quyền thuộc về nATime</span>
+          <span>support@natime.vn</span>
         </div>
       </div>
     </footer>

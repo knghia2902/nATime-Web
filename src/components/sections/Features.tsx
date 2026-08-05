@@ -1,31 +1,31 @@
 export default function Features() {
   const stats = [
-    { value: '120+', label: 'nh\u00e0 m\u00e1y \u0111ang v\u1eadn h\u00e0nh tr\u00ean nATime' },
-    { value: '99.9%', label: 'th\u1eddi gian ho\u1ea1t \u0111\u1ed9ng h\u1ec7 th\u1ed1ng' },
-    { value: '<200ms', label: '\u0111\u1ed9 tr\u1ec5 ghi nh\u1eadn s\u1ef1 ki\u1ec7n' },
-    { value: '24/7', label: 'gi\u00e1m s\u00e1t v\u00e0 h\u1ed7 tr\u1ee3 k\u1ef9 thu\u1eadt' },
+    { value: '500+', label: 'doanh nghiệp đang vận hành nATime' },
+    { value: '99.9%', label: 'thời gian hoạt động dịch vụ' },
+    { value: '<200ms', label: 'độ trễ phản hồi máy chấm công' },
+    { value: '24/7', label: 'hỗ trợ kỹ thuật & bản quyền' },
   ];
 
   const modules = [
     {
       num: '01',
-      title: 'Ch\u1ea5m c\u00f4ng',
-      desc: 'Ghi nh\u1eadn gi\u1edd v\u00e0o/ra b\u1eb1ng v\u00e2n tay, khu\u00f4n m\u1eb7t ho\u1eb7c th\u1ebb t\u1eeb. T\u1ef1 \u0111\u1ed9ng t\u00ednh c\u00f4ng, t\u0103ng ca v\u00e0 ngh\u1ec9 ph\u00e9p \u2014 kh\u00f4ng c\u1ea7n \u0111\u1ed1i so\u00e1t tay.',
+      title: 'Chấm công & Ca kíp',
+      desc: 'Quản lý dữ liệu chấm công từ vân tay, khuôn mặt hoặc thẻ từ. Tự động tính công, tăng ca và nghỉ phép theo quy chế riêng từng doanh nghiệp.',
     },
     {
       num: '02',
-      title: 'Ki\u1ec3m so\u00e1t ra v\u00e0o',
-      desc: 'Ph\u00e2n quy\u1ec1n c\u1eeda v\u00e0 khu v\u1ef1c theo t\u1eebng nh\u00e2n s\u1ef1, nh\u00e0 th\u1ea7u ho\u1eb7c kh\u00e1ch. Nh\u1eadt k\u00fd ra v\u00e0o ghi nh\u1eadn t\u1ee9c th\u00ec, tra c\u1ee9u theo th\u1eddi gian th\u1ef1c.',
+      title: 'Thiết bị & Kết nối',
+      desc: 'Khai báo máy chấm công (MCC, FaceID), theo dõi trạng thái kết nối trực tuyến và thực hiện đồng bộ sự kiện tức thời.',
     },
     {
       num: '03',
-      title: 'Tr\u1ea1m c\u00e2n',
-      desc: 'K\u1ebft n\u1ed1i tr\u1ef1c ti\u1ebfp \u0111\u1ea7u c\u00e2n \u0111i\u1ec7n t\u1eed. \u0110\u1ed1i chi\u1ebfu phi\u1ebfu c\u00e2n t\u1ef1 \u0111\u1ed9ng, ph\u00e1t hi\u1ec7n sai l\u1ec7ch kh\u1ed1i l\u01b0\u1ee3ng ngay t\u1ea1i c\u1ed5ng.',
+      title: 'Kiểm soát ra vào (Access Control)',
+      desc: 'Phân quyền truy cập cửa và khu vực hạn chế. Module chỉ bật khi gói bản quyền Professional được cấp phép.',
     },
     {
       num: '04',
-      title: 'Qu\u1ea3n l\u00fd t\u00e0i s\u1ea3n',
-      desc: 'G\u1eafn m\u00e3 \u0111\u1ecbnh danh cho t\u1eebng thi\u1ebft b\u1ecb. Theo d\u00f5i v\u1ecb tr\u00ed, l\u1ecbch b\u1ea3o tr\u00ec v\u00e0 kh\u1ea5u hao theo th\u1eddi gian th\u1ef1c.',
+      title: 'Tích hợp & Bảng lương',
+      desc: 'Kết xuất dữ liệu bảng công tự động, mở API tích hợp trực tiếp sang phần mềm tính lương hoặc hệ thống ERP.',
     },
   ];
 
@@ -45,9 +45,9 @@ export default function Features() {
 
       {/* Modules Bento */}
       <section className="max-w-6xl mx-auto px-6 py-20">
-        <p className="font-mono text-[12px] text-teal tracking-wide mb-3">B\u1ed0N MODULE</p>
+        <p className="font-mono text-[12px] text-teal tracking-wide mb-3">TÍNH NĂNG NỔI BẬT</p>
         <h2 className="font-display font-bold text-[28px] md:text-[34px] text-ink max-w-lg mb-12">
-          T\u1eebng module v\u1eadn h\u00e0nh \u0111\u1ed9c l\u1eadp, d\u1eef li\u1ec7u lu\u00f4n \u0111\u1ed3ng b\u1ed9.
+          Quản lý toàn diện chấm công và thiết bị trên một nền tảng.
         </h2>
         <div className="grid md:grid-cols-2 gap-px bg-ink/10">
           {modules.map((mod) => (
