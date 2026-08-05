@@ -16,7 +16,7 @@ export default function Benefits() {
                     <p className="font-sans text-[11px] text-sub">AccessControl</p>
                   </div>
                 </div>
-                <span className="font-sans text-[11px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">Online</span>
+                <span className="font-sans text-[11px] font-600 text-emerald-text bg-emerald-soft px-2.5 py-1 rounded-full">Online</span>
               </div>
               <div className="flex items-center justify-between py-2.5 border-b border-line">
                 <div className="flex items-center gap-3">
@@ -26,7 +26,7 @@ export default function Benefits() {
                     <p className="font-sans text-[11px] text-sub">Camera</p>
                   </div>
                 </div>
-                <span className="font-sans text-[11px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">Online</span>
+                <span className="font-sans text-[11px] font-600 text-emerald-text bg-emerald-soft px-2.5 py-1 rounded-full">Online</span>
               </div>
               <div className="flex items-center justify-between py-2.5">
                 <div className="flex items-center gap-3">
@@ -36,7 +36,7 @@ export default function Benefits() {
                     <p className="font-sans text-[11px] text-sub">Camera</p>
                   </div>
                 </div>
-                <span className="font-sans text-[11px] font-600 text-rose bg-rose-soft px-2.5 py-1 rounded-full">Offline</span>
+                <span className="font-sans text-[11px] font-600 text-rose-text bg-rose-soft px-2.5 py-1 rounded-full">Offline</span>
               </div>
             </div>
           </div>

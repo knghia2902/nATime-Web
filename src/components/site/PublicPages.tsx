@@ -17,7 +17,7 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
     <PublicShell locale={locale}>
       {/* Header */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
-        <p className="font-sans text-[13px] font-600 text-indigo mb-3">{vi ? 'TÍNH NĂNG' : 'FEATURES'}</p>
+        <p className="font-sans text-[13px] font-600 text-indigo-text mb-3">{vi ? 'TÍNH NĂNG' : 'FEATURES'}</p>
         <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
           {vi ? 'Bốn module, một nguồn dữ liệu vận hành duy nhất.' : 'Four modules, one unified operational data source.'}
         </h1>
@@ -34,14 +34,14 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
           <div className="w-10 h-10 rounded-lg bg-indigo-soft flex items-center justify-center mb-4">
             <span className="w-4.5 h-4.5 rounded-sm bg-indigo" />
           </div>
-          <span className="font-sans text-[13px] font-600 text-indigo">{vi ? '01 / CHẤM CÔNG' : '01 / ATTENDANCE'}</span>
+          <span className="font-sans text-[13px] font-600 text-indigo-text">{vi ? '01 / CHẤM CÔNG' : '01 / ATTENDANCE'}</span>
           <h2 className="font-sans font-700 text-[26px] text-ink mt-2 mb-4">
             {vi ? 'Tính công tự động, không đối soát tay.' : 'Auto payroll calculation, no manual checks.'}
           </h2>
           <ul className="font-sans text-[14px] text-sub space-y-3">
-            <li className="flex gap-3"><span className="text-indigo font-700">→</span>Chấm công bằng vân tay, khuôn mặt hoặc thẻ từ, đồng bộ đa chi nhánh.</li>
-            <li className="flex gap-3"><span className="text-indigo font-700">→</span>Tự động tính giờ công, tăng ca, đi trễ, nghỉ phép theo quy chế riêng.</li>
-            <li className="flex gap-3"><span className="text-indigo font-700">→</span>Xuất bảng công trực tiếp sang phần mềm lương, không cần nhập lại.</li>
+            <li className="flex gap-3"><span className="text-indigo-text font-700">→</span>Chấm công bằng vân tay, khuôn mặt hoặc thẻ từ, đồng bộ đa chi nhánh.</li>
+            <li className="flex gap-3"><span className="text-indigo-text font-700">→</span>Tự động tính giờ công, tăng ca, đi trễ, nghỉ phép theo quy chế riêng.</li>
+            <li className="flex gap-3"><span className="text-indigo-text font-700">→</span>Xuất bảng công trực tiếp sang phần mềm lương, không cần nhập lại.</li>
           </ul>
         </div>
         <div className="bg-white border border-line rounded-2xl shadow-card overflow-hidden">
@@ -52,19 +52,19 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
           <div className="divide-y divide-line">
             <div className="flex items-center justify-between px-4 py-3">
               <div><p className="font-sans text-[13px] text-ink">Trần Văn An</p><p className="font-sans text-[11px] text-sub">NV-0482</p></div>
-              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">07:58</span>
+              <span className="font-sans text-[12px] font-600 text-emerald-text bg-emerald-soft px-2.5 py-1 rounded-full">07:58</span>
             </div>
             <div className="flex items-center justify-between px-4 py-3">
               <div><p className="font-sans text-[13px] text-ink">Lê Thị Bình</p><p className="font-sans text-[11px] text-sub">NV-0511</p></div>
-              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">07:52</span>
+              <span className="font-sans text-[12px] font-600 text-emerald-text bg-emerald-soft px-2.5 py-1 rounded-full">07:52</span>
             </div>
             <div className="flex items-center justify-between px-4 py-3">
               <div><p className="font-sans text-[13px] text-ink">Phạm Quốc Cường</p><p className="font-sans text-[11px] text-sub">NV-0398</p></div>
-              <span className="font-sans text-[12px] font-600 text-rose bg-rose-soft px-2.5 py-1 rounded-full">Đi muộn</span>
+              <span className="font-sans text-[12px] font-600 text-rose-text bg-rose-soft px-2.5 py-1 rounded-full">Đi muộn</span>
             </div>
             <div className="flex items-center justify-between px-4 py-3">
               <div><p className="font-sans text-[13px] text-ink">Nguyễn Thị Dung</p><p className="font-sans text-[11px] text-sub">NV-0627</p></div>
-              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">07:49</span>
+              <span className="font-sans text-[12px] font-600 text-emerald-text bg-emerald-soft px-2.5 py-1 rounded-full">07:49</span>
             </div>
           </div>
         </div>
@@ -96,14 +96,14 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
           <div className="w-10 h-10 rounded-lg bg-emerald-soft flex items-center justify-center mb-4">
             <span className="w-4.5 h-4.5 rounded-sm bg-emerald" />
           </div>
-          <span className="font-sans text-[13px] font-600 text-emerald">{vi ? '02 / KIỂM SOÁT RA VÀO' : '02 / ACCESS CONTROL'}</span>
+          <span className="font-sans text-[13px] font-600 text-emerald-text">{vi ? '02 / KIỂM SOÁT RA VÀO' : '02 / ACCESS CONTROL'}</span>
           <h2 className="font-sans font-700 text-[26px] text-ink mt-2 mb-4">
             {vi ? 'Biết chính xác ai đang ở khu vực nào, lúc nào.' : 'Know exactly who is in which area, when.'}
           </h2>
           <ul className="font-sans text-[14px] text-sub space-y-3">
-            <li className="flex gap-3"><span className="text-emerald font-700">→</span>Phân quyền cửa và khu vực theo từng nhân sự, nhà thầu hoặc khách.</li>
-            <li className="flex gap-3"><span className="text-emerald font-700">→</span>Cảnh báo tức thời khi có thẻ hết hạn hoặc truy cập trái phép.</li>
-            <li className="flex gap-3"><span className="text-emerald font-700">→</span>Nhật ký ra vào lưu trữ đầy đủ, tra cứu theo người, cửa hoặc thời gian.</li>
+            <li className="flex gap-3"><span className="text-emerald-text font-700">→</span>Phân quyền cửa và khu vực theo từng nhân sự, nhà thầu hoặc khách.</li>
+            <li className="flex gap-3"><span className="text-emerald-text font-700">→</span>Cảnh báo tức thời khi có thẻ hết hạn hoặc truy cập trái phép.</li>
+            <li className="flex gap-3"><span className="text-emerald-text font-700">→</span>Nhật ký ra vào lưu trữ đầy đủ, tra cứu theo người, cửa hoặc thời gian.</li>
           </ul>
         </div>
       </section>
@@ -114,14 +114,14 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
           <div className="w-10 h-10 rounded-lg bg-amber-soft flex items-center justify-center mb-4">
             <span className="w-4.5 h-4.5 rounded-sm bg-amber" />
           </div>
-          <span className="font-sans text-[13px] font-600 text-amber">{vi ? '03 / TRẠM CÂN' : '03 / WEIGHBRIDGE'}</span>
+          <span className="font-sans text-[13px] font-600 text-amber-text">{vi ? '03 / TRẠM CÂN' : '03 / WEIGHBRIDGE'}</span>
           <h2 className="font-sans font-700 text-[26px] text-ink mt-2 mb-4">
             {vi ? 'Mỗi phiếu cân đều được đối chiếu tự động.' : 'Every weigh ticket is automatically cross-checked.'}
           </h2>
           <ul className="font-sans text-[14px] text-sub space-y-3">
-            <li className="flex gap-3"><span className="text-amber font-700">→</span>Kết nối trực tiếp đầu cân điện tử, ghi nhận khối lượng thời gian thực.</li>
-            <li className="flex gap-3"><span className="text-amber font-700">→</span>Tự động đối chiếu phiếu cân với đơn hàng và biển số xe.</li>
-            <li className="flex gap-3"><span className="text-amber font-700">→</span>Phát hiện sai lệch khối lượng bất thường ngay tại cổng cân.</li>
+            <li className="flex gap-3"><span className="text-amber-text font-700">→</span>Kết nối trực tiếp đầu cân điện tử, ghi nhận khối lượng thời gian thực.</li>
+            <li className="flex gap-3"><span className="text-amber-text font-700">→</span>Tự động đối chiếu phiếu cân với đơn hàng và biển số xe.</li>
+            <li className="flex gap-3"><span className="text-amber-text font-700">→</span>Phát hiện sai lệch khối lượng bất thường ngay tại cổng cân.</li>
           </ul>
         </div>
         <div className="bg-white border border-line rounded-2xl shadow-card overflow-hidden">
@@ -134,7 +134,7 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
             <p className="font-sans text-[12px] text-sub mt-1.5 mb-4">Xe 51C-224.19 · Đơn hàng PO-4471</p>
             <div className="flex items-center justify-between border-t border-line pt-4">
               <span className="font-sans text-[13px] text-sub">Đối chiếu đơn hàng</span>
-              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">Khớp</span>
+              <span className="font-sans text-[12px] font-600 text-emerald-text bg-emerald-soft px-2.5 py-1 rounded-full">Khớp</span>
             </div>
           </div>
         </div>
@@ -150,15 +150,15 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
           <div className="divide-y divide-line">
             <div className="flex items-center justify-between px-4 py-3">
               <div><p className="font-sans text-[13px] text-ink">FL-07 · Xe nâng</p></div>
-              <span className="font-sans text-[12px] font-600 text-amber bg-amber-soft px-2.5 py-1 rounded-full">Bảo trì 3 ngày</span>
+              <span className="font-sans text-[12px] font-600 text-amber-text bg-amber-soft px-2.5 py-1 rounded-full">Bảo trì 3 ngày</span>
             </div>
             <div className="flex items-center justify-between px-4 py-3">
               <div><p className="font-sans text-[13px] text-ink">CM-22 · Máy nén khí</p></div>
-              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">Hoạt động</span>
+              <span className="font-sans text-[12px] font-600 text-emerald-text bg-emerald-soft px-2.5 py-1 rounded-full">Hoạt động</span>
             </div>
             <div className="flex items-center justify-between px-4 py-3">
               <div><p className="font-sans text-[13px] text-ink">GT-03 · Xe nâng tay</p></div>
-              <span className="font-sans text-[12px] font-600 text-emerald bg-emerald-soft px-2.5 py-1 rounded-full">Hoạt động</span>
+              <span className="font-sans text-[12px] font-600 text-emerald-text bg-emerald-soft px-2.5 py-1 rounded-full">Hoạt động</span>
             </div>
           </div>
         </div>
@@ -166,14 +166,14 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
           <div className="w-10 h-10 rounded-lg bg-sky-soft flex items-center justify-center mb-4">
             <span className="w-4.5 h-4.5 rounded-sm bg-sky" />
           </div>
-          <span className="font-sans text-[13px] font-600 text-sky">{vi ? '04 / QUẢN LÝ TÀI SẢN' : '04 / ASSET MANAGEMENT'}</span>
+          <span className="font-sans text-[13px] font-600 text-sky-text">{vi ? '04 / QUẢN LÝ TÀI SẢN' : '04 / ASSET MANAGEMENT'}</span>
           <h2 className="font-sans font-700 text-[26px] text-ink mt-2 mb-4">
             {vi ? 'Theo dõi thiết bị từ khi mua đến khi thanh lý.' : 'Track equipment from purchase to disposal.'}
           </h2>
           <ul className="font-sans text-[14px] text-sub space-y-3">
-            <li className="flex gap-3"><span className="text-sky font-700">→</span>Gắn mã định danh riêng cho từng thiết bị, dễ dàng tra cứu.</li>
-            <li className="flex gap-3"><span className="text-sky font-700">→</span>Lịch bảo trì định kỳ, nhắc hạn tự động trước khi thiết bị hỏng.</li>
-            <li className="flex gap-3"><span className="text-sky font-700">→</span>Theo dõi khấu hao và vị trí thiết bị theo thời gian thực.</li>
+            <li className="flex gap-3"><span className="text-sky-text font-700">→</span>Gắn mã định danh riêng cho từng thiết bị, dễ dàng tra cứu.</li>
+            <li className="flex gap-3"><span className="text-sky-text font-700">→</span>Lịch bảo trì định kỳ, nhắc hạn tự động trước khi thiết bị hỏng.</li>
+            <li className="flex gap-3"><span className="text-sky-text font-700">→</span>Theo dõi khấu hao và vị trí thiết bị theo thời gian thực.</li>
           </ul>
         </div>
       </section>
@@ -201,7 +201,7 @@ export function PricingContent({ locale }: { locale: Locale }) {
     <PublicShell locale={locale}>
       {/* Header */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14 text-center">
-        <p className="font-sans text-[13px] font-600 text-indigo mb-3">{vi ? 'BẢNG GIÁ' : 'PRICING'}</p>
+        <p className="font-sans text-[13px] font-600 text-indigo-text mb-3">{vi ? 'BẢNG GIÁ' : 'PRICING'}</p>
         <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl mx-auto">
           {vi ? 'Chọn gói theo quy mô nhà máy của bạn.' : 'Choose a plan based on your factory scale.'}
         </h1>
@@ -228,7 +228,7 @@ export function ContactContent({ locale }: { locale: Locale }) {
     <PublicShell locale={locale}>
       {/* Header Section */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
-        <p className="font-sans text-[13px] font-600 text-indigo mb-3">{vi ? 'LIÊN HỆ' : 'CONTACT'}</p>
+        <p className="font-sans text-[13px] font-600 text-indigo-text mb-3">{vi ? 'LIÊN HỆ' : 'CONTACT'}</p>
         <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
           {vi ? 'Nói chuyện với đội ngũ triển khai nATime.' : 'Talk to the nATime deployment team.'}
         </h1>
@@ -273,19 +273,19 @@ export function ContactContent({ locale }: { locale: Locale }) {
       <section className="border-t border-line bg-white">
         <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-6">
           <div>
-            <p className="font-sans text-[12px] font-600 text-indigo mb-2">HOTLINE</p>
+            <p className="font-sans text-[12px] font-600 text-indigo-text mb-2">HOTLINE</p>
             <p className="font-sans text-[14px] text-sub leading-relaxed">
               {vi ? 'Gọi trực tiếp đội hỗ trợ kỹ thuật, phản hồi trong 5 phút cho các sự cố khẩn.' : 'Direct line to technical support, 5-minute response for urgent issues.'}
             </p>
           </div>
           <div>
-            <p className="font-sans text-[12px] font-600 text-emerald mb-2">EMAIL</p>
+            <p className="font-sans text-[12px] font-600 text-emerald-text mb-2">EMAIL</p>
             <p className="font-sans text-[14px] text-sub leading-relaxed">
               {vi ? 'Gửi yêu cầu chi tiết, đội triển khai phản hồi trong vòng 1 ngày làm việc.' : 'Send detailed requests, deployment team responds within 1 business day.'}
             </p>
           </div>
           <div>
-            <p className="font-sans text-[12px] font-600 text-amber mb-2">{vi ? 'TẠI HIỆN TRƯỜNG' : 'ON-SITE'}</p>
+            <p className="font-sans text-[12px] font-600 text-amber-text mb-2">{vi ? 'TẠI HIỆN TRƯỜNG' : 'ON-SITE'}</p>
             <p className="font-sans text-[14px] text-sub leading-relaxed">
               {vi ? 'Đội kỹ thuật khảo sát trực tiếp tại nhà máy trước khi triển khai chính thức.' : 'Technical team surveys your factory before official deployment.'}
             </p>
@@ -304,7 +304,7 @@ export function DownloadContent({ locale }: { locale: Locale }) {
   return (
     <PublicShell locale={locale}>
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
-        <p className="font-sans text-[13px] font-600 text-indigo mb-3">TẢI XUỐNG</p>
+        <p className="font-sans text-[13px] font-600 text-indigo-text mb-3">TẢI XUỐNG</p>
         <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
           {vi ? 'Tải bộ cài nATime đã xác minh' : 'Download verified nATime installer'}
         </h1>
@@ -341,7 +341,7 @@ export function DocsContent({ locale }: { locale: Locale }) {
   return (
     <PublicShell locale={locale}>
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
-        <p className="font-sans text-[13px] font-600 text-indigo mb-3">TÀI LIỆU</p>
+        <p className="font-sans text-[13px] font-600 text-indigo-text mb-3">TÀI LIỆU</p>
         <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
           {vi ? 'Cài đặt và kích hoạt theo từng bước' : 'Install and activate step by step'}
         </h1>
@@ -371,7 +371,7 @@ export function AboutContent({ locale }: { locale: Locale }) {
   return (
     <PublicShell locale={locale}>
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
-        <p className="font-sans text-[13px] font-600 text-indigo mb-3">GIỚI THIỆU</p>
+        <p className="font-sans text-[13px] font-600 text-indigo-text mb-3">GIỚI THIỆU</p>
         <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
           {vi ? 'Phần mềm tập trung vào vận hành thực tế' : 'Software focused on real operations'}
         </h1>
@@ -462,7 +462,7 @@ export function PolicyContent({ locale, kind }: { locale: Locale; kind: PolicyKi
   return (
     <PublicShell locale={locale}>
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
-        <p className="font-sans text-[13px] font-600 text-indigo mb-3">CHÍNH SÁCH</p>
+        <p className="font-sans text-[13px] font-600 text-indigo-text mb-3">CHÍNH SÁCH</p>
         <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">{policyContent.title}</h1>
         <p className="font-sans text-[16px] text-sub mt-5 max-w-xl leading-relaxed">{policyContent.lead}</p>
       </section>

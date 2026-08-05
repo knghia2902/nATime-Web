@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section className="max-w-6xl mx-auto px-6 pt-16 pb-20 grid md:grid-cols-[0.95fr_1.05fr] gap-14 items-center">
       <div>
-        <p className="inline-flex items-center gap-2 font-sans text-[13px] font-600 text-indigo bg-indigo-soft px-3 py-1.5 rounded-full mb-6">
+        <p className="inline-flex items-center gap-2 font-sans text-[13px] font-600 text-indigo-text bg-indigo-soft px-3 py-1.5 rounded-full mb-6">
           <span className="w-1.5 h-1.5 rounded-full bg-indigo" /> Nền tảng vận hành nhà máy
         </p>
         <h1 className="font-sans font-800 text-[40px] md:text-[50px] leading-[1.1] tracking-tight text-ink">
@@ -63,15 +63,15 @@ export default function Hero() {
             <div className="divide-y divide-line">
               <div className="flex items-center justify-between px-3.5 py-2.5">
                 <span className="font-sans text-[12px] text-ink">Lê Xuân Hiệp</span>
-                <span className="font-sans text-[12px] text-emerald">08:03</span>
+                <span className="font-sans text-[12px] text-emerald-text">08:03</span>
               </div>
               <div className="flex items-center justify-between px-3.5 py-2.5">
                 <span className="font-sans text-[12px] text-ink">Nguyễn Thị Thảo</span>
-                <span className="font-sans text-[12px] text-emerald">08:02</span>
+                <span className="font-sans text-[12px] text-emerald-text">08:02</span>
               </div>
               <div className="flex items-center justify-between px-3.5 py-2.5">
                 <span className="font-sans text-[12px] text-ink">Phạm Duy Thị Tâm</span>
-                <span className="font-sans text-[12px] text-rose">Đi muộn</span>
+                <span className="font-sans text-[12px] text-rose-text">Đi muộn</span>
               </div>
             </div>
           </div>

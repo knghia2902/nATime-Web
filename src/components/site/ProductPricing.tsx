@@ -69,19 +69,19 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
       <section className="max-w-6xl mx-auto px-6 pb-20 grid md:grid-cols-3 gap-6">
         {/* STANDARD */}
         <div className="bg-white border border-line rounded-2xl shadow-card p-8 flex flex-col">
-          <p className="font-sans text-[12px] font-600 text-indigo mb-2">STANDARD</p>
+          <p className="font-sans text-[12px] font-600 text-indigo-text mb-2">STANDARD</p>
           <h3 className="font-sans font-700 text-[22px] text-ink mb-1">Module Chấm công</h3>
           <p className="font-sans text-[13px] text-sub mb-6">Cho nhà máy quy mô nhỏ, cần bắt đầu với một điểm kiểm soát.</p>
           <p className="font-sans text-[34px] font-800 text-ink mb-1">
             {formatVnd(standardProduct.amount_vnd)}<span className="text-[14px] text-sub font-500">đ/tháng</span>
           </p>
           <p className="font-sans text-[13px] text-sub mb-8">
-            hoặc 4.704.000đ/năm <span className="text-emerald font-600">(tiết kiệm 20%)</span>
+            hoặc 4.704.000đ/năm <span className="text-emerald-text font-600">(tiết kiệm 20%)</span>
           </p>
           <ul className="font-sans text-[13px] text-sub space-y-3 mb-8 flex-1">
-            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Module Chấm công</li>
-            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Báo cáo cơ bản</li>
-            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Hỗ trợ kỹ thuật 24/7</li>
+            <li className="flex gap-2.5"><span className="text-emerald-text">✓</span>Module Chấm công</li>
+            <li className="flex gap-2.5"><span className="text-emerald-text">✓</span>Báo cáo cơ bản</li>
+            <li className="flex gap-2.5"><span className="text-emerald-text">✓</span>Hỗ trợ kỹ thuật 24/7</li>
           </ul>
           <Link
             href="/contact"
@@ -91,7 +91,7 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
           </Link>
         </div>
 
-        {/* PROFESSIONAL (FEATURED) */}
+        {/* PROFESSIONAL (FEATURED - EXACT MATCH TO PRICING.HTML) */}
         <div className="bg-ink rounded-2xl shadow-card p-8 flex flex-col relative md:-my-2">
           <span className="absolute top-0 -translate-y-1/2 left-8 bg-indigo text-white font-sans text-[11px] font-700 px-3 py-1 rounded-full">
             PHỔ BIẾN NHẤT
@@ -121,16 +121,16 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
 
         {/* ENTERPRISE */}
         <div className="bg-white border border-line rounded-2xl shadow-card p-8 flex flex-col">
-          <p className="font-sans text-[12px] font-600 text-indigo mb-2">ENTERPRISE</p>
+          <p className="font-sans text-[12px] font-600 text-indigo-text mb-2">ENTERPRISE</p>
           <h3 className="font-sans font-700 text-[22px] text-ink mb-1">Đa chi nhánh</h3>
           <p className="font-sans text-[13px] text-sub mb-6">Cho tập đoàn nhiều nhà máy, cần triển khai và hạ tầng riêng.</p>
           <p className="font-sans text-[24px] font-800 text-ink mb-1">Liên hệ báo giá</p>
           <p className="font-sans text-[13px] text-sub mb-8">không giới hạn nhân sự</p>
           <ul className="font-sans text-[13px] text-sub space-y-3 mb-8 flex-1">
-            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Triển khai on-premise hoặc private cloud</li>
-            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Quản lý tập trung nhiều chi nhánh</li>
-            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Đội ngũ hỗ trợ triển khai riêng</li>
-            <li className="flex gap-2.5"><span className="text-emerald">✓</span>Hỗ trợ kỹ thuật 24/7</li>
+            <li className="flex gap-2.5"><span className="text-emerald-text">✓</span>Triển khai on-premise hoặc private cloud</li>
+            <li className="flex gap-2.5"><span className="text-emerald-text">✓</span>Quản lý tập trung nhiều chi nhánh</li>
+            <li className="flex gap-2.5"><span className="text-emerald-text">✓</span>Đội ngũ hỗ trợ triển khai riêng</li>
+            <li className="flex gap-2.5"><span className="text-emerald-text">✓</span>Hỗ trợ kỹ thuật 24/7</li>
           </ul>
           <Link
             href="/contact?type=enterprise"
@@ -155,12 +155,12 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-line">
-              <tr><td className="py-3.5 px-5 text-ink">Chấm công</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
-              <tr><td className="py-3.5 px-5 text-ink">Kiểm soát ra vào</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
-              <tr><td className="py-3.5 px-5 text-ink">Trạm cân</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
-              <tr><td className="py-3.5 px-5 text-ink">Quản lý tài sản</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
-              <tr><td className="py-3.5 px-5 text-ink">API / tích hợp ERP</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
-              <tr><td className="py-3.5 px-5 text-ink">Hỗ trợ kỹ thuật 24/7</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td><td className="text-center text-emerald">✓</td></tr>
+              <tr><td className="py-3.5 px-5 text-ink">Chấm công</td><td className="text-center text-emerald-text">✓</td><td className="text-center text-emerald-text">✓</td><td className="text-center text-emerald-text">✓</td></tr>
+              <tr><td className="py-3.5 px-5 text-ink">Kiểm soát ra vào</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald-text">✓</td><td className="text-center text-emerald-text">✓</td></tr>
+              <tr><td className="py-3.5 px-5 text-ink">Trạm cân</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald-text">✓</td><td className="text-center text-emerald-text">✓</td></tr>
+              <tr><td className="py-3.5 px-5 text-ink">Quản lý tài sản</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald-text">✓</td><td className="text-center text-emerald-text">✓</td></tr>
+              <tr><td className="py-3.5 px-5 text-ink">API / tích hợp ERP</td><td className="text-center text-sub/40">—</td><td className="text-center text-emerald-text">✓</td><td className="text-center text-emerald-text">✓</td></tr>
+              <tr><td className="py-3.5 px-5 text-ink">Hỗ trợ kỹ thuật 24/7</td><td className="text-center text-emerald-text">✓</td><td className="text-center text-emerald-text">✓</td><td className="text-center text-emerald-text">✓</td></tr>
             </tbody>
           </table>
         </div>

@@ -35,7 +35,7 @@ export default function Features() {
 
       {/* MODULES */}
       <section className="max-w-6xl mx-auto px-6 pb-20">
-        <p className="font-sans text-[13px] font-600 text-indigo mb-2">BỐN MODULE</p>
+        <p className="font-sans text-[13px] font-600 text-indigo-text mb-2">BỐN MODULE</p>
         <h2 className="font-sans font-700 text-[28px] md:text-[32px] text-ink max-w-lg mb-10">Từng module vận hành độc lập, dữ liệu luôn đồng bộ.</h2>
         <div className="grid md:grid-cols-2 gap-5">
           <div className="bg-white border border-line rounded-xl p-6 shadow-card">
