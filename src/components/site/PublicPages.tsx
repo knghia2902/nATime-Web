@@ -249,11 +249,11 @@ export function ContactContent({ locale }: { locale: Locale }) {
           {/* Office Card */}
           <div className="bg-ink rounded-2xl text-white p-6">
             <p className="font-sans text-[12px] font-600 text-white/50 uppercase tracking-wider mb-4">{vi ? 'VĂN PHÒNG' : 'OFFICE'}</p>
-            <p className="font-sans text-[14px] leading-relaxed mb-1">{vi ? 'Khu công nghiệp Sóng Thần, Dĩ An' : 'Song Than Industrial Zone, Di An'}</p>
-            <p className="font-sans text-[14px] leading-relaxed mb-4">{vi ? 'Bình Dương, Việt Nam' : 'Binh Duong, Vietnam'}</p>
+            <p className="font-sans text-[14px] leading-relaxed mb-1">{vi ? 'Ông Trịnh, Tân Phước' : 'Ong Trinh, Tan Phuoc'}</p>
+            <p className="font-sans text-[14px] leading-relaxed mb-4">{vi ? 'Hồ Chí Minh, Việt Nam' : 'Ho Chi Minh City, Vietnam'}</p>
             <div className="border-t border-white/10 pt-4 space-y-2.5 font-sans text-[13px] text-white/70">
-              <div className="flex justify-between"><span>Hotline</span><span className="text-indigo-300 font-600">1900 6868</span></div>
-              <div className="flex justify-between"><span>Email</span><span className="text-indigo-300 font-600">hotro@natime.vn</span></div>
+              <div className="flex justify-between"><span>Hotline</span><span className="text-indigo-300 font-600">0583392700</span></div>
+              <div className="flex justify-between"><span>Email</span><span className="text-indigo-300 font-600">support@natime.vn</span></div>
               <div className="flex justify-between"><span>{vi ? 'Giờ hỗ trợ' : 'Support hours'}</span><span className="text-emerald-400 font-600">24/7</span></div>
             </div>
           </div>
@@ -275,13 +275,13 @@ export function ContactContent({ locale }: { locale: Locale }) {
           <div>
             <p className="font-sans text-[12px] font-600 text-indigo-text mb-2">HOTLINE</p>
             <p className="font-sans text-[14px] text-sub leading-relaxed">
-              {vi ? 'Gọi trực tiếp đội hỗ trợ kỹ thuật, phản hồi trong 5 phút cho các sự cố khẩn.' : 'Direct line to technical support, 5-minute response for urgent issues.'}
+              {vi ? 'Gọi trực tiếp đội hỗ trợ kỹ thuật qua 0583392700, phản hồi trong 5 phút cho các sự cố khẩn.' : 'Direct line to technical support via 0583392700, 5-minute response for urgent issues.'}
             </p>
           </div>
           <div>
             <p className="font-sans text-[12px] font-600 text-emerald-text mb-2">EMAIL</p>
             <p className="font-sans text-[14px] text-sub leading-relaxed">
-              {vi ? 'Gửi yêu cầu chi tiết, đội triển khai phản hồi trong vòng 1 ngày làm việc.' : 'Send detailed requests, deployment team responds within 1 business day.'}
+              {vi ? 'Gửi yêu cầu chi tiết tới support@natime.vn, đội triển khai phản hồi trong vòng 1 ngày làm việc.' : 'Send detailed requests to support@natime.vn, deployment team responds within 1 business day.'}
             </p>
           </div>
           <div>

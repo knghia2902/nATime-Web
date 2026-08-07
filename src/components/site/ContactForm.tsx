@@ -130,14 +130,14 @@ export default function ContactForm({ locale }: { locale: 'vi' | 'en' }) {
         </button>
 
         {status === 'sent' && (
-          <p className="font-sans text-[13px] text-emerald font-600">
+          <p className="font-sans text-[13px] text-emerald-text font-600">
             ✓ {vi ? 'Yêu cầu đã được ghi nhận.' : 'Request submitted successfully.'}
           </p>
         )}
 
         {status === 'error' && (
-          <p className="font-sans text-[13px] text-rose font-600">
-            ✕ {vi ? 'Chưa thể gửi form. Vui lòng email hotro@natime.vn.' : 'Error sending form. Please email hotro@natime.vn.'}
+          <p className="font-sans text-[13px] text-rose-text font-600">
+            ✕ {vi ? 'Chưa thể gửi form. Vui lòng email support@natime.vn.' : 'Error sending form. Please email support@natime.vn.'}
           </p>
         )}
       </div>

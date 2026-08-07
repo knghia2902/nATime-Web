@@ -51,9 +51,9 @@ export default function SiteFooter({ locale }: { locale: Locale }) {
             {vi ? 'Liên hệ' : 'Contact'}
           </p>
           <ul className="font-sans text-[13px] text-sub space-y-2.5">
-            <li>hotro@natime.vn</li>
-            <li>1900 6868</li>
-            <li>Bình Dương, Việt Nam</li>
+            <li>support@natime.vn</li>
+            <li>0583392700</li>
+            <li>Ông Trịnh, Tân Phước, Hồ Chí Minh</li>
           </ul>
         </div>
       </div>
