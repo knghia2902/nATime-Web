@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Hero() {
@@ -29,7 +30,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* PRODUCT WINDOW MOCKUP */}
+      {/* PRODUCT WINDOW MOCKUP WITH REAL DASHBOARD IMAGE */}
       <div className="bg-white border border-line rounded-2xl shadow-card overflow-hidden">
         <div className="flex items-center gap-1.5 px-4 h-10 border-b border-line bg-page">
           <span className="w-2.5 h-2.5 rounded-full bg-rose/40" />
@@ -37,44 +38,14 @@ export default function Hero() {
           <span className="w-2.5 h-2.5 rounded-full bg-emerald/40" />
           <span className="font-sans text-[11px] text-sub/60 ml-3">app.natime.vn/dashboard</span>
         </div>
-        <div className="p-5">
-          <p className="font-sans font-700 text-[15px] text-ink mb-1">Tổng quan</p>
-          <p className="font-sans text-[12px] text-sub mb-4">Thông tin vận hành hôm nay</p>
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="border border-line rounded-xl p-3.5">
-              <div className="w-8 h-8 rounded-lg bg-indigo-soft flex items-center justify-center mb-2">
-                <span className="w-3.5 h-3.5 rounded-sm bg-indigo" />
-              </div>
-              <p className="font-sans font-700 text-[20px] text-ink leading-none">438</p>
-              <p className="font-sans text-[11px] text-sub mt-1">Tổng số nhân sự</p>
-            </div>
-            <div className="border border-line rounded-xl p-3.5">
-              <div className="w-8 h-8 rounded-lg bg-emerald-soft flex items-center justify-center mb-2">
-                <span className="w-3.5 h-3.5 rounded-sm bg-emerald" />
-              </div>
-              <p className="font-sans font-700 text-[20px] text-ink leading-none">405</p>
-              <p className="font-sans text-[11px] text-sub mt-1">Đã check-in hôm nay</p>
-            </div>
-          </div>
-          <div className="border border-line rounded-xl overflow-hidden">
-            <div className="px-3.5 py-2.5 border-b border-line bg-page">
-              <p className="font-sans text-[11px] font-600 text-sub">Sự kiện chấm công</p>
-            </div>
-            <div className="divide-y divide-line">
-              <div className="flex items-center justify-between px-3.5 py-2.5">
-                <span className="font-sans text-[12px] text-ink">Lê Xuân Hiệp</span>
-                <span className="font-sans text-[12px] text-emerald-text">08:03</span>
-              </div>
-              <div className="flex items-center justify-between px-3.5 py-2.5">
-                <span className="font-sans text-[12px] text-ink">Nguyễn Thị Thảo</span>
-                <span className="font-sans text-[12px] text-emerald-text">08:02</span>
-              </div>
-              <div className="flex items-center justify-between px-3.5 py-2.5">
-                <span className="font-sans text-[12px] text-ink">Phạm Duy Thị Tâm</span>
-                <span className="font-sans text-[12px] text-rose-text">Đi muộn</span>
-              </div>
-            </div>
-          </div>
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+          <Image
+            src="/dashboard-preview.png"
+            alt="nATime Dashboard Preview"
+            fill
+            className="object-cover object-top"
+            priority
+          />
         </div>
       </div>
     </section>
