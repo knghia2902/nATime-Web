@@ -30,7 +30,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* PRODUCT WINDOW MOCKUP WITH REAL DASHBOARD IMAGE */}
+      {/* PRODUCT WINDOW MOCKUP WITH FULL DASHBOARD IMAGE (NO CROPPING) */}
       <div className="bg-white border border-line rounded-2xl shadow-card overflow-hidden">
         <div className="flex items-center gap-1.5 px-4 h-10 border-b border-line bg-page">
           <span className="w-2.5 h-2.5 rounded-full bg-rose/40" />
@@ -38,12 +38,13 @@ export default function Hero() {
           <span className="w-2.5 h-2.5 rounded-full bg-emerald/40" />
           <span className="font-sans text-[11px] text-sub/60 ml-3">app.natime.vn/dashboard</span>
         </div>
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+        <div className="w-full bg-slate-100">
           <Image
             src="/dashboard-preview.png"
             alt="nATime Dashboard Preview"
-            fill
-            className="object-cover object-top"
+            width={1920}
+            height={1080}
+            className="w-full h-auto block"
             priority
           />
         </div>
