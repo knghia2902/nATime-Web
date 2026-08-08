@@ -56,20 +56,40 @@ export default function Benefits() {
         </div>
       </section>
 
-      {/* TESTIMONIAL */}
+      {/* DEPLOYMENT PROCESS (OPTION A) */}
       <section className="max-w-6xl mx-auto px-6 pb-20">
-        <div className="bg-ink rounded-2xl p-10 md:p-14 text-white">
-          <p className="font-sans text-[13px] font-600 text-indigo-300 mb-6">ĐƯỢC TIN DÙNG BỞI CÁC NHÀ MÁY TẠI VIỆT NAM</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 font-sans font-700 text-[18px] text-white/50 mb-10">
-            <span>Hòa Phát Container</span>
-            <span>Phú Gia Logistics</span>
-            <span>Đồng Tâm Group</span>
-            <span>Kim Sơn Manufacturing</span>
+        <div className="bg-ink rounded-2xl p-8 md:p-12 text-white">
+          <p className="font-sans text-[13px] font-600 text-indigo-300 mb-8 uppercase tracking-wider">
+            QUY TRÌNH TRIỂN KHAI NHÀ MÁY
+          </p>
+          <div className="grid md:grid-cols-3 gap-8 mb-10">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+              <span className="font-sans text-[12px] font-700 text-indigo-300 block mb-2">01 / LẮP ĐẶT</span>
+              <h3 className="font-sans font-700 text-[16px] text-white mb-2">Cài đặt On-Premise</h3>
+              <p className="font-sans text-[13px] text-white/70 leading-relaxed">
+                Bộ cài Windows 1-click tự động thiết lập SQL Server và dịch vụ nATime cục bộ.
+              </p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+              <span className="font-sans text-[12px] font-700 text-indigo-300 block mb-2">02 / KẾT NỐI</span>
+              <h3 className="font-sans font-700 text-[16px] text-white mb-2">Kết nối Thiết bị</h3>
+              <p className="font-sans text-[13px] text-white/70 leading-relaxed">
+                Nhập IP máy chấm công, camera AI và đầu cân điện tử sẵn có tại nhà máy.
+              </p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+              <span className="font-sans text-[12px] font-700 text-indigo-300 block mb-2">03 / VẬN HÀNH</span>
+              <h3 className="font-sans font-700 text-[16px] text-white mb-2">Vận hành Tập trung</h3>
+              <p className="font-sans text-[13px] text-white/70 leading-relaxed">
+                Phân quyền nhân sự, tính công tự động và giám sát ra vào thời gian thực 24/7.
+              </p>
+            </div>
           </div>
-          <blockquote className="font-sans text-[18px] md:text-[22px] leading-relaxed max-w-2xl font-500">
-            &ldquo;Chỉ một màn hình, chúng tôi thấy toàn bộ nhân sự, camera và thiết bị đang hoạt động ra sao — không cần mở nhiều phần mềm khác nhau.&rdquo;
-          </blockquote>
-          <p className="font-sans text-[13px] text-white/50 mt-4">— Quản trị viên hệ thống, Hòa Phát Container</p>
+          <div className="border-t border-white/10 pt-6">
+            <p className="font-sans text-[14px] text-white/80 font-500 text-center md:text-left">
+              &ldquo;Triển khai trực tiếp trên hạ tầng sẵn có của nhà máy, không cần đầu tư thay mới thiết bị.&rdquo;
+            </p>
+          </div>
         </div>
       </section>
     </>
