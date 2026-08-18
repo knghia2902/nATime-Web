@@ -7,7 +7,7 @@ export default function Ticker() {
   ];
 
   return (
-    <div className="bg-graphite text-amber font-mono text-[12px] overflow-hidden border-b border-white/10">
+    <div className="bg-[#0a1628] text-white/70 font-mono text-[12px] overflow-hidden border-b border-white/[0.08]">
       <div className="ticker-track py-1.5">
         <div className="flex shrink-0">
           {items.map((item, i) => (

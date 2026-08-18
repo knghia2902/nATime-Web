@@ -89,31 +89,31 @@ export default function PortalLicenses() {
   return (
     <PortalShell title="License" description="Gói, module, hạn dùng và máy đã kích hoạt.">
       <div className="stagger-fade-in space-y-6">
-        <form onSubmit={approve} className="rounded-2xl border border-border bg-card p-6 sm:p-8 shadow-sm border-t-4 border-t-blue-600">
+        <form onSubmit={approve} className="rounded-2xl border border-white/[0.08] bg-[rgba(15,23,38,0.75)] p-6 sm:p-8 shadow-sm backdrop-blur">
           <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06] text-white">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
               </svg>
             </div>
             <div>
-              <h2 className="text-lg font-bold text-foreground mb-0.5">Liên kết một máy nATime</h2>
-              <p className="text-sm font-medium text-muted">
+              <h2 className="text-lg font-bold text-white mb-0.5">Liên kết một máy nATime</h2>
+              <p className="text-sm font-medium text-white/60">
                 Tạo mã tại Cài đặt → Bản quyền trên máy cần kích hoạt, sau đó nhập mã tại đây.
               </p>
             </div>
           </div>
 
           {activeLicenses.length === 0 && (
-            <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 flex items-start gap-3 font-medium">
-              <svg className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <div className="mt-5 rounded-xl border border-amber-500/20 bg-amber-500/10 p-4 text-sm text-amber-400 flex items-start gap-3 font-medium">
+              <svg className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               <div>
                 Tài khoản này chưa có gói license đang hoạt động nên chưa thể liên kết máy. Hãy nhận trial tại{' '}
-                <Link href="/portal" className="font-bold underline hover:text-amber-950">Tổng quan</Link>
+                <Link href="/portal" className="font-bold underline text-white">Tổng quan</Link>
                 {' '}hoặc mua gói tại{' '}
-                <Link href="/pricing" className="font-bold underline hover:text-amber-950">Bảng giá</Link>
+                <Link href="/pricing" className="font-bold underline text-white">Bảng giá</Link>
                 {' '}trước.
               </div>
             </div>
@@ -121,7 +121,7 @@ export default function PortalLicenses() {
 
           <div className="mt-6 grid gap-5 md:grid-cols-[1fr_1fr_auto]">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-muted mb-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-white/60 mb-2">
                 Gói license
               </label>
               <div className="relative">
@@ -130,16 +130,16 @@ export default function PortalLicenses() {
                   disabled={activeLicenses.length === 0}
                   value={selected}
                   onChange={(event) => setSelected(event.target.value)}
-                  className="w-full rounded-xl border border-border bg-card px-3.5 py-2.5 text-sm font-semibold text-foreground shadow-xs transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-muted/50 disabled:text-muted appearance-none pr-10"
+                  className="w-full rounded-xl border border-white/[0.12] bg-[#0a1220] px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors focus:border-white/40 disabled:opacity-50 appearance-none pr-10 outline-none"
                 >
-                  <option value="">Chọn gói</option>
+                  <option value="" className="bg-[#0a1220] text-white">Chọn gói</option>
                   {activeLicenses.map((item) => (
-                    <option value={item.id} key={item.id}>
+                    <option value={item.id} key={item.id} className="bg-[#0a1220] text-white">
                       {item.plan_code} · {item.id.slice(0, 8).toUpperCase()}
                     </option>
                   ))}
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted">
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-white/40">
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
@@ -148,7 +148,7 @@ export default function PortalLicenses() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-muted mb-2">
+              <label className="block text-xs font-bold uppercase tracking-wider text-white/60 mb-2">
                 Mã liên kết
               </label>
               <div className="input-group">
@@ -158,10 +158,10 @@ export default function PortalLicenses() {
                   value={code}
                   onChange={(event) => setCode(event.target.value.toUpperCase())}
                   maxLength={32}
-                  className="w-full rounded-xl border border-border bg-card py-2.5 pr-3.5 font-mono text-sm font-bold tracking-wider text-foreground uppercase shadow-xs transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-muted/50 disabled:text-muted placeholder:normal-case placeholder:font-sans placeholder:tracking-normal placeholder:text-muted"
+                  className="w-full rounded-xl border border-white/[0.12] bg-[#0a1220] py-2.5 pr-3.5 pl-10 font-mono text-sm font-bold tracking-wider text-white uppercase shadow-xs transition-colors focus:border-white/40 disabled:opacity-50 placeholder:normal-case placeholder:font-sans placeholder:tracking-normal placeholder:text-white/30 outline-none"
                   placeholder="ABCD-EFGH"
                 />
-                <svg className="input-icon text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="input-icon text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
               </div>
@@ -170,7 +170,7 @@ export default function PortalLicenses() {
             <div className="flex items-end">
               <button
                 disabled={busy || activeLicenses.length === 0}
-                className="btn-gradient w-full md:w-auto h-[42px] px-6 text-sm font-bold tracking-wide"
+                className="w-full md:w-auto h-[42px] px-6 text-sm font-bold tracking-wide rounded-xl bg-white text-[#0a1628] hover:bg-white/85 transition-all shadow-[0_2px_12px_rgba(255,255,255,0.15)] disabled:opacity-50 cursor-pointer"
               >
                 {busy ? (
                   <span className="flex items-center gap-2">
@@ -188,8 +188,8 @@ export default function PortalLicenses() {
           </div>
 
           {message && (
-            <div className="mt-5 rounded-xl bg-muted/50 border border-border p-4 text-sm font-semibold text-foreground flex items-center gap-2.5">
-              <svg className="h-5 w-5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <div className="mt-5 rounded-xl bg-white/[0.04] border border-white/[0.08] p-4 text-sm font-semibold text-white flex items-center gap-2.5">
+              <svg className="h-5 w-5 text-white/70 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span>{message}</span>
@@ -199,7 +199,7 @@ export default function PortalLicenses() {
 
         <div className="space-y-6">
           {licenses.length === 0 && (
-            <div className="rounded-2xl border border-border bg-card p-8 text-center text-sm font-medium text-muted shadow-sm">
+            <div className="rounded-2xl border border-white/[0.08] bg-[rgba(15,23,38,0.75)] p-8 text-center text-sm font-medium text-white/60 shadow-sm backdrop-blur">
               Tài khoản chưa có license. Bạn cần nhận trial hoặc mua gói trước khi liên kết máy.
             </div>
           )}
@@ -208,92 +208,92 @@ export default function PortalLicenses() {
             const activeDevices = (license.license_installations ?? []).filter((item) => item.status === 'active');
 
             return (
-              <article key={license.id} className="rounded-2xl border border-border bg-card p-6 sm:p-8 mb-6 shadow-sm overflow-hidden relative">
+              <article key={license.id} className="rounded-2xl border border-white/[0.08] bg-[rgba(15,23,38,0.75)] p-6 sm:p-8 mb-6 shadow-sm overflow-hidden relative backdrop-blur">
                 <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-start">
                   <div className="space-y-2">
                     <div className="flex items-center gap-3 flex-wrap">
-                      <h2 className="text-xl font-bold capitalize text-foreground">{license.plan_code}</h2>
+                      <h2 className="text-xl font-bold capitalize text-white">{license.plan_code}</h2>
                       <span className={`badge-status ${license.status === 'active' ? 'badge-active' : 'badge-inactive'}`}>
                         <span className="badge-dot" />
                         {license.status}
                       </span>
                       {license.origin && (
-                        <span className="rounded-full bg-blue-50 px-3 py-0.5 text-xs font-bold text-blue-700 border border-blue-200">
+                        <span className="rounded-full bg-white/[0.06] px-3 py-0.5 text-xs font-bold text-white/80 border border-white/10">
                           {license.origin}
                         </span>
                       )}
                     </div>
-                    <p className="text-xs font-mono font-bold text-muted flex items-center gap-1.5">
-                      <span className="text-muted/70">ID:</span>
+                    <p className="text-xs font-mono font-bold text-white/50 flex items-center gap-1.5">
+                      <span className="text-white/40">ID:</span>
                       LIC-{license.id.slice(0, 8).toUpperCase()}
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 p-4 rounded-xl bg-muted/20 border border-border/80">
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
                     <div className="space-y-1">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-muted">
-                        <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-white/50">
+                        <svg className="h-4 w-4 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                         <span>Nhân sự</span>
                       </div>
-                      <p className="text-lg font-black text-foreground">{license.max_employees}</p>
+                      <p className="text-lg font-black text-white">{license.max_employees}</p>
                     </div>
 
                     <div className="space-y-1">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-muted">
-                        <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-white/50">
+                        <svg className="h-4 w-4 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                         <span>MCC</span>
                       </div>
-                      <p className="text-lg font-black text-foreground">
-                        {activeDevices.length}<span className="text-muted font-medium text-sm">/{license.max_attendance_devices}</span>
+                      <p className="text-lg font-black text-white">
+                        {activeDevices.length}<span className="text-white/40 font-medium text-sm">/{license.max_attendance_devices}</span>
                       </p>
                     </div>
 
                     <div className="space-y-1">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-muted">
-                        <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-white/50">
+                        <svg className="h-4 w-4 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                         <span>FaceID</span>
                       </div>
-                      <p className="text-lg font-black text-foreground">
-                        0<span className="text-muted font-medium text-sm">/{license.max_faceid_devices}</span>
+                      <p className="text-lg font-black text-white">
+                        0<span className="text-white/40 font-medium text-sm">/{license.max_faceid_devices}</span>
                       </p>
                     </div>
 
                     <div className="space-y-1">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-muted">
-                        <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-white/50">
+                        <svg className="h-4 w-4 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                         <span>Hết hạn</span>
                       </div>
-                      <p className="text-sm font-extrabold text-foreground pt-0.5">
+                      <p className="text-sm font-extrabold text-white pt-0.5">
                         {license.expires_at ? new Intl.DateTimeFormat('vi-VN').format(new Date(license.expires_at)) : 'Không giới hạn'}
                       </p>
                     </div>
 
                     <div className="space-y-1">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-muted">
-                        <svg className="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-white/50">
+                        <svg className="h-4 w-4 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                         </svg>
                         <span>Module</span>
                       </div>
-                      <p className="text-xs font-bold text-foreground pt-1">
+                      <p className="text-xs font-bold text-white pt-1">
                         {license.enabled_modules.join(', ') || '—'}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-6 border-t border-border/80 pt-5">
+                <div className="mt-6 border-t border-white/[0.08] pt-5">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
-                      <svg className="h-4 w-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                      <svg className="h-4 w-4 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                       Máy đã kích hoạt ({activeDevices.length})
@@ -301,11 +301,11 @@ export default function PortalLicenses() {
                   </div>
 
                   {activeDevices.length === 0 ? (
-                    <p className="text-sm text-muted font-medium italic bg-muted/20 p-4 rounded-xl border border-dashed border-border">
+                    <p className="text-sm text-white/50 font-medium italic bg-white/[0.02] p-4 rounded-xl border border-dashed border-white/[0.08]">
                       Chưa có máy nào.
                     </p>
                   ) : (
-                    <div className="overflow-x-auto rounded-xl border border-border">
+                    <div className="overflow-x-auto rounded-xl border border-white/[0.08]">
                       <table className="table-enhanced">
                         <thead>
                           <tr>
@@ -318,7 +318,7 @@ export default function PortalLicenses() {
                         <tbody>
                           {activeDevices.map((device) => (
                             <tr key={device.id}>
-                              <td className="font-bold text-foreground">
+                              <td className="font-bold text-white">
                                 <div className="flex items-center gap-2">
                                   <span className="badge-status badge-active p-0 bg-transparent">
                                     <span className="badge-dot" />
@@ -327,14 +327,14 @@ export default function PortalLicenses() {
                                 </div>
                               </td>
                               <td>
-                                <code className="font-mono text-xs font-bold text-muted bg-muted/50 px-2.5 py-1 rounded border border-border select-all">
+                                <code className="font-mono text-xs font-bold text-white/70 bg-white/[0.06] px-2.5 py-1 rounded border border-white/[0.08] select-all">
                                   {device.hardware_id_hash.slice(0, 12)}…{device.hardware_id_hash.slice(-8)}
                                 </code>
                               </td>
-                              <td className="text-muted font-medium">
+                              <td className="text-white/60 font-medium">
                                 {new Intl.DateTimeFormat('vi-VN').format(new Date(device.activated_at))}
                               </td>
-                              <td className="text-muted font-medium">
+                              <td className="text-white/60 font-medium">
                                 {device.last_validated_at ? new Intl.DateTimeFormat('vi-VN').format(new Date(device.last_validated_at)) : '—'}
                               </td>
                             </tr>

@@ -1,22 +1,18 @@
-'use client';
+import type { Metadata } from 'next';
+import { SupportContent } from '@/components/site/PublicPages';
 
-import { useEffect } from 'react';
-import Link from 'next/link';
+export const metadata: Metadata = {
+  title: 'Support & Technical Documentation',
+  description: '24/7 technical support, on-premise installation guides and consultation requests for nATime.',
+  alternates: {
+    canonical: '/support',
+    languages: {
+      vi: '/support',
+      en: '/en/support',
+    },
+  },
+};
 
-export default function EnglishSupportRedirectPage() {
-  useEffect(() => {
-    window.location.replace('/en/docs');
-  }, []);
-
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-white p-6">
-      <p className="text-sm text-slate-600">
-        Redirecting to{' '}
-        <Link className="font-semibold text-blue-700 underline" href="/en/docs">
-          Support documentation
-        </Link>
-        …
-      </p>
-    </main>
-  );
+export default function EnglishSupportPage() {
+  return <SupportContent locale="en" />;
 }

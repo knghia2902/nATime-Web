@@ -1,22 +1,18 @@
-'use client';
+import type { Metadata } from 'next';
+import { SupportContent } from '@/components/site/PublicPages';
 
-import { useEffect } from 'react';
-import Link from 'next/link';
+export const metadata: Metadata = {
+  title: 'Hỗ trợ & Tài liệu kỹ thuật',
+  description: 'Trung tâm hỗ trợ kỹ thuật 24/7, hướng dẫn cài đặt và đăng ký tư vấn giải pháp nATime.',
+  alternates: {
+    canonical: '/support',
+    languages: {
+      vi: '/support',
+      en: '/en/support',
+    },
+  },
+};
 
-export default function SupportRedirectPage() {
-  useEffect(() => {
-    window.location.replace('/docs');
-  }, []);
-
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-background p-6">
-      <p className="text-sm text-muted">
-        Đang chuyển tới{' '}
-        <Link className="font-semibold text-primary underline" href="/docs">
-          Tài liệu hỗ trợ
-        </Link>
-        …
-      </p>
-    </main>
-  );
+export default function SupportPage() {
+  return <SupportContent locale="vi" />;
 }

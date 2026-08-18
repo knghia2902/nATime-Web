@@ -2,85 +2,32 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import PublicShell from '@/components/site/PublicShell';
+import { featuredPost, blogArticles } from '@/data/blogPosts';
 
 const filters = ['Tất cả', 'Chấm công', 'Trạm cân', 'Vận hành', 'Sản phẩm'];
-
-const featuredPost = {
-  category: 'TRẠM CÂN · 12 phút đọc',
-  title: 'Cách một nhà máy vật liệu xây dựng loại bỏ hoàn toàn phiếu cân giấy',
-  desc: 'Từ đối soát thủ công mỗi ca đến đối chiếu tự động theo thời gian thực — hành trình triển khai trạm cân điện tử tại Đồng Tâm Group.',
-  date: '04.08.2026',
-  quote: '"Giảm 40% thời gian đối soát phiếu cân sau 3 tháng triển khai nATime tại Đồng Tâm Group."',
-  badge: 'Case study',
-};
-
-const articles = [
-  {
-    category: 'Chấm công',
-    tag: 'CHẤM CÔNG · 6 phút đọc',
-    title: 'Ba sai lầm phổ biến khi triển khai chấm công vân tay tại nhà máy',
-    desc: 'Từ chọn sai vị trí đầu đọc đến bỏ qua ca gãy — những lỗi khiến dữ liệu chấm công sai lệch.',
-    date: '28.07.2026',
-    color: 'text-indigo',
-  },
-  {
-    category: 'Vận hành',
-    tag: 'VẬN HÀNH · 8 phút đọc',
-    title: 'Kiểm soát nhà thầu phụ ra vào công trường: bài toán không chỉ là chiếc thẻ',
-    desc: 'Khi có hàng chục nhà thầu phụ mỗi ngày, phân quyền theo khu vực trở thành yêu cầu bắt buộc.',
-    date: '19.07.2026',
-    color: 'text-emerald',
-  },
-  {
-    category: 'Sản phẩm',
-    tag: 'SẢN PHẨM · 4 phút đọc',
-    title: 'nATime ra mắt API tích hợp trực tiếp với phần mềm lương',
-    desc: 'Bảng công giờ có thể đẩy thẳng sang hệ thống lương, không cần xuất file trung gian.',
-    date: '05.07.2026',
-    color: 'text-sky',
-  },
-  {
-    category: 'Trạm cân',
-    tag: 'TÀI SẢN · 7 phút đọc',
-    title: 'Vì sao nhà máy của bạn nên gắn mã định danh cho từng chiếc xe nâng',
-    desc: 'Chi phí bảo trì đột xuất giảm rõ rệt khi lịch bảo trì được nhắc tự động.',
-    date: '22.06.2026',
-    color: 'text-amber',
-  },
-  {
-    category: 'Vận hành',
-    tag: 'VẬN HÀNH · 5 phút đọc',
-    title: 'Đọc nhật ký ra vào như một nhà điều tra: 5 dấu hiệu bất thường',
-    desc: 'Những mẫu hình lặp lại trong nhật ký ra vào thường là dấu hiệu sớm của rủi ro an ninh.',
-    date: '14.06.2026',
-    color: 'text-emerald',
-  },
-  {
-    category: 'Trạm cân',
-    tag: 'TRẠM CÂN · 9 phút đọc',
-    title: 'Chuẩn kết nối đầu cân điện tử: những gì đội IT nhà máy cần biết',
-    desc: 'Hướng dẫn kỹ thuật để tích hợp đầu cân hiện có với hệ thống nATime.',
-    date: '02.06.2026',
-    color: 'text-indigo',
-  },
-];
 
 export default function BlogPage() {
   const [activeFilter, setActiveFilter] = useState('Tất cả');
 
   const filteredArticles = activeFilter === 'Tất cả'
-    ? articles
-    : articles.filter((a) => a.category === activeFilter);
+    ? blogArticles
+    : blogArticles.filter((a) => a.category === activeFilter);
 
   return (
     <PublicShell locale="vi">
       {/* HEADER SECTION */}
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-10">
-        <p className="font-sans text-[13px] font-600 text-indigo mb-3">BLOG</p>
-        <h1 className="font-sans font-800 text-[36px] md:text-[44px] leading-[1.1] text-ink max-w-2xl">
+        <span className="badge-pill mb-3">BLOG & TÀI LIỆU VẬN HÀNH</span>
+        <h1 className="font-sans font-black text-[36px] md:text-[46px] leading-[1.1] text-white max-w-2xl mt-2">
           Ghi chép từ hiện trường vận hành.
         </h1>
+        <p className="font-sans text-[15px] text-white/60 mt-3 max-w-xl">
+          Kinh nghiệm thực chiến triển khai hệ thống chấm công, trạm cân điện tử và kiểm soát an ninh tại các nhà máy công nghiệp.
+        </p>
+
+        {/* Filter Pills */}
         <div className="flex flex-wrap gap-2 mt-8">
           {filters.map((filter) => {
             const active = activeFilter === filter;
@@ -89,10 +36,10 @@ export default function BlogPage() {
                 key={filter}
                 type="button"
                 onClick={() => setActiveFilter(filter)}
-                className={`font-sans text-[13px] px-3.5 py-1.5 rounded-full transition-colors cursor-pointer ${
+                className={`font-sans text-[13px] px-4 py-1.5 rounded-full transition-all cursor-pointer ${
                   active
-                    ? 'bg-indigo text-white font-600'
-                    : 'border border-line text-sub bg-white hover:text-ink'
+                    ? 'bg-white text-[#0a1628] font-bold shadow-xs'
+                    : 'border border-white/10 text-white/70 bg-white/[0.04] hover:bg-white/10 hover:text-white'
                 }`}
               >
                 {filter}
@@ -105,26 +52,65 @@ export default function BlogPage() {
       {/* FEATURED POST */}
       <section className="max-w-6xl mx-auto px-6 pb-14">
         <Link
-          href="/docs"
-          className="grid md:grid-cols-[0.9fr_1.1fr] gap-8 bg-white border border-line rounded-2xl shadow-card p-6 md:p-8 hover:border-indigo/40 transition-colors block"
+          href={`/blog/${featuredPost.slug}`}
+          className="grid md:grid-cols-[1.1fr_0.9fr] gap-8 glass-panel rounded-3xl shadow-xl p-6 md:p-8 hover:border-white/25 transition-all block group overflow-hidden"
         >
-          <div className="bg-ink rounded-xl p-6 flex flex-col justify-between min-h-[220px]">
-            <span className="font-sans text-[11px] font-600 text-white/50 uppercase tracking-wider">{featuredPost.badge}</span>
-            <div className="font-sans text-indigo-300 text-[15px] leading-relaxed font-500">
-              {featuredPost.quote}
+          {/* Featured Image Box */}
+          <div className="relative aspect-[16/10] md:aspect-auto md:min-h-[300px] rounded-2xl overflow-hidden border border-white/10">
+            <Image
+              src={featuredPost.coverImage}
+              alt={featuredPost.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+            />
+            {/* Dark gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#081120] via-[#081120]/40 to-transparent flex flex-col justify-between p-6">
+              <span className="font-mono text-[11px] font-bold text-sky-300 bg-sky-500/20 border border-sky-400/30 px-3 py-1 rounded-full w-fit uppercase tracking-wider backdrop-blur-md">
+                {featuredPost.badge}
+              </span>
+              <div className="space-y-2">
+                <p className="font-sans text-white text-[14px] leading-relaxed font-medium italic drop-shadow-md">
+                  {featuredPost.quote}
+                </p>
+              </div>
             </div>
           </div>
-          <div className="flex flex-col justify-center">
-            <span className="font-sans text-[12px] font-600 text-indigo mb-2">
-              {featuredPost.category}
-            </span>
-            <h2 className="font-sans font-700 text-[24px] text-ink mb-3 leading-snug">
-              {featuredPost.title}
-            </h2>
-            <p className="font-sans text-[14px] text-sub leading-relaxed mb-4">
-              {featuredPost.desc}
-            </p>
-            <span className="font-sans text-[12px] text-sub/70">{featuredPost.date}</span>
+
+          {/* Featured Info */}
+          <div className="flex flex-col justify-between py-2">
+            <div>
+              <div className="flex items-center gap-2 font-mono text-[12px] font-semibold text-sky-400 uppercase tracking-wider mb-2">
+                <span>{featuredPost.category}</span>
+                <span className="text-white/30">·</span>
+                <span className="text-white/50">{featuredPost.readTime} đọc</span>
+              </div>
+              <h2 className="font-sans font-bold text-[24px] md:text-[28px] text-white mb-3 leading-snug group-hover:text-sky-300 transition-colors">
+                {featuredPost.title}
+              </h2>
+              <p className="font-sans text-[14px] text-white/65 leading-relaxed mb-6">
+                {featuredPost.desc}
+              </p>
+            </div>
+
+            {/* Author & CTA */}
+            <div className="flex items-center justify-between border-t border-white/[0.08] pt-4">
+              <div className="flex items-center gap-2.5">
+                <div className="relative w-7 h-7 rounded-full overflow-hidden bg-white/5 border border-white/15 flex items-center justify-center p-1">
+                  <Image
+                    src="/logo.png"
+                    alt="nATime"
+                    fill
+                    className="object-contain p-0.5"
+                  />
+                </div>
+                <span className="text-sm font-semibold text-white">nATime</span>
+              </div>
+              <span className="text-xs font-semibold text-sky-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                Đọc bài viết <span>→</span>
+              </span>
+            </div>
           </div>
         </Link>
       </section>
@@ -133,42 +119,82 @@ export default function BlogPage() {
       <section className="max-w-6xl mx-auto px-6 pb-20 grid md:grid-cols-3 gap-6">
         {filteredArticles.map((article) => (
           <Link
-            key={article.title}
-            href="/docs"
-            className="block bg-white border border-line rounded-xl shadow-card p-6 hover:border-indigo/40 transition-colors"
+            key={article.slug}
+            href={`/blog/${article.slug}`}
+            className="flex flex-col justify-between glass-panel rounded-2xl shadow-sm p-5 hover:border-white/25 transition-all group overflow-hidden"
           >
-            <span className={`font-sans text-[12px] font-600 ${article.color}`}>{article.tag}</span>
-            <h3 className="font-sans font-700 text-[18px] text-ink mt-2 mb-3 leading-snug">
-              {article.title}
-            </h3>
-            <p className="font-sans text-[13px] text-sub leading-relaxed mb-4">
-              {article.desc}
-            </p>
-            <span className="font-sans text-[11px] text-sub/70">{article.date}</span>
+            <div>
+              {/* Card Cover Image */}
+              <div className="relative aspect-[16/9] rounded-xl overflow-hidden mb-4 border border-white/10">
+                <Image
+                  src={article.coverImage}
+                  alt={article.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+                <div className="absolute top-2.5 left-2.5">
+                  <span className="font-mono text-[10px] font-bold text-sky-300 bg-[#081120]/80 border border-sky-400/30 px-2.5 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-md">
+                    {article.category}
+                  </span>
+                </div>
+              </div>
+
+              {/* Title & Desc */}
+              <div className="flex items-center gap-2 font-mono text-[11px] text-white/50 mb-1.5">
+                <span>{article.readTime} đọc</span>
+                <span>·</span>
+                <span>{article.date}</span>
+              </div>
+              <h3 className="font-sans font-bold text-[17px] text-white mb-2 leading-snug group-hover:text-sky-300 transition-colors">
+                {article.title}
+              </h3>
+              <p className="font-sans text-[13px] text-white/60 leading-relaxed line-clamp-2 mb-4">
+                {article.desc}
+              </p>
+            </div>
+
+            {/* Author Footer */}
+            <div className="flex items-center justify-between border-t border-white/[0.06] pt-3.5 mt-auto">
+              <div className="flex items-center gap-2">
+                <div className="relative w-6 h-6 rounded-full overflow-hidden bg-white/5 border border-white/15 flex items-center justify-center p-0.5">
+                  <Image
+                    src="/logo.png"
+                    alt="nATime"
+                    fill
+                    className="object-contain p-0.5"
+                  />
+                </div>
+                <span className="font-sans text-[12px] font-semibold text-white/90">nATime</span>
+              </div>
+              <span className="text-[12px] font-semibold text-sky-400 group-hover:translate-x-1 transition-transform inline-flex items-center gap-0.5">
+                Chi tiết <span>→</span>
+              </span>
+            </div>
           </Link>
         ))}
       </section>
 
       {/* NEWSLETTER */}
       <section className="max-w-6xl mx-auto px-6 pb-24">
-        <div className="bg-ink rounded-2xl px-8 py-10 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="glass-panel rounded-3xl px-8 py-10 md:py-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h2 className="font-sans font-700 text-[22px] text-white mb-1">
+            <h2 className="font-sans font-bold text-[22px] text-white mb-1">
               Nhận ghi chép vận hành mới nhất
             </h2>
             <p className="font-sans text-[13px] text-white/60">
-              Một email mỗi tháng, không spam.
+              Một email mỗi tháng, cập nhật kinh nghiệm và tính năng kỹ thuật mới.
             </p>
           </div>
           <form className="flex gap-3 w-full md:w-auto" onSubmit={(e) => e.preventDefault()}>
             <input
               type="email"
               placeholder="email@congty.vn"
-              className="bg-white/10 border border-white/15 rounded-lg px-4 py-2.5 font-sans text-[14px] text-white placeholder:text-white/40 flex-1 md:w-64"
+              className="bg-[#0a1220] border border-white/[0.12] rounded-full px-5 py-2.5 font-sans text-[13px] text-white placeholder:text-white/30 flex-1 md:w-64 outline-none focus:border-white/40"
             />
             <button
               type="submit"
-              className="bg-indigo text-white font-sans text-[14px] font-600 rounded-lg px-5 py-2.5 whitespace-nowrap hover:bg-indigo-700 transition-colors"
+              className="btn-pill-primary px-6 py-2.5 text-xs whitespace-nowrap cursor-pointer"
             >
               Đăng ký
             </button>

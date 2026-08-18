@@ -9,10 +9,10 @@ export default function EnglishBlogRedirectPage() {
   }, []);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-white p-6">
-      <p className="text-sm text-slate-600">
+    <main className="flex min-h-screen items-center justify-center bg-[#081120] p-6 text-white">
+      <p className="text-sm text-white/60">
         Redirecting to{' '}
-        <Link className="font-semibold text-blue-700 underline" href="/en/changelog">
+        <Link className="font-semibold text-white underline" href="/en/changelog">
           Changelog
         </Link>
         …

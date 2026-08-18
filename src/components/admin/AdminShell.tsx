@@ -100,98 +100,98 @@ export default function AdminShell({ children }: { children: ReactNode }) {
 
   // ── Loading state ──
   if (loading || access === 'checking') return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50">
+    <div className="flex min-h-screen items-center justify-center bg-[#081120]">
       <div className="flex flex-col items-center gap-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-blue-600" />
-        <p className="text-sm font-normal text-slate-500">Đang kiểm tra quyền quản trị…</p>
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+        <p className="text-sm font-normal text-white/50">Đang kiểm tra quyền quản trị…</p>
       </div>
     </div>
   );
 
   // ── Denied state ──
   if (access === 'denied') return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
-      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-md">
-        <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-red-50 text-red-600">
+    <div className="flex min-h-screen items-center justify-center bg-[#081120] p-6">
+      <div className="w-full max-w-md glass-panel rounded-3xl p-8 text-center shadow-2xl">
+        <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-rose-500/10 text-rose-400">
           <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
         </div>
-        <h1 className="text-xl font-semibold text-slate-900">Không có quyền truy cập</h1>
-        <p className="mt-3 text-sm leading-6 font-normal text-slate-500">Tài khoản này không nằm trong danh sách Super Admin.</p>
-        <Link href="/portal" className="mt-6 inline-flex rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition">Về Cổng khách hàng</Link>
+        <h1 className="text-xl font-semibold text-white">Không có quyền truy cập</h1>
+        <p className="mt-3 text-sm leading-6 font-normal text-white/60">Tài khoản này không nằm trong danh sách Super Admin.</p>
+        <Link href="/portal" className="mt-6 inline-flex btn-pill-primary text-xs py-2.5 px-5">Về Cổng khách hàng</Link>
       </div>
     </div>
   );
 
   // ── MFA state ──
   if (access === 'mfa') return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
-      <form onSubmit={verify} className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-xl">
+    <div className="flex min-h-screen items-center justify-center bg-[#081120] p-6">
+      <form onSubmit={verify} className="w-full max-w-md glass-panel rounded-3xl p-8 shadow-2xl">
         <div className="mb-5 flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-red-500 text-white shadow-2xs">
+          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-white/[0.06] text-white">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
           </span>
           <div>
-            <h1 className="text-lg font-semibold text-slate-900">Xác thực Super Admin</h1>
-            <p className="text-xs font-normal text-slate-500">MFA bắt buộc trước khi truy cập</p>
+            <h1 className="text-lg font-semibold text-white">Xác thực Super Admin</h1>
+            <p className="text-xs font-normal text-white/50">MFA bắt buộc trước khi truy cập</p>
           </div>
         </div>
-        <p className="text-sm leading-6 font-normal text-slate-600">Nhập mã 6 số từ ứng dụng xác thực (Google Authenticator, Authy…).</p>
-        {!factorId && !mfaError && <div className="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4"><p className="text-sm leading-6 font-normal text-blue-900">Tài khoản chưa có TOTP. Bấm nút bên dưới một lần để tạo mã QR thiết lập.</p><button type="button" onClick={() => void enrollMfa()} className="btn-gradient mt-3 w-full font-medium">Tạo mã QR</button></div>}
-        {qr && <div className="mt-5 text-center"><div className="mx-auto inline-block rounded-2xl border border-slate-200 bg-white p-3 shadow-2xs"><img src={qr} alt="Mã QR thiết lập MFA" className="h-48 w-48" /></div><p className="mt-3 text-xs font-normal text-slate-500">Quét QR một lần bằng ứng dụng xác thực.</p></div>}
-        {factorId && <><input required inputMode="numeric" pattern="[0-9]{6}" value={code} onChange={(event) => setCode(event.target.value)} className="mt-5 w-full rounded-xl border border-slate-300 px-4 py-3.5 text-center font-mono text-xl tracking-[0.4em] outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100" placeholder="000000" /><button className="btn-gradient mt-4 w-full font-medium">Xác minh</button></>}
-        {mfaError && <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3"><p className="text-sm font-normal text-red-700">{mfaError}</p>{!factorId && <button type="button" onClick={() => void enrollMfa()} className="mt-3 rounded-lg border border-red-300 px-3 py-2 text-sm font-medium text-red-800 hover:bg-red-100">Thử lại</button>}</div>}
+        <p className="text-sm leading-6 font-normal text-white/60">Nhập mã 6 số từ ứng dụng xác thực (Google Authenticator, Authy…).</p>
+        {!factorId && !mfaError && <div className="mt-5 rounded-2xl border border-white/10 bg-white/[0.04] p-4"><p className="text-sm leading-6 font-normal text-white/80">Tài khoản chưa có TOTP. Bấm nút bên dưới một lần để tạo mã QR thiết lập.</p><button type="button" onClick={() => void enrollMfa()} className="mt-3 w-full btn-pill-primary text-xs py-2.5">Tạo mã QR</button></div>}
+        {qr && <div className="mt-5 text-center"><div className="mx-auto inline-block rounded-2xl border border-white/20 bg-white p-3 shadow-lg"><img src={qr} alt="Mã QR thiết lập MFA" className="h-48 w-48" /></div><p className="mt-3 text-xs font-normal text-white/50">Quét QR một lần bằng ứng dụng xác thực.</p></div>}
+        {factorId && <><input required inputMode="numeric" pattern="[0-9]{6}" value={code} onChange={(event) => setCode(event.target.value)} className="mt-5 w-full rounded-xl border border-white/[0.12] bg-[#09152b] px-4 py-3.5 text-center font-mono text-xl tracking-[0.4em] text-white outline-none transition focus:border-white/40" placeholder="000000" /><button className="mt-4 w-full btn-pill-primary text-sm py-3 cursor-pointer">Xác minh</button></>}
+        {mfaError && <div className="mt-4 rounded-2xl border border-rose-500/20 bg-rose-500/10 p-3"><p className="text-sm font-medium text-rose-400">{mfaError}</p>{!factorId && <button type="button" onClick={() => void enrollMfa()} className="mt-3 rounded-full border border-rose-500/30 px-3 py-1.5 text-xs font-medium text-rose-300 hover:bg-rose-500/20">Thử lại</button>}</div>}
       </form>
     </div>
   );
 
   // ── Main Admin Layout ──
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased">
-      {/* Light Topbar */}
-      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+    <div className="min-h-screen text-white font-sans antialiased">
+      {/* Dark Topbar */}
+      <header className="sticky top-0 z-30 border-b border-white/[0.08] bg-[#0e2246]/60 backdrop-blur-2xl">
         <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-3">
             <nav className="flex items-center gap-2 text-sm">
-              <span className="font-normal text-slate-500">Admin</span>
-              <svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
-              <span className="font-semibold text-slate-900">{currentItem.label}</span>
+              <span className="font-normal text-white/50">Admin</span>
+              <svg className="h-3.5 w-3.5 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+              <span className="font-semibold text-white">{currentItem.label}</span>
             </nav>
           </div>
           <div className="flex items-center gap-3">
-            <span className="rounded-full bg-orange-50 border border-orange-200 px-3 py-0.5 text-xs font-semibold text-orange-700">Super Admin</span>
-            <Link href="/portal" className="rounded-lg px-3 py-1.5 text-sm font-normal text-slate-600 hover:bg-slate-100 transition">Portal</Link>
+            <span className="badge-pill py-0.5 px-2.5 text-[11px] font-semibold text-white">Super Admin</span>
+            <Link href="/portal" className="btn-pill-glass text-xs py-1 px-3">Portal</Link>
           </div>
         </div>
       </header>
 
       <div className="mx-auto grid max-w-[1400px] md:grid-cols-[240px_1fr]">
-        {/* Harmonious Light Sidebar */}
-        <aside className="hidden border-r border-slate-200/80 bg-[#f8fafc] p-4 text-slate-800 md:block md:min-h-[calc(100vh-56px)] md:p-5">
-          <Link href="/admin" className="mb-6 flex items-center gap-3 px-2">
+        {/* Deep Oceanic Sidebar */}
+        <aside className="hidden border-r border-white/[0.08] bg-[#09152b] p-4 text-white md:block md:min-h-[calc(100vh-56px)] md:p-5">
+          <Link href="/admin" className="mb-6 flex items-center gap-2.5 px-2 select-none">
             <Image src="/logo.png" alt="nATime Logo" width={26} height={26} className="h-6.5 w-6.5 object-contain" />
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-base font-semibold tracking-tight text-slate-900">nATime</span>
-              <span className="text-[10px] font-medium tracking-wider text-orange-600 uppercase bg-orange-50 px-1.5 py-0.5 rounded border border-orange-200/80">Admin</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-base font-bold tracking-tight text-white">nATime</span>
+              <span className="badge-pill py-0.2 px-1.5 text-[10px] uppercase font-semibold">Admin</span>
             </div>
           </Link>
 
           {sections.map((section) => (
             <div key={section.group} className="mb-5">
-              <p className="mb-2 px-2 text-[10px] font-semibold tracking-widest text-slate-400 uppercase">{section.group}</p>
-              <nav className="space-y-0.5">
+              <p className="mb-2 px-2 text-[10px] font-semibold tracking-widest text-white/40 uppercase">{section.group}</p>
+              <nav className="space-y-1">
                 {section.items.map((item) => {
                   const active = item.href === pathname;
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
+                      className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all ${
                         active
-                          ? 'bg-orange-50/80 text-orange-700 font-medium border-l-2 border-orange-500 pl-2.5 shadow-2xs'
-                          : 'text-slate-600 font-normal hover:bg-slate-200/50 hover:text-slate-900'
+                          ? 'bg-white/10 text-white font-semibold border border-white/15 shadow-2xs'
+                          : 'text-white/60 font-normal hover:bg-white/[0.06] hover:text-white'
                       }`}
                     >
-                      <AdminIcon name={item.icon} className={`h-4 w-4 shrink-0 ${active ? 'text-orange-600' : 'text-slate-400'}`} />
+                      <AdminIcon name={item.icon} className={`h-4 w-4 shrink-0 ${active ? 'text-sky-300' : 'text-white/40'}`} />
                       <span className="truncate">{item.label}</span>
                     </Link>
                   );
@@ -203,9 +203,9 @@ export default function AdminShell({ children }: { children: ReactNode }) {
 
         {/* Main Content */}
         <main className="min-w-0 p-4 sm:p-6 lg:p-8">
-          <header className="mb-6 border-b border-slate-200/60 pb-4">
-            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900">{currentItem.label}</h1>
-            <p className="mt-1 text-sm font-normal text-slate-500">{currentItem.description}</p>
+          <header className="mb-6 border-b border-white/[0.08] pb-4">
+            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-white">{currentItem.label}</h1>
+            <p className="mt-1 text-sm font-normal text-white/60">{currentItem.description}</p>
           </header>
           <div>{children}</div>
         </main>

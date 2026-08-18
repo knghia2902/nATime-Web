@@ -130,17 +130,17 @@ export default function Navbar() {
   };
 
   const desktopLinkClass = (href: string) =>
-    `relative rounded-lg px-3.5 py-2 text-sm font-medium transition-all duration-200 ${
+    `relative rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
       isActive(href)
-        ? 'text-primary bg-primary/[0.08]'
-        : 'text-muted hover:text-foreground hover:bg-primary/5'
+        ? 'text-white bg-white/10 shadow-xs'
+        : 'text-white/70 hover:text-white hover:bg-white/[0.06]'
     }`;
 
   const mobileLinkClass = (href: string) =>
     `flex items-center gap-3 rounded-xl px-4 py-3.5 text-[15px] font-medium transition-all duration-200 ${
       isActive(href)
-        ? 'text-primary bg-primary/[0.08]'
-        : 'text-foreground hover:bg-primary/5 hover:text-primary'
+        ? 'text-white bg-white/10'
+        : 'text-white/70 hover:bg-white/5 hover:text-white'
     }`;
 
   return (
@@ -148,7 +148,7 @@ export default function Navbar() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? 'border-b border-border/60 bg-background/70 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.02)]'
+            ? 'border-b border-white/[0.08] bg-[#081120]/80 backdrop-blur-2xl shadow-[0_4px_24px_rgba(0,0,0,0.35)]'
             : 'border-b border-transparent bg-transparent backdrop-blur-none'
         }`}
       >
@@ -156,20 +156,23 @@ export default function Navbar() {
           {/* ── Logo ───────────────────────────────────── */}
           <Link
             href="/"
-            className="group relative flex items-center gap-2 select-none"
+            className="group relative flex items-center gap-2.5 select-none"
           >
             <img
               src="/logo.png"
               alt="nATime Logo"
               className="h-8 w-auto object-contain transition-all duration-300 group-hover:scale-[1.03]"
             />
-            <span className="text-[15px] font-bold tracking-tight text-zinc-900 transition-colors duration-300">
+            <span className="text-[16px] font-bold tracking-tight text-white transition-colors duration-300">
               nATime
+            </span>
+            <span className="badge-pill hidden sm:inline-flex py-0.5 px-2 text-[11px] font-medium">
+              Enterprise
             </span>
           </Link>
 
-          {/* ── Desktop Nav Links ──────────────────────── */}
-          <div className="hidden items-center gap-0.5 lg:flex absolute left-1/2 -translate-x-1/2">
+          {/* ── Desktop Nav Links (Center Pills) ─────────── */}
+          <div className="hidden items-center gap-1 lg:flex absolute left-1/2 -translate-x-1/2 bg-white/[0.04] p-1 rounded-full border border-white/[0.08] backdrop-blur-md">
             {navLinks.map((link) =>
               link.isRoute ? (
                 <Link
@@ -178,10 +181,6 @@ export default function Navbar() {
                   className={desktopLinkClass(link.href)}
                 >
                   {t(link.vi, link.en)}
-                  {/* Active indicator dot */}
-                  {isActive(link.href) && (
-                    <span className="absolute bottom-0.5 left-1/2 h-[3px] w-[3px] -translate-x-1/2 rounded-full bg-primary" />
-                  )}
                 </Link>
               ) : (
                 <a
@@ -191,31 +190,32 @@ export default function Navbar() {
                   className={desktopLinkClass(link.href)}
                 >
                   {t(link.vi, link.en)}
-                  {/* Active indicator dot */}
-                  {isActive(link.href) && (
-                    <span className="absolute bottom-0.5 left-1/2 h-[3px] w-[3px] -translate-x-1/2 rounded-full bg-primary" />
-                  )}
                 </a>
               )
             )}
           </div>
 
           {/* ── Desktop Right Actions ──────────────────── */}
-          <div className="hidden items-center gap-2 lg:flex">
+          <div className="hidden items-center gap-2.5 lg:flex">
             <LanguageToggle />
             <Link
-              href={user ? "/dashboard" : "/register"}
-              className="group/cta relative ml-1 inline-flex h-9 items-center gap-1.5 overflow-hidden rounded-full bg-primary px-5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 active:shadow-md"
+              href={user ? "/portal" : "/login"}
+              className="btn-pill-glass text-xs py-2 px-4"
             >
-              <span className="relative z-10">
-                {user ? t('Vào Dashboard', 'Go to Dashboard') : t('Dùng thử miễn phí', 'Start Free Trial')}
+              {user ? t('Cổng khách hàng', 'Customer Portal') : t('Đăng nhập', 'Sign in')}
+            </Link>
+            <Link
+              href={user ? "/dashboard" : "/contact"}
+              className="btn-pill-primary text-xs py-2 px-4.5"
+            >
+              <span>
+                {user ? t('Vào Dashboard', 'Go to Dashboard') : t('Yêu cầu demo', 'Request Demo')}
               </span>
-              {/* Arrow icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className="relative z-10 h-3.5 w-3.5 transition-transform duration-300 group-hover/cta:translate-x-0.5"
+                className="h-3.5 w-3.5"
               >
                 <path
                   fillRule="evenodd"
@@ -223,8 +223,6 @@ export default function Navbar() {
                   clipRule="evenodd"
                 />
               </svg>
-              {/* Shine sweep on hover */}
-              <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 group-hover/cta:translate-x-full" />
             </Link>
           </div>
 
@@ -236,21 +234,21 @@ export default function Navbar() {
               onClick={() => setMobileOpen((v) => !v)}
               aria-label={t('Mở menu', 'Toggle menu')}
               aria-expanded={mobileOpen}
-              className="relative flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-border bg-card transition-all duration-300 hover:bg-card-hover hover:border-primary/40"
+              className="relative flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-white transition-all duration-300 hover:bg-white/10"
             >
               <div className="flex w-[14px] flex-col items-center gap-[4px]">
                 <span
-                  className={`block h-[1.5px] w-full rounded-full bg-foreground transition-all duration-300 origin-center ${
+                  className={`block h-[1.5px] w-full rounded-full bg-white transition-all duration-300 origin-center ${
                     mobileOpen ? 'translate-y-[5.5px] rotate-45' : ''
                   }`}
                 />
                 <span
-                  className={`block h-[1.5px] w-full rounded-full bg-foreground transition-all duration-300 ${
+                  className={`block h-[1.5px] w-full rounded-full bg-white transition-all duration-300 ${
                     mobileOpen ? 'scale-x-0 opacity-0' : ''
                   }`}
                 />
                 <span
-                  className={`block h-[1.5px] w-full rounded-full bg-foreground transition-all duration-300 origin-center ${
+                  className={`block h-[1.5px] w-full rounded-full bg-white transition-all duration-300 origin-center ${
                     mobileOpen ? '-translate-y-[5.5px] -rotate-45' : ''
                   }`}
                 />
@@ -263,7 +261,7 @@ export default function Navbar() {
       {/* ── Mobile Backdrop Overlay ──────────────────────── */}
       <div
         onClick={closeMobile}
-        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-40 bg-black/70 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           mobileOpen
             ? 'opacity-100 pointer-events-auto'
             : 'opacity-0 pointer-events-none'
@@ -277,21 +275,21 @@ export default function Navbar() {
         role="dialog"
         aria-modal="true"
         aria-label={t('Menu điều hướng', 'Navigation menu')}
-        className={`fixed top-0 right-0 z-50 flex h-full w-[300px] max-w-[85vw] flex-col border-l border-border/50 bg-background/95 backdrop-blur-2xl transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:hidden ${
+        className={`fixed top-0 right-0 z-50 flex h-full w-[300px] max-w-[85vw] flex-col border-l border-white/10 bg-[#081120]/95 backdrop-blur-2xl transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:hidden ${
           mobileOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Drawer header */}
-        <div className="flex h-16 shrink-0 items-center justify-between border-b border-border/50 px-5">
-            <img
-              src="/logo.png"
-              alt="nATime Logo"
-              className="h-7 w-auto object-contain"
-            />
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-white/10 px-5">
+          <img
+            src="/logo.png"
+            alt="nATime Logo"
+            className="h-7 w-auto object-contain"
+          />
           <button
             onClick={closeMobile}
             aria-label={t('Đóng menu', 'Close menu')}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 hover:bg-card-hover"
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-white/60 transition-colors duration-200 hover:bg-white/10 hover:text-white"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -301,7 +299,7 @@ export default function Navbar() {
               strokeWidth={2}
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="h-4 w-4 text-muted"
+              className="h-4 w-4"
             >
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
@@ -309,32 +307,17 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Drawer nav links */}
-        <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-3 py-4">
-          {navLinks.map((link, i) => {
-            const content = (
-              <>
-                {/* Link indicator */}
-                <span
-                  className={`h-1.5 w-1.5 rounded-full transition-colors duration-200 ${
-                    isActive(link.href) ? 'bg-primary' : 'bg-border'
-                  }`}
-                />
-                {t(link.vi, link.en)}
-              </>
-            );
-
-            const delay = { animationDelay: `${i * 50}ms` };
-
-            return link.isRoute ? (
+        {/* Drawer navigation links */}
+        <div className="flex-1 overflow-y-auto px-4 py-5 space-y-1">
+          {navLinks.map((link) =>
+            link.isRoute ? (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={closeMobile}
                 className={mobileLinkClass(link.href)}
-                style={delay}
               >
-                {content}
+                {t(link.vi, link.en)}
               </Link>
             ) : (
               <a
@@ -342,40 +325,31 @@ export default function Navbar() {
                 href={link.href}
                 onClick={(e) => handleAnchorClick(e, link.href)}
                 className={mobileLinkClass(link.href)}
-                style={delay}
               >
-                {content}
+                {t(link.vi, link.en)}
               </a>
-            );
-          })}
-        </nav>
+            )
+          )}
+        </div>
 
-        {/* Drawer CTA */}
-        <div className="shrink-0 border-t border-border/50 p-4">
+        {/* Drawer footer CTA */}
+        <div className="border-t border-white/10 p-5 space-y-2.5">
           <Link
-            href={user ? "/dashboard" : "/register"}
+            href="/contact"
             onClick={closeMobile}
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]"
+            className="btn-pill-primary w-full text-center"
           >
-            {user ? t('Vào Dashboard', 'Go to Dashboard') : t('Dùng thử miễn phí', 'Start Free Trial')}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="h-3.5 w-3.5"
-            >
-              <path
-                fillRule="evenodd"
-                d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
-                clipRule="evenodd"
-              />
-            </svg>
+            {t('Yêu cầu demo', 'Request Demo')}
+          </Link>
+          <Link
+            href={user ? "/portal" : "/login"}
+            onClick={closeMobile}
+            className="btn-pill-glass w-full text-center"
+          >
+            {user ? t('Cổng khách hàng', 'Customer Portal') : t('Đăng nhập', 'Sign in')}
           </Link>
         </div>
       </div>
-
-      {/* ── Spacer to offset fixed header ─────────────── */}
-      <div className="h-16" />
     </>
   );
 }

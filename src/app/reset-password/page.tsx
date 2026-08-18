@@ -43,16 +43,16 @@ export default function ResetPasswordPage() {
 
   return (
     <AuthFrame title={updateMode ? 'Đặt mật khẩu mới' : 'Khôi phục mật khẩu'} description={updateMode ? 'Tạo mật khẩu mới cho tài khoản nATime.' : 'Nhập email đã đăng ký để nhận liên kết khôi phục.'}>
-      <form onSubmit={submit} className="space-y-5">
+      <form onSubmit={submit} className="space-y-4">
         {updateMode ? <>
-          <label className="block text-sm font-semibold">Mật khẩu mới<input required minLength={8} type="password" autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-2 w-full rounded-md border border-border px-3 py-2.5 font-normal" /></label>
-          <label className="block text-sm font-semibold">Xác nhận mật khẩu<input required minLength={8} type="password" autoComplete="new-password" value={confirmation} onChange={(event) => setConfirmation(event.target.value)} className="mt-2 w-full rounded-md border border-border px-3 py-2.5 font-normal" /></label>
-        </> : <label className="block text-sm font-semibold">Email<input required type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-md border border-border px-3 py-2.5 font-normal" /></label>}
-        <button disabled={busy || success} className="w-full rounded-md bg-blue-700 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-800 disabled:opacity-60">{busy ? 'Đang xử lý…' : updateMode ? 'Lưu mật khẩu mới' : 'Gửi liên kết khôi phục'}</button>
-        {message && <p role="alert" className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-800">{message}</p>}
-        {success && <p className="rounded-md border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-900">{updateMode ? 'Đã cập nhật mật khẩu. Đang chuyển tới Cổng khách hàng…' : 'Nếu email tồn tại, liên kết khôi phục đã được gửi.'}</p>}
+          <label className="block text-xs font-medium text-white/70 uppercase tracking-wider">Mật khẩu mới<input required minLength={8} type="password" autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="••••••••" className="mt-1.5 w-full rounded-xl border border-white/[0.12] bg-[#09152b] px-4 py-2.5 text-sm font-normal text-white placeholder:text-white/30 outline-none focus:border-white/40" /></label>
+          <label className="block text-xs font-medium text-white/70 uppercase tracking-wider">Xác nhận mật khẩu<input required minLength={8} type="password" autoComplete="new-password" value={confirmation} onChange={(event) => setConfirmation(event.target.value)} placeholder="••••••••" className="mt-1.5 w-full rounded-xl border border-white/[0.12] bg-[#09152b] px-4 py-2.5 text-sm font-normal text-white placeholder:text-white/30 outline-none focus:border-white/40" /></label>
+        </> : <label className="block text-xs font-medium text-white/70 uppercase tracking-wider">Email<input required type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="nhanvien@congty.com" className="mt-1.5 w-full rounded-xl border border-white/[0.12] bg-[#09152b] px-4 py-2.5 text-sm font-normal text-white placeholder:text-white/30 outline-none focus:border-white/40" /></label>}
+        <button disabled={busy || success} className="btn-pill-primary w-full text-center py-3 text-sm shadow-[0_4px_20px_rgba(255,255,255,0.2)] disabled:opacity-60 cursor-pointer">{busy ? 'Đang xử lý…' : updateMode ? 'Lưu mật khẩu mới' : 'Gửi liên kết khôi phục'}</button>
+        {message && <p role="alert" className="rounded-xl border border-rose-500/20 bg-rose-500/10 p-3 text-xs text-rose-400 font-medium">{message}</p>}
+        {success && <p className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3 text-xs text-emerald-400 font-medium">{updateMode ? 'Đã cập nhật mật khẩu. Đang chuyển tới Cổng khách hàng…' : 'Nếu email tồn tại, liên kết khôi phục đã được gửi.'}</p>}
       </form>
-      <p className="mt-6 text-center"><Link href="/login" className="text-sm font-semibold text-blue-700 hover:underline">Quay lại đăng nhập</Link></p>
+      <p className="mt-6 text-center"><Link href="/login" className="text-sm font-semibold text-white hover:underline">Quay lại đăng nhập</Link></p>
     </AuthFrame>
   );
 }

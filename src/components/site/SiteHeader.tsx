@@ -14,7 +14,7 @@ const labels = {
     features: 'Tính năng',
     pricing: 'Bảng giá',
     blog: 'Blog',
-    contact: 'Liên hệ',
+    support: 'Hỗ trợ',
     demo: 'Yêu cầu demo',
     portal: 'Cổng khách hàng',
     login: 'Đăng nhập',
@@ -26,7 +26,7 @@ const labels = {
     features: 'Features',
     pricing: 'Pricing',
     blog: 'Blog',
-    contact: 'Contact',
+    support: 'Support',
     demo: 'Request Demo',
     portal: 'Customer Portal',
     login: 'Sign in',
@@ -42,7 +42,7 @@ function localPath(locale: Locale, path: string) {
 export default function SiteHeader({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const { user } = useAuth();
-  const [open, setOpen] = useState(false);
+  const [, setOpen] = useState(false);
   const text = labels[locale];
 
   const nav = [
@@ -50,7 +50,7 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
     [text.features, localPath(locale, '/features')],
     [text.pricing, localPath(locale, '/pricing')],
     [text.blog, localPath(locale, '/blog')],
-    [text.contact, localPath(locale, '/contact')],
+    [text.support, localPath(locale, '/support')],
   ];
 
   const isActive = (href: string) => {
@@ -61,47 +61,47 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
   useEffect(() => { setOpen(false); }, [pathname]);
 
   return (
-    <>
-      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-line">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          {/* Logo with /logo.png */}
-          <Link href={localPath(locale, '/')} className="flex items-center gap-2.5 font-sans font-800 text-lg tracking-tight text-ink">
-            <Image src="/logo.png" alt="nATime" width={28} height={28} className="h-7 w-7 object-contain" />
-            <span>natime</span>
+    <header className="sticky top-0 z-40 bg-[#101c2e]/40 backdrop-blur-2xl border-b border-white/[0.06]">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <Link href={localPath(locale, '/')} className="flex items-center gap-2.5 font-sans font-bold text-base tracking-tight text-white select-none">
+          <Image src="/logo.png" alt="nATime" width={28} height={28} className="h-7 w-7 object-contain" />
+          <span>nATime</span>
+        </Link>
+
+        {/* Desktop Nav Pills */}
+        <nav className="hidden md:flex items-center gap-1 bg-white/[0.04] p-1 rounded-full border border-white/[0.08] backdrop-blur-md">
+          {nav.map(([label, href]) => (
+            <Link
+              key={href}
+              href={href}
+              className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all ${
+                isActive(href)
+                  ? 'bg-white/10 text-white shadow-xs'
+                  : 'text-white/70 hover:text-white hover:bg-white/[0.06]'
+              }`}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2.5">
+          <Link
+            href={user ? '/portal' : '/login'}
+            className="hidden sm:inline-flex btn-pill-glass text-xs py-1.5 px-3.5"
+          >
+            {user ? text.portal : text.login}
           </Link>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8 font-sans text-[14px] text-sub">
-            {nav.map(([label, href]) => (
-              <Link
-                key={href}
-                href={href}
-                className={`hover:text-ink transition-colors ${
-                  isActive(href) ? 'text-ink font-600' : ''
-                }`}
-              >
-                {label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Action Buttons */}
-          <div className="flex items-center gap-3">
-            <Link
-              href={user ? '/portal' : '/login'}
-              className="hidden md:inline font-sans text-[14px] font-500 text-sub hover:text-ink"
-            >
-              {user ? text.portal : text.login}
-            </Link>
-            <Link
-              href="/contact"
-              className="font-sans text-[14px] font-600 bg-indigo text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
-            >
-              {text.demo}
-            </Link>
-          </div>
+          <Link
+            href="/contact"
+            className="btn-pill-primary text-xs py-1.5 px-4"
+          >
+            {text.demo}
+          </Link>
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 }

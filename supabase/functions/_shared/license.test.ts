@@ -17,7 +17,9 @@ test('license envelope uses the .NET-compatible PascalCase payload and RSA-PSS S
     CustomerName: 'Interop Customer',
     ProductTier: 'professional',
     MaxEmployees: 500,
-    MaxDevices: 10,
+    MaxDevices: 20,
+    MaxAttendanceDevices: 15,
+    MaxFaceIdDevices: 20,
     ExpiresAtUtc: '2027-07-13T10:11:12+00:00',
     EnabledModules: ['Attendance', 'Access'],
     HardwareId: 'ABCDEF0123456789',
@@ -34,6 +36,7 @@ test('license envelope uses the .NET-compatible PascalCase payload and RSA-PSS S
   };
   assert.deepEqual(Object.keys(envelope.Payload), [
     'LicenseId', 'CustomerName', 'ProductTier', 'MaxEmployees', 'MaxDevices',
+    'MaxAttendanceDevices', 'MaxFaceIdDevices',
     'ExpiresAtUtc', 'EnabledModules', 'HardwareId', 'IssuedAtUtc', 'NotBeforeUtc',
     'Revision', 'ValidationToken',
   ]);

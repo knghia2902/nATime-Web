@@ -43,7 +43,7 @@ export default function PortalShell({ title, description, children, actions }: {
   }, [loading, pathname, router, user]);
 
   if (loading || !user) {
-    return <div className="flex min-h-screen items-center justify-center bg-slate-50 text-sm text-slate-500 font-normal">Đang kiểm tra tài khoản…</div>;
+    return <div className="flex min-h-screen items-center justify-center text-sm text-white/50 font-normal">Đang kiểm tra tài khoản…</div>;
   }
 
   async function logout() {
@@ -55,26 +55,26 @@ export default function PortalShell({ title, description, children, actions }: {
   const currentPage = links.find((l) => l.href === '/portal' ? pathname === l.href : pathname.startsWith(l.href));
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased">
-      {/* Light Glass Topbar */}
-      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+    <div className="min-h-screen text-white font-sans antialiased">
+      {/* Dark Glass Topbar */}
+      <header className="sticky top-0 z-30 border-b border-white/[0.08] bg-[#0e2246]/60 backdrop-blur-2xl">
         <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-3">
-            <button onClick={() => setMobileOpen((v) => !v)} className="rounded-lg border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 md:hidden" aria-expanded={mobileOpen}>
+            <button onClick={() => setMobileOpen((v) => !v)} className="rounded-lg border border-white/10 p-2 text-white/60 hover:bg-white/[0.06] md:hidden" aria-expanded={mobileOpen}>
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
             </button>
             <nav className="hidden items-center gap-2 text-sm md:flex">
-              <Link href="/portal" className="font-normal text-slate-500 hover:text-slate-800 transition">Cổng khách hàng</Link>
+              <Link href="/portal" className="font-normal text-white/60 hover:text-white transition">Cổng khách hàng</Link>
               {currentPage && currentPage.href !== '/portal' && <>
-                <svg className="h-3.5 w-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
-                <span className="font-medium text-slate-900">{currentPage.label}</span>
+                <svg className="h-3.5 w-3.5 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                <span className="font-medium text-white">{currentPage.label}</span>
               </>}
             </nav>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/" className="hidden rounded-lg px-3 py-1.5 text-sm font-normal text-slate-600 hover:bg-slate-100 transition sm:inline-flex">Website</Link>
-            <button onClick={logout} className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-normal text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition shadow-2xs">
-              <svg className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
+            <Link href="/" className="hidden rounded-full px-3.5 py-1 text-xs font-normal text-white/60 hover:bg-white/[0.08] hover:text-white transition sm:inline-flex">Website</Link>
+            <button onClick={logout} className="btn-pill-glass text-xs py-1.5 px-3.5 cursor-pointer">
+              <svg className="h-3.5 w-3.5 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
               Đăng xuất
             </button>
           </div>
@@ -82,20 +82,20 @@ export default function PortalShell({ title, description, children, actions }: {
       </header>
 
       <div className="mx-auto grid max-w-[1400px] md:grid-cols-[240px_1fr]">
-        {/* Harmonious Light Sidebar */}
-        <aside className={`border-r border-slate-200/80 bg-[#f8fafc] p-4 text-slate-800 ${mobileOpen ? 'block' : 'hidden'} md:block md:min-h-[calc(100vh-56px)] md:p-5 flex flex-col justify-between`}>
+        {/* Deep Oceanic Sidebar */}
+        <aside className={`border-r border-white/[0.08] bg-[#09152b] p-4 text-white ${mobileOpen ? 'block' : 'hidden'} md:block md:min-h-[calc(100vh-56px)] md:p-5 flex flex-col justify-between`}>
           <div>
             {/* Logo */}
-            <Link href="/portal" className="mb-6 flex items-center gap-3 px-2">
+            <Link href="/portal" className="mb-6 flex items-center gap-2.5 px-2 select-none">
               <Image src="/logo.png" alt="nATime Logo" width={26} height={26} className="h-6.5 w-6.5 object-contain" />
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-base font-semibold tracking-tight text-slate-900">nATime</span>
-                <span className="text-[10px] font-medium tracking-wider text-blue-600 uppercase bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200/80">Portal</span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-base font-bold tracking-tight text-white">nATime</span>
+                <span className="badge-pill py-0.2 px-1.5 text-[10px] uppercase font-semibold">Portal</span>
               </div>
             </Link>
 
-            <p className="mb-2 px-2 text-[10px] font-semibold tracking-widest text-slate-400 uppercase">Quản lý dịch vụ</p>
-            <nav className="space-y-0.5">
+            <p className="mb-2 px-2 text-[10px] font-semibold tracking-widest text-white/40 uppercase">Quản lý dịch vụ</p>
+            <nav className="space-y-1">
               {links.map((link) => {
                 const active = link.href === '/portal' ? pathname === link.href : pathname.startsWith(link.href);
                 return (
@@ -103,13 +103,13 @@ export default function PortalShell({ title, description, children, actions }: {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
+                    className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all ${
                       active
-                        ? 'bg-blue-50/80 text-blue-700 font-medium border-l-2 border-blue-600 pl-2.5 shadow-2xs'
-                        : 'text-slate-600 font-normal hover:bg-slate-200/50 hover:text-slate-900'
+                        ? 'bg-white/10 text-white font-semibold border border-white/15 shadow-2xs'
+                        : 'text-white/60 font-normal hover:bg-white/[0.06] hover:text-white'
                     }`}
                   >
-                    <SidebarIcon name={link.icon} className={`h-4 w-4 shrink-0 ${active ? 'text-blue-600' : 'text-slate-400'}`} />
+                    <SidebarIcon name={link.icon} className={`h-4 w-4 shrink-0 ${active ? 'text-sky-300' : 'text-white/40'}`} />
                     <span className="truncate">{link.label}</span>
                   </Link>
                 );
@@ -118,13 +118,13 @@ export default function PortalShell({ title, description, children, actions }: {
           </div>
 
           {/* User Card */}
-          <div className="mt-8 pt-4 border-t border-slate-200/80">
-            <div className="rounded-xl border border-slate-200/80 bg-white p-3 shadow-2xs">
+          <div className="mt-8 pt-4 border-t border-white/[0.08]">
+            <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-3">
               <div className="flex items-center gap-3">
-                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue-600 text-xs font-medium text-white shadow-xs">{initials}</span>
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white text-xs font-bold text-[#081120] shadow-xs">{initials}</span>
                 <div className="min-w-0">
-                  <p className="truncate text-xs font-medium text-slate-900">{user.name || 'Khách hàng'}</p>
-                  <p className="truncate text-[11px] font-normal text-slate-400">{user.email}</p>
+                  <p className="truncate text-xs font-medium text-white">{user.name || 'Khách hàng'}</p>
+                  <p className="truncate text-[11px] font-normal text-white/40">{user.email}</p>
                 </div>
               </div>
             </div>
@@ -133,10 +133,10 @@ export default function PortalShell({ title, description, children, actions }: {
 
         {/* Main Content */}
         <main className="min-w-0 p-4 sm:p-6 lg:p-8">
-          <header className="mb-6 sm:flex sm:items-start sm:justify-between sm:gap-4 border-b border-slate-200/60 pb-4">
+          <header className="mb-6 sm:flex sm:items-start sm:justify-between sm:gap-4 border-b border-white/[0.08] pb-4">
             <div>
-              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900">{title}</h1>
-              <p className="mt-1 text-sm font-normal text-slate-500">{description}</p>
+              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-white">{title}</h1>
+              <p className="mt-1 text-sm font-normal text-white/60">{description}</p>
             </div>
             {actions && <div className="mt-4 flex gap-2 sm:mt-0">{actions}</div>}
           </header>

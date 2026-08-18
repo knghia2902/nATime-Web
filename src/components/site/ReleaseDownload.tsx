@@ -39,7 +39,7 @@ export default function ReleaseDownload({ locale, changelog = false }: { locale:
 
   if (loading) {
     return (
-      <div className="border hairline bg-paper p-6 text-sm font-mono text-ink/60">
+      <div className="rounded-2xl border border-white/[0.08] bg-[rgba(15,23,38,0.75)] p-6 text-sm font-mono text-white/60 backdrop-blur">
         {vi ? 'Đang kiểm tra bản phát hành…' : 'Checking published releases…'}
       </div>
     );
@@ -47,10 +47,10 @@ export default function ReleaseDownload({ locale, changelog = false }: { locale:
 
   if (!releases.length) {
     return (
-      <div className="border hairline bg-paper p-6">
-        <span className="font-mono text-[11px] text-amber block mb-2">{vi ? 'THÔNG BÁO' : 'NOTICE'}</span>
-        <h2 className="font-display font-bold text-ink text-lg">{vi ? 'Chưa có bản phát hành công khai' : 'No public release yet'}</h2>
-        <p className="mt-2 text-sm leading-relaxed text-ink/70">
+      <div className="rounded-2xl border border-white/[0.08] bg-[rgba(15,23,38,0.75)] p-6 backdrop-blur">
+        <span className="font-mono text-[11px] text-amber-400 block mb-2">{vi ? 'THÔNG BÁO' : 'NOTICE'}</span>
+        <h2 className="font-bold text-white text-lg">{vi ? 'Chưa có bản phát hành công khai' : 'No public release yet'}</h2>
+        <p className="mt-2 text-sm leading-relaxed text-white/60">
           {vi
             ? 'nATime chỉ công khai bộ cài sau khi chữ ký số Authenticode và mã SHA-256 được xác minh.'
             : 'nATime only publishes installers after digital signature and SHA-256 have been verified.'}
@@ -64,16 +64,16 @@ export default function ReleaseDownload({ locale, changelog = false }: { locale:
       {releases.map((release) => {
         const artifact = release.release_artifacts?.find((item) => item.signature_status === 'valid');
         return (
-          <article key={release.version} className="border hairline bg-paper p-6">
+          <article key={release.version} className="rounded-2xl border border-white/[0.08] bg-[rgba(15,23,38,0.75)] p-6 backdrop-blur">
             <div className="flex flex-col justify-between gap-5 sm:flex-row">
               <div>
-                <p className="font-mono text-[11px] text-teal">WINDOWS X64</p>
-                <h2 className="mt-1 font-display font-bold text-2xl text-ink">nATime {release.version}</h2>
-                <p className="mt-1 font-mono text-[12px] text-ink/50">
+                <p className="font-mono text-[11px] text-white/50 tracking-wider">WINDOWS X64</p>
+                <h2 className="mt-1 font-bold text-2xl text-white">nATime {release.version}</h2>
+                <p className="mt-1 font-mono text-[12px] text-white/40">
                   {new Intl.DateTimeFormat(vi ? 'vi-VN' : 'en-US', { dateStyle: 'long' }).format(new Date(release.published_at))}
                 </p>
                 {(vi ? release.notes_vi : release.notes_en) && (
-                  <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/70">
+                  <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/70">
                     {vi ? release.notes_vi : release.notes_en}
                   </p>
                 )}
@@ -81,21 +81,21 @@ export default function ReleaseDownload({ locale, changelog = false }: { locale:
               {artifact && !changelog && (
                 <a
                   href={artifact.public_url}
-                  className="h-fit bg-ink text-paper font-body text-[14px] font-semibold px-5 py-3 hover:bg-graphite transition-colors inline-block"
+                  className="h-fit rounded-xl bg-white text-[#0a1628] text-[14px] font-bold px-6 py-3 hover:bg-white/85 transition-all shadow-[0_2px_12px_rgba(255,255,255,0.15)] inline-block text-center cursor-pointer"
                 >
                   {vi ? 'Tải bộ cài đã ký' : 'Download signed installer'}
                 </a>
               )}
             </div>
             {artifact && (
-              <dl className="mt-5 grid gap-3 border-t hairline pt-5 text-xs text-ink/70 sm:grid-cols-2">
+              <dl className="mt-5 grid gap-3 border-t border-white/[0.08] pt-5 text-xs text-white/60 sm:grid-cols-2">
                 <div>
-                  <dt className="font-bold text-ink">{vi ? 'Tệp' : 'File'}</dt>
-                  <dd className="mt-1 break-all font-mono text-[11px]">{artifact.filename}</dd>
+                  <dt className="font-bold text-white">{vi ? 'Tệp' : 'File'}</dt>
+                  <dd className="mt-1 break-all font-mono text-[11px] text-white/70">{artifact.filename}</dd>
                 </div>
                 <div>
-                  <dt className="font-bold text-ink">SHA-256</dt>
-                  <dd className="mt-1 break-all font-mono text-[11px]">{artifact.sha256}</dd>
+                  <dt className="font-bold text-white">SHA-256</dt>
+                  <dd className="mt-1 break-all font-mono text-[11px] text-white/70">{artifact.sha256}</dd>
                 </div>
               </dl>
             )}

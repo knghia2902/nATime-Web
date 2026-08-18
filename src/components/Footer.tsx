@@ -100,42 +100,27 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="relative overflow-hidden bg-slate-900">
-      {/* Subtle gradient accent at top */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
-
-      {/* Background glow */}
-      <div
-        className="absolute bottom-0 left-1/2 h-[400px] w-[600px] -translate-x-1/2 translate-y-1/2 rounded-full opacity-[0.04]"
-        style={{
-          background:
-            'radial-gradient(circle, rgba(37,99,235,1) 0%, transparent 70%)',
-        }}
-      />
-
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-16 pb-8 lg:px-8 lg:pt-24">
-        {/* Main grid: 4 columns on desktop */}
+    <footer className="relative overflow-hidden bg-[#060c18] border-t border-white/[0.08]">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 pt-16 pb-8 lg:px-8 lg:pt-20">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {/* Column 1: Brand */}
           <div className="space-y-6 md:col-span-2 lg:col-span-1">
-            {/* Logo */}
-            <Link href="/" className="group inline-flex items-center select-none">
+            <Link href="/" className="group inline-flex items-center gap-2 select-none">
               <img
                 src="/logo.png"
                 alt="nATime Logo"
-                className="h-8 w-auto object-contain brightness-0 invert transition-transform duration-300 group-hover:scale-[1.03]"
+                className="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
               />
+              <span className="text-base font-bold text-white">nATime</span>
             </Link>
 
-            {/* Description */}
-            <p className="max-w-xs text-sm leading-6 text-slate-400">
+            <p className="max-w-xs text-sm leading-6 text-white/60">
               {t({
-                vi: 'Nền tảng quản lý chấm công và kiểm soát ra vào hàng đầu cho doanh nghiệp Việt Nam.',
-                en: 'Leading time attendance and access control platform for Vietnamese enterprises.',
+                vi: 'Nền tảng quản lý chấm công và kiểm soát ra vào 8 làn cho doanh nghiệp Việt Nam.',
+                en: 'Leading time attendance and 8-lane access control platform for Vietnamese enterprises.',
               })}
             </p>
 
-            {/* Social links */}
             <div className="flex gap-3">
               {socialLinks.map((social) => (
                 <a
@@ -143,10 +128,10 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group/social flex h-9 w-9 items-center justify-center rounded-lg bg-slate-800 text-slate-400 transition-all duration-300 hover:bg-blue-600 hover:text-white hover:shadow-lg hover:shadow-blue-500/25"
+                  className="group/social flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.06] text-white/60 transition-all duration-300 hover:bg-white/12 hover:text-white border border-white/[0.08]"
                   aria-label={social.name}
                 >
-                  <social.icon className="h-[18px] w-[18px] transition-transform duration-300 group-hover/social:scale-110" />
+                  <social.icon className="h-[17px] w-[17px] transition-transform duration-300 group-hover/social:scale-110" />
                 </a>
               ))}
             </div>
@@ -155,31 +140,25 @@ export default function Footer() {
           {/* Columns 2-4: Link groups */}
           {footerColumns.map((column) => (
             <div key={column.title.en}>
-              <h3 className="text-sm font-semibold tracking-wider text-white uppercase">
+              <h3 className="text-xs font-semibold tracking-wider text-white uppercase">
                 {t(column.title)}
               </h3>
-              <ul role="list" className="mt-6 space-y-3">
+              <ul role="list" className="mt-5 space-y-3">
                 {column.links.map((link) => (
                   <li key={link.label.en}>
                     {link.href.startsWith('/') ? (
                       <Link
                         href={link.href}
-                        className="group/link relative inline-flex text-sm text-slate-400 transition-colors duration-300 hover:text-white"
+                        className="group/link relative inline-flex text-sm text-white/60 transition-colors duration-300 hover:text-white"
                       >
-                        <span className="relative">
-                          {t(link.label)}
-                          <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-blue-400 to-blue-500 transition-all duration-300 group-hover/link:w-full" />
-                        </span>
+                        <span>{t(link.label)}</span>
                       </Link>
                     ) : (
                       <a
                         href={link.href}
-                        className="group/link relative inline-flex text-sm text-slate-400 transition-colors duration-300 hover:text-white"
+                        className="group/link relative inline-flex text-sm text-white/60 transition-colors duration-300 hover:text-white"
                       >
-                        <span className="relative">
-                          {t(link.label)}
-                          <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-blue-400 to-blue-500 transition-all duration-300 group-hover/link:w-full" />
-                        </span>
+                        <span>{t(link.label)}</span>
                       </a>
                     )}
                   </li>
@@ -190,21 +169,21 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-8 sm:flex-row">
-          <p className="text-xs text-slate-500">
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/[0.08] pt-7 sm:flex-row">
+          <p className="text-xs text-white/40">
             &copy; 2026 nATime.{' '}
             {t({ vi: 'Bảo lưu mọi quyền.', en: 'All rights reserved.' })}
           </p>
           <div className="flex gap-6">
             <a
               href="#privacy"
-              className="text-xs text-slate-500 transition-colors duration-300 hover:text-slate-300"
+              className="text-xs text-white/40 transition-colors duration-300 hover:text-white/80"
             >
               {t({ vi: 'Chính sách bảo mật', en: 'Privacy Policy' })}
             </a>
             <a
               href="#terms"
-              className="text-xs text-slate-500 transition-colors duration-300 hover:text-slate-300"
+              className="text-xs text-white/40 transition-colors duration-300 hover:text-white/80"
             >
               {t({ vi: 'Điều khoản', en: 'Terms' })}
             </a>

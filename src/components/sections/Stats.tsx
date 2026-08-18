@@ -35,7 +35,7 @@ export default function Stats() {
   ];
 
   return (
-    <section className="relative bg-card border-y border-border/80 py-16 sm:py-20 overflow-hidden">
+    <section className="relative bg-[rgba(15,23,38,0.5)] border-y border-white/[0.08] py-16 sm:py-20 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
           {stats.map((item, idx) => {
@@ -49,13 +49,13 @@ export default function Stats() {
                 transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 className="flex flex-col items-center text-center p-4"
               >
-                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary-light text-primary">
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06] text-white">
                   <Icon size={20} weight="duotone" />
                 </div>
-                <span className="text-3xl font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                <span className="text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl">
                   {item.value}
                 </span>
-                <span className="mt-2 text-xs font-semibold text-muted uppercase tracking-wider">
+                <span className="mt-2 text-xs font-semibold text-white/50 uppercase tracking-wider">
                   {item.label}
                 </span>
               </motion.div>

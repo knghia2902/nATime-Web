@@ -12,15 +12,15 @@ export default function LanguageToggle() {
   return (
     <button
       onClick={toggle}
-      className="relative h-9 flex items-center gap-1.5 rounded-full border border-border
-                 bg-card px-3 transition-all duration-300
-                 hover:bg-accent hover:border-primary/30
-                 hover:shadow-[0_0_12px_rgba(37,99,235,0.15)] cursor-pointer"
+      className="relative h-9 flex items-center gap-1.5 rounded-full border border-white/10
+                 bg-white/[0.04] px-3 transition-all duration-300
+                 hover:bg-white/10 hover:border-white/20
+                 hover:shadow-[0_0_12px_rgba(255,255,255,0.1)] cursor-pointer text-white"
       aria-label={locale === 'vi' ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
     >
       {/* Globe icon */}
       <svg
-        className="h-3.5 w-3.5 text-muted"
+        className="h-3.5 w-3.5 text-white/60"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -31,7 +31,7 @@ export default function LanguageToggle() {
         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
       </svg>
 
-      <span className="text-xs font-semibold tracking-wide text-foreground">
+      <span className="text-xs font-semibold tracking-wide text-white">
         {locale === 'vi' ? 'VI' : 'EN'}
       </span>
     </button>

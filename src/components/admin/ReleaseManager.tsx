@@ -132,17 +132,17 @@ export default function ReleaseManager() {
       {/* Form Card */}
       <form
         onSubmit={upload}
-        className="rounded-2xl border border-border bg-card p-6 md:p-8 shadow-sm transition-all"
+        className="rounded-2xl border border-white/[0.08] bg-[rgba(15,23,38,0.75)] p-6 md:p-8 shadow-sm backdrop-blur"
       >
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border">
-          <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600">
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/[0.08]">
+          <div className="p-2.5 rounded-xl bg-white/[0.06] text-white">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
             </svg>
           </div>
           <div>
-            <h2 className="text-lg font-bold text-foreground">Upload Bản Phát Hành Mới</h2>
-            <p className="text-xs font-medium text-muted">
+            <h2 className="text-lg font-bold text-white">Upload Bản Phát Hành Mới</h2>
+            <p className="text-xs font-medium text-white/50">
               Khởi tạo tải lên bộ cài .exe an toàn lên R2 storage để xác minh chữ ký số Authenticode.
             </p>
           </div>
@@ -151,8 +151,8 @@ export default function ReleaseManager() {
         <div className="grid gap-6 md:grid-cols-2">
           {/* Version input */}
           <div className="space-y-2">
-            <label className="block text-xs font-bold uppercase tracking-wider text-muted">
-              Phiên bản <span className="text-rose-500">*</span>
+            <label className="block text-xs font-bold uppercase tracking-wider text-white/60">
+              Phiên bản <span className="text-rose-400">*</span>
             </label>
             <div className="relative">
               <input
@@ -160,19 +160,19 @@ export default function ReleaseManager() {
                 name="version"
                 pattern="[0-9]+\.[0-9]+\.[0-9]+"
                 placeholder="0.1.2"
-                className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-mono font-bold text-foreground placeholder:text-muted focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-colors"
+                className="w-full rounded-xl border border-white/[0.12] bg-[#0a1220] px-4 py-2.5 text-sm font-mono font-bold text-white placeholder:text-white/30 focus:border-white/40 focus:outline-none transition-colors"
               />
             </div>
-            <p className="text-[11px] font-medium text-muted">Định dạng Semantic Versioning (ví dụ: 1.0.0)</p>
+            <p className="text-[11px] font-medium text-white/40">Định dạng Semantic Versioning (ví dụ: 1.0.0)</p>
           </div>
 
           {/* Installer file upload styled dropzone */}
           <div className="space-y-2">
-            <label className="block text-xs font-bold uppercase tracking-wider text-muted">
-              Bộ cài đã ký (.exe) <span className="text-rose-500">*</span>
+            <label className="block text-xs font-bold uppercase tracking-wider text-white/60">
+              Bộ cài đã ký (.exe) <span className="text-rose-400">*</span>
             </label>
             <div className="relative">
-              <label className="group flex flex-col items-center justify-center border-2 border-dashed border-border hover:border-blue-500 rounded-xl p-4 bg-muted/20 cursor-pointer transition-colors text-center">
+              <label className="group flex flex-col items-center justify-center border-2 border-dashed border-white/[0.12] hover:border-white/30 rounded-xl p-4 bg-white/[0.02] cursor-pointer transition-colors text-center">
                 <input
                   required
                   name="installer"
@@ -181,14 +181,14 @@ export default function ReleaseManager() {
                   onChange={(e) => setSelectedFile(e.target.files?.[0] ?? null)}
                   className="sr-only"
                 />
-                <svg className="h-6 w-6 text-muted group-hover:text-blue-500 transition-colors mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-6 w-6 text-white/40 group-hover:text-white transition-colors mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
-                <span className="text-xs font-bold text-muted truncate max-w-[240px]">
+                <span className="text-xs font-bold text-white/70 truncate max-w-[240px]">
                   {selectedFile ? selectedFile.name : 'Nhấp để chọn hoặc kéo thả file .exe vào đây'}
                 </span>
                 {selectedFile && (
-                  <span className="text-[10px] text-blue-600 mt-0.5 font-mono font-bold">
+                  <span className="text-[10px] text-white mt-0.5 font-mono font-bold">
                     {formatBytes(selectedFile.size)}
                   </span>
                 )}
@@ -198,40 +198,40 @@ export default function ReleaseManager() {
 
           {/* Notes VI */}
           <div className="space-y-2">
-            <label className="block text-xs font-bold uppercase tracking-wider text-muted">
+            <label className="block text-xs font-bold uppercase tracking-wider text-white/60">
               Ghi chú tiếng Việt
             </label>
             <textarea
               name="notesVi"
               rows={3}
               placeholder="Mô tả các thay đổi, tính năng mới hoặc sửa lỗi bằng tiếng Việt..."
-              className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground placeholder:text-muted focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-colors"
+              className="w-full rounded-xl border border-white/[0.12] bg-[#0a1220] px-4 py-2.5 text-sm font-medium text-white placeholder:text-white/30 focus:border-white/40 focus:outline-none transition-colors"
             />
           </div>
 
           {/* Notes EN */}
           <div className="space-y-2">
-            <label className="block text-xs font-bold uppercase tracking-wider text-muted">
+            <label className="block text-xs font-bold uppercase tracking-wider text-white/60">
               English notes
             </label>
             <textarea
               name="notesEn"
               rows={3}
               placeholder="Description of changes, features or bug fixes in English..."
-              className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground placeholder:text-muted focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-colors"
+              className="w-full rounded-xl border border-white/[0.12] bg-[#0a1220] px-4 py-2.5 text-sm font-medium text-white placeholder:text-white/30 focus:border-white/40 focus:outline-none transition-colors"
             />
           </div>
         </div>
 
-        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-border">
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/[0.08]">
           <button
             type="submit"
             disabled={busy}
-            className="btn-gradient w-full sm:w-auto px-6 py-2.5 rounded-xl font-bold text-sm text-white shadow-md disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-semibold text-sm text-[#0a1628] bg-white hover:bg-white/85 shadow-[0_2px_12px_rgba(255,255,255,0.15)] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
           >
             {busy ? (
               <>
-                <svg className="h-4 w-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                <svg className="h-4 w-4 animate-spin text-[#0a1628]" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
@@ -248,7 +248,7 @@ export default function ReleaseManager() {
           </button>
 
           {message && (
-            <div className="w-full sm:w-auto flex-1 text-sm font-semibold rounded-xl bg-muted/50 px-4 py-2 border border-border text-foreground">
+            <div className="w-full sm:w-auto flex-1 text-sm font-medium rounded-xl bg-white/[0.04] px-4 py-2 border border-white/[0.08] text-white">
               {message}
             </div>
           )}
@@ -258,13 +258,13 @@ export default function ReleaseManager() {
       {/* Release List */}
       <div className="space-y-4">
         <div className="flex items-center justify-between px-1">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-muted">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-white/50">
             Danh sách phát hành ({releases.length})
           </h3>
         </div>
 
         {releases.length === 0 ? (
-          <div className="rounded-2xl border border-border bg-card p-8 text-center text-sm font-medium text-muted shadow-sm">
+          <div className="rounded-2xl border border-white/[0.08] bg-[rgba(15,23,38,0.75)] p-8 text-center text-sm font-medium text-white/40 shadow-sm backdrop-blur">
             Chưa có bản phát hành nào được upload.
           </div>
         ) : (
@@ -274,23 +274,23 @@ export default function ReleaseManager() {
             const isPublished = release.status === 'published';
 
             let statusBadge = (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
                 Bản nháp ({release.status})
               </span>
             );
 
             if (isVerified) {
               statusBadge = (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.5)]" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.5)]" />
                   Đã xác minh
                 </span>
               );
             } else if (isPublished) {
               statusBadge = (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
-                  <span className="h-1.5 w-1.5 rounded-full bg-blue-500 shadow-[0_0_6px_rgba(59,130,246,0.5)]" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white/10 text-white border border-white/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.5)]" />
                   Đã công khai
                 </span>
               );
@@ -299,28 +299,28 @@ export default function ReleaseManager() {
             const sigStatus = artifact?.signature_status ?? '—';
             const sigStyle =
               sigStatus === 'valid' || sigStatus === 'verified'
-                ? 'text-emerald-700 bg-emerald-50 border-emerald-200'
-                : 'text-muted bg-muted/50 border-border';
+                ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
+                : 'text-white/50 bg-white/[0.04] border-white/[0.08]';
 
             return (
               <article
                 key={release.id}
-                className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md"
+                className="rounded-2xl border border-white/[0.08] bg-[rgba(15,23,38,0.75)] p-6 shadow-sm transition-all hover:border-white/20 backdrop-blur"
               >
                 <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-center">
                   <div className="space-y-3 flex-1 min-w-0">
                     <div className="flex items-center gap-3 flex-wrap">
-                      <h4 className="text-lg font-black text-foreground tracking-tight">
+                      <h4 className="text-lg font-bold text-white tracking-tight">
                         nATime {release.version}
                       </h4>
                       {statusBadge}
-                      <span className="text-xs font-medium text-muted">
+                      <span className="text-xs font-medium text-white/40">
                         {formatDate(release.created_at)}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2 text-xs flex-wrap">
-                      <span className="font-bold text-foreground bg-muted/50 px-2.5 py-1 rounded-md border border-border">
+                      <span className="font-bold text-white bg-white/[0.06] px-2.5 py-1 rounded-md border border-white/[0.08]">
                         {artifact?.filename ?? 'Chưa có artifact'}
                         {artifact?.size_bytes ? ` (${formatBytes(artifact.size_bytes)})` : ''}
                       </span>
@@ -335,17 +335,17 @@ export default function ReleaseManager() {
 
                     {artifact?.sha256 && (
                       <div className="mt-2">
-                        <div className="flex items-center gap-2 text-[11px] text-muted mb-1 font-bold">
+                        <div className="flex items-center gap-2 text-[11px] text-white/50 mb-1 font-bold">
                           <span>SHA-256 Checksum:</span>
                         </div>
-                        <p className="break-all font-mono text-xs font-semibold text-foreground bg-muted/20 p-2.5 rounded-xl border border-border">
+                        <p className="break-all font-mono text-xs font-semibold text-white/80 bg-[#0a1220] p-2.5 rounded-xl border border-white/[0.08]">
                           {artifact.sha256}
                         </p>
                       </div>
                     )}
 
                     {release.notes_vi && (
-                      <p className="text-xs text-muted font-medium line-clamp-2 italic">
+                      <p className="text-xs text-white/60 font-medium line-clamp-2 italic">
                         &ldquo;{release.notes_vi}&rdquo;
                       </p>
                     )}
@@ -356,7 +356,7 @@ export default function ReleaseManager() {
                       <button
                         onClick={() => void publish(release.id)}
                         disabled={busy}
-                        className="h-9 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-colors shadow-sm disabled:opacity-60 flex items-center gap-1.5 cursor-pointer"
+                        className="h-9 px-4 rounded-xl bg-white text-[#0a1628] hover:bg-white/85 font-bold text-xs transition-colors shadow-sm disabled:opacity-60 flex items-center gap-1.5 cursor-pointer"
                       >
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -369,7 +369,7 @@ export default function ReleaseManager() {
                       <button
                         onClick={() => void withdraw(release.id)}
                         disabled={busy}
-                        className="h-9 px-4 rounded-xl border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 font-bold text-xs transition-colors disabled:opacity-60 flex items-center gap-1.5 cursor-pointer"
+                        className="h-9 px-4 rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 font-bold text-xs transition-colors disabled:opacity-60 flex items-center gap-1.5 cursor-pointer"
                       >
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
