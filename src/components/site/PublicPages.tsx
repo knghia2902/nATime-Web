@@ -51,8 +51,8 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
             <Image
               src="/features-attendance.png"
               alt="nATime - Lịch sử chấm công"
-              width={1489}
-              height={974}
+              width={1475}
+              height={962}
               className="w-full h-auto block"
               priority
             />
