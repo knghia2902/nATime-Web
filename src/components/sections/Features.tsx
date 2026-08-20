@@ -129,8 +129,8 @@ export default function Features() {
               <Image
                 src="/features-attendance.png"
                 alt="nATime - Lịch sử chấm công"
-                width={1600}
-                height={1000}
+                width={1489}
+                height={974}
                 className="w-full h-auto block"
               />
             </div>
