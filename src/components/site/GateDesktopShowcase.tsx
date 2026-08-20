@@ -29,41 +29,41 @@ export default function GateDesktopShowcase() {
   return (
     <div 
       style={{ zoom: 0.47 }}
-      className="w-[1280px] bg-[#d6e8fa] text-slate-800 p-3.5 select-none font-sans rounded-b-[6px] text-[11.5px] leading-tight shadow-inner"
+      className="w-[1200px] bg-[#d6e8fa] text-slate-800 p-3 select-none font-sans rounded-b-[6px] text-[11.5px] leading-tight shadow-inner"
     >
       {/* ── 1. App Header ── */}
-      <div className="flex items-center justify-between px-2.5 py-1.5 mb-2.5 border-b border-sky-200/60">
+      <div className="flex items-center justify-between px-2.5 py-1 mb-2 border-b border-sky-200/60">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-sky-400 to-blue-600 text-white flex items-center justify-center font-bold text-[14px] shadow-xs">
+          <div className="w-6.5 h-6.5 rounded-full bg-gradient-to-br from-sky-400 to-blue-600 text-white flex items-center justify-center font-bold text-[13px] shadow-xs">
             A
           </div>
-          <span className="font-bold text-[16px] text-slate-900 tracking-tight">nATime Gate</span>
+          <span className="font-bold text-[15px] text-slate-900 tracking-tight">nATime Gate</span>
         </div>
 
         <div className="flex items-center gap-2 text-slate-500">
           <div className="w-6 h-6 rounded flex items-center justify-center hover:bg-white/60 hover:text-slate-900 cursor-pointer">
-            <Sun size={14} />
+            <Sun size={13} />
           </div>
           <div className="w-6 h-6 rounded flex items-center justify-center hover:bg-white/60 hover:text-slate-900 cursor-pointer">
-            <Minus size={14} />
+            <Minus size={13} />
           </div>
           <div className="w-6 h-6 rounded flex items-center justify-center hover:bg-white/60 hover:text-slate-900 cursor-pointer">
-            <Square size={12} />
+            <Square size={11} />
           </div>
           <div className="w-6 h-6 rounded flex items-center justify-center hover:bg-rose-100 hover:text-rose-600 cursor-pointer">
-            <X size={14} />
+            <X size={13} />
           </div>
         </div>
       </div>
 
-      {/* ── 2. Main Workspace (Sidebar 210px + 8 Lanes Grid) ── */}
-      <div className="flex gap-3 items-stretch">
-        {/* Left Slim Sidebar */}
-        <div className="w-[210px] shrink-0 bg-white/75 backdrop-blur-md rounded-[12px] border border-white/80 p-2.5 flex flex-col justify-between shadow-xs">
-          <div className="space-y-2">
+      {/* ── 2. Main Workspace (Sidebar reduced to 130px + 8 Lanes Grid) ── */}
+      <div className="flex gap-2.5 items-stretch">
+        {/* Left Compact Sidebar (Width: 130px) */}
+        <div className="w-[130px] shrink-0 bg-white/75 backdrop-blur-md rounded-[10px] border border-white/80 p-2 flex flex-col justify-between shadow-xs">
+          <div className="space-y-1.5">
             {/* Group 1: QUẢN LÝ VÀO RA */}
             <div>
-              <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wider block px-1.5 mb-1">
+              <span className="text-[8.5px] font-bold text-slate-400 uppercase tracking-wider block px-1 mb-0.5">
                 Quản lý vào ra
               </span>
               <div className="space-y-0.5">
@@ -83,13 +83,13 @@ export default function GateDesktopShowcase() {
                     <button
                       key={item.name}
                       onClick={() => setActiveNav(item.name)}
-                      className={`w-full flex items-center gap-2.5 px-2.5 py-1.2 rounded-[6px] text-[11px] font-semibold transition-all cursor-pointer text-left ${
+                      className={`w-full flex items-center gap-1.5 px-1.5 py-1 rounded-[4px] text-[10px] font-semibold transition-all cursor-pointer text-left ${
                         isActive
                           ? 'bg-sky-100 text-sky-800 shadow-2xs'
                           : 'text-slate-600 hover:bg-white/80 hover:text-slate-900'
                       }`}
                     >
-                      <IconComponent size={13} weight={isActive ? 'bold' : 'regular'} className={isActive ? 'text-sky-600' : 'text-slate-400'} />
+                      <IconComponent size={12} weight={isActive ? 'bold' : 'regular'} className={isActive ? 'text-sky-600' : 'text-slate-400'} />
                       <span className="truncate">{item.name}</span>
                     </button>
                   );
@@ -99,7 +99,7 @@ export default function GateDesktopShowcase() {
 
             {/* Group 2: CẤU HÌNH HỆ THỐNG */}
             <div>
-              <span className="text-[9.5px] font-bold text-slate-400 uppercase tracking-wider block px-1.5 mb-1">
+              <span className="text-[8.5px] font-bold text-slate-400 uppercase tracking-wider block px-1 mb-0.5">
                 Cấu hình hệ thống
               </span>
               <div className="space-y-0.5">
@@ -114,9 +114,9 @@ export default function GateDesktopShowcase() {
                   return (
                     <div
                       key={item.name}
-                      className="flex items-center gap-2.5 px-2.5 py-1 rounded-[5px] text-[10.5px] text-slate-500 hover:text-slate-800 cursor-pointer transition-colors"
+                      className="flex items-center gap-1.5 px-1.5 py-0.8 rounded-[4px] text-[9.5px] text-slate-500 hover:text-slate-800 cursor-pointer transition-colors"
                     >
-                      <IconComponent size={12} className="text-slate-400" />
+                      <IconComponent size={11} className="text-slate-400" />
                       <span className="truncate">{item.name}</span>
                     </div>
                   );
@@ -126,18 +126,18 @@ export default function GateDesktopShowcase() {
           </div>
 
           {/* Account Box */}
-          <div className="bg-white rounded-[6px] border border-slate-200/80 p-2 mt-2 flex items-center justify-between shadow-2xs">
-            <div>
-              <p className="font-bold text-[11px] text-slate-800 leading-tight">Tài khoản mẫu</p>
-              <p className="text-[9px] text-slate-400 mt-0.5 leading-tight">Chế độ trình bày</p>
+          <div className="bg-white rounded-[5px] border border-slate-200/80 p-1.5 mt-1.5 flex items-center justify-between shadow-2xs">
+            <div className="min-w-0 flex-1">
+              <p className="font-bold text-[10px] text-slate-800 truncate leading-tight">Tài khoản</p>
+              <p className="text-[8px] text-slate-400 truncate leading-tight">Chế độ mẫu</p>
             </div>
-            <button className="px-2 py-0.5 rounded-[3px] text-[10px] font-semibold text-rose-600 border border-rose-200 bg-rose-50 hover:bg-rose-100 cursor-pointer">
+            <button className="px-1.5 py-0.5 rounded-[3px] text-[9px] font-semibold text-rose-600 border border-rose-200 bg-rose-50 hover:bg-rose-100 cursor-pointer shrink-0">
               Thoát
             </button>
           </div>
         </div>
 
-        {/* Right 8 Lanes Grid (Widescreen 16:9) */}
+        {/* Right 8 Lanes Grid (Unchanged 4 Columns) */}
         <div className="flex-1 bg-white/50 backdrop-blur-md rounded-[14px] border border-white/70 p-2.5 grid grid-cols-4 gap-2.5">
           {/* ══════════════ ROW 1 ══════════════ */}
 
@@ -207,7 +207,6 @@ export default function GateDesktopShowcase() {
                 </div>
               </div>
 
-              {/* 2 Camera Slots */}
               <div className="grid grid-cols-2 gap-1.5 mb-1">
                 <div className="h-[54px] bg-slate-100 rounded-[8px] border border-slate-200/80 flex flex-col items-center justify-center text-[9.5px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
@@ -219,7 +218,6 @@ export default function GateDesktopShowcase() {
                 </div>
               </div>
 
-              {/* Vehicle Info Box */}
               <div className="bg-slate-50/70 rounded-[10px] border border-slate-200/60 p-2 my-1">
                 <p className="text-[11px] font-bold text-slate-900 mb-1">Thông tin phương tiện</p>
                 <div className="flex gap-2">
@@ -246,7 +244,6 @@ export default function GateDesktopShowcase() {
               </div>
             </div>
 
-            {/* Footer */}
             <div className="border-t border-slate-100 pt-1.5 flex items-center justify-between text-[10px]">
               <div className="h-6 px-2 rounded-[4px] bg-slate-100/90 border border-slate-200 text-slate-500 flex items-center gap-1 font-medium">
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
