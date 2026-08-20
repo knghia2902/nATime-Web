@@ -1,7 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import AttendanceTableShowcase from '@/components/site/AttendanceTableShowcase';
-import { Users, ShieldCheck, Scales, Cpu } from '@phosphor-icons/react';
+import { Users, ShieldCheck, Scales, Cpu, DeviceMobile } from '@phosphor-icons/react';
 
 export default function Features() {
   return (
@@ -95,6 +96,32 @@ export default function Features() {
             <p className="font-sans text-[14px] text-white/70 leading-relaxed">
               Gắn mã định danh cho từng thiết bị, theo dõi vị trí, lịch bảo trì và khấu hao.
             </p>
+          </div>
+
+          {/* Mobile App Banner */}
+          <div className="md:col-span-2 glass-panel rounded-2xl p-6 shadow-card hover:border-white/25 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-5 bg-gradient-to-r from-sky-500/10 via-indigo-500/5 to-purple-500/10">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-sky-500/15 border border-sky-400/30 flex items-center justify-center text-sky-400 shrink-0">
+                <DeviceMobile size={28} weight="duotone" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-sans font-bold text-[18px] text-white">nATime Mobile App</h3>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                    Android APK
+                  </span>
+                </div>
+                <p className="font-sans text-[13.5px] text-white/70 mt-1">
+                  Nhân viên theo dõi ca làm, ngày công và giờ vào/ra; Kỹ thuật viên quét mã QR kiểm kê phần cứng tức thì ngay trên điện thoại.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/download"
+              className="btn-pill-glass text-xs font-semibold py-2 px-4 shrink-0"
+            >
+              Tải APK thử nghiệm →
+            </Link>
           </div>
         </div>
 

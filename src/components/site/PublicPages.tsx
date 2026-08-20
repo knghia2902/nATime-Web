@@ -3,6 +3,7 @@ import AssetManagementTableShowcase from './AssetManagementTableShowcase';
 import AttendanceTableShowcase from './AttendanceTableShowcase';
 import ContactForm from './ContactForm';
 import GateDesktopShowcase from './GateDesktopShowcase';
+import MobileAppShowcase from './MobileAppShowcase';
 import MobilePreviewDownload from './MobilePreviewDownload';
 import ProductPricing from './ProductPricing';
 import PublicShell from './PublicShell';
@@ -23,12 +24,12 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-14">
         <span className="badge-pill mb-3">{vi ? 'TÍNH NĂNG NỀN TẢNG' : 'FEATURES'}</span>
         <h1 className="font-sans font-bold text-[38px] md:text-[46px] leading-[1.1] text-white max-w-2xl mt-2">
-          {vi ? 'Bốn module, một nguồn dữ liệu vận hành duy nhất.' : 'Four modules, one unified operational data source.'}
+          {vi ? 'Nền tảng hợp nhất, một nguồn dữ liệu vận hành duy nhất.' : 'Unified platform, one single operational data source.'}
         </h1>
         <p className="font-sans text-[16px] text-white/60 mt-5 max-w-xl leading-relaxed">
           {vi
-            ? 'Mỗi module hoạt động độc lập theo nhu cầu của từng nhà máy, nhưng chia sẻ chung một lớp dữ liệu — để báo cáo, cảnh báo và đối soát luôn khớp nhau, ngay trên cùng một giao diện.'
-            : 'Each module operates independently based on factory needs, but shares a single data layer for reporting and reconciliation.'}
+            ? 'Mọi module và ứng dụng di động đều hoạt động độc lập theo nhu cầu nhà máy, chia sẻ chung một lớp dữ liệu — để báo cáo, cảnh báo và đối soát luôn khớp nhau trên toàn hệ thống.'
+            : 'Every module and mobile app operates independently while sharing a single unified data layer for real-time reporting and reconciliation.'}
         </p>
       </section>
 
@@ -138,10 +139,37 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
         </div>
       </section>
 
+      {/* MODULE 05 — ỨNG DỤNG DI ĐỘNG (MOBILE APP) */}
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center border-t border-white/[0.08]">
+        <div>
+          <span className="font-mono text-[11px] font-bold text-sky-400 block mb-1.5">{vi ? '05 / ỨNG DỤNG DI ĐỘNG' : '05 / MOBILE APP'}</span>
+          <h2 className="font-sans font-bold text-[22px] md:text-[24px] text-white mb-3 leading-snug">
+            {vi ? 'Chấm công & Quản lý thiết bị trong lòng bàn tay.' : 'Attendance & Asset Tracking in Your Palm.'}
+          </h2>
+          <ul className="font-sans text-[13px] text-white/65 space-y-2.5 mb-6">
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Nhân viên chủ động theo dõi ca làm, giờ vào/ra, tăng ca và lịch công hàng tháng.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Camera quét mã QR trên nhãn thiết bị để tra cứu cấu hình phần cứng và người sử dụng tức thì.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Kết nối trực tiếp máy chủ On-Premise nội bộ, đồng bộ thời gian thực và bảo mật cao.</li>
+          </ul>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/download"
+              className="btn-pill-glass text-xs font-semibold py-2.5 px-5"
+            >
+              {vi ? 'Tải ứng dụng Android (APK) →' : 'Download Android App (APK) →'}
+            </Link>
+          </div>
+        </div>
+
+        <div className="flex justify-center md:justify-end">
+          <MobileAppShowcase />
+        </div>
+      </section>
+
       {/* Bottom CTA */}
       <section className="max-w-6xl mx-auto px-6 py-20 text-center border-t border-white/[0.08]">
         <h2 className="font-sans font-bold text-[28px] md:text-[36px] text-white max-w-xl mx-auto mb-6">
-          {vi ? 'Xem cả bốn module hoạt động trên dữ liệu thật của bạn.' : 'See all four modules running on your real data.'}
+          {vi ? 'Trải nghiệm toàn bộ hệ sinh thái nATime trên dữ liệu thật của bạn.' : 'Experience the entire nATime ecosystem on your real data.'}
         </h2>
         <Link href="/contact" className="btn-pill-primary text-sm py-3.5 px-8 shadow-[0_4px_24px_rgba(255,255,255,0.25)]">
           {vi ? 'Yêu cầu demo' : 'Request Demo'}
