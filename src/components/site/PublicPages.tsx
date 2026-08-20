@@ -30,22 +30,25 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
       </section>
 
       {/* MODULE 01 — CHẤM CÔNG */}
-      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-12 items-center border-t border-white/[0.08]">
-        <div>
-          <span className="font-mono text-[12px] font-bold text-sky-400 block mb-2">{vi ? '01 / CHẤM CÔNG' : '01 / ATTENDANCE'}</span>
-          <h2 className="font-sans font-bold text-[28px] text-white mb-4">
-            {vi ? 'Tính công tự động, không đối soát tay.' : 'Auto payroll calculation, no manual checks.'}
-          </h2>
-          <ul className="font-sans text-[14px] text-white/65 space-y-3">
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Chấm công bằng vân tay, khuôn mặt hoặc thẻ từ, đồng bộ đa chi nhánh.</li>
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Tự động tính giờ công, tăng ca, đi trễ, nghỉ phép theo quy chế riêng.</li>
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Xuất bảng công trực tiếp sang phần mềm lương, không cần nhập lại.</li>
-          </ul>
+      <section className="max-w-6xl mx-auto px-6 py-14 border-t border-white/[0.08]">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+          <div>
+            <span className="font-mono text-[12px] font-bold text-sky-400 block mb-2">{vi ? '01 / CHẤM CÔNG' : '01 / ATTENDANCE'}</span>
+            <h2 className="font-sans font-bold text-[28px] md:text-[32px] text-white">
+              {vi ? 'Tính công tự động, không đối soát tay.' : 'Auto payroll calculation, no manual checks.'}
+            </h2>
+          </div>
+          <div className="flex flex-wrap gap-4 text-white/70 text-[13.5px]">
+            <span className="flex items-center gap-1.5"><span className="text-sky-400 font-bold">✓</span> Chấm công đa chi nhánh</span>
+            <span className="flex items-center gap-1.5"><span className="text-sky-400 font-bold">✓</span> Tự động tính ca & đi trễ</span>
+            <span className="flex items-center gap-1.5"><span className="text-sky-400 font-bold">✓</span> Xuất Excel bảng công tức thì</span>
+          </div>
         </div>
+
         <div className="glass-panel rounded-2xl shadow-card overflow-hidden border border-white/12">
           <div className="flex items-center gap-1.5 px-4 h-10 border-b border-white/[0.08] bg-white/[0.03]">
             <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
-            <span className="font-sans text-[11px] text-white/40 ml-3">nATime · Lịch sử chấm công</span>
+            <span className="font-sans text-[11px] text-white/40 ml-3">nATime · Lịch sử chấm công (app.natime.vn)</span>
           </div>
           <div className="relative w-full overflow-hidden">
             <AttendanceTableShowcase />
