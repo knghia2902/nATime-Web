@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Users, ShieldCheck, Scales, Cpu } from '@phosphor-icons/react';
 
 export default function Features() {
@@ -94,6 +95,45 @@ export default function Features() {
             <p className="font-sans text-[14px] text-white/70 leading-relaxed">
               Gắn mã định danh cho từng thiết bị, theo dõi vị trí, lịch bảo trì và khấu hao.
             </p>
+          </div>
+        </div>
+
+        {/* ── Feature Screenshot Showcase (Lịch sử chấm công) ── */}
+        <div className="mt-12 glass-panel rounded-2xl p-6 sm:p-8 border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div>
+              <p className="font-sans text-[13px] font-semibold text-sky-400 uppercase tracking-wider">
+                Giao diện thực tế
+              </p>
+              <h3 className="font-sans font-bold text-[22px] sm:text-[26px] text-white mt-1">
+                Lịch sử chấm công & Báo cáo tổng hợp
+              </h3>
+              <p className="font-sans text-[14px] text-white/65 mt-1">
+                Theo dõi chi tiết giờ vào, giờ ra, tăng ca và trạng thái đi muộn/về sớm theo thời gian thực.
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="badge-status badge-active">Tự động đồng bộ</span>
+              <span className="badge-status badge-pending">Đối soát tức thì</span>
+            </div>
+          </div>
+
+          <div className="rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-slate-950/50">
+            <div className="flex items-center gap-1.5 px-4 h-9 border-b border-white/10 bg-white/[0.03]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+              <span className="font-mono text-[11px] text-white/40 ml-3">app.natime.vn/attendance/history</span>
+            </div>
+            <div className="relative w-full p-2 bg-slate-950/30">
+              <Image
+                src="/features-attendance.png"
+                alt="nATime - Lịch sử chấm công"
+                width={1600}
+                height={1000}
+                className="w-full h-auto block rounded-lg"
+              />
+            </div>
           </div>
         </div>
       </section>

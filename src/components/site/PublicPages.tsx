@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import ContactForm from './ContactForm';
 import MobilePreviewDownload from './MobilePreviewDownload';
@@ -41,28 +42,19 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
             <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Xuất bảng công trực tiếp sang phần mềm lương, không cần nhập lại.</li>
           </ul>
         </div>
-        <div className="glass-panel rounded-2xl shadow-card overflow-hidden">
+        <div className="glass-panel rounded-2xl shadow-card overflow-hidden border border-white/12">
           <div className="flex items-center gap-1.5 px-4 h-10 border-b border-white/[0.08] bg-white/[0.03]">
             <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
-            <span className="font-sans text-[11px] text-white/40 ml-3">Bảng công · Xưởng 2</span>
+            <span className="font-sans text-[11px] text-white/40 ml-3">nATime · Lịch sử chấm công</span>
           </div>
-          <div className="divide-y divide-white/[0.06]">
-            <div className="flex items-center justify-between px-5 py-3.5">
-              <div><p className="font-sans text-[13px] font-medium text-white">Trần Văn An</p><p className="font-sans text-[11px] text-white/50">NV-0482 · Xưởng Cơ khí</p></div>
-              <span className="badge-status badge-active">07:58 (Vào ca)</span>
-            </div>
-            <div className="flex items-center justify-between px-5 py-3.5">
-              <div><p className="font-sans text-[13px] font-medium text-white">Lê Thị Bình</p><p className="font-sans text-[11px] text-white/50">NV-0511 · Phòng Kế toán</p></div>
-              <span className="badge-status badge-active">07:52 (Vào ca)</span>
-            </div>
-            <div className="flex items-center justify-between px-5 py-3.5">
-              <div><p className="font-sans text-[13px] font-medium text-white">Phạm Quốc Cường</p><p className="font-sans text-[11px] text-white/50">NV-0398 · Đội Bảo vệ</p></div>
-              <span className="badge-status badge-inactive">Đi muộn +15p</span>
-            </div>
-            <div className="flex items-center justify-between px-5 py-3.5">
-              <div><p className="font-sans text-[13px] font-medium text-white">Nguyễn Thị Dung</p><p className="font-sans text-[11px] text-white/50">NV-0627 · Xưởng Lắp ráp</p></div>
-              <span className="badge-status badge-active">07:49 (Vào ca)</span>
-            </div>
+          <div className="relative w-full bg-slate-950/40 p-2">
+            <Image
+              src="/features-attendance.png"
+              alt="nATime - Lịch sử chấm công"
+              width={1440}
+              height={900}
+              className="w-full h-auto rounded-xl shadow-lg border border-white/10 block"
+            />
           </div>
         </div>
       </section>
