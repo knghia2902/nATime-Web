@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import AssetManagementTableShowcase from './AssetManagementTableShowcase';
 import AttendanceTableShowcase from './AttendanceTableShowcase';
 import ContactForm from './ContactForm';
 import GateDesktopShowcase from './GateDesktopShowcase';
@@ -89,12 +90,12 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
         <div>
           <span className="font-mono text-[11px] font-bold text-sky-400 block mb-1.5">{vi ? '03 / TRẠM CÂN' : '03 / WEIGHBRIDGE'}</span>
           <h2 className="font-sans font-bold text-[22px] md:text-[24px] text-white mb-3 leading-snug">
-            {vi ? 'Mỗi phiếu cân đều được đối chiếu tự động.' : 'Every weigh ticket is automatically cross-checked.'}
+            {vi ? 'Kiểm soát khối lượng hàng hóa tự động, chống thất thoát.' : 'Auto weight tracking, zero loss.'}
           </h2>
           <ul className="font-sans text-[13px] text-white/65 space-y-2.5">
-            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Kết nối trực tiếp đầu cân điện tử, ghi nhận khối lượng thời gian thực.</li>
-            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Tự động đối chiếu phiếu cân với đơn hàng và biển số xe.</li>
-            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Phát hiện sai lệch khối lượng bất thường ngay tại cổng cân.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Tích hợp đầu cân điện tử và camera nhận diện biển số tự động.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Tự động tính tải trọng tịnh, cảnh báo gian lận hoặc sai lệch đơn hàng.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>In phiếu cân tức thì, lưu trữ ảnh chụp biển số cùng dữ liệu cân.</li>
           </ul>
         </div>
 
@@ -102,7 +103,7 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
           <div className="w-full max-w-[620px] glass-panel rounded-lg shadow-card overflow-hidden border border-white/12">
             <div className="flex items-center gap-1.5 px-3.5 h-7 border-b border-white/[0.08] bg-white/[0.03]">
               <span className="w-2 h-2 rounded-full bg-rose-500/60" /><span className="w-2 h-2 rounded-full bg-amber-500/60" /><span className="w-2 h-2 rounded-full bg-emerald-500/60" />
-              <span className="font-sans text-[9.5px] text-white/40 ml-2">nATime · Nhật ký phiếu cân xe (Trạm 01 & 02)</span>
+              <span className="font-sans text-[9.5px] text-white/40 ml-2">nATime · Bàn cân điện tử & Nhận diện xe tự động</span>
             </div>
             <div className="relative w-full overflow-hidden">
               <WeighbridgeTableShowcase />
@@ -112,36 +113,27 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
       </section>
 
       {/* MODULE 04 — QUẢN LÝ TÀI SẢN */}
-      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-12 items-center border-t border-white/[0.08]">
-        <div className="glass-panel rounded-2xl shadow-card overflow-hidden md:order-1 order-2">
-          <div className="flex items-center gap-1.5 px-4 h-10 border-b border-white/[0.08] bg-white/[0.03]">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
-            <span className="font-sans text-[11px] text-white/40 ml-3">Tài sản · Xưởng 2</span>
-          </div>
-          <div className="divide-y divide-white/[0.06]">
-            <div className="flex items-center justify-between px-5 py-3.5">
-              <div><p className="font-sans text-[13px] font-medium text-white">FL-07 · Xe nâng điện Toyota</p></div>
-              <span className="badge-status badge-pending">Bảo trì sau 3 ngày</span>
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center border-t border-white/[0.08]">
+        <div className="md:order-1 order-2">
+          <div className="w-full max-w-[620px] glass-panel rounded-lg shadow-card overflow-hidden border border-white/12">
+            <div className="flex items-center gap-1.5 px-3.5 h-7 border-b border-white/[0.08] bg-white/[0.03]">
+              <span className="w-2 h-2 rounded-full bg-rose-500/60" /><span className="w-2 h-2 rounded-full bg-amber-500/60" /><span className="w-2 h-2 rounded-full bg-emerald-500/60" />
+              <span className="font-sans text-[9.5px] text-white/40 ml-2">nATime · Danh sách thiết bị CNTT & Tài sản phần cứng</span>
             </div>
-            <div className="flex items-center justify-between px-5 py-3.5">
-              <div><p className="font-sans text-[13px] font-medium text-white">CM-22 · Máy nén khí trục vít</p></div>
-              <span className="badge-status badge-active">Hoạt động tốt</span>
-            </div>
-            <div className="flex items-center justify-between px-5 py-3.5">
-              <div><p className="font-sans text-[13px] font-medium text-white">GT-03 · Xe nâng tay thủy lực</p></div>
-              <span className="badge-status badge-active">Hoạt động tốt</span>
+            <div className="relative w-full overflow-hidden">
+              <AssetManagementTableShowcase />
             </div>
           </div>
         </div>
         <div className="order-1 md:order-2">
-          <span className="font-mono text-[12px] font-bold text-sky-400 block mb-2">{vi ? '04 / QUẢN LÝ TÀI SẢN' : '04 / ASSET MANAGEMENT'}</span>
-          <h2 className="font-sans font-bold text-[28px] text-white mb-4">
+          <span className="font-mono text-[11px] font-bold text-sky-400 block mb-1.5">{vi ? '04 / QUẢN LÝ TÀI SẢN' : '04 / ASSET MANAGEMENT'}</span>
+          <h2 className="font-sans font-bold text-[22px] md:text-[24px] text-white mb-3 leading-snug">
             {vi ? 'Theo dõi thiết bị từ khi mua đến khi thanh lý.' : 'Track equipment from purchase to disposal.'}
           </h2>
-          <ul className="font-sans text-[14px] text-white/65 space-y-3">
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Gắn mã định danh riêng cho từng thiết bị, dễ dàng tra cứu.</li>
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Lịch bảo trì định kỳ, nhắc hạn tự động trước khi thiết bị hỏng.</li>
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Theo dõi khấu hao và vị trí thiết bị theo thời gian thực.</li>
+          <ul className="font-sans text-[13px] text-white/65 space-y-2.5">
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Quản lý chi tiết cấu hình phần cứng, specs, serial, mã QR cho từng thiết bị.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Ghi nhận vị trí phòng ban, người sử dụng và lịch sử bàn giao thiết bị.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Hỗ trợ import/export Excel nhanh chóng, theo dõi trạng thái sử dụng.</li>
           </ul>
         </div>
       </section>
