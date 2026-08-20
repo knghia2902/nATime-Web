@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import AccessControlTableShowcase from './AccessControlTableShowcase';
 import AttendanceTableShowcase from './AttendanceTableShowcase';
 import ContactForm from './ContactForm';
+import GateDesktopShowcase from './GateDesktopShowcase';
 import MobilePreviewDownload from './MobilePreviewDownload';
 import ProductPricing from './ProductPricing';
 import PublicShell from './PublicShell';
@@ -64,10 +64,10 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
           <div className="w-full max-w-[620px] glass-panel rounded-lg shadow-card overflow-hidden border border-white/12">
             <div className="flex items-center gap-1.5 px-3.5 h-7 border-b border-white/[0.08] bg-white/[0.03]">
               <span className="w-2 h-2 rounded-full bg-rose-500/60" /><span className="w-2 h-2 rounded-full bg-amber-500/60" /><span className="w-2 h-2 rounded-full bg-emerald-500/60" />
-              <span className="font-sans text-[9.5px] text-white/40 ml-2">nATime · Nhật ký ra vào cửa (Cổng B - 8 Làn)</span>
+              <span className="font-sans text-[9.5px] text-white/40 ml-2">nATime Gate · Giám sát 8 làn ra vào đa phương tiện</span>
             </div>
             <div className="relative w-full overflow-hidden">
-              <AccessControlTableShowcase />
+              <GateDesktopShowcase />
             </div>
           </div>
         </div>
