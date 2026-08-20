@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import AttendanceTableShowcase from '@/components/site/AttendanceTableShowcase';
 import { Users, ShieldCheck, Scales, Cpu } from '@phosphor-icons/react';
 
 export default function Features() {
@@ -125,14 +125,8 @@ export default function Features() {
               <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
               <span className="font-mono text-[11px] text-white/40 ml-3">app.natime.vn/attendance/history</span>
             </div>
-            <div className="relative w-full">
-              <Image
-                src="/features-attendance.png"
-                alt="nATime - Lịch sử chấm công"
-                width={1475}
-                height={962}
-                className="w-full h-auto block"
-              />
+            <div className="relative w-full overflow-hidden">
+              <AttendanceTableShowcase />
             </div>
           </div>
         </div>

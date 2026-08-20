@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import AttendanceTableShowcase from './AttendanceTableShowcase';
 import ContactForm from './ContactForm';
 import MobilePreviewDownload from './MobilePreviewDownload';
 import ProductPricing from './ProductPricing';
@@ -48,14 +48,7 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
             <span className="font-sans text-[11px] text-white/40 ml-3">nATime · Lịch sử chấm công</span>
           </div>
           <div className="relative w-full overflow-hidden">
-            <Image
-              src="/features-attendance.png"
-              alt="nATime - Lịch sử chấm công"
-              width={1475}
-              height={962}
-              className="w-full h-auto block"
-              priority
-            />
+            <AttendanceTableShowcase />
           </div>
         </div>
       </section>
