@@ -99,31 +99,31 @@ export default function Features() {
         </div>
 
         {/* ── Feature Screenshot Showcase (Lịch sử chấm công) ── */}
-        <div className="mt-12 max-w-4xl mx-auto glass-panel rounded-2xl p-5 sm:p-6 border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+        <div className="mt-12 max-w-2xl mx-auto glass-panel rounded-2xl p-4 sm:p-5 border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
             <div>
-              <p className="font-sans text-[12.5px] font-semibold text-sky-400 uppercase tracking-wider">
+              <p className="font-sans text-[11.5px] font-semibold text-sky-400 uppercase tracking-wider">
                 Giao diện thực tế
               </p>
-              <h3 className="font-sans font-bold text-[20px] sm:text-[24px] text-white mt-0.5">
+              <h3 className="font-sans font-bold text-[18px] sm:text-[20px] text-white mt-0.5">
                 Lịch sử chấm công & Báo cáo tổng hợp
               </h3>
-              <p className="font-sans text-[13.5px] text-white/65 mt-0.5">
+              <p className="font-sans text-[12.5px] text-white/65 mt-0.5">
                 Theo dõi chi tiết giờ vào, giờ ra, tăng ca và trạng thái đi muộn/về sớm theo thời gian thực.
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <span className="badge-status badge-active">Tự động đồng bộ</span>
               <span className="badge-status badge-pending">Đối soát tức thì</span>
             </div>
           </div>
 
           <div className="rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-slate-950/50">
-            <div className="flex items-center gap-1.5 px-4 h-9 border-b border-white/10 bg-white/[0.03]">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
-              <span className="font-mono text-[11px] text-white/40 ml-3">app.natime.vn/attendance/history</span>
+            <div className="flex items-center gap-1.5 px-3 h-8 border-b border-white/10 bg-white/[0.03]">
+              <span className="w-2 h-2 rounded-full bg-[#ff5f56]" />
+              <span className="w-2 h-2 rounded-full bg-[#ffbd2e]" />
+              <span className="w-2 h-2 rounded-full bg-[#27c93f]" />
+              <span className="font-mono text-[10px] text-white/40 ml-2">app.natime.vn/attendance/history</span>
             </div>
             <div className="relative w-full overflow-hidden">
               <AttendanceTableShowcase />
