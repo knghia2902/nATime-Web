@@ -7,9 +7,7 @@ import {
   Funnel, 
   CalendarBlank, 
   CaretDown, 
-  CaretLeft, 
-  CaretRight,
-  CaretUpDown,
+  CaretUpDown, 
   ArrowDown
 } from '@phosphor-icons/react';
 
@@ -319,39 +317,6 @@ export default function AttendanceTableShowcase() {
               ))}
             </tbody>
           </table>
-        </div>
-
-        {/* ── 4. Nano Pagination Footer ── */}
-        <div className="flex items-center justify-between px-2 py-1 border-t border-slate-100 bg-slate-50/50 text-[8px] text-slate-500">
-          <p>
-            Hiển thị <span className="font-semibold text-slate-700">1</span> đến{' '}
-            <span className="font-semibold text-slate-700">{filteredRecords.length}</span> của{' '}
-            <span className="font-semibold text-slate-700">9</span> bản ghi
-          </p>
-
-          <div className="flex items-center gap-0.5">
-            <button
-              type="button"
-              className="w-3.5 h-3.5 flex items-center justify-center rounded border border-slate-200 bg-white text-slate-400 hover:text-slate-700 text-[7.5px] disabled:opacity-40"
-              disabled
-            >
-              <CaretLeft size={7} weight="bold" />
-            </button>
-
-            <button
-              type="button"
-              className="w-3.5 h-3.5 flex items-center justify-center rounded bg-[#2563eb] text-white text-[7.5px] font-bold shadow-2xs"
-            >
-              1
-            </button>
-
-            <button
-              type="button"
-              className="w-3.5 h-3.5 flex items-center justify-center rounded border border-slate-200 bg-white text-slate-500 hover:text-slate-800 text-[7.5px]"
-            >
-              <CaretRight size={7} weight="bold" />
-            </button>
-          </div>
         </div>
       </div>
     </div>
