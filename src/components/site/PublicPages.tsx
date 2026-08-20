@@ -6,6 +6,7 @@ import MobilePreviewDownload from './MobilePreviewDownload';
 import ProductPricing from './ProductPricing';
 import PublicShell from './PublicShell';
 import ReleaseDownload from './ReleaseDownload';
+import WeighbridgeTableShowcase from './WeighbridgeTableShowcase';
 
 type Locale = 'vi' | 'en';
 
@@ -84,29 +85,27 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
       </section>
 
       {/* MODULE 03 — TRẠM CÂN */}
-      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-12 items-center border-t border-white/[0.08]">
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center border-t border-white/[0.08]">
         <div>
-          <span className="font-mono text-[12px] font-bold text-sky-400 block mb-2">{vi ? '03 / TRẠM CÂN' : '03 / WEIGHBRIDGE'}</span>
-          <h2 className="font-sans font-bold text-[28px] text-white mb-4">
+          <span className="font-mono text-[11px] font-bold text-sky-400 block mb-1.5">{vi ? '03 / TRẠM CÂN' : '03 / WEIGHBRIDGE'}</span>
+          <h2 className="font-sans font-bold text-[22px] md:text-[24px] text-white mb-3 leading-snug">
             {vi ? 'Mỗi phiếu cân đều được đối chiếu tự động.' : 'Every weigh ticket is automatically cross-checked.'}
           </h2>
-          <ul className="font-sans text-[14px] text-white/65 space-y-3">
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Kết nối trực tiếp đầu cân điện tử, ghi nhận khối lượng thời gian thực.</li>
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Tự động đối chiếu phiếu cân với đơn hàng và biển số xe.</li>
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Phát hiện sai lệch khối lượng bất thường ngay tại cổng cân.</li>
+          <ul className="font-sans text-[13px] text-white/65 space-y-2.5">
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Kết nối trực tiếp đầu cân điện tử, ghi nhận khối lượng thời gian thực.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Tự động đối chiếu phiếu cân với đơn hàng và biển số xe.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Phát hiện sai lệch khối lượng bất thường ngay tại cổng cân.</li>
           </ul>
         </div>
-        <div className="glass-panel rounded-2xl shadow-card overflow-hidden">
-          <div className="flex items-center gap-1.5 px-4 h-10 border-b border-white/[0.08] bg-white/[0.03]">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
-            <span className="font-sans text-[11px] text-white/40 ml-3">Phiếu cân #20260804-118</span>
-          </div>
-          <div className="p-6">
-            <p className="font-sans font-extrabold text-[40px] text-white leading-none">18.420<span className="text-[18px] text-white/50 font-medium ml-1">kg</span></p>
-            <p className="font-sans text-[13px] text-white/60 mt-2 mb-5">Xe tải 51C-224.19 · Đơn hàng giao hàng PO-4471</p>
-            <div className="flex items-center justify-between border-t border-white/[0.08] pt-4">
-              <span className="font-sans text-[13px] text-white/60">Đối chiếu đơn hàng ERP</span>
-              <span className="badge-status badge-active">Trùng khớp 100%</span>
+
+        <div className="flex justify-end">
+          <div className="w-full max-w-[620px] glass-panel rounded-lg shadow-card overflow-hidden border border-white/12">
+            <div className="flex items-center gap-1.5 px-3.5 h-7 border-b border-white/[0.08] bg-white/[0.03]">
+              <span className="w-2 h-2 rounded-full bg-rose-500/60" /><span className="w-2 h-2 rounded-full bg-amber-500/60" /><span className="w-2 h-2 rounded-full bg-emerald-500/60" />
+              <span className="font-sans text-[9.5px] text-white/40 ml-2">nATime · Nhật ký phiếu cân xe (Trạm 01 & 02)</span>
+            </div>
+            <div className="relative w-full overflow-hidden">
+              <WeighbridgeTableShowcase />
             </div>
           </div>
         </div>
