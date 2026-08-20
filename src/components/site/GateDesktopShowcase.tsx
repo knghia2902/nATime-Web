@@ -14,7 +14,7 @@ export default function GateDesktopShowcase() {
   return (
     <div className="w-full bg-[#d6e8fa] text-slate-800 select-none font-sans rounded-b-[4px] shadow-inner overflow-hidden flex justify-center">
       <div 
-        style={{ zoom: 0.515 }}
+        style={{ zoom: 0.5 }}
         className="w-[960px] p-2.5 text-[9.5px] leading-tight"
       >
         {/* ── 1. App Header ── */}
