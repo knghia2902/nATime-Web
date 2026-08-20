@@ -106,14 +106,14 @@ export default function AttendanceTableShowcase() {
   );
 
   return (
-    <div className="w-full bg-[#f8fafc] text-slate-800 p-2 sm:p-2.5 select-none font-sans rounded-b-xl text-[9px] leading-tight">
-      {/* ── 1. Nano Header ── */}
+    <div className="w-full bg-[#f8fafc] text-slate-800 p-2 select-none font-sans rounded-b-xl text-[8px] leading-tight">
+      {/* ── 1. Ultra Micro Header ── */}
       <div className="flex items-center justify-between gap-2 mb-1.5">
         <div>
-          <h2 className="text-[11px] sm:text-[12px] font-bold text-slate-900 leading-none">
+          <h2 className="text-[10px] sm:text-[10.5px] font-bold text-slate-900 leading-none">
             Lịch sử chấm công
           </h2>
-          <p className="text-[8.5px] text-slate-500 mt-0.5">
+          <p className="text-[7.5px] text-slate-500 mt-0.5">
             Tổng hợp dữ liệu theo bộ lọc
           </p>
         </div>
@@ -121,96 +121,96 @@ export default function AttendanceTableShowcase() {
         <div className="flex items-center gap-1">
           <button
             type="button"
-            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[8.5px] font-semibold text-white bg-[#4f46e5] hover:bg-[#4338ca] shadow-2xs transition-all active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[7.5px] font-semibold text-white bg-[#4f46e5] hover:bg-[#4338ca] shadow-2xs transition-all active:scale-95 cursor-pointer"
           >
-            <ArrowClockwise size={9} weight="bold" />
+            <ArrowClockwise size={8} weight="bold" />
             <span>Tính lại</span>
           </button>
 
           <button
             type="button"
-            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[8.5px] font-semibold text-white bg-[#059669] hover:bg-[#047857] shadow-2xs transition-all active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[7.5px] font-semibold text-white bg-[#059669] hover:bg-[#047857] shadow-2xs transition-all active:scale-95 cursor-pointer"
           >
-            <MicrosoftExcelLogo size={9} weight="bold" />
+            <MicrosoftExcelLogo size={8} weight="bold" />
             <span>Xuất Excel</span>
           </button>
         </div>
       </div>
 
-      {/* ── 2. Nano Filter Box ── */}
+      {/* ── 2. Ultra Micro Filter Box ── */}
       <div className="bg-white rounded border border-slate-200/80 p-1.5 shadow-2xs mb-1.5">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1 items-end">
           {/* Loại báo cáo */}
           <div className="space-y-0.5">
-            <label className="text-[7.5px] font-semibold text-slate-500 uppercase tracking-wider block">
+            <label className="text-[6.5px] font-bold text-slate-500 uppercase tracking-wider block">
               Loại báo cáo
             </label>
             <div className="relative">
               <select
                 value={reportType}
                 onChange={(e) => setReportType(e.target.value)}
-                className="w-full h-5 pl-1 pr-4 rounded border border-slate-200 bg-white text-[8.5px] text-slate-800 font-medium appearance-none focus:outline-none focus:border-indigo-500 cursor-pointer"
+                className="w-full h-4.5 pl-1 pr-3.5 rounded border border-slate-200 bg-white text-[7.5px] text-slate-800 font-medium appearance-none focus:outline-none focus:border-indigo-500 cursor-pointer"
               >
                 <option value="Lịch sử chấm công">Lịch sử chấm công</option>
                 <option value="Bảng công chi tiết">Bảng công chi tiết</option>
               </select>
-              <CaretDown size={8} weight="bold" className="absolute right-1 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              <CaretDown size={7} weight="bold" className="absolute right-1 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             </div>
           </div>
 
           {/* Từ ngày */}
           <div className="space-y-0.5">
-            <label className="text-[7.5px] font-semibold text-slate-500 uppercase tracking-wider block">
+            <label className="text-[6.5px] font-bold text-slate-500 uppercase tracking-wider block">
               Từ ngày
             </label>
             <div className="relative">
               <input
                 type="text"
                 defaultValue="20/08/2026"
-                className="w-full h-5 pl-1 pr-4 rounded border border-slate-200 bg-white text-[8.5px] text-slate-800 font-medium focus:outline-none focus:border-indigo-500"
+                className="w-full h-4.5 pl-1 pr-3.5 rounded border border-slate-200 bg-white text-[7.5px] text-slate-800 font-medium focus:outline-none focus:border-indigo-500"
               />
-              <CalendarBlank size={8} weight="bold" className="absolute right-1 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              <CalendarBlank size={7} weight="bold" className="absolute right-1 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             </div>
           </div>
 
           {/* Đến ngày */}
           <div className="space-y-0.5">
-            <label className="text-[7.5px] font-semibold text-slate-500 uppercase tracking-wider block">
+            <label className="text-[6.5px] font-bold text-slate-500 uppercase tracking-wider block">
               Đến ngày
             </label>
             <div className="relative">
               <input
                 type="text"
                 defaultValue="20/08/2026"
-                className="w-full h-5 pl-1 pr-4 rounded border border-slate-200 bg-white text-[8.5px] text-slate-800 font-medium focus:outline-none focus:border-indigo-500"
+                className="w-full h-4.5 pl-1 pr-3.5 rounded border border-slate-200 bg-white text-[7.5px] text-slate-800 font-medium focus:outline-none focus:border-indigo-500"
               />
-              <CalendarBlank size={8} weight="bold" className="absolute right-1 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              <CalendarBlank size={7} weight="bold" className="absolute right-1 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             </div>
           </div>
 
           {/* Phòng ban */}
           <div className="space-y-0.5">
-            <label className="text-[7.5px] font-semibold text-slate-500 uppercase tracking-wider block">
+            <label className="text-[6.5px] font-bold text-slate-500 uppercase tracking-wider block">
               Phòng ban
             </label>
             <div className="relative">
               <select
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
-                className="w-full h-5 pl-1 pr-4 rounded border border-slate-200 bg-white text-[8.5px] text-slate-800 font-medium appearance-none focus:outline-none focus:border-indigo-500 cursor-pointer"
+                className="w-full h-4.5 pl-1 pr-3.5 rounded border border-slate-200 bg-white text-[7.5px] text-slate-800 font-medium appearance-none focus:outline-none focus:border-indigo-500 cursor-pointer"
               >
                 <option value="Tất cả">Tất cả</option>
                 <option value="BP Kho">BP Kho</option>
                 <option value="BP R&D">BP R&D</option>
                 <option value="Phòng KD">Phòng KD</option>
               </select>
-              <CaretDown size={8} weight="bold" className="absolute right-1 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              <CaretDown size={7} weight="bold" className="absolute right-1 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             </div>
           </div>
 
           {/* Tìm kiếm */}
           <div className="space-y-0.5">
-            <label className="text-[7.5px] font-semibold text-slate-500 uppercase tracking-wider block">
+            <label className="text-[6.5px] font-bold text-slate-500 uppercase tracking-wider block">
               Tìm kiếm
             </label>
             <input
@@ -218,7 +218,7 @@ export default function AttendanceTableShowcase() {
               placeholder="Mã/tên NV..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-5 px-1 rounded border border-slate-200 bg-white text-[8.5px] text-slate-800 font-medium placeholder:text-slate-400 focus:outline-none focus:border-indigo-500"
+              className="w-full h-4.5 px-1 rounded border border-slate-200 bg-white text-[7.5px] text-slate-800 font-medium placeholder:text-slate-400 focus:outline-none focus:border-indigo-500"
             />
           </div>
 
@@ -226,73 +226,73 @@ export default function AttendanceTableShowcase() {
           <div>
             <button
               type="button"
-              className="w-full h-5 inline-flex items-center justify-center gap-0.5 px-1.5 rounded border border-slate-200 bg-slate-50 hover:bg-slate-100 text-[8.5px] font-semibold text-slate-700 transition-all active:scale-95 cursor-pointer"
+              className="w-full h-4.5 inline-flex items-center justify-center gap-0.5 px-1.5 rounded border border-slate-200 bg-slate-50 hover:bg-slate-100 text-[7.5px] font-semibold text-slate-700 transition-all active:scale-95 cursor-pointer"
             >
-              <Funnel size={8} weight="bold" />
+              <Funnel size={7} weight="bold" />
               <span>Lọc</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* ── 3. Nano Data Table ── */}
+      {/* ── 3. Ultra Micro Data Table ── */}
       <div className="bg-white rounded border border-slate-200/80 shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[550px]">
+          <table className="w-full text-left border-collapse min-w-[480px]">
             <thead>
-              <tr className="border-b border-slate-100 bg-slate-50/70 text-[8px] font-semibold text-slate-500">
-                <th className="py-1 px-1.5 text-center w-6">STT</th>
-                <th className="py-1 px-1.5 text-[#4f46e5] font-bold">
+              <tr className="border-b border-slate-100 bg-slate-50/70 text-[7px] font-semibold text-slate-500">
+                <th className="py-1 px-1 text-center w-5">STT</th>
+                <th className="py-1 px-1 text-[#4f46e5] font-bold">
                   <span className="inline-flex items-center gap-0.5">
-                    Mã NV <CaretUpDown size={7} weight="bold" />
+                    Mã NV <CaretUpDown size={6} weight="bold" />
                   </span>
                 </th>
-                <th className="py-1 px-1.5 text-slate-700">Nhân viên</th>
-                <th className="py-1 px-1.5 text-slate-700">Phòng ban</th>
-                <th className="py-1 px-1.5 text-slate-700">
+                <th className="py-1 px-1 text-slate-700">Nhân viên</th>
+                <th className="py-1 px-1 text-slate-700">Phòng ban</th>
+                <th className="py-1 px-1 text-slate-700">
                   <span className="inline-flex items-center gap-0.5">
-                    Ngày <CaretUpDown size={7} weight="bold" />
+                    Ngày <CaretUpDown size={6} weight="bold" />
                   </span>
                 </th>
-                <th className="py-1 px-1.5 text-slate-700">Khung ca</th>
-                <th className="py-1 px-1.5 text-slate-700">
+                <th className="py-1 px-1 text-slate-700">Khung ca</th>
+                <th className="py-1 px-1 text-slate-700">
                   <span className="inline-flex items-center gap-0.5">
-                    Giờ vào <ArrowDown size={7} weight="bold" className="text-[#4f46e5]" />
+                    Giờ vào <ArrowDown size={6} weight="bold" className="text-[#4f46e5]" />
                   </span>
                 </th>
                 <th className="py-1 px-1 text-center">Giờ ra</th>
                 <th className="py-1 px-1 text-center">Giờ công</th>
                 <th className="py-1 px-1 text-center">Tăng ca</th>
-                <th className="py-1 px-1.5 text-center">Chế độ</th>
+                <th className="py-1 px-1 text-center">Chế độ</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-[8.5px]">
+            <tbody className="divide-y divide-slate-100 text-[7.5px]">
               {filteredRecords.map((r) => (
                 <tr
                   key={r.stt}
                   className="hover:bg-indigo-50/30 transition-colors"
                 >
-                  <td className="py-0.5 px-1.5 text-center text-slate-400 font-medium">
+                  <td className="py-0.5 px-1 text-center text-slate-400 font-medium">
                     {r.stt}
                   </td>
-                  <td className="py-0.5 px-1.5">
-                    <span className="inline-block px-1 py-0 rounded text-[7.5px] font-semibold bg-slate-100 text-slate-700 font-mono border border-slate-200/50">
+                  <td className="py-0.5 px-1">
+                    <span className="inline-block px-1 py-0 rounded text-[6.5px] font-semibold bg-slate-100 text-slate-700 font-mono border border-slate-200/50">
                       {r.code}
                     </span>
                   </td>
-                  <td className="py-0.5 px-1.5 font-bold text-slate-900 whitespace-nowrap">
+                  <td className="py-0.5 px-1 font-bold text-slate-900 whitespace-nowrap">
                     {r.name}
                   </td>
-                  <td className="py-0.5 px-1.5 text-slate-600 font-medium whitespace-nowrap">
+                  <td className="py-0.5 px-1 text-slate-600 font-medium whitespace-nowrap">
                     {r.department}
                   </td>
-                  <td className="py-0.5 px-1.5 text-slate-600 font-medium whitespace-nowrap">
+                  <td className="py-0.5 px-1 text-slate-600 font-medium whitespace-nowrap">
                     {r.date}
                   </td>
-                  <td className="py-0.5 px-1.5 text-slate-600 font-medium whitespace-nowrap">
+                  <td className="py-0.5 px-1 text-slate-600 font-medium whitespace-nowrap">
                     {r.shift}
                   </td>
-                  <td className="py-0.5 px-1.5 font-bold text-emerald-600">
+                  <td className="py-0.5 px-1 font-bold text-emerald-600">
                     {r.inTime}
                   </td>
                   <td className="py-0.5 px-1 text-center text-blue-500 font-medium">
@@ -304,7 +304,7 @@ export default function AttendanceTableShowcase() {
                   <td className="py-0.5 px-1 text-center text-indigo-400 font-medium">
                     {r.overtime}
                   </td>
-                  <td className="py-0.5 px-1.5 text-center">
+                  <td className="py-0.5 px-1 text-center">
                     {r.status === 'Đi muộn' ? (
                       <span className="font-semibold text-rose-600">
                         {r.status}
