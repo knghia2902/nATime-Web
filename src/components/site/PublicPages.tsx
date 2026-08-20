@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import AccessControlTableShowcase from './AccessControlTableShowcase';
 import AttendanceTableShowcase from './AttendanceTableShowcase';
 import ContactForm from './ContactForm';
 import MobilePreviewDownload from './MobilePreviewDownload';
@@ -57,36 +58,27 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
       </section>
 
       {/* MODULE 02 — KIỂM SOÁT RA VÀO */}
-      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-12 items-center border-t border-white/[0.08]">
-        <div className="glass-panel rounded-2xl shadow-card overflow-hidden md:order-1 order-2">
-          <div className="flex items-center gap-1.5 px-4 h-10 border-b border-white/[0.08] bg-white/[0.03]">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
-            <span className="font-sans text-[11px] text-white/40 ml-3">Nhật ký ra vào · Cổng B (8 Làn)</span>
-          </div>
-          <div className="divide-y divide-white/[0.06]">
-            <div className="flex items-center justify-between px-5 py-3.5">
-              <div><p className="font-sans text-[13px] font-medium text-white">Nhà thầu #114 · Công ty Điện lực</p><p className="font-sans text-[11px] text-white/50">07:58:47 · Làn 01 (Xe ô tô)</p></div>
-              <span className="badge-status badge-active">Hợp lệ</span>
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center border-t border-white/[0.08]">
+        <div className="md:order-1 order-2">
+          <div className="w-full max-w-[620px] glass-panel rounded-lg shadow-card overflow-hidden border border-white/12">
+            <div className="flex items-center gap-1.5 px-3.5 h-7 border-b border-white/[0.08] bg-white/[0.03]">
+              <span className="w-2 h-2 rounded-full bg-rose-500/60" /><span className="w-2 h-2 rounded-full bg-amber-500/60" /><span className="w-2 h-2 rounded-full bg-emerald-500/60" />
+              <span className="font-sans text-[9.5px] text-white/40 ml-2">nATime · Nhật ký ra vào cửa (Cổng B - 8 Làn)</span>
             </div>
-            <div className="flex items-center justify-between px-5 py-3.5">
-              <div><p className="font-sans text-[13px] font-medium text-white">NV-0482 · Trần Văn An</p><p className="font-sans text-[11px] text-white/50">08:02:10 · Làn 03 (Turnstile FaceID)</p></div>
-              <span className="badge-status badge-active">Hợp lệ</span>
-            </div>
-            <div className="flex items-center justify-between px-5 py-3.5">
-              <div><p className="font-sans text-[13px] font-medium text-white">Thẻ khách #002 · Khách vãng lai</p><p className="font-sans text-[11px] text-white/50">08:05:33 · Làn 04 (Khu vực hạn chế)</p></div>
-              <span className="badge-status badge-inactive">Từ chối</span>
+            <div className="relative w-full overflow-hidden">
+              <AccessControlTableShowcase />
             </div>
           </div>
         </div>
         <div className="order-1 md:order-2">
-          <span className="font-mono text-[12px] font-bold text-sky-400 block mb-2">{vi ? '02 / KIỂM SOÁT RA VÀO' : '02 / ACCESS CONTROL'}</span>
-          <h2 className="font-sans font-bold text-[28px] text-white mb-4">
+          <span className="font-mono text-[11px] font-bold text-sky-400 block mb-1.5">{vi ? '02 / KIỂM SOÁT RA VÀO' : '02 / ACCESS CONTROL'}</span>
+          <h2 className="font-sans font-bold text-[22px] md:text-[24px] text-white mb-3 leading-snug">
             {vi ? 'Biết chính xác ai đang ở khu vực nào, lúc nào.' : 'Know exactly who is in which area, when.'}
           </h2>
-          <ul className="font-sans text-[14px] text-white/65 space-y-3">
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Phân quyền cửa và 8 làn theo từng nhân sự, nhà thầu hoặc khách.</li>
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Cảnh báo tức thời khi có thẻ hết hạn hoặc truy cập trái phép.</li>
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Nhật ký ra vào lưu trữ đầy đủ, tra cứu theo người, cửa hoặc thời gian.</li>
+          <ul className="font-sans text-[13px] text-white/65 space-y-2.5">
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Phân quyền cửa và 8 làn theo từng nhân sự, nhà thầu hoặc khách.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Cảnh báo tức thời khi có thẻ hết hạn hoặc truy cập trái phép.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Nhật ký ra vào lưu trữ đầy đủ, tra cứu theo người, cửa hoặc thời gian.</li>
           </ul>
         </div>
       </section>
