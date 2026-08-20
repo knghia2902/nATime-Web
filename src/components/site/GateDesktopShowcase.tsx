@@ -28,7 +28,7 @@ export default function GateDesktopShowcase() {
 
   return (
     <div 
-      style={{ zoom: 0.64 }}
+      style={{ zoom: 0.68 }}
       className="w-full bg-[#d6e8fa] text-slate-800 p-2.5 select-none font-sans rounded-b-[4px] text-[8px] leading-tight"
     >
       {/* ── 1. App Top Window Header ── */}
@@ -200,11 +200,11 @@ export default function GateDesktopShowcase() {
 
               {/* 2 Camera Feeds */}
               <div className="grid grid-cols-2 gap-1 mb-1.5">
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>BIỂN SỐ</span>
                 </div>
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>GÓC KHÁC</span>
                 </div>
@@ -263,11 +263,11 @@ export default function GateDesktopShowcase() {
               </div>
 
               <div className="grid grid-cols-2 gap-1 mb-1.5">
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>BIỂN SỐ</span>
                 </div>
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>GÓC KHÁC</span>
                 </div>
@@ -326,11 +326,11 @@ export default function GateDesktopShowcase() {
               </div>
 
               <div className="grid grid-cols-2 gap-1 mb-1.5">
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>BIỂN SỐ</span>
                 </div>
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>GÓC KHÁC</span>
                 </div>
@@ -442,11 +442,11 @@ export default function GateDesktopShowcase() {
               </div>
 
               <div className="grid grid-cols-2 gap-1 mb-1.5">
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>BIỂN SỐ</span>
                 </div>
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>GÓC KHÁC</span>
                 </div>
@@ -505,11 +505,11 @@ export default function GateDesktopShowcase() {
               </div>
 
               <div className="grid grid-cols-2 gap-1 mb-1.5">
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>BIỂN SỐ</span>
                 </div>
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>GÓC KHÁC</span>
                 </div>
@@ -568,11 +568,11 @@ export default function GateDesktopShowcase() {
               </div>
 
               <div className="grid grid-cols-2 gap-1 mb-1.5">
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>BIỂN SỐ</span>
                 </div>
-                <div className="h-8.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
+                <div className="h-7.5 bg-slate-100/80 rounded-md border border-slate-200/60 flex flex-col items-center justify-center text-[5.2px] font-bold text-slate-400 leading-tight">
                   <span>MẪU</span>
                   <span>GÓC KHÁC</span>
                 </div>
