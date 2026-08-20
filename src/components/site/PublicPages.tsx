@@ -47,13 +47,13 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
             <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
             <span className="font-sans text-[11px] text-white/40 ml-3">nATime · Lịch sử chấm công</span>
           </div>
-          <div className="relative w-full overflow-hidden bg-slate-950/20">
+          <div className="relative w-full overflow-hidden">
             <Image
               src="/features-attendance.png"
               alt="nATime - Lịch sử chấm công"
               width={1536}
               height={1024}
-              className="w-full h-auto block scale-[1.12] origin-top transition-transform duration-300"
+              className="w-full h-auto block object-contain"
               priority
             />
           </div>
