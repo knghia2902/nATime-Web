@@ -47,13 +47,13 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
             <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
             <span className="font-sans text-[11px] text-white/40 ml-3">nATime · Lịch sử chấm công</span>
           </div>
-          <div className="relative w-full bg-slate-950/40 p-2">
+          <div className="relative w-full">
             <Image
               src="/features-attendance.png"
               alt="nATime - Lịch sử chấm công"
               width={1440}
               height={900}
-              className="w-full h-auto rounded-xl shadow-lg border border-white/10 block"
+              className="w-full h-auto block"
             />
           </div>
         </div>
