@@ -106,6 +106,45 @@ const records: AttendanceRecord[] = [
     overtime: '—',
     status: '—',
   },
+  {
+    stt: 7,
+    code: '05A00000781',
+    name: 'Đặng Văn Hoan',
+    department: 'Phòng Kỹ thuật',
+    date: '20/08/2026',
+    shift: '08:00:00-17:00:00',
+    inTime: '07:58:00',
+    outTime: '—',
+    workHours: '—',
+    overtime: '—',
+    status: '—',
+  },
+  {
+    stt: 8,
+    code: '05A00001242',
+    name: 'Phạm Duy Thị Tâm',
+    department: 'Phòng Tổ chức',
+    date: '20/08/2026',
+    shift: '08:00:00-17:00:00',
+    inTime: '07:57:00',
+    outTime: '—',
+    workHours: '—',
+    overtime: '—',
+    status: '—',
+  },
+  {
+    stt: 9,
+    code: '05A00001348',
+    name: 'Nguyễn Thị Thùy Duyên',
+    department: 'Xưởng Hàn (X2)',
+    date: '20/08/2026',
+    shift: '08:00:00-17:00:00',
+    inTime: '07:57:00',
+    outTime: '—',
+    workHours: '—',
+    overtime: '—',
+    status: '—',
+  },
 ];
 
 export default function AttendanceTableShowcase() {
@@ -121,14 +160,14 @@ export default function AttendanceTableShowcase() {
   );
 
   return (
-    <div className="w-full max-w-[1438px] mx-auto bg-[#f8fafc] text-slate-800 p-4 sm:p-5 select-none font-sans rounded-b-xl text-[12px] flex flex-col justify-between">
+    <div className="w-full h-full max-w-[1438px] mx-auto bg-[#f8fafc] text-slate-800 p-4 sm:p-5 lg:p-6 select-none font-sans rounded-b-xl text-[12px] flex flex-col justify-between">
       {/* ── 1. Page Header & Actions Row ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3.5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 shrink-0">
         <div>
-          <h2 className="text-[17px] sm:text-[19px] font-bold text-slate-900 tracking-tight leading-none">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 tracking-tight leading-none">
             Lịch sử chấm công
           </h2>
-          <p className="text-[12px] text-slate-500 mt-1">
+          <p className="text-[12.5px] text-slate-500 mt-1">
             Tổng hợp dữ liệu theo bộ lọc
           </p>
         </div>
@@ -136,7 +175,7 @@ export default function AttendanceTableShowcase() {
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11.5px] font-semibold text-white bg-[#4f46e5] hover:bg-[#4338ca] shadow-xs transition-all active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-[12px] font-semibold text-white bg-[#4f46e5] hover:bg-[#4338ca] shadow-xs transition-all active:scale-95 cursor-pointer"
           >
             <ArrowClockwise size={14} weight="bold" />
             <span>Tính lại</span>
@@ -144,7 +183,7 @@ export default function AttendanceTableShowcase() {
 
           <button
             type="button"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11.5px] font-semibold text-white bg-[#059669] hover:bg-[#047857] shadow-xs transition-all active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-[12px] font-semibold text-white bg-[#059669] hover:bg-[#047857] shadow-xs transition-all active:scale-95 cursor-pointer"
           >
             <MicrosoftExcelLogo size={14} weight="bold" />
             <span>Xuất Excel</span>
@@ -153,8 +192,8 @@ export default function AttendanceTableShowcase() {
       </div>
 
       {/* ── 2. Filter Box Card ── */}
-      <div className="bg-white rounded-xl border border-slate-200/80 p-3 sm:p-3.5 shadow-xs mb-3.5">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 items-end">
+      <div className="bg-white rounded-2xl border border-slate-200/80 p-3 sm:p-4 shadow-xs mb-4 shrink-0">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 items-end">
           {/* Loại báo cáo */}
           <div className="space-y-1">
             <label className="text-[10.5px] font-semibold text-slate-500 uppercase tracking-wider block">
@@ -168,6 +207,7 @@ export default function AttendanceTableShowcase() {
               >
                 <option value="Lịch sử chấm công">Lịch sử chấm công</option>
                 <option value="Bảng công chi tiết">Bảng công chi tiết</option>
+                <option value="Báo cáo đi muộn">Báo cáo đi muộn</option>
               </select>
               <CaretDown size={12} weight="bold" className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             </div>
@@ -252,8 +292,8 @@ export default function AttendanceTableShowcase() {
       </div>
 
       {/* ── 3. Data Table Card ── */}
-      <div className="bg-white rounded-xl border border-slate-200/80 shadow-xs overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs flex-1 flex flex-col justify-between overflow-hidden">
+        <div className="overflow-x-auto flex-1">
           <table className="w-full text-left border-collapse min-w-[780px]">
             <thead>
               <tr className="border-b border-slate-100 bg-slate-50/70 text-[11px] font-semibold text-slate-500">
@@ -336,11 +376,11 @@ export default function AttendanceTableShowcase() {
         </div>
 
         {/* ── 4. Pagination Footer ── */}
-        <div className="flex items-center justify-between px-4 py-2.5 border-t border-slate-100 bg-slate-50/50 text-[11px] text-slate-500">
+        <div className="flex items-center justify-between px-4 py-2.5 border-t border-slate-100 bg-slate-50/50 text-[11px] text-slate-500 shrink-0">
           <p>
             Hiển thị <span className="font-semibold text-slate-700">1</span> đến{' '}
             <span className="font-semibold text-slate-700">{filteredRecords.length}</span> của{' '}
-            <span className="font-semibold text-slate-700">9</span> bản ghi
+            <span className="font-semibold text-slate-700">{records.length}</span> bản ghi
           </p>
 
           <div className="flex items-center gap-1.5">
