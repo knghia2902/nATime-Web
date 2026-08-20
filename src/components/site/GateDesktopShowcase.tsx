@@ -13,8 +13,8 @@ import {
 export default function GateDesktopShowcase() {
   return (
     <div 
-      style={{ zoom: 0.455 }}
-      className="w-[1280px] bg-[#d6e8fa] text-slate-800 p-3.5 select-none font-sans rounded-b-[6px] text-[11.5px] leading-tight shadow-inner"
+      style={{ zoom: 0.385 }}
+      className="w-[1160px] bg-[#d6e8fa] text-slate-800 p-3.5 select-none font-sans rounded-b-[6px] text-[11.5px] leading-tight shadow-inner"
     >
       {/* ── 1. App Header ── */}
       <div className="flex items-center justify-between px-3 py-1.5 mb-2.5 border-b border-sky-200/60">
@@ -41,7 +41,7 @@ export default function GateDesktopShowcase() {
         </div>
       </div>
 
-      {/* ── 2. Full-width 8 Lanes Grid (Spacious 1280px Widescreen) ── */}
+      {/* ── 2. Full-width 8 Lanes Grid (Safe 1160px Width with zoom 0.385) ── */}
       <div className="w-full bg-white/50 backdrop-blur-md rounded-[14px] border border-white/70 p-3 grid grid-cols-4 gap-3">
         {/* ══════════════ ROW 1 ══════════════ */}
 
@@ -62,7 +62,7 @@ export default function GateDesktopShowcase() {
             <div className="bg-slate-50/70 rounded-[10px] border border-slate-200/60 p-2.5 my-1 flex gap-2.5 items-center">
               <div className="flex-1 space-y-1 text-[11px]">
                 <div className="flex justify-between"><span className="text-slate-400">Họ tên</span><b className="text-slate-800">Lê Thu Hà</b></div>
-                <div className="flex justify-between"><span className="text-slate-400">Công ty</span><span className="text-slate-700 truncate max-w-[95px]">Công ty nATime</span></div>
+                <div className="flex justify-between"><span className="text-slate-400">Công ty</span><span className="text-slate-700 truncate max-w-[85px]">nATime</span></div>
                 <div className="flex justify-between"><span className="text-slate-400">Phòng ban</span><span className="text-slate-700">Hành chính</span></div>
                 <div className="flex justify-between"><span className="text-slate-400">Đối tượng</span><span className="text-slate-700">Nhân viên</span></div>
                 <div className="flex justify-between"><span className="text-slate-400">Mã thẻ</span><span className="text-slate-700 font-mono">PT-001</span></div>
@@ -70,7 +70,7 @@ export default function GateDesktopShowcase() {
                 <div className="flex justify-between"><span className="text-slate-400">TG ra</span><span className="text-slate-700 font-mono">08:42:15</span></div>
               </div>
 
-              <div className="w-[90px] bg-slate-100 rounded-[8px] border border-slate-200/70 p-1.5 flex flex-col items-center justify-between text-center min-h-[120px]">
+              <div className="w-[85px] bg-slate-100 rounded-[8px] border border-slate-200/70 p-1.5 flex flex-col items-center justify-between text-center min-h-[120px]">
                 <div className="my-auto text-center">
                   <span className="text-[10px] font-bold text-slate-400 block leading-tight">MẪU</span>
                   <span className="text-[10px] font-bold text-slate-400 block leading-tight">ẢNH NGƯỜI</span>
@@ -133,10 +133,10 @@ export default function GateDesktopShowcase() {
                   <div className="flex justify-between"><span className="text-slate-400">Phòng ban</span><span className="text-slate-700">BP CNTT</span></div>
                   <div className="flex justify-between"><span className="text-slate-400">Đối tượng</span><span className="text-slate-700">Nhân viên</span></div>
                   <div className="flex justify-between"><span className="text-slate-400">TG vào</span><span className="text-slate-700 font-mono">08:12:06</span></div>
-                  <div className="flex justify-between"><span className="text-slate-400">Công ty</span><span className="text-slate-700 truncate max-w-[80px]">nATime</span></div>
+                  <div className="flex justify-between"><span className="text-slate-400">Công ty</span><span className="text-slate-700 truncate max-w-[75px]">nATime</span></div>
                 </div>
 
-                <div className="w-[80px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
+                <div className="w-[75px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
                   <div className="my-auto text-center">
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">MẪU</span>
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">FACEID</span>
@@ -198,10 +198,10 @@ export default function GateDesktopShowcase() {
                   <div className="flex justify-between"><span className="text-slate-400">Phòng ban</span><span className="text-slate-700">Kỹ thuật</span></div>
                   <div className="flex justify-between"><span className="text-slate-400">Đối tượng</span><span className="text-slate-700">Nhân viên</span></div>
                   <div className="flex justify-between"><span className="text-slate-400">TG vào</span><span className="text-slate-700 font-mono">08:14:22</span></div>
-                  <div className="flex justify-between"><span className="text-slate-400">Công ty</span><span className="text-slate-700 truncate max-w-[80px]">nATime</span></div>
+                  <div className="flex justify-between"><span className="text-slate-400">Công ty</span><span className="text-slate-700 truncate max-w-[75px]">nATime</span></div>
                 </div>
 
-                <div className="w-[80px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
+                <div className="w-[75px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
                   <div className="my-auto text-center">
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">MẪU</span>
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">FACEID</span>
@@ -262,10 +262,10 @@ export default function GateDesktopShowcase() {
                   <div className="flex justify-between"><span className="text-slate-400">Phòng ban</span><span className="text-slate-700">Điều phối</span></div>
                   <div className="flex justify-between"><span className="text-slate-400">Đối tượng</span><span className="text-slate-700">Khách</span></div>
                   <div className="flex justify-between"><span className="text-slate-400">TG vào</span><span className="text-slate-700 font-mono">08:20:14</span></div>
-                  <div className="flex justify-between"><span className="text-slate-400">Công ty</span><span className="text-slate-700 truncate max-w-[80px]">nATime</span></div>
+                  <div className="flex justify-between"><span className="text-slate-400">Công ty</span><span className="text-slate-700 truncate max-w-[75px]">nATime</span></div>
                 </div>
 
-                <div className="w-[80px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
+                <div className="w-[75px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
                   <div className="my-auto text-center">
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">MẪU</span>
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">FACEID</span>
@@ -311,7 +311,7 @@ export default function GateDesktopShowcase() {
             <div className="bg-slate-50/70 rounded-[10px] border border-slate-200/60 p-2.5 my-1 flex gap-2.5 items-center">
               <div className="flex-1 space-y-1 text-[11px]">
                 <div className="flex justify-between"><span className="text-slate-400">Họ tên</span><b className="text-slate-800">Võ Mai Chi</b></div>
-                <div className="flex justify-between"><span className="text-slate-400">Công ty</span><span className="text-slate-700 truncate max-w-[95px]">Công ty nATime</span></div>
+                <div className="flex justify-between"><span className="text-slate-400">Công ty</span><span className="text-slate-700 truncate max-w-[85px]">nATime</span></div>
                 <div className="flex justify-between"><span className="text-slate-400">Phòng ban</span><span className="text-slate-700">An ninh</span></div>
                 <div className="flex justify-between"><span className="text-slate-400">Đối tượng</span><span className="text-slate-700">Nhân viên</span></div>
                 <div className="flex justify-between"><span className="text-slate-400">Mã thẻ</span><span className="text-slate-700 font-mono">PT-002</span></div>
@@ -319,7 +319,7 @@ export default function GateDesktopShowcase() {
                 <div className="flex justify-between"><span className="text-slate-400">TG ra</span><span className="text-slate-700 font-mono">08:50:02</span></div>
               </div>
 
-              <div className="w-[90px] bg-slate-100 rounded-[8px] border border-slate-200/70 p-1.5 flex flex-col items-center justify-between text-center min-h-[120px]">
+              <div className="w-[85px] bg-slate-100 rounded-[8px] border border-slate-200/70 p-1.5 flex flex-col items-center justify-between text-center min-h-[120px]">
                 <div className="my-auto text-center">
                   <span className="text-[10px] font-bold text-slate-400 block leading-tight">MẪU</span>
                   <span className="text-[10px] font-bold text-slate-400 block leading-tight">ẢNH NGƯỜI</span>
@@ -382,7 +382,7 @@ export default function GateDesktopShowcase() {
                   <div className="flex justify-between"><span className="text-slate-400">TG ra</span><span className="text-slate-700 font-mono">08:25:41</span></div>
                 </div>
 
-                <div className="w-[80px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
+                <div className="w-[75px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
                   <div className="my-auto text-center">
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">MẪU</span>
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">FACEID</span>
@@ -446,7 +446,7 @@ export default function GateDesktopShowcase() {
                   <div className="flex justify-between"><span className="text-slate-400">TG ra</span><span className="text-slate-700 font-mono">08:28:03</span></div>
                 </div>
 
-                <div className="w-[80px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
+                <div className="w-[75px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
                   <div className="my-auto text-center">
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">MẪU</span>
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">FACEID</span>
@@ -510,7 +510,7 @@ export default function GateDesktopShowcase() {
                   <div className="flex justify-between"><span className="text-slate-400">TG ra</span><span className="text-slate-700 font-mono">08:31:27</span></div>
                 </div>
 
-                <div className="w-[80px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
+                <div className="w-[75px] bg-slate-100 rounded-[6px] border border-slate-200/70 p-1 flex flex-col items-center justify-between text-center min-h-[82px]">
                   <div className="my-auto text-center">
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">MẪU</span>
                     <span className="text-[9px] font-bold text-slate-400 block leading-tight">FACEID</span>
