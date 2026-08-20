@@ -32,14 +32,14 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
       {/* MODULE 01 — CHẤM CÔNG */}
       <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center border-t border-white/[0.08]">
         <div>
-          <span className="font-mono text-[12px] font-bold text-sky-400 block mb-2">{vi ? '01 / CHẤM CÔNG' : '01 / ATTENDANCE'}</span>
-          <h2 className="font-sans font-bold text-[28px] text-white mb-4">
+          <span className="font-mono text-[11px] font-bold text-sky-400 block mb-1.5">{vi ? '01 / CHẤM CÔNG' : '01 / ATTENDANCE'}</span>
+          <h2 className="font-sans font-bold text-[22px] md:text-[24px] text-white mb-3 leading-snug">
             {vi ? 'Tính công tự động, không đối soát tay.' : 'Auto payroll calculation, no manual checks.'}
           </h2>
-          <ul className="font-sans text-[14px] text-white/65 space-y-3">
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Chấm công bằng vân tay, khuôn mặt hoặc thẻ từ, đồng bộ đa chi nhánh.</li>
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Tự động tính giờ công, tăng ca, đi trễ, nghỉ phép theo quy chế riêng.</li>
-            <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Xuất bảng công trực tiếp sang phần mềm lương, không cần nhập lại.</li>
+          <ul className="font-sans text-[13px] text-white/65 space-y-2.5">
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Chấm công bằng vân tay, khuôn mặt hoặc thẻ từ, đồng bộ đa chi nhánh.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Tự động tính giờ công, tăng ca, đi trễ, nghỉ phép theo quy chế riêng.</li>
+            <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Xuất bảng công trực tiếp sang phần mềm lương, không cần nhập lại.</li>
           </ul>
         </div>
 

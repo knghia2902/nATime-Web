@@ -106,7 +106,10 @@ export default function AttendanceTableShowcase() {
   );
 
   return (
-    <div className="w-full bg-[#f8fafc] text-slate-800 p-2 select-none font-sans rounded-b-xl text-[8px] leading-tight">
+    <div 
+      style={{ zoom: 0.82 }}
+      className="w-full bg-[#f8fafc] text-slate-800 p-2 select-none font-sans rounded-b-xl text-[8px] leading-tight"
+    >
       {/* ── 1. Ultra Micro Header ── */}
       <div className="flex items-center justify-between gap-2 mb-1.5">
         <div>
