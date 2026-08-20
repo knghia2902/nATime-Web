@@ -144,54 +144,54 @@ export default function AssetManagementTableShowcase() {
 
   return (
     <div 
-      style={{ zoom: 0.84 }}
-      className="w-full bg-[#f8fafc] text-slate-800 p-3 select-none font-sans rounded-b-[4px] text-[11px] leading-tight"
+      style={{ zoom: 0.78 }}
+      className="w-full bg-[#f8fafc] text-slate-800 p-2.5 select-none font-sans rounded-b-[4px] text-[10.5px] leading-tight"
     >
       {/* ── 1. Header & Actions ── */}
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+      <div className="flex flex-wrap items-center justify-between gap-1.5 mb-2">
         <div>
-          <h2 className="font-bold text-[14px] text-slate-900 tracking-tight">Danh sách thiết bị CNTT</h2>
-          <p className="text-[10px] text-slate-500 mt-0.5">Quản lý tài sản phần cứng, specs, vị trí phòng ban và người sử dụng</p>
+          <h2 className="font-bold text-[13px] text-slate-900 tracking-tight">Danh sách thiết bị CNTT</h2>
+          <p className="text-[9.5px] text-slate-500 mt-0.5">Quản lý tài sản phần cứng, specs, vị trí phòng ban và người sử dụng</p>
         </div>
 
         <div className="flex items-center gap-1.5">
-          <button className="flex items-center gap-1 px-2.5 h-[28px] rounded-[3px] bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[10px] shadow-2xs transition-colors cursor-pointer">
-            <FileArrowDown size={12} weight="bold" />
+          <button className="flex items-center gap-1 px-2 h-[26px] rounded-[3px] bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[9.5px] shadow-2xs transition-colors cursor-pointer">
+            <FileArrowDown size={11} weight="bold" />
             <span>Import Excel</span>
           </button>
 
-          <button className="flex items-center gap-1 px-2.5 h-[28px] rounded-[3px] bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-semibold text-[10px] shadow-2xs transition-colors cursor-pointer">
-            <FileArrowUp size={12} weight="bold" />
+          <button className="flex items-center gap-1 px-2 h-[26px] rounded-[3px] bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-semibold text-[9.5px] shadow-2xs transition-colors cursor-pointer">
+            <FileArrowUp size={11} weight="bold" />
             <span>Xuất Excel</span>
           </button>
 
-          <button className="flex items-center gap-1 px-3 h-[28px] rounded-[3px] bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-[10px] shadow-2xs transition-colors cursor-pointer">
-            <Plus size={12} weight="bold" />
+          <button className="flex items-center gap-1 px-2.5 h-[26px] rounded-[3px] bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-[9.5px] shadow-2xs transition-colors cursor-pointer">
+            <Plus size={11} weight="bold" />
             <span>Thêm thiết bị</span>
           </button>
         </div>
       </div>
 
       {/* ── 2. Filter Bar ── */}
-      <div className="bg-white rounded-[4px] border border-slate-200/90 p-1.5 mb-2.5 shadow-2xs flex flex-wrap items-center gap-2">
+      <div className="bg-white rounded-[3px] border border-slate-200/90 p-1 mb-2 shadow-2xs flex flex-wrap items-center gap-1.5">
         {/* Search Box */}
-        <div className="relative flex-1 min-w-[180px]">
+        <div className="relative flex-1 min-w-[160px]">
           <input
             type="text"
             placeholder="Tìm kiếm tên, mã QR, serial..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-[28px] pl-2.5 pr-6 bg-slate-50/70 border border-slate-200 rounded-[3px] text-[10px] text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white"
+            className="w-full h-[26px] pl-2 pr-6 bg-slate-50/70 border border-slate-200 rounded-[2px] text-[9.5px] text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white"
           />
-          <MagnifyingGlass size={12} className="absolute right-2 top-2 text-slate-400" />
+          <MagnifyingGlass size={11} className="absolute right-2 top-2 text-slate-400" />
         </div>
 
         {/* Group Select */}
-        <div className="relative min-w-[130px]">
+        <div className="relative min-w-[120px]">
           <select 
             value={selectedGroup}
             onChange={(e) => setSelectedGroup(e.target.value)}
-            className="w-full h-[28px] px-2 pr-6 bg-slate-50/70 border border-slate-200 rounded-[3px] text-[10px] text-slate-700 appearance-none focus:outline-none cursor-pointer"
+            className="w-full h-[26px] px-1.5 pr-5 bg-slate-50/70 border border-slate-200 rounded-[2px] text-[9.5px] text-slate-700 appearance-none focus:outline-none cursor-pointer"
           >
             <option value="ALL">-- Tất cả nhóm tài sản --</option>
             <option value="PC">PC</option>
@@ -199,157 +199,157 @@ export default function AssetManagementTableShowcase() {
             <option value="Màn hình">Màn hình</option>
             <option value="Khác">Khác</option>
           </select>
-          <CaretDown size={10} className="absolute right-2 top-2.5 text-slate-400 pointer-events-none" />
+          <CaretDown size={9} className="absolute right-1.5 top-2.2 text-slate-400 pointer-events-none" />
         </div>
 
         {/* Department Select */}
-        <div className="relative min-w-[125px]">
+        <div className="relative min-w-[115px]">
           <select 
             value={selectedDept}
             onChange={(e) => setSelectedDept(e.target.value)}
-            className="w-full h-[28px] px-2 pr-6 bg-slate-50/70 border border-slate-200 rounded-[3px] text-[10px] text-slate-700 appearance-none focus:outline-none cursor-pointer"
+            className="w-full h-[26px] px-1.5 pr-5 bg-slate-50/70 border border-slate-200 rounded-[2px] text-[9.5px] text-slate-700 appearance-none focus:outline-none cursor-pointer"
           >
             <option value="ALL">-- Tất cả phòng ban --</option>
             <option value="KT">Phòng Kế toán</option>
             <option value="IT">Phòng Kỹ thuật</option>
           </select>
-          <CaretDown size={10} className="absolute right-2 top-2.5 text-slate-400 pointer-events-none" />
+          <CaretDown size={9} className="absolute right-1.5 top-2.2 text-slate-400 pointer-events-none" />
         </div>
 
         {/* Status Select */}
-        <div className="relative min-w-[100px]">
+        <div className="relative min-w-[95px]">
           <select 
-            className="w-full h-[28px] px-2 pr-6 bg-slate-50/70 border border-slate-200 rounded-[3px] text-[10px] text-slate-700 appearance-none focus:outline-none cursor-pointer"
+            className="w-full h-[26px] px-1.5 pr-5 bg-slate-50/70 border border-slate-200 rounded-[2px] text-[9.5px] text-slate-700 appearance-none focus:outline-none cursor-pointer"
           >
             <option>Đang sử dụng</option>
             <option>Sẵn sàng</option>
             <option>Bảo trì</option>
           </select>
-          <CaretDown size={10} className="absolute right-2 top-2.5 text-slate-400 pointer-events-none" />
+          <CaretDown size={9} className="absolute right-1.5 top-2.2 text-slate-400 pointer-events-none" />
         </div>
       </div>
 
       {/* ── 3. Data Table ── */}
-      <div className="bg-white rounded-[4px] border border-slate-200/90 shadow-2xs overflow-hidden">
+      <div className="bg-white rounded-[3px] border border-slate-200/90 shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-[9.5px]">
+          <table className="w-full text-left border-collapse text-[9px]">
             <thead>
-              <tr className="border-b border-slate-200/80 bg-slate-50/80 text-[8.5px] font-bold text-slate-500 uppercase tracking-wider">
-                <th className="py-2 px-2.5 whitespace-nowrap">
+              <tr className="border-b border-slate-200/80 bg-slate-50/80 text-[8px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="py-1.2 px-2 whitespace-nowrap">
                   <div className="flex items-center gap-1">
                     <span>MÃ QR / CODE</span>
-                    <CaretUpDown size={9} />
+                    <CaretUpDown size={8} />
                   </div>
                 </th>
-                <th className="py-2 px-2.5 whitespace-nowrap">
+                <th className="py-1.2 px-2 whitespace-nowrap">
                   <div className="flex items-center gap-1">
                     <span>TÊN THIẾT BỊ</span>
-                    <CaretUpDown size={9} />
+                    <CaretUpDown size={8} />
                   </div>
                 </th>
-                <th className="py-2 px-2 whitespace-nowrap">
+                <th className="py-1.2 px-1.5 whitespace-nowrap">
                   <div className="flex items-center gap-1">
                     <span>NHÓM TÀI SẢN</span>
-                    <CaretUpDown size={9} />
+                    <CaretUpDown size={8} />
                   </div>
                 </th>
-                <th className="py-2 px-2 whitespace-nowrap">
+                <th className="py-1.2 px-1.5 whitespace-nowrap">
                   <div className="flex items-center gap-1">
                     <span>SERIAL / TAG</span>
-                    <CaretUpDown size={9} />
+                    <CaretUpDown size={8} />
                   </div>
                 </th>
-                <th className="py-2 px-2.5 whitespace-nowrap">CẤU HÌNH</th>
-                <th className="py-2 px-2 whitespace-nowrap">
+                <th className="py-1.2 px-2 whitespace-nowrap">CẤU HÌNH</th>
+                <th className="py-1.2 px-1.5 whitespace-nowrap">
                   <div className="flex items-center gap-1">
                     <span>TRẠNG THÁI</span>
-                    <CaretUpDown size={9} />
+                    <CaretUpDown size={8} />
                   </div>
                 </th>
-                <th className="py-2 px-2.5 whitespace-nowrap">
+                <th className="py-1.2 px-2 whitespace-nowrap">
                   <div className="flex items-center gap-1">
                     <span>VỊ TRÍ PHÒNG BAN</span>
-                    <CaretUpDown size={9} />
+                    <CaretUpDown size={8} />
                   </div>
                 </th>
-                <th className="py-2 px-2.5 whitespace-nowrap">
+                <th className="py-1.2 px-2 whitespace-nowrap">
                   <div className="flex items-center gap-1">
                     <span>NGƯỜI SỬ DỤNG</span>
-                    <CaretUpDown size={9} />
+                    <CaretUpDown size={8} />
                   </div>
                 </th>
-                <th className="py-2 px-2 whitespace-nowrap text-center">GHI CHÚ</th>
-                <th className="py-2 px-2 whitespace-nowrap text-center">CẢNH BÁO</th>
-                <th className="py-2 px-2 whitespace-nowrap text-center">THAO TÁC</th>
+                <th className="py-1.2 px-1.5 whitespace-nowrap text-center">GHI CHÚ</th>
+                <th className="py-1.2 px-1.5 whitespace-nowrap text-center">CẢNH BÁO</th>
+                <th className="py-1.2 px-1.5 whitespace-nowrap text-center">THAO TÁC</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {SAMPLE_ASSETS.map((asset) => (
                 <tr key={asset.id} className="hover:bg-sky-50/30 transition-colors">
                   {/* Code & QR */}
-                  <td className="py-2 px-2.5 whitespace-nowrap">
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-mono text-[9px] text-slate-700 bg-slate-100/90 px-1.5 py-0.5 rounded-[2px] border border-slate-200/60 font-semibold">
+                  <td className="py-1 px-2 whitespace-nowrap">
+                    <div className="flex items-center gap-1">
+                      <span className="font-mono text-[8.5px] text-slate-700 bg-slate-100/90 px-1 py-0.2 rounded-[2px] border border-slate-200/60 font-semibold">
                         {asset.code}
                       </span>
-                      <QrCode size={13} className="text-slate-400 cursor-pointer hover:text-indigo-600" />
+                      <QrCode size={11} className="text-slate-400 cursor-pointer hover:text-indigo-600" />
                     </div>
                   </td>
 
                   {/* Name */}
-                  <td className="py-2 px-2.5 whitespace-nowrap font-bold text-slate-900 max-w-[190px] truncate">
+                  <td className="py-1 px-2 whitespace-nowrap font-bold text-slate-900 max-w-[170px] truncate">
                     {asset.name}
                   </td>
 
                   {/* Group */}
-                  <td className="py-2 px-2 whitespace-nowrap text-slate-600">
+                  <td className="py-1 px-1.5 whitespace-nowrap text-slate-600">
                     {asset.group}
                   </td>
 
                   {/* Serial / Tag */}
-                  <td className="py-2 px-2 whitespace-nowrap text-[8.5px] font-mono text-slate-400">
+                  <td className="py-1 px-1.5 whitespace-nowrap text-[8px] font-mono text-slate-400 leading-tight">
                     <div>S/N: {asset.serial}</div>
                     <div>Tag: {asset.tag}</div>
                   </td>
 
                   {/* Specs */}
-                  <td className="py-2 px-2.5 whitespace-nowrap text-slate-600 font-mono text-[9px] max-w-[170px] truncate">
+                  <td className="py-1 px-2 whitespace-nowrap text-slate-600 font-mono text-[8.5px] max-w-[150px] truncate">
                     {asset.specs}
                   </td>
 
                   {/* Status */}
-                  <td className="py-2 px-2 whitespace-nowrap">
-                    <span className="inline-flex items-center px-1.5 py-0.5 rounded-[2px] text-[8px] font-bold bg-sky-100 text-sky-700">
+                  <td className="py-1 px-1.5 whitespace-nowrap">
+                    <span className="inline-flex items-center px-1.2 py-0.2 rounded-[2px] text-[7.5px] font-bold bg-sky-100 text-sky-700">
                       {asset.status}
                     </span>
                   </td>
 
                   {/* Department */}
-                  <td className="py-2 px-2.5 whitespace-nowrap text-slate-700">
+                  <td className="py-1 px-2 whitespace-nowrap text-slate-700">
                     {asset.department}
                   </td>
 
                   {/* User */}
-                  <td className="py-2 px-2.5 whitespace-nowrap">
-                    <div className="font-bold text-slate-800">{asset.userName}</div>
-                    <div className="font-mono text-[8px] text-slate-400">{asset.userCode}</div>
+                  <td className="py-1 px-2 whitespace-nowrap">
+                    <div className="font-bold text-slate-800 leading-tight">{asset.userName}</div>
+                    <div className="font-mono text-[7.5px] text-slate-400 leading-tight">{asset.userCode}</div>
                   </td>
 
                   {/* Note */}
-                  <td className="py-2 px-2 whitespace-nowrap text-center text-slate-400">
+                  <td className="py-1 px-1.5 whitespace-nowrap text-center text-slate-400">
                     {asset.note}
                   </td>
 
                   {/* Warning */}
-                  <td className="py-2 px-2 whitespace-nowrap text-center text-slate-400">
+                  <td className="py-1 px-1.5 whitespace-nowrap text-center text-slate-400">
                     {asset.warning}
                   </td>
 
                   {/* Actions */}
-                  <td className="py-2 px-2 whitespace-nowrap text-center">
-                    <div className="flex items-center justify-center gap-1.5 text-slate-400">
-                      <PencilSimple size={12} className="cursor-pointer hover:text-slate-700 transition-colors" />
-                      <Trash size={12} className="cursor-pointer hover:text-rose-600 transition-colors" />
+                  <td className="py-1 px-1.5 whitespace-nowrap text-center">
+                    <div className="flex items-center justify-center gap-1.2 text-slate-400">
+                      <PencilSimple size={11} className="cursor-pointer hover:text-slate-700 transition-colors" />
+                      <Trash size={11} className="cursor-pointer hover:text-rose-600 transition-colors" />
                     </div>
                   </td>
                 </tr>
