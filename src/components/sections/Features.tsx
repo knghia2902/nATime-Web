@@ -99,7 +99,7 @@ export default function Features() {
         </div>
 
         {/* ── Feature Screenshot Showcase (Lịch sử chấm công) ── */}
-        <div className="mt-12 max-w-2xl mx-auto glass-panel rounded-xl p-4 sm:p-5 border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+        <div className="mt-12 max-w-2xl mx-auto glass-panel rounded-lg p-4 sm:p-5 border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
             <div>
               <p className="font-sans text-[11.5px] font-semibold text-sky-400 uppercase tracking-wider">
@@ -118,7 +118,7 @@ export default function Features() {
             </div>
           </div>
 
-          <div className="rounded-lg overflow-hidden border border-white/10 shadow-2xl bg-slate-950/50">
+          <div className="rounded-md overflow-hidden border border-white/10 shadow-2xl bg-slate-950/50">
             <div className="flex items-center gap-1.5 px-3 h-8 border-b border-white/10 bg-white/[0.03]">
               <span className="w-2 h-2 rounded-full bg-[#ff5f56]" />
               <span className="w-2 h-2 rounded-full bg-[#ffbd2e]" />

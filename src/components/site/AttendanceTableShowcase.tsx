@@ -147,7 +147,7 @@ export default function AttendanceTableShowcase() {
   return (
     <div 
       style={{ zoom: 0.84 }}
-      className="w-full bg-[#f8fafc] text-slate-800 p-2.5 sm:p-3 select-none font-sans rounded-b-lg text-[8.5px] leading-tight"
+      className="w-full bg-[#f8fafc] text-slate-800 p-2.5 sm:p-3 select-none font-sans rounded-b-[4px] text-[8.5px] leading-tight"
     >
       {/* ── 1. Header ── */}
       <div className="flex items-center justify-between gap-2 mb-2">
@@ -163,7 +163,7 @@ export default function AttendanceTableShowcase() {
         <div className="flex items-center gap-1">
           <button
             type="button"
-            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-[3px] text-[8px] font-semibold text-white bg-[#4f46e5] hover:bg-[#4338ca] shadow-2xs transition-all active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-[2px] text-[8px] font-semibold text-white bg-[#4f46e5] hover:bg-[#4338ca] shadow-2xs transition-all active:scale-95 cursor-pointer"
           >
             <ArrowClockwise size={9} weight="bold" />
             <span>Tính lại</span>
@@ -171,7 +171,7 @@ export default function AttendanceTableShowcase() {
 
           <button
             type="button"
-            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-[3px] text-[8px] font-semibold text-white bg-[#059669] hover:bg-[#047857] shadow-2xs transition-all active:scale-95 cursor-pointer"
+            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-[2px] text-[8px] font-semibold text-white bg-[#059669] hover:bg-[#047857] shadow-2xs transition-all active:scale-95 cursor-pointer"
           >
             <MicrosoftExcelLogo size={9} weight="bold" />
             <span>Xuất Excel</span>
@@ -180,7 +180,7 @@ export default function AttendanceTableShowcase() {
       </div>
 
       {/* ── 2. Filter Box ── */}
-      <div className="bg-white rounded-md border border-slate-200/80 p-2 shadow-2xs mb-2">
+      <div className="bg-white rounded-[4px] border border-slate-200/80 p-2 shadow-2xs mb-2">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5 items-end">
           {/* Loại báo cáo */}
           <div className="space-y-0.5">
@@ -191,7 +191,7 @@ export default function AttendanceTableShowcase() {
               <select
                 value={reportType}
                 onChange={(e) => setReportType(e.target.value)}
-                className="w-full h-5 pl-1.5 pr-4 rounded-[3px] border border-slate-200 bg-white text-[8px] text-slate-800 font-medium appearance-none focus:outline-none focus:border-indigo-500 cursor-pointer"
+                className="w-full h-5 pl-1.5 pr-4 rounded-[2px] border border-slate-200 bg-white text-[8px] text-slate-800 font-medium appearance-none focus:outline-none focus:border-indigo-500 cursor-pointer"
               >
                 <option value="Lịch sử chấm công">Lịch sử chấm công</option>
                 <option value="Bảng công chi tiết">Bảng công chi tiết</option>
@@ -209,7 +209,7 @@ export default function AttendanceTableShowcase() {
               <input
                 type="text"
                 defaultValue="20/08/2026"
-                className="w-full h-5 pl-1.5 pr-4 rounded-[3px] border border-slate-200 bg-white text-[8px] text-slate-800 font-medium focus:outline-none focus:border-indigo-500"
+                className="w-full h-5 pl-1.5 pr-4 rounded-[2px] border border-slate-200 bg-white text-[8px] text-slate-800 font-medium focus:outline-none focus:border-indigo-500"
               />
               <CalendarBlank size={8} weight="bold" className="absolute right-1 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             </div>
@@ -224,7 +224,7 @@ export default function AttendanceTableShowcase() {
               <input
                 type="text"
                 defaultValue="20/08/2026"
-                className="w-full h-5 pl-1.5 pr-4 rounded-[3px] border border-slate-200 bg-white text-[8px] text-slate-800 font-medium focus:outline-none focus:border-indigo-500"
+                className="w-full h-5 pl-1.5 pr-4 rounded-[2px] border border-slate-200 bg-white text-[8px] text-slate-800 font-medium focus:outline-none focus:border-indigo-500"
               />
               <CalendarBlank size={8} weight="bold" className="absolute right-1 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             </div>
@@ -239,7 +239,7 @@ export default function AttendanceTableShowcase() {
               <select
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
-                className="w-full h-5 pl-1.5 pr-4 rounded-[3px] border border-slate-200 bg-white text-[8px] text-slate-800 font-medium appearance-none focus:outline-none focus:border-indigo-500 cursor-pointer"
+                className="w-full h-5 pl-1.5 pr-4 rounded-[2px] border border-slate-200 bg-white text-[8px] text-slate-800 font-medium appearance-none focus:outline-none focus:border-indigo-500 cursor-pointer"
               >
                 <option value="Tất cả">Tất cả</option>
                 <option value="BP Kho">BP Kho</option>
@@ -260,7 +260,7 @@ export default function AttendanceTableShowcase() {
               placeholder="Mã/tên NV..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-5 px-1 rounded-[3px] border border-slate-200 bg-white text-[8px] text-slate-800 font-medium placeholder:text-slate-400 focus:outline-none focus:border-indigo-500"
+              className="w-full h-5 px-1 rounded-[2px] border border-slate-200 bg-white text-[8px] text-slate-800 font-medium placeholder:text-slate-400 focus:outline-none focus:border-indigo-500"
             />
           </div>
 
@@ -268,7 +268,7 @@ export default function AttendanceTableShowcase() {
           <div>
             <button
               type="button"
-              className="w-full h-5 inline-flex items-center justify-center gap-0.5 px-1.5 rounded-[3px] border border-slate-200 bg-slate-50 hover:bg-slate-100 text-[8px] font-semibold text-slate-700 transition-all active:scale-95 cursor-pointer"
+              className="w-full h-5 inline-flex items-center justify-center gap-0.5 px-1.5 rounded-[2px] border border-slate-200 bg-slate-50 hover:bg-slate-100 text-[8px] font-semibold text-slate-700 transition-all active:scale-95 cursor-pointer"
             >
               <Funnel size={8} weight="bold" />
               <span>Lọc</span>
@@ -278,7 +278,7 @@ export default function AttendanceTableShowcase() {
       </div>
 
       {/* ── 3. Data Table ── */}
-      <div className="bg-white rounded-md border border-slate-200/80 shadow-2xs overflow-hidden">
+      <div className="bg-white rounded-[4px] border border-slate-200/80 shadow-2xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[500px]">
             <thead>
@@ -318,7 +318,7 @@ export default function AttendanceTableShowcase() {
                     {r.stt}
                   </td>
                   <td className="py-1 px-1.5">
-                    <span className="inline-block px-1 py-0 rounded-[2px] text-[7px] font-semibold bg-slate-100 text-slate-700 font-mono border border-slate-200/50">
+                    <span className="inline-block px-1 py-0 rounded-[1.5px] text-[7px] font-semibold bg-slate-100 text-slate-700 font-mono border border-slate-200/50">
                       {r.code}
                     </span>
                   </td>
