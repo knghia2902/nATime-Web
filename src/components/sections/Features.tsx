@@ -99,16 +99,16 @@ export default function Features() {
         </div>
 
         {/* ── Feature Screenshot Showcase (Lịch sử chấm công) ── */}
-        <div className="mt-12 glass-panel rounded-2xl p-6 sm:p-8 border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div className="mt-12 max-w-4xl mx-auto glass-panel rounded-2xl p-5 sm:p-6 border border-white/12 shadow-[0_20px_50px_rgba(0,0,0,0.45)]">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
             <div>
-              <p className="font-sans text-[13px] font-semibold text-sky-400 uppercase tracking-wider">
+              <p className="font-sans text-[12.5px] font-semibold text-sky-400 uppercase tracking-wider">
                 Giao diện thực tế
               </p>
-              <h3 className="font-sans font-bold text-[22px] sm:text-[26px] text-white mt-1">
+              <h3 className="font-sans font-bold text-[20px] sm:text-[24px] text-white mt-0.5">
                 Lịch sử chấm công & Báo cáo tổng hợp
               </h3>
-              <p className="font-sans text-[14px] text-white/65 mt-1">
+              <p className="font-sans text-[13.5px] text-white/65 mt-0.5">
                 Theo dõi chi tiết giờ vào, giờ ra, tăng ca và trạng thái đi muộn/về sớm theo thời gian thực.
               </p>
             </div>

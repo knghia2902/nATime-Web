@@ -45,8 +45,8 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <div className="glass-panel rounded-2xl shadow-card overflow-hidden border border-white/12">
-          <div className="flex items-center gap-1.5 px-4 h-10 border-b border-white/[0.08] bg-white/[0.03]">
+        <div className="max-w-4xl mx-auto glass-panel rounded-2xl shadow-card overflow-hidden border border-white/12">
+          <div className="flex items-center gap-1.5 px-4 h-9 border-b border-white/[0.08] bg-white/[0.03]">
             <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
             <span className="font-sans text-[11px] text-white/40 ml-3">nATime · Lịch sử chấm công (app.natime.vn)</span>
           </div>
