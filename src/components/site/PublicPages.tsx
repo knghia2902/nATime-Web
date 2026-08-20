@@ -44,7 +44,7 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
         </div>
 
         <div className="flex justify-end">
-          <div className="w-full max-w-[620px] glass-panel rounded-2xl shadow-card overflow-hidden border border-white/12">
+          <div className="w-full max-w-[620px] glass-panel rounded-xl shadow-card overflow-hidden border border-white/12">
             <div className="flex items-center gap-1.5 px-3.5 h-7 border-b border-white/[0.08] bg-white/[0.03]">
               <span className="w-2 h-2 rounded-full bg-rose-500/60" /><span className="w-2 h-2 rounded-full bg-amber-500/60" /><span className="w-2 h-2 rounded-full bg-emerald-500/60" />
               <span className="font-sans text-[9.5px] text-white/40 ml-2">nATime · Lịch sử chấm công</span>
