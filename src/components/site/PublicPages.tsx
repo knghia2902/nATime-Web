@@ -30,37 +30,32 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
       </section>
 
       {/* MODULE 01 — CHẤM CÔNG */}
-      <section className="max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center border-t border-white/[0.08]">
-        <div className="lg:col-span-5 text-left">
+      <section className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-12 items-center border-t border-white/[0.08]">
+        <div>
           <span className="font-mono text-[12px] font-bold text-sky-400 block mb-2">{vi ? '01 / CHẤM CÔNG' : '01 / ATTENDANCE'}</span>
-          <h2 className="font-sans font-bold text-[28px] sm:text-[34px] text-white mb-4 leading-tight">
+          <h2 className="font-sans font-bold text-[28px] text-white mb-4">
             {vi ? 'Tính công tự động, không đối soát tay.' : 'Auto payroll calculation, no manual checks.'}
           </h2>
-          <p className="font-sans text-[15px] text-white/70 mb-6 leading-relaxed">
-            {vi ? 'Hệ thống tự động tổng hợp dữ liệu quẹt thẻ, chấm vân tay và nhận diện khuôn mặt để tính toán bảng công chính xác tuyệt đối.' : 'Automatically reconcile punch logs from biometric devices with payroll policies.'}
-          </p>
-          <ul className="font-sans text-[14px] text-white/65 space-y-3.5">
+          <ul className="font-sans text-[14px] text-white/65 space-y-3">
             <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Chấm công bằng vân tay, khuôn mặt hoặc thẻ từ, đồng bộ đa chi nhánh.</li>
             <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Tự động tính giờ công, tăng ca, đi trễ, nghỉ phép theo quy chế riêng.</li>
             <li className="flex gap-3"><span className="text-sky-400 font-bold">✓</span>Xuất bảng công trực tiếp sang phần mềm lương, không cần nhập lại.</li>
           </ul>
         </div>
-        <div className="lg:col-span-7">
-          <div className="glass-panel rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.55)] overflow-hidden border border-white/15 hover:border-white/25 transition-all">
-            <div className="flex items-center gap-1.5 px-4 h-10 border-b border-white/[0.08] bg-white/[0.03]">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
-              <span className="font-sans text-[11px] text-white/40 ml-3">nATime · Lịch sử chấm công</span>
-            </div>
-            <div className="relative w-full overflow-hidden">
-              <Image
-                src="/features-attendance.png"
-                alt="nATime - Lịch sử chấm công"
-                width={1536}
-                height={1024}
-                className="w-full h-auto block"
-                priority
-              />
-            </div>
+        <div className="glass-panel rounded-2xl shadow-card overflow-hidden border border-white/12">
+          <div className="flex items-center gap-1.5 px-4 h-10 border-b border-white/[0.08] bg-white/[0.03]">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" /><span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
+            <span className="font-sans text-[11px] text-white/40 ml-3">nATime · Lịch sử chấm công</span>
+          </div>
+          <div className="relative w-full overflow-hidden bg-slate-950/20">
+            <Image
+              src="/features-attendance.png"
+              alt="nATime - Lịch sử chấm công"
+              width={1536}
+              height={1024}
+              className="w-full h-auto block scale-[1.12] origin-top transition-transform duration-300"
+              priority
+            />
           </div>
         </div>
       </section>
