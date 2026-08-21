@@ -163,12 +163,6 @@ export default function AdminShell({ children }: { children: ReactNode }) {
               Super Admin
             </span>
             <Link
-              href="/portal"
-              className="btn-pill-glass !h-9 !py-0 !px-4 text-sm font-medium border border-white/10"
-            >
-              Portal
-            </Link>
-            <Link
               href="/"
               className="btn-pill-glass !h-9 !py-0 !px-4 text-sm font-medium border border-white/10 hidden sm:inline-flex items-center gap-1.5"
             >

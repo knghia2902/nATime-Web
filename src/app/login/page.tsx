@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
 import AuthFrame from '@/components/auth/AuthFrame';
 import { useAuth } from '@/lib/authContext';
+import { supabase } from '@/lib/supabase';
 
 export default function LoginPage() {
   const { user, signIn } = useAuth();
@@ -14,14 +15,36 @@ export default function LoginPage() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
 
-  const destination = () => {
+  const destination = async (userId?: string) => {
     if (typeof window === 'undefined') return '/portal';
     const requested = new URLSearchParams(window.location.search).get('redirect');
-    return requested?.startsWith('/') && !requested.startsWith('//') ? requested : '/portal';
+    if (requested?.startsWith('/') && !requested.startsWith('//')) {
+      return requested;
+    }
+
+    if (userId && supabase) {
+      try {
+        const { data: admin } = await supabase
+          .from('portal_admins')
+          .select('user_id')
+          .eq('user_id', userId)
+          .eq('is_active', true)
+          .maybeSingle();
+        if (admin) {
+          return '/admin';
+        }
+      } catch {
+        // fallback to portal
+      }
+    }
+
+    return '/portal';
   };
 
   useEffect(() => {
-    if (user) router.replace(destination());
+    if (user) {
+      void destination(user.id).then((dest) => router.replace(dest));
+    }
   }, [router, user]);
 
   async function submit(event: FormEvent) {
@@ -29,9 +52,16 @@ export default function LoginPage() {
     setBusy(true);
     setMessage('');
     const { error } = await signIn(email.trim(), password);
+    if (error) {
+      setBusy(false);
+      setMessage(error.message);
+      return;
+    }
+
+    const { data: sessionData } = (await supabase?.auth.getSession()) ?? { data: { session: null } };
+    const dest = await destination(sessionData?.session?.user?.id);
     setBusy(false);
-    if (error) { setMessage(error.message); return; }
-    router.replace(destination());
+    router.replace(dest);
   }
 
   return (

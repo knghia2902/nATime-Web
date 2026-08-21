@@ -160,19 +160,19 @@ export default function ReleaseManager() {
                 name="version"
                 pattern="[0-9]+\.[0-9]+\.[0-9]+"
                 placeholder="0.1.2"
-                className="w-full rounded-xl border border-white/[0.12] bg-[#0a1220] px-4 py-2.5 text-sm font-mono font-bold text-white placeholder:text-white/30 focus:border-white/40 focus:outline-none transition-colors"
+                className="w-full h-12 rounded-xl border border-white/[0.12] bg-[#0a1220] px-4 text-sm font-mono font-bold text-white placeholder:text-white/30 focus:border-white/40 focus:outline-none transition-colors"
               />
             </div>
             <p className="text-[11px] font-medium text-white/40">Định dạng Semantic Versioning (ví dụ: 1.0.0)</p>
           </div>
 
-          {/* Installer file upload styled dropzone */}
+          {/* Installer file upload styled dropzone bar */}
           <div className="space-y-2">
             <label className="block text-xs font-bold uppercase tracking-wider text-white/60">
               Bộ cài đã ký (.exe) <span className="text-rose-400">*</span>
             </label>
             <div className="relative">
-              <label className="group flex flex-col items-center justify-center border-2 border-dashed border-white/[0.12] hover:border-white/30 rounded-xl p-4 bg-white/[0.02] cursor-pointer transition-colors text-center">
+              <label className="group flex h-12 items-center justify-between border border-dashed border-white/[0.16] hover:border-white/40 rounded-xl px-4 bg-[#0a1220] cursor-pointer transition-colors">
                 <input
                   required
                   name="installer"
@@ -181,19 +181,26 @@ export default function ReleaseManager() {
                   onChange={(e) => setSelectedFile(e.target.files?.[0] ?? null)}
                   className="sr-only"
                 />
-                <svg className="h-6 w-6 text-white/40 group-hover:text-white transition-colors mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                </svg>
-                <span className="text-xs font-bold text-white/70 truncate max-w-[240px]">
-                  {selectedFile ? selectedFile.name : 'Nhấp để chọn hoặc kéo thả file .exe vào đây'}
-                </span>
-                {selectedFile && (
-                  <span className="text-[10px] text-white mt-0.5 font-mono font-bold">
+                <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                  <svg className="h-5 w-5 text-white/40 group-hover:text-white shrink-0 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                  <span className="text-xs font-semibold text-white/70 group-hover:text-white truncate">
+                    {selectedFile ? selectedFile.name : 'Chọn hoặc kéo thả file .exe...'}
+                  </span>
+                </div>
+                {selectedFile ? (
+                  <span className="shrink-0 text-[11px] text-emerald-400 font-mono font-bold bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
                     {formatBytes(selectedFile.size)}
+                  </span>
+                ) : (
+                  <span className="shrink-0 text-[11px] font-medium text-white/50 bg-white/[0.06] px-2.5 py-1 rounded-lg border border-white/10 group-hover:bg-white/10 group-hover:text-white transition-colors">
+                    Duyệt file
                   </span>
                 )}
               </label>
             </div>
+            <p className="text-[11px] font-medium text-white/40">Chấp nhận tệp tin cài đặt .exe đã ký số Authenticode</p>
           </div>
 
           {/* Notes VI */}
