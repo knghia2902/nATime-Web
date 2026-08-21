@@ -177,7 +177,7 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
 
         {/* PROFESSIONAL (FEATURED) */}
         <div className="glass-panel rounded-3xl p-8 flex flex-col justify-between relative border-2 border-white/35 shadow-2xl md:-my-3 bg-[rgba(24,44,76,0.75)] backdrop-blur-2xl">
-          <span className="absolute top-0 -translate-y-1/2 left-8 bg-white text-[#101c2e] font-sans text-[11px] font-bold px-4 py-1 rounded-full shadow-lg">
+          <span className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-white text-[#101c2e] font-sans text-[11px] font-bold px-4 py-1 rounded-full shadow-lg whitespace-nowrap">
             {vi ? 'PHỔ BIẾN NHẤT' : 'MOST POPULAR'}
           </span>
           <div>
