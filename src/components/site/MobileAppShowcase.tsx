@@ -57,8 +57,8 @@ const ASSET_DATABASE: Record<string, AssetDetail> = {
     hardDrive: '1x DP 1.4, 1x HDMI 1.4, 1x Type-C 90W',
     employeeName: 'Bùi Khắc Nghĩa',
     employeeCode: '05A00001315',
-    department: 'BP Công Nghệ Thông Tin',
-    vendor: 'Công ty Cổ phần Công Nghệ Quốc Tế',
+    department: 'BP CNTT',
+    vendor: 'Dell Việt Nam',
     ipAddress: '—',
     macAddress: '—',
     purchaseDate: '15/1/2024',
@@ -76,8 +76,8 @@ const ASSET_DATABASE: Record<string, AssetDetail> = {
     hardDrive: '512 GB PCIe NVMe M.2 SSD',
     employeeName: 'Bùi Khắc Nghĩa',
     employeeCode: '05A00001315',
-    department: 'BP Công Nghệ Thông Tin',
-    vendor: 'Công ty TNHH Giải Pháp Máy Chủ',
+    department: 'BP CNTT',
+    vendor: 'Dell Việt Nam',
     ipAddress: '192.168.1.145',
     macAddress: 'D8:BB:C1:42:A8:19',
     purchaseDate: '10/8/2023',
@@ -133,7 +133,7 @@ export default function MobileAppShowcase() {
         badge: 'ĐÚNG GIỜ',
         badgeClass: 'bg-emerald-50 text-emerald-600 border border-emerald-200',
         hasPlan: true,
-        shiftName: 'Hành Chính Văn Phòng',
+        shiftName: 'Hành chính',
         shiftTime: '08:00 - 17:00',
         hasLog: true,
         inTime: '07:51:02',
@@ -151,7 +151,7 @@ export default function MobileAppShowcase() {
         badge: 'ĐÚNG GIỜ',
         badgeClass: 'bg-emerald-50 text-emerald-600 border border-emerald-200',
         hasPlan: true,
-        shiftName: 'Hành Chính Văn Phòng',
+        shiftName: 'Hành chính',
         shiftTime: '08:00 - 17:00',
         hasLog: true,
         inTime: day === 20 ? '07:55:54' : '07:55:01',
@@ -169,7 +169,7 @@ export default function MobileAppShowcase() {
         badge: 'QUÊN CHẤM CÔNG',
         badgeClass: 'bg-orange-50 text-orange-600 border border-orange-200',
         hasPlan: true,
-        shiftName: 'Hành Chính Văn Phòng',
+        shiftName: 'Hành chính',
         shiftTime: '08:00 - 17:00',
         hasLog: true,
         inTime: '07:56:21',
@@ -187,7 +187,7 @@ export default function MobileAppShowcase() {
         badge: 'ĐI MUỘN',
         badgeClass: 'bg-rose-50 text-rose-600 border border-rose-200',
         hasPlan: true,
-        shiftName: 'Hành Chính Văn Phòng',
+        shiftName: 'Hành chính',
         shiftTime: '08:00 - 17:00',
         hasLog: true,
         inTime: '08:14:32',
@@ -205,7 +205,7 @@ export default function MobileAppShowcase() {
         badge: 'KHÔNG PHÉP',
         badgeClass: 'bg-red-50 text-red-600 border border-red-200',
         hasPlan: true,
-        shiftName: 'Hành Chính Văn Phòng',
+        shiftName: 'Hành chính',
         shiftTime: '08:00 - 17:00',
         hasLog: false,
         inTime: '--:--',
@@ -223,7 +223,7 @@ export default function MobileAppShowcase() {
       badge: 'CHƯA DIỄN RA',
       badgeClass: 'bg-sky-50 text-sky-600 border border-sky-200',
       hasPlan: true,
-      shiftName: 'Hành Chính Văn Phòng',
+      shiftName: 'Hành chính',
       shiftTime: '08:00 - 17:00',
       hasLog: false,
       inTime: '--:--',
@@ -345,7 +345,7 @@ export default function MobileAppShowcase() {
                       <div className="grid grid-cols-2 gap-2.5">
                         <div className="bg-slate-50/80 p-2.5 rounded-2xl border border-slate-150 shadow-2xs">
                           <p className="text-[6.5px] text-slate-400 font-bold uppercase tracking-wider">CA LÀM VIỆC</p>
-                          <p className="font-bold text-[9.5px] text-slate-800 mt-1 truncate leading-tight">Hành Chính Văn Phòng</p>
+                          <p className="font-bold text-[9.5px] text-slate-800 mt-1 truncate leading-tight">Hành chính</p>
                           <p className="text-[8px] text-slate-500 mt-1 font-medium">08:00 - 17:00</p>
                         </div>
 
@@ -406,7 +406,7 @@ export default function MobileAppShowcase() {
                               21/8
                             </div>
                             <div>
-                              <p className="font-bold text-[9.5px] text-slate-800 leading-snug">Hành Chính Văn Phòng</p>
+                              <p className="font-bold text-[9.5px] text-slate-800 leading-snug">Hành chính</p>
                               <p className="text-[7.5px] text-slate-400 font-mono mt-0.5">Vào: 07:51:02 | Ra: --</p>
                             </div>
                           </div>
@@ -423,7 +423,7 @@ export default function MobileAppShowcase() {
                               20/8
                             </div>
                             <div>
-                              <p className="font-bold text-[9.5px] text-slate-800 leading-snug">Hành Chính Văn Phòng</p>
+                              <p className="font-bold text-[9.5px] text-slate-800 leading-snug">Hành chính</p>
                               <p className="text-[7.5px] text-slate-400 font-mono mt-0.5">Vào: 07:55:54 | Ra: 17:20:22</p>
                             </div>
                           </div>
@@ -443,7 +443,7 @@ export default function MobileAppShowcase() {
                               19/8
                             </div>
                             <div>
-                              <p className="font-bold text-[9.5px] text-slate-800 leading-snug">Hành Chính Văn Phòng</p>
+                              <p className="font-bold text-[9.5px] text-slate-800 leading-snug">Hành chính</p>
                               <p className="text-[7.5px] text-slate-400 font-mono mt-0.5">Vào: 07:56:21 | Ra: --</p>
                             </div>
                           </div>
@@ -463,7 +463,7 @@ export default function MobileAppShowcase() {
                               18/8
                             </div>
                             <div>
-                              <p className="font-bold text-[9.5px] text-slate-800 leading-snug">Hành Chính Văn Phòng</p>
+                              <p className="font-bold text-[9.5px] text-slate-800 leading-snug">Hành chính</p>
                               <p className="text-[7.5px] text-slate-400 font-mono mt-0.5">Vào: 07:55:01 | Ra: 17:11:45</p>
                             </div>
                           </div>
