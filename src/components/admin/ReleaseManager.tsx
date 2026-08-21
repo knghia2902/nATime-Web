@@ -17,6 +17,8 @@ type Release = {
     size_bytes: number;
     sha256: string | null;
     signature_status: string;
+    r2_key?: string | null;
+    public_url?: string | null;
   }> | null;
 };
 
@@ -51,7 +53,7 @@ export default function ReleaseManager() {
     if (!supabase) return;
     const { data } = await supabase
       .from('software_releases')
-      .select('id,version,status,notes_vi,created_at,verified_at,published_at,release_artifacts(id,filename,size_bytes,sha256,signature_status)')
+      .select('id,version,status,notes_vi,created_at,verified_at,published_at,release_artifacts(id,filename,size_bytes,sha256,signature_status,r2_key,public_url)')
       .order('created_at', { ascending: false });
     setReleases((data as Release[] | null) ?? []);
   }
@@ -358,7 +360,19 @@ export default function ReleaseManager() {
                     )}
                   </div>
 
-                  <div className="flex items-center gap-3 shrink-0 pt-2 lg:pt-0">
+                  <div className="flex items-center gap-2.5 shrink-0 pt-2 lg:pt-0">
+                    <a
+                      href={`https://download.natime.vn/${artifact?.r2_key ?? `windows/${release.version}/${artifact?.filename}`}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="h-9 px-3.5 rounded-xl border border-white/10 bg-white/[0.06] text-white hover:bg-white/10 font-bold text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <svg className="h-4 w-4 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                      <span>Tải file</span>
+                    </a>
+
                     {isVerified && (
                       <button
                         onClick={() => void publish(release.id)}
