@@ -48,14 +48,17 @@ export default function ReleaseDownload({ locale, changelog = false }: { locale:
       if (isMounted) setLoading(false);
     }, 1500);
 
-    supabase
-      .from('software_releases')
-      .select('version,published_at,notes_vi,notes_en,release_artifacts(public_url,filename,size_bytes,sha256,signature_status)')
-      .eq('platform', 'windows')
-      .eq('status', 'published')
-      .order('published_at', { ascending: false })
-      .limit(changelog ? 20 : 1)
-      .then(({ data }) => {
+    const client = supabase;
+    void (async () => {
+      try {
+        const { data } = await client
+          .from('software_releases')
+          .select('version,published_at,notes_vi,notes_en,release_artifacts(public_url,filename,size_bytes,sha256,signature_status)')
+          .eq('platform', 'windows')
+          .eq('status', 'published')
+          .order('published_at', { ascending: false })
+          .limit(changelog ? 20 : 1);
+
         clearTimeout(timer);
         if (!isMounted) return;
         const fetched = data as Release[] | null;
@@ -63,11 +66,11 @@ export default function ReleaseDownload({ locale, changelog = false }: { locale:
           setReleases(fetched);
         }
         setLoading(false);
-      })
-      .catch(() => {
+      } catch {
         clearTimeout(timer);
         if (isMounted) setLoading(false);
-      });
+      }
+    })();
 
     return () => {
       isMounted = false;
