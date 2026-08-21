@@ -71,12 +71,12 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
   return (
     <div className="w-full font-sans">
       {/* ── 1. BILLING PERIOD TAB SWITCHER (MONTHLY / YEARLY) ── */}
-      <div className="flex justify-center mb-12">
+      <div className="flex flex-col items-center justify-center mb-12">
         <div className="inline-flex items-center gap-1.5 p-1.5 rounded-full glass-panel border border-white/12 bg-white/[0.04]">
           <button
             type="button"
             onClick={() => setBilling('monthly')}
-            className={`px-5 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+            className={`px-6 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               billing === 'monthly'
                 ? 'bg-white text-[#101c2e] shadow-md'
                 : 'text-white/70 hover:text-white'
@@ -87,17 +87,28 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
           <button
             type="button"
             onClick={() => setBilling('yearly')}
-            className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+            className={`px-6 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               billing === 'yearly'
                 ? 'bg-white text-[#101c2e] shadow-md'
                 : 'text-white/70 hover:text-white'
             }`}
           >
-            <span>{vi ? 'Theo năm' : 'Yearly'}</span>
-            <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-[10px] font-bold px-2 py-0.5 rounded-full">
-              {vi ? 'Tiết kiệm 20%' : 'Save 20%'}
-            </span>
+            {vi ? 'Theo năm' : 'Yearly'}
           </button>
+        </div>
+        
+        {/* Savings status indicator underneath */}
+        <div className="mt-3 min-h-[24px] flex items-center justify-center">
+          {billing === 'yearly' ? (
+            <span className="inline-flex items-center gap-1.5 bg-emerald-500/15 text-emerald-300 border border-emerald-400/30 text-xs font-semibold px-3.5 py-0.5 rounded-full animate-fade-in shadow-xs">
+              <span>✨</span>
+              <span>{vi ? 'Tiết kiệm 20% khi thanh toán theo năm' : 'Save 20% with annual billing'}</span>
+            </span>
+          ) : (
+            <span className="text-xs text-white/45 font-medium">
+              {vi ? '💡 Chọn thanh toán theo năm để tiết kiệm 20%' : '💡 Switch to annual billing to save 20%'}
+            </span>
+          )}
         </div>
       </div>
 
