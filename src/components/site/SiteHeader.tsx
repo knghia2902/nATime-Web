@@ -90,13 +90,13 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
         <div className="flex items-center gap-2.5">
           <Link
             href={user ? '/portal' : '/login'}
-            className="hidden sm:inline-flex btn-pill-glass !h-8 !py-0 !px-4 text-xs font-medium"
+            className="hidden sm:inline-flex btn-pill-glass !h-9 !py-0 !px-4 text-sm font-medium border border-white/10"
           >
             {user ? text.portal : text.login}
           </Link>
           <Link
             href="/contact"
-            className="btn-pill-primary !h-8 !py-0 !px-4 text-xs font-semibold"
+            className="btn-pill-primary !h-9 !py-0 !px-4 text-sm font-semibold"
           >
             {text.demo}
           </Link>

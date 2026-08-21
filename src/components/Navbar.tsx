@@ -200,13 +200,13 @@ export default function Navbar() {
             <LanguageToggle />
             <Link
               href={user ? "/portal" : "/login"}
-              className="btn-pill-glass !h-8 !py-0 !px-4 text-xs font-medium"
+              className="btn-pill-glass !h-9 !py-0 !px-4 text-sm font-medium border border-white/10"
             >
               {user ? t('Portal', 'Portal') : t('Đăng nhập', 'Sign in')}
             </Link>
             <Link
               href={user ? "/dashboard" : "/contact"}
-              className="btn-pill-primary !h-8 !py-0 !px-4 text-xs font-semibold gap-1.5"
+              className="btn-pill-primary !h-9 !py-0 !px-4 text-sm font-semibold gap-1.5"
             >
               <span>
                 {user ? t('Vào Dashboard', 'Go to Dashboard') : t('Yêu cầu demo', 'Request Demo')}
@@ -215,7 +215,7 @@ export default function Navbar() {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className="h-3.5 w-3.5"
+                className="h-4 w-4"
               >
                 <path
                   fillRule="evenodd"
