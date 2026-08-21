@@ -151,7 +151,7 @@ export default function PortalLicenses() {
               <label className="block text-xs font-bold uppercase tracking-wider text-white/60 mb-2">
                 Mã liên kết
               </label>
-              <div className="input-group">
+              <div className="relative">
                 <input
                   required
                   disabled={activeLicenses.length === 0}
@@ -161,9 +161,11 @@ export default function PortalLicenses() {
                   className="w-full rounded-xl border border-white/[0.12] bg-[#0a1220] py-2.5 pr-3.5 pl-10 font-mono text-sm font-bold tracking-wider text-white uppercase shadow-xs transition-colors focus:border-white/40 disabled:opacity-50 placeholder:normal-case placeholder:font-sans placeholder:tracking-normal placeholder:text-white/30 outline-none"
                   placeholder="ABCD-EFGH"
                 />
-                <svg className="input-icon text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-white/40">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                </div>
               </div>
             </div>
 

@@ -163,10 +163,10 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
             </ul>
           </div>
           <Link
-            href="/contact"
-            className="btn-pill-glass w-full text-center py-2.5"
+            href={`/portal?plan=standard&billing=${billing}`}
+            className="btn-pill-glass w-full text-center py-2.5 font-semibold"
           >
-            {vi ? 'Bắt đầu dùng thử' : 'Start Trial'}
+            {vi ? 'Chọn gói Standard' : 'Choose Standard'}
           </Link>
         </div>
 
@@ -233,10 +233,10 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
             </ul>
           </div>
           <Link
-            href="/contact"
-            className="btn-pill-primary w-full text-center shadow-[0_4px_24px_rgba(255,255,255,0.25)] py-2.5"
+            href={`/portal?plan=professional&billing=${billing}`}
+            className="btn-pill-primary w-full text-center shadow-[0_4px_24px_rgba(255,255,255,0.25)] py-2.5 font-bold"
           >
-            {vi ? 'Yêu cầu demo' : 'Request Demo'}
+            {vi ? 'Chọn gói Professional' : 'Choose Professional'}
           </Link>
         </div>
 

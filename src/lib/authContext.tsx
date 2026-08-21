@@ -15,6 +15,9 @@ export interface AuthUser {
   email: string;
   name: string;
   company: string;
+  taxId?: string;
+  companyAddress?: string;
+  invoiceEmail?: string;
   isMock: boolean;
 }
 
@@ -26,13 +29,19 @@ interface AuthContextType {
     email: string,
     password: string,
     name: string,
-    company: string
+    company: string,
+    taxId?: string,
+    companyAddress?: string,
+    invoiceEmail?: string
   ) => Promise<{ error: Error | null }>;
   signOut: () => Promise<{ error: Error | null }>;
   resetPassword: (email: string) => Promise<{ error: Error | null }>;
   updateProfile: (
     name: string,
-    company: string
+    company: string,
+    taxId?: string,
+    companyAddress?: string,
+    invoiceEmail?: string
   ) => Promise<{ error: Error | null }>;
   updatePassword: (password: string) => Promise<{ error: Error | null }>;
   
@@ -101,6 +110,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: sbUser.email || '',
       name: sbUser.user_metadata?.name || sbUser.user_metadata?.full_name || '',
       company: sbUser.user_metadata?.company || '',
+      taxId: sbUser.user_metadata?.tax_id || '',
+      companyAddress: sbUser.user_metadata?.company_address || '',
+      invoiceEmail: sbUser.user_metadata?.invoice_email || '',
       isMock: false,
     };
   };
@@ -361,7 +373,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const updateProfile = async (name: string, company: string) => {
+  const updateProfile = async (
+    name: string,
+    company: string,
+    taxId?: string,
+    companyAddress?: string,
+    invoiceEmail?: string
+  ) => {
     setLoading(true);
     try {
       if (isMockEnabled || !supabase) {
@@ -384,6 +402,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           ...user,
           name,
           company,
+          taxId: taxId ?? user.taxId,
+          companyAddress: companyAddress ?? user.companyAddress,
+          invoiceEmail: invoiceEmail ?? user.invoiceEmail,
         };
 
         if (typeof window !== 'undefined') {
@@ -393,7 +414,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { error: null };
       } else {
         const { data, error } = await supabase!.auth.updateUser({
-          data: { name, company },
+          data: {
+            name,
+            company,
+            tax_id: taxId,
+            company_address: companyAddress,
+            invoice_email: invoiceEmail,
+          },
         });
 
         if (error) return { error };
