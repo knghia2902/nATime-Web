@@ -152,11 +152,22 @@ export function FeaturesContent({ locale }: { locale: Locale }) {
             <li className="flex gap-2.5"><span className="text-sky-400 font-bold">✓</span>Kết nối trực tiếp máy chủ On-Premise nội bộ, đồng bộ thời gian thực và bảo mật cao.</li>
           </ul>
           <div className="flex flex-wrap gap-3">
+            <a
+              href="https://play.google.com/store/apps/details?id=vn.natime.mobile"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-pill-primary text-xs font-semibold py-2.5 px-5 flex items-center gap-2 shadow-[0_4px_20px_rgba(255,255,255,0.2)]"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3.609 1.814L13.792 12 3.61 22.186a2.03 2.03 0 0 1-.225-.972V2.786c0-.36.08-.693.224-.972zm11.235 11.238L5.795 22.096l10.222-5.901-1.173-3.143zm0-2.104l1.173-3.143L6.145 1.905l8.699 9.043zm2.234 1.052l3.415 1.972a1.35 1.35 0 0 1 0 2.336l-3.415 1.972-1.576-1.576 1.576-2.704z" />
+              </svg>
+              {vi ? 'Tải trên Google Play →' : 'Get it on Google Play →'}
+            </a>
             <Link
               href="/download"
-              className="btn-pill-glass text-xs font-semibold py-2.5 px-5"
+              className="btn-pill-glass text-xs font-semibold py-2.5 px-4"
             >
-              {vi ? 'Tải ứng dụng Android (APK) →' : 'Download Android App (APK) →'}
+              {vi ? 'Tải file APK (v1.0.1)' : 'Download APK (v1.0.1)'}
             </Link>
           </div>
         </div>
