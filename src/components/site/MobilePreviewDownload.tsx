@@ -1,5 +1,5 @@
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=vn.natime.mobile';
-const APK_URL = 'https://download.natime.vn/android/1.0.1/app-release.apk';
+const APK_URL = 'https://download.natime.vn/android/1.0.1/nATime-Mobile-1.0.1.apk';
 const APK_SHA256 = 'C2B19CFFD023ADBE9AC51EF9203ECBC4186821CFBDBD8F4466BE8BA00CE76FBA';
 
 export default function MobilePreviewDownload({ locale }: { locale: 'vi' | 'en' }) {
@@ -51,7 +51,7 @@ export default function MobilePreviewDownload({ locale }: { locale: 'vi' | 'en' 
         </div>
         <div>
           <dt className="font-semibold text-white">{vi ? 'Tệp APK' : 'APK File'}</dt>
-          <dd className="mt-1 text-white/70 font-mono">app-release.apk · 6.22 MB</dd>
+          <dd className="mt-1 text-white/70 font-mono">nATime-Mobile-1.0.1.apk · 6.22 MB</dd>
         </div>
         <div>
           <dt className="font-semibold text-white">SHA-256</dt>
