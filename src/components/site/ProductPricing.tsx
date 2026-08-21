@@ -98,17 +98,11 @@ export default function ProductPricing({ locale }: { locale: 'vi' | 'en' }) {
         </div>
         
         {/* Savings status indicator underneath */}
-        <div className="mt-3 min-h-[24px] flex items-center justify-center">
-          {billing === 'yearly' ? (
-            <span className="inline-flex items-center gap-1.5 bg-emerald-500/15 text-emerald-300 border border-emerald-400/30 text-xs font-semibold px-3.5 py-0.5 rounded-full animate-fade-in shadow-xs">
-              <span>✨</span>
-              <span>{vi ? 'Tiết kiệm 20% khi thanh toán theo năm' : 'Save 20% with annual billing'}</span>
-            </span>
-          ) : (
-            <span className="text-xs text-white/45 font-medium">
-              {vi ? '💡 Chọn thanh toán theo năm để tiết kiệm 20%' : '💡 Switch to annual billing to save 20%'}
-            </span>
-          )}
+        <div className="mt-3 flex items-center justify-center">
+          <span className="inline-flex items-center gap-1.5 bg-emerald-500/15 text-emerald-300 border border-emerald-400/30 text-xs font-semibold px-3.5 py-0.5 rounded-full shadow-xs">
+            <span>✨</span>
+            <span>{vi ? 'Tiết kiệm 20% khi thanh toán theo năm' : 'Save 20% with annual billing'}</span>
+          </span>
         </div>
       </div>
 
