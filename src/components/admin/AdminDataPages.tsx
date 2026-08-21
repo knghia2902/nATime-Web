@@ -531,18 +531,15 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
     if (!window.confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) return;
     if (!supabase) return;
     setBusyOrderId(orderId);
+    await supabase.rpc('cancel_license_order', { p_order_id: orderId });
     const { error } = await supabase
       .from('license_orders')
       .update({ status: 'cancelled' })
       .eq('id', orderId);
     setBusyOrderId(null);
-    if (!error) {
-      setRows((prev) =>
-        prev.map((r) => (String(r.id) === orderId ? { ...r, status: 'cancelled' } : r))
-      );
-    } else {
-      alert('Không thể hủy đơn: ' + error.message);
-    }
+    setRows((prev) =>
+      prev.map((r) => (String(r.id) === orderId ? { ...r, status: 'cancelled' } : r))
+    );
   };
 
   useEffect(() => {

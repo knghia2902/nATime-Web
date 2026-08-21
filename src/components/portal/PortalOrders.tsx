@@ -54,6 +54,12 @@ export default function PortalOrders() {
       .order('created_at', { ascending: false });
 
     const cancelledIds = getCancelledOrderIds();
+    if (cancelledIds.length > 0) {
+      for (const cId of cancelledIds) {
+        void supabase.rpc('cancel_license_order', { p_order_id: cId });
+      }
+    }
+
     const mapped = ((data as Order[] | null) ?? []).map((ord) => {
       if (ord.status === 'pending' && cancelledIds.includes(ord.id)) {
         return { ...ord, status: 'cancelled' };
@@ -88,10 +94,10 @@ export default function PortalOrders() {
       }
     }
 
-    // If the link has expired (> 14 mins), cancel old order locally to prevent duplicates
+    // If the link has expired (> 14 mins), cancel old order locally and in DB
     markOrderCancelledLocally(order.id);
     if (supabase) {
-      void supabase.from('license_orders').update({ status: 'cancelled' }).eq('id', order.id);
+      void supabase.rpc('cancel_license_order', { p_order_id: order.id });
     }
 
     // Create fresh checkout session
@@ -128,6 +134,7 @@ export default function PortalOrders() {
     markOrderCancelledLocally(orderId);
 
     if (supabase) {
+      await supabase.rpc('cancel_license_order', { p_order_id: orderId });
       await supabase.from('license_orders').update({ status: 'cancelled' }).eq('id', orderId);
     }
 
