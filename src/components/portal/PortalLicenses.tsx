@@ -308,35 +308,35 @@ export default function PortalLicenses() {
                     </p>
                   ) : (
                     <div className="overflow-x-auto rounded-xl border border-white/[0.08]">
-                      <table className="table-enhanced">
+                      <table className="table-enhanced w-full table-fixed">
                         <thead>
                           <tr>
-                            <th>Tên máy</th>
-                            <th>Hardware ID</th>
-                            <th>Kích hoạt</th>
-                            <th>Xác minh gần nhất</th>
+                            <th className="w-[28%] text-left">Tên máy</th>
+                            <th className="w-[32%] text-left">Hardware ID</th>
+                            <th className="w-[20%] text-left">Kích hoạt</th>
+                            <th className="w-[20%] text-left">Xác minh gần nhất</th>
                           </tr>
                         </thead>
                         <tbody>
                           {activeDevices.map((device) => (
                             <tr key={device.id}>
-                              <td className="font-bold text-white">
-                                <div className="flex items-center gap-2">
-                                  <span className="badge-status badge-active p-0 bg-transparent">
+                              <td className="font-bold text-white text-left">
+                                <div className="flex items-center gap-2 truncate">
+                                  <span className="badge-status badge-active p-0 bg-transparent shrink-0">
                                     <span className="badge-dot" />
                                   </span>
-                                  <span>{device.display_name || 'Máy nATime'}</span>
+                                  <span className="truncate">{device.display_name || 'Máy nATime'}</span>
                                 </div>
                               </td>
-                              <td>
+                              <td className="text-left">
                                 <code className="font-mono text-xs font-bold text-white/70 bg-white/[0.06] px-2.5 py-1 rounded border border-white/[0.08] select-all">
                                   {device.hardware_id_hash.slice(0, 12)}…{device.hardware_id_hash.slice(-8)}
                                 </code>
                               </td>
-                              <td className="text-white/60 font-medium">
+                              <td className="text-white/60 font-medium text-left">
                                 {new Intl.DateTimeFormat('vi-VN').format(new Date(device.activated_at))}
                               </td>
-                              <td className="text-white/60 font-medium">
+                              <td className="text-white/60 font-medium text-left">
                                 {device.last_validated_at ? new Intl.DateTimeFormat('vi-VN').format(new Date(device.last_validated_at)) : '—'}
                               </td>
                             </tr>
