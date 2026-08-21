@@ -16,7 +16,7 @@ const labels = {
     blog: 'Blog',
     support: 'Hỗ trợ',
     demo: 'Yêu cầu demo',
-    portal: 'Cổng khách hàng',
+    portal: 'Portal',
     login: 'Đăng nhập',
     menu: 'Mở menu',
     close: 'Đóng menu',
@@ -28,7 +28,7 @@ const labels = {
     blog: 'Blog',
     support: 'Support',
     demo: 'Request Demo',
-    portal: 'Customer Portal',
+    portal: 'Portal',
     login: 'Sign in',
     menu: 'Open menu',
     close: 'Close menu',
@@ -87,16 +87,16 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
         </nav>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           <Link
             href={user ? '/portal' : '/login'}
-            className="hidden sm:inline-flex btn-pill-glass text-xs py-1.5 px-3.5"
+            className="hidden sm:inline-flex btn-pill-glass text-[11.5px] py-1.5 px-3.5"
           >
             {user ? text.portal : text.login}
           </Link>
           <Link
             href="/contact"
-            className="btn-pill-primary text-xs py-1.5 px-4"
+            className="btn-pill-primary text-[11.5px] py-1.5 px-3.5"
           >
             {text.demo}
           </Link>

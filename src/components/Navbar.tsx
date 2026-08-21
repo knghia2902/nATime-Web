@@ -196,17 +196,17 @@ export default function Navbar() {
           </div>
 
           {/* ── Desktop Right Actions ──────────────────── */}
-          <div className="hidden items-center gap-2.5 lg:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             <LanguageToggle />
             <Link
               href={user ? "/portal" : "/login"}
-              className="btn-pill-glass text-xs py-2 px-4"
+              className="btn-pill-glass text-[11.5px] py-1.5 px-3.5"
             >
-              {user ? t('Cổng khách hàng', 'Customer Portal') : t('Đăng nhập', 'Sign in')}
+              {user ? t('Portal', 'Portal') : t('Đăng nhập', 'Sign in')}
             </Link>
             <Link
               href={user ? "/dashboard" : "/contact"}
-              className="btn-pill-primary text-xs py-2 px-4.5"
+              className="btn-pill-primary text-[11.5px] py-1.5 px-3.5"
             >
               <span>
                 {user ? t('Vào Dashboard', 'Go to Dashboard') : t('Yêu cầu demo', 'Request Demo')}
@@ -215,7 +215,7 @@ export default function Navbar() {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className="h-3.5 w-3.5"
+                className="h-3 w-3"
               >
                 <path
                   fillRule="evenodd"
@@ -337,16 +337,16 @@ export default function Navbar() {
           <Link
             href="/contact"
             onClick={closeMobile}
-            className="btn-pill-primary w-full text-center"
+            className="btn-pill-primary w-full text-center text-xs py-2"
           >
             {t('Yêu cầu demo', 'Request Demo')}
           </Link>
           <Link
             href={user ? "/portal" : "/login"}
             onClick={closeMobile}
-            className="btn-pill-glass w-full text-center"
+            className="btn-pill-glass w-full text-center text-xs py-2"
           >
-            {user ? t('Cổng khách hàng', 'Customer Portal') : t('Đăng nhập', 'Sign in')}
+            {user ? t('Portal', 'Portal') : t('Đăng nhập', 'Sign in')}
           </Link>
         </div>
       </div>
