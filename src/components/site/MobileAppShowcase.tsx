@@ -2,191 +2,275 @@
 
 import React, { useState } from 'react';
 import { 
-  Sun, 
+  Moon, 
   SignOut, 
   CheckCircle, 
-  Clock, 
   CaretRight, 
   Desktop,
-  CaretLeft
+  CaretLeft,
+  Clock,
+  Files,
+  Plus,
+  WarningCircle,
+  Warning,
+  X,
+  Calendar,
+  SignIn
 } from '@phosphor-icons/react';
 
 type Tab = 'home' | 'scanner' | 'schedule';
 
 export default function MobileAppShowcase() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
+  const [selectedDay, setSelectedDay] = useState<number>(21);
+
+  // Calendar month day mapping for Aug 2026 (Aug 1 is Saturday -> 5 empty prefix slots Mon-Fri)
+  const emptyPrefixSlots = 5;
+  const daysInMonth = Array.from({ length: 31 }, (_, i) => i + 1);
+
+  // Helper for calendar dot status
+  const getDayDot = (day: number) => {
+    if (day === 2 || day === 9 || day === 16 || day === 23 || day === 30) return null; // Weekend
+    if (day === 3 || day === 15) return { color: 'bg-rose-500' }; // Không phép / Đi muộn
+    if (day === 7 || day === 12 || day === 17 || day === 19) return { color: 'bg-orange-500' }; // Quên chấm
+    if (day <= 21) return { color: 'bg-slate-400' }; // Ca làm bình thường
+    return null;
+  };
 
   return (
     <div className="w-full flex items-center justify-center p-2 select-none">
       {/* ── Outer Smartphone Frame ── */}
-      <div className="relative w-[320px] h-[610px] bg-slate-950 rounded-[48px] p-2.5 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85),0_0_0_1px_rgba(255,255,255,0.12)] ring-1 ring-white/10 flex flex-col justify-between overflow-hidden">
+      <div className="relative w-[340px] h-[660px] bg-[#0c1322] rounded-[50px] p-2.5 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.15)] ring-1 ring-white/10 flex flex-col justify-between overflow-hidden">
         
-        {/* Screen Bezel & Container */}
-        <div className="relative w-full h-full bg-slate-900 text-slate-100 rounded-[38px] overflow-hidden flex flex-col justify-between border border-white/5 font-sans">
+        {/* Screen Bezel & Screen Container (Light Theme matching real mobile app) */}
+        <div className="relative w-full h-full bg-[#f8fafc] text-slate-800 rounded-[40px] overflow-hidden flex flex-col justify-between border border-slate-200/80 font-sans shadow-inner">
           
-          {/* ── 1. Top Status Bar (App.vue standard) ── */}
-          <div className="h-7 bg-slate-950 flex justify-between items-center px-5 shrink-0 text-slate-400 text-[9.5px] font-bold tracking-wider select-none border-b border-slate-900/60 z-30">
-            <span>08:00</span>
-            {/* Notch / Dynamic Island */}
-            <div className="w-20 h-4 rounded-full bg-black flex items-center justify-center border border-slate-900/60">
-              <div className="w-1.5 h-1.5 rounded-full bg-slate-900 border border-slate-800 mr-1.5 shrink-0" />
-              <div className="w-5 h-1 rounded-full bg-slate-900 shrink-0" />
+          {/* ── 1. Top Notch / Dynamic Island Bar ── */}
+          <div className="h-7 bg-[#f8fafc] flex justify-between items-center px-6 shrink-0 text-slate-500 text-[10.5px] font-bold tracking-wider select-none z-30">
+            <span>12:00</span>
+            {/* Notch Pill */}
+            <div className="w-22 h-4.5 rounded-full bg-black flex items-center justify-center border border-slate-900/60 shadow-xs">
+              <div className="w-2 h-2 rounded-full bg-slate-900 border border-slate-800 mr-2 shrink-0" />
+              <div className="w-6 h-1 rounded-full bg-slate-900 shrink-0" />
             </div>
-            {/* Status Icons: Wifi & Battery */}
+            {/* Status Icons: Chat & Battery */}
             <div className="flex items-center gap-1.5 text-slate-400">
-              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.79-1.79C9.07 19.64 10.48 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 3.31-6 6z"/>
               </svg>
-              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M17 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm-1 11H4V8h12v8zm5-7.5v5c.83 0 1.5-.67 1.5-1.5v-2c0-.83-.67-1.5-1.5-1.5z"/>
               </svg>
             </div>
           </div>
 
-          {/* ── 2. Screen View Body (Strict vertical flow, zero scroll, zero overflow) ── */}
-          <div className="flex-1 relative z-10 overflow-hidden flex flex-col justify-start">
+          {/* ── 2. Scrollable Body Content ── */}
+          <div className="flex-1 overflow-y-auto relative z-10 custom-scrollbar-light pb-20">
             
-            {/* ══════════════ TAB 1: TRANG CHỦ (DashboardView.vue) ══════════════ */}
+            {/* ══════════════ TAB 1: TRANG CHỦ (Ảnh 2 & Ảnh 3) ══════════════ */}
             {activeTab === 'home' && (
-              <div className="flex-1 flex flex-col justify-start">
-                
-                {/* 1. Header/Profile Panel */}
-                <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 border-b border-slate-800 rounded-b-[1.8rem] px-4 pt-2.5 pb-6 relative overflow-hidden shadow-sm shrink-0">
-                  {/* Decorative Glow Blobs */}
-                  <div className="absolute w-32 h-32 rounded-full bg-sky-500/15 blur-[30px] -top-6 -right-6 pointer-events-none" />
-                  <div className="absolute w-28 h-28 rounded-full bg-indigo-600/15 blur-[25px] -bottom-6 -left-6 pointer-events-none" />
-
-                  <div className="flex items-center justify-between relative z-10">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-9.5 h-9.5 rounded-xl bg-gradient-to-tr from-sky-400 to-indigo-500 p-[1px] shadow-sm overflow-hidden shrink-0">
-                        <div className="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center font-extrabold text-[11px] text-sky-400 uppercase">
+              <div className="space-y-4">
+                {/* Header / Profile Panel with Rich Soft Curve */}
+                <div className="bg-gradient-to-b from-sky-50/70 via-white/80 to-transparent px-5 pt-3 pb-6 border-b border-slate-100">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      {/* Avatar */}
+                      <div className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-sky-400 to-indigo-500 p-[1.5px] shadow-md shadow-sky-500/15 overflow-hidden shrink-0">
+                        <div className="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center font-extrabold text-sm text-sky-300 uppercase tracking-wider">
                           BN
                         </div>
                       </div>
                       <div>
-                        <p className="text-[7.5px] text-slate-400 font-bold uppercase tracking-wider">Nhân viên</p>
-                        <h3 className="font-extrabold text-[13px] leading-tight text-white">
+                        <p className="text-[9.5px] text-slate-400 font-bold uppercase tracking-wider">NHÂN VIÊN</p>
+                        <h3 className="font-extrabold text-[16px] leading-tight text-slate-850 text-slate-900">
                           Bùi Khắc Nghĩa
                         </h3>
-                        <p className="text-[8.5px] text-sky-400 font-semibold">BP CNTT &bull; 05A00001315</p>
+                        <p className="text-[10.5px] text-sky-600 font-semibold mt-0.5">BP CNTT &bull; 05A00001315</p>
                       </div>
                     </div>
 
-                    <div className="flex gap-1">
-                      <div className="w-6.5 h-6.5 rounded-lg bg-slate-800/60 border border-slate-700/40 text-slate-400 flex items-center justify-center">
-                        <Sun size={11} weight="fill" />
+                    {/* Top Right Action Buttons */}
+                    <div className="flex gap-2">
+                      <div className="w-8.5 h-8.5 rounded-2xl bg-white border border-slate-200/80 text-slate-600 flex items-center justify-center shadow-xs">
+                        <Moon size={15} weight="bold" />
                       </div>
-                      <div className="w-6.5 h-6.5 rounded-lg bg-slate-800/60 border border-slate-700/40 text-slate-400 flex items-center justify-center">
-                        <SignOut size={11} />
+                      <div className="w-8.5 h-8.5 rounded-2xl bg-white border border-slate-200/80 text-slate-600 flex items-center justify-center shadow-xs">
+                        <SignOut size={15} weight="bold" />
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* 2. Overlapping Attendance Widget (-mt-3.5) */}
-                <div className="px-3 -mt-3.5 relative z-20 space-y-2">
-                  <div className="bg-slate-800/90 backdrop-blur-xl rounded-2xl p-2.5 shadow-lg border border-slate-700/80 space-y-1.5">
-                    <div className="flex items-center justify-between border-b border-slate-700/60 pb-1">
-                      <h4 className="font-bold text-[9px] text-slate-300 flex items-center gap-1 uppercase tracking-wide">
-                        <span className="w-1 h-2.5 rounded bg-sky-500" />
-                        Hôm nay: 20/08/2026
+                <div className="px-4 space-y-4 -mt-3">
+                  
+                  {/* Card HÔM NAY: THỨ SÁU, 21/8 */}
+                  <div className="bg-white rounded-[2rem] p-4.5 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] border border-slate-200/70 space-y-3.5">
+                    {/* Card Header */}
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                      <h4 className="font-bold text-[11px] text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
+                        <span className="w-1 h-3.5 rounded bg-sky-500" />
+                        HÔM NAY: THỨ SÁU, 21/8
                       </h4>
-                      <span className="px-1.5 py-0.5 rounded-full text-[7.5px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
-                        Đã chấm công
+                      <span className="px-2.5 py-0.5 rounded-full text-[8.5px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-200/80">
+                        ĐÃ CHẤM CÔNG
                       </span>
                     </div>
 
-                    {/* Shift Details */}
-                    <div className="grid grid-cols-2 gap-1.5">
-                      <div className="bg-slate-900/80 p-1.5 rounded-xl border border-slate-700/40">
-                        <p className="text-[7px] text-slate-400 font-bold uppercase tracking-wider">Ca làm việc</p>
-                        <p className="font-bold text-[10px] text-slate-200 truncate">Ca Hành Chính</p>
-                        <p className="text-[7.5px] text-slate-400 font-semibold">08:00 - 17:00</p>
+                    {/* Shift & Activity Grid */}
+                    <div className="grid grid-cols-2 gap-2.5">
+                      <div className="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-2xs">
+                        <p className="text-[8.5px] text-slate-400 font-bold uppercase tracking-wider">CA LÀM VIỆC</p>
+                        <p className="font-bold text-[12px] text-slate-800 mt-0.5 truncate">Hành Chính V...</p>
+                        <p className="text-[9.5px] text-slate-500 mt-0.5 font-medium">08:00 - 17:00</p>
                       </div>
 
-                      <div className="bg-slate-900/80 p-1.5 rounded-xl border border-slate-700/40">
-                        <p className="text-[7px] text-slate-400 font-bold uppercase tracking-wider">Hoạt động</p>
-                        <p className="font-bold text-[10px] text-emerald-400">Đúng giờ</p>
-                        <p className="text-[7.5px] text-emerald-400/80 font-semibold">Sớm 2 phút</p>
+                      <div className="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-2xs">
+                        <p className="text-[8.5px] text-slate-400 font-bold uppercase tracking-wider">HOẠT ĐỘNG</p>
+                        <p className="font-bold text-[12px] text-emerald-600 mt-0.5">Đúng giờ</p>
                       </div>
                     </div>
 
-                    {/* Clock-in / Clock-out Times */}
-                    <div className="grid grid-cols-2 gap-1.5 pt-0.5">
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-6.5 h-6.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                          <CheckCircle size={13} weight="bold" />
+                    {/* Clock In / Out Times */}
+                    <div className="grid grid-cols-2 gap-2.5 pt-1">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-9 h-9 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center shrink-0">
+                          <CheckCircle size={18} weight="bold" />
                         </div>
                         <div>
-                          <p className="text-[7px] text-slate-400 font-bold uppercase">Giờ vào</p>
-                          <p className="font-extrabold text-[10.5px] text-slate-200 font-mono">07:58</p>
+                          <p className="text-[8.5px] text-slate-400 font-bold uppercase">GIỜ VÀO</p>
+                          <p className="font-extrabold text-[12.5px] text-slate-800 font-mono">07:51:02</p>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-6.5 h-6.5 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center shrink-0">
-                          <Clock size={13} weight="bold" />
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-9 h-9 rounded-2xl bg-sky-50 text-sky-600 border border-sky-200 flex items-center justify-center shrink-0">
+                          <SignIn size={18} weight="bold" />
                         </div>
                         <div>
-                          <p className="text-[7px] text-slate-400 font-bold uppercase">Giờ ra</p>
-                          <p className="font-extrabold text-[10.5px] text-slate-200 font-mono">17:02</p>
+                          <p className="text-[8.5px] text-slate-400 font-bold uppercase">GIỜ RA</p>
+                          <p className="font-extrabold text-[12.5px] text-slate-800 font-mono">--:--</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* 3. Recent Attendance History */}
-                  <div className="space-y-1">
-                    <div className="flex justify-between items-center px-0.5">
-                      <h4 className="font-bold text-[9px] text-slate-400 uppercase tracking-wide flex items-center gap-1">
-                        <span className="w-1 h-2.5 rounded bg-sky-500" />
-                        Lịch sử công gần đây
+                  {/* Section LỊCH SỬ CÔNG GẦN ĐÂY */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center px-1">
+                      <h4 className="font-bold text-[11px] text-slate-700 uppercase tracking-wide flex items-center gap-1.5">
+                        <span className="w-1 h-3.5 rounded bg-sky-500" />
+                        LỊCH SỬ CÔNG GẦN ĐÂY
                       </h4>
                       <span 
                         onClick={() => setActiveTab('schedule')}
-                        className="text-[8px] text-sky-400 font-bold hover:underline cursor-pointer"
+                        className="text-[10.5px] text-sky-600 font-bold hover:underline cursor-pointer"
                       >
                         Xem thêm
                       </span>
                     </div>
 
-                    <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl overflow-hidden divide-y divide-slate-700/40 text-[8.5px]">
-                      <div className="p-1.5 flex items-center justify-between">
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-5.5 h-5.5 rounded-md bg-slate-800 border border-slate-700 flex flex-col justify-center items-center font-bold text-[7.5px] text-slate-300">
-                            <span>19</span>
+                    {/* Recent History Table Card */}
+                    <div className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden divide-y divide-slate-150 shadow-xs text-[10.5px]">
+                      {/* Row 21/8 */}
+                      <div className="p-3 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8.5 h-8.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-[9.5px] flex items-center justify-center">
+                            21/8
                           </div>
                           <div>
-                            <p className="font-bold text-[9px] text-slate-200">Ca Hành Chính</p>
-                            <p className="text-[7.5px] text-slate-400 font-mono">Vào: 07:55 | Ra: 17:05</p>
+                            <p className="font-bold text-[11px] text-slate-800">Hành Chính Văn Phòng</p>
+                            <p className="text-[9.5px] text-slate-400 font-mono mt-0.5">Vào: 07:51:02 | Ra: --</p>
+                          </div>
+                        </div>
+                        <span className="text-[10px] font-bold text-emerald-600">Đúng giờ</span>
+                      </div>
+
+                      {/* Row 20/8 */}
+                      <div className="p-3 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8.5 h-8.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-[9.5px] flex items-center justify-center">
+                            20/8
+                          </div>
+                          <div>
+                            <p className="font-bold text-[11px] text-slate-800">Hành Chính Văn Phòng</p>
+                            <p className="text-[9.5px] text-slate-400 font-mono mt-0.5">Vào: 07:55:54 | Ra: 17:20:22</p>
                           </div>
                         </div>
                         <div className="text-right">
-                          <span className="text-[7.5px] font-bold text-emerald-400 block">Đúng giờ</span>
-                          <span className="text-[7px] text-slate-400 font-medium">8.0h công</span>
+                          <span className="text-[10px] font-bold text-emerald-600 block">Đúng giờ</span>
+                          <span className="text-[9px] text-slate-400 font-medium">8.0h công</span>
+                        </div>
+                      </div>
+
+                      {/* Row 19/8 */}
+                      <div className="p-3 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8.5 h-8.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-[9.5px] flex items-center justify-center">
+                            19/8
+                          </div>
+                          <div>
+                            <p className="font-bold text-[11px] text-slate-800">Hành Chính Văn Phòng</p>
+                            <p className="text-[9.5px] text-slate-400 font-mono mt-0.5">Vào: 07:56:21 | Ra: --</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-[10px] font-bold text-orange-500 block">Quên chấm công</span>
+                          <span className="text-[9px] text-slate-400 font-medium">8.0h công</span>
+                        </div>
+                      </div>
+
+                      {/* Row 18/8 */}
+                      <div className="p-3 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8.5 h-8.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-[9.5px] flex items-center justify-center">
+                            18/8
+                          </div>
+                          <div>
+                            <p className="font-bold text-[11px] text-slate-800">Hành Chính Văn Phòng</p>
+                            <p className="text-[9.5px] text-slate-400 font-mono mt-0.5">Vào: 07:55:01 | Ra: 17:11:45</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-[10px] font-bold text-emerald-600 block">Đúng giờ</span>
+                          <span className="text-[9px] text-slate-400 font-medium">8.0h công</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* 4. Assigned Assets Section */}
-                  <div className="space-y-1">
-                    <h4 className="font-bold text-[9px] text-slate-400 uppercase tracking-wide flex items-center gap-1 px-0.5">
-                      <span className="w-1 h-2.5 rounded bg-indigo-500" />
-                      Thiết bị đang bàn giao (1)
+                  {/* Section THIẾT BỊ ĐANG BÀN GIAO (2) */}
+                  <div className="space-y-2 pb-2">
+                    <h4 className="font-bold text-[11px] text-slate-700 uppercase tracking-wide flex items-center gap-1.5 px-1">
+                      <span className="w-1 h-3.5 rounded bg-indigo-600" />
+                      THIẾT BỊ ĐANG BÀN GIAO (2)
                     </h4>
 
-                    <div className="bg-slate-800/50 p-2 rounded-xl border border-slate-700/60 shadow-sm flex items-center justify-between">
-                      <div className="flex items-center gap-1.5 min-w-0">
-                        <div className="w-7 h-7 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0">
-                          <Desktop size={14} weight="duotone" />
+                    {/* Asset 1 */}
+                    <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between hover:border-slate-300 transition-colors">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100 flex items-center justify-center shrink-0">
+                          <Desktop size={19} weight="bold" />
                         </div>
                         <div className="min-w-0">
-                          <p className="font-bold text-[9px] text-slate-200 truncate">Dell OptiPlex 3090 Tower</p>
-                          <p className="text-[7.5px] text-slate-400 font-semibold truncate">05A0000035 &bull; PC Máy bàn</p>
+                          <p className="font-bold text-[11.5px] text-slate-800 truncate">Màn hình máy tính Dell U2424H</p>
+                          <p className="text-[9.5px] text-slate-400 font-semibold truncate mt-0.5">A000001744 &bull; Màn hình</p>
                         </div>
                       </div>
-                      <CaretRight size={11} className="text-slate-500 shrink-0" />
+                      <CaretRight size={14} className="text-slate-400 shrink-0" />
+                    </div>
+
+                    {/* Asset 2 */}
+                    <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-between hover:border-slate-300 transition-colors">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 border border-indigo-100 flex items-center justify-center shrink-0">
+                          <Desktop size={19} weight="bold" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-bold text-[11.5px] text-slate-800 truncate">Máy tính để bàn DELL OptiPlex 3090 To...</p>
+                          <p className="text-[9.5px] text-slate-400 font-semibold truncate mt-0.5">A000000670 &bull; PC</p>
+                        </div>
+                      </div>
+                      <CaretRight size={14} className="text-slate-400 shrink-0" />
                     </div>
                   </div>
 
@@ -196,25 +280,25 @@ export default function MobileAppShowcase() {
 
             {/* ══════════════ TAB 2: QUÉT QR (ScannerView.vue) ══════════════ */}
             {activeTab === 'scanner' && (
-              <div className="flex-1 flex flex-col justify-between p-3">
+              <div className="p-4 space-y-5">
                 {/* Header */}
-                <div className="flex items-center justify-between pb-1.5 border-b border-slate-800">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-200">
                   <button 
                     onClick={() => setActiveTab('home')} 
-                    className="p-1 rounded-md bg-slate-800 border border-slate-700 text-slate-300 cursor-pointer"
+                    className="p-1.5 rounded-xl bg-white border border-slate-200 text-slate-600 cursor-pointer shadow-xs"
                   >
-                    <CaretLeft size={12} weight="bold" />
+                    <CaretLeft size={16} weight="bold" />
                   </button>
-                  <h3 className="text-[10.5px] font-bold tracking-wide uppercase text-white">Quét mã QR thiết bị</h3>
-                  <div className="w-5" />
+                  <h3 className="text-xs font-bold tracking-wide uppercase text-slate-800">Quét mã QR thiết bị</h3>
+                  <div className="w-7" />
                 </div>
 
                 {/* Camera Scanner Viewfinder */}
-                <div className="flex-1 flex flex-col justify-center items-center py-2">
-                  <div className="w-[180px] aspect-square rounded-2xl overflow-hidden bg-black border border-slate-700 relative shadow-xl flex items-center justify-center">
+                <div className="flex flex-col justify-center items-center py-6">
+                  <div className="w-[210px] aspect-square rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 relative shadow-xl flex items-center justify-center">
                     
                     {/* Simulated Camera Feed with QR Code pattern */}
-                    <div className="w-24 h-24 opacity-25 grid grid-cols-6 gap-1 p-2">
+                    <div className="w-28 h-28 opacity-30 grid grid-cols-6 gap-1 p-2">
                       <div className="bg-white col-span-2 row-span-2 rounded-xs" />
                       <div className="bg-white" />
                       <div className="bg-white col-span-2 row-span-2 rounded-xs" />
@@ -227,126 +311,239 @@ export default function MobileAppShowcase() {
                     </div>
 
                     {/* UI Overlay Scanner Box with 4 Corner Brackets */}
-                    <div className="absolute inset-3 border border-sky-400/40 relative">
-                      <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-sky-400" />
-                      <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-sky-400" />
-                      <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-sky-400" />
-                      <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-sky-400" />
+                    <div className="absolute inset-4 border border-sky-400/40 relative">
+                      <div className="absolute top-0 left-0 w-4 h-4 border-t-2.5 border-l-2.5 border-sky-400" />
+                      <div className="absolute top-0 right-0 w-4 h-4 border-t-2.5 border-r-2.5 border-sky-400" />
+                      <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2.5 border-l-2.5 border-sky-400" />
+                      <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2.5 border-r-2.5 border-sky-400" />
                       
-                      {/* Laser Scanning Animation Line */}
-                      <div className="absolute w-full h-0.5 bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.8)] top-1/2 -translate-y-1/2 animate-pulse" />
+                      {/* Laser Scanning Line */}
+                      <div className="absolute w-full h-0.5 bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.9)] top-1/2 -translate-y-1/2 animate-pulse" />
                     </div>
                   </div>
 
-                  <p className="text-[8.5px] text-slate-400 text-center mt-2.5 max-w-[180px] leading-relaxed">
-                    Hướng camera về phía mã QR dán trên nhãn tài sản thiết bị để tự động quét.
+                  <p className="text-[10.5px] text-slate-500 text-center mt-5 max-w-[210px] leading-relaxed">
+                    Hướng camera về phía mã QR dán trên nhãn tài sản thiết bị để tự động tra cứu.
                   </p>
                 </div>
               </div>
             )}
 
-            {/* ══════════════ TAB 3: LỊCH & CÔNG (ScheduleView.vue) ══════════════ */}
+            {/* ══════════════ TAB 3: LỊCH & CÔNG (Ảnh 4 & Ảnh 1) ══════════════ */}
             {activeTab === 'schedule' && (
-              <div className="flex-1 flex flex-col justify-between p-3 space-y-1.5">
+              <div className="space-y-4">
                 {/* Header */}
-                <div className="bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 border-b border-slate-800 rounded-xl p-2 shadow-sm">
-                  <h3 className="font-extrabold text-[10.5px] text-white">Lịch làm & Ngày công</h3>
-                  <p className="text-[8px] text-sky-400 font-semibold">Theo dõi ca làm và giờ công hàng tháng</p>
+                <div className="bg-gradient-to-b from-sky-50/70 to-transparent px-5 pt-4 pb-3 border-b border-slate-100">
+                  <h3 className="font-extrabold text-[19px] text-slate-900 leading-tight">Lịch làm & Ngày công</h3>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Theo dõi ca làm và giờ công chi tiết hàng tháng</p>
                 </div>
 
-                {/* Month Selector */}
-                <div className="flex items-center justify-between px-0.5">
-                  <button className="p-1 rounded bg-slate-800 border border-slate-700 text-slate-300">
-                    <CaretLeft size={10} weight="bold" />
-                  </button>
-                  <h4 className="font-bold text-slate-200 text-[8.5px] bg-slate-800/80 px-2 py-0.5 rounded-full border border-slate-700">
-                    Tháng 08/2026
-                  </h4>
-                  <button className="p-1 rounded bg-slate-800 border border-slate-700 text-slate-300">
-                    <CaretRight size={10} weight="bold" />
-                  </button>
-                </div>
+                <div className="px-4 space-y-3.5 -mt-1">
+                  {/* Month Selector */}
+                  <div className="flex items-center justify-between px-1">
+                    <button className="p-2 rounded-xl bg-white border border-slate-200 text-slate-500 shadow-xs">
+                      <CaretLeft size={14} weight="bold" />
+                    </button>
+                    <h4 className="font-bold text-slate-700 text-[11px] bg-white px-4 py-1.5 rounded-full border border-slate-200 shadow-xs">
+                      Tháng 8 / 2026
+                    </h4>
+                    <button className="p-2 rounded-xl bg-white border border-slate-200 text-slate-500 shadow-xs">
+                      <CaretRight size={14} weight="bold" />
+                    </button>
+                  </div>
 
-                {/* 6 Statistics Metrics Cards */}
-                <div className="grid grid-cols-3 gap-1 text-center">
-                  <div className="bg-slate-800/60 border border-slate-700/60 p-1 rounded-lg">
-                    <p className="text-[6.5px] text-slate-400 font-bold uppercase">Giờ công</p>
-                    <p className="font-extrabold text-[10px] text-sky-400 mt-0.5">168h</p>
-                  </div>
-                  <div className="bg-slate-800/60 border border-slate-700/60 p-1 rounded-lg">
-                    <p className="text-[6.5px] text-slate-400 font-bold uppercase">Ngày công</p>
-                    <p className="font-extrabold text-[10px] text-amber-400 mt-0.5">21 công</p>
-                  </div>
-                  <div className="bg-slate-800/60 border border-slate-700/60 p-1 rounded-lg">
-                    <p className="text-[6.5px] text-slate-400 font-bold uppercase">Tăng ca</p>
-                    <p className="font-extrabold text-[10px] text-indigo-400 mt-0.5">12.5h</p>
-                  </div>
-                  <div className="bg-slate-800/60 border border-slate-700/60 p-1 rounded-lg">
-                    <p className="text-[6.5px] text-slate-400 font-bold uppercase">Quên công</p>
-                    <p className="font-extrabold text-[10px] text-slate-200 mt-0.5">0</p>
-                  </div>
-                  <div className="bg-slate-800/60 border border-slate-700/60 p-1 rounded-lg">
-                    <p className="text-[6.5px] text-slate-400 font-bold uppercase">Muộn / Sớm</p>
-                    <p className="font-extrabold text-[10px] text-rose-400 mt-0.5">1 lần</p>
-                  </div>
-                  <div className="bg-slate-800/60 border border-slate-700/60 p-1 rounded-lg">
-                    <p className="text-[6.5px] text-slate-400 font-bold uppercase">Không phép</p>
-                    <p className="font-extrabold text-[10px] text-emerald-400 mt-0.5">0</p>
-                  </div>
-                </div>
-
-                {/* Calendar Card Preview */}
-                <div className="bg-slate-800/70 border border-slate-700/70 rounded-xl p-1.5 space-y-1">
-                  <div className="grid grid-cols-7 text-center text-[7px] font-bold text-slate-400 pb-0.5 border-b border-slate-700/50">
-                    <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span className="text-rose-400">CN</span>
-                  </div>
-                  <div className="grid grid-cols-7 gap-0.5 text-center text-[7.5px] font-semibold">
-                    {Array.from({ length: 21 }).map((_, i) => (
-                      <div 
-                        key={i} 
-                        className={`h-4.5 rounded flex items-center justify-center border ${
-                          i + 1 === 20 
-                            ? 'bg-sky-500 text-slate-950 font-bold border-sky-400 shadow-xs' 
-                            : i + 1 < 20 
-                            ? 'bg-slate-900/80 text-emerald-400 border-slate-700/50' 
-                            : 'bg-slate-900/30 text-slate-500 border-slate-800/40'
-                        }`}
-                      >
-                        {i + 1}
+                  {/* 6 Statistics Cards (Ảnh 4) */}
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    {/* Giờ công */}
+                    <div className="bg-white border border-slate-200 p-2.5 rounded-2xl shadow-xs flex flex-col items-center justify-center">
+                      <div className="w-7.5 h-7.5 rounded-xl bg-sky-50 text-sky-500 border border-sky-100 flex items-center justify-center mb-1">
+                        <Clock size={16} weight="bold" />
                       </div>
-                    ))}
+                      <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">GIỜ CÔNG</p>
+                      <p className="font-extrabold text-[13px] text-slate-800 mt-0.5">102.2h</p>
+                    </div>
+
+                    {/* Ngày công */}
+                    <div className="bg-white border border-slate-200 p-2.5 rounded-2xl shadow-xs flex flex-col items-center justify-center">
+                      <div className="w-7.5 h-7.5 rounded-xl bg-amber-50 text-amber-500 border border-amber-100 flex items-center justify-center mb-1">
+                        <Files size={16} weight="bold" />
+                      </div>
+                      <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">NGÀY CÔNG</p>
+                      <p className="font-extrabold text-[13px] text-slate-800 mt-0.5">16 công</p>
+                    </div>
+
+                    {/* Tăng ca */}
+                    <div className="bg-white border border-slate-200 p-2.5 rounded-2xl shadow-xs flex flex-col items-center justify-center">
+                      <div className="w-7.5 h-7.5 rounded-xl bg-purple-50 text-purple-500 border border-purple-100 flex items-center justify-center mb-1">
+                        <Plus size={16} weight="bold" />
+                      </div>
+                      <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">TĂNG CA</p>
+                      <p className="font-extrabold text-[13px] text-slate-800 mt-0.5">0h</p>
+                    </div>
+
+                    {/* Quên công */}
+                    <div className="bg-white border border-slate-200 p-2.5 rounded-2xl shadow-xs flex flex-col items-center justify-center">
+                      <div className="w-7.5 h-7.5 rounded-xl bg-orange-50 text-orange-500 border border-orange-100 flex items-center justify-center mb-1">
+                        <WarningCircle size={16} weight="bold" />
+                      </div>
+                      <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">QUÊN CÔNG</p>
+                      <p className="font-extrabold text-[13px] text-slate-800 mt-0.5">4 ngày</p>
+                    </div>
+
+                    {/* Muộn / Sớm */}
+                    <div className="bg-white border border-slate-200 p-2.5 rounded-2xl shadow-xs flex flex-col items-center justify-center">
+                      <div className="w-7.5 h-7.5 rounded-xl bg-rose-50 text-rose-500 border border-rose-100 flex items-center justify-center mb-1">
+                        <Warning size={16} weight="bold" />
+                      </div>
+                      <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">MUỘN / SỚM</p>
+                      <p className="font-extrabold text-[13px] text-slate-800 mt-0.5">2 ngày</p>
+                    </div>
+
+                    {/* Không phép */}
+                    <div className="bg-white border border-slate-200 p-2.5 rounded-2xl shadow-xs flex flex-col items-center justify-center">
+                      <div className="w-7.5 h-7.5 rounded-xl bg-red-50 text-red-500 border border-red-100 flex items-center justify-center mb-1">
+                        <X size={16} weight="bold" />
+                      </div>
+                      <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">KHÔNG PHÉP</p>
+                      <p className="font-extrabold text-[13px] text-slate-800 mt-0.5">1 ngày</p>
+                    </div>
                   </div>
+
+                  {/* Calendar Card (Ảnh 4 & Ảnh 1) */}
+                  <div className="bg-white border border-slate-200 rounded-3xl p-4.5 shadow-sm space-y-3">
+                    {/* Weekday Headers */}
+                    <div className="grid grid-cols-7 text-center text-[10px] font-extrabold text-slate-700 pb-2 border-b border-slate-150">
+                      <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span className="text-rose-600">CN</span>
+                    </div>
+
+                    {/* Days Grid */}
+                    <div className="grid grid-cols-7 gap-y-2.5 gap-x-1 text-center">
+                      {/* Empty Prefix Slots */}
+                      {Array.from({ length: emptyPrefixSlots }).map((_, i) => (
+                        <div key={`empty-${i}`} className="aspect-square" />
+                      ))}
+
+                      {/* Month Days */}
+                      {daysInMonth.map((day) => {
+                        const isSelected = selectedDay === day;
+                        const isSunday = (day + emptyPrefixSlots) % 7 === 0;
+                        const dot = getDayDot(day);
+
+                        return (
+                          <div 
+                            key={day}
+                            onClick={() => setSelectedDay(day)}
+                            className={`aspect-square flex flex-col items-center justify-between p-1 rounded-2xl transition-all cursor-pointer relative ${
+                              isSelected 
+                                ? 'bg-gradient-to-tr from-sky-400 to-indigo-600 text-white shadow-md shadow-sky-500/25 scale-105' 
+                                : isSunday 
+                                ? 'text-rose-500 hover:bg-slate-100' 
+                                : 'text-slate-700 hover:bg-slate-100'
+                            }`}
+                          >
+                            <span className="text-[11px] font-bold">{day}</span>
+                            <div className="h-1.5 flex items-center justify-center">
+                              {dot && (
+                                <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : dot.color}`} />
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Legend (Ảnh 1) */}
+                    <div className="flex justify-between items-center pt-3 border-t border-slate-150 text-[8px] font-bold text-slate-600 uppercase tracking-tight">
+                      <div className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                        <span>CA LÀM</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+                        <span>ĐI MUỘN</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                        <span>QUÊN CHẤM</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-rose-600" />
+                        <span>KHÔNG PHÉP</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Day Details Card: CHI TIẾT NGÀY [X]/8/2026 (Ảnh 1) */}
+                  <div className="bg-white rounded-3xl p-4.5 shadow-sm border border-slate-200 space-y-3 pb-2">
+                    <div className="flex items-center justify-between border-b border-slate-150 pb-2">
+                      <h5 className="font-extrabold text-slate-800 text-[11px] uppercase tracking-wide">
+                        CHI TIẾT NGÀY {selectedDay}/8/2026
+                      </h5>
+                      <span className="px-2.5 py-0.5 rounded-full text-[8.5px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-200">
+                        ĐÚNG GIỜ
+                      </span>
+                    </div>
+
+                    {/* Shift Assigned */}
+                    <div className="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-2xs space-y-1">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6.5 h-6.5 rounded-lg bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center shrink-0">
+                          <Calendar size={14} weight="bold" />
+                        </div>
+                        <p className="text-[8px] text-slate-500 font-extrabold uppercase tracking-wider">CA LÀM ĐƯỢC PHÂN</p>
+                      </div>
+                      <p className="font-extrabold text-[11.5px] text-slate-800">Hành Chính Văn Phòng</p>
+                      <p className="text-[9.5px] text-slate-500 font-medium">Thời gian: 08:00 - 17:00</p>
+                    </div>
+
+                    {/* Actual Times */}
+                    <div className="bg-white p-3 rounded-2xl border border-slate-200/90 shadow-2xs space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6.5 h-6.5 rounded-lg bg-sky-50 text-sky-600 border border-sky-100 flex items-center justify-center shrink-0">
+                          <CheckCircle size={14} weight="bold" />
+                        </div>
+                        <p className="text-[8px] text-slate-500 font-extrabold uppercase tracking-wider">GIỜ VÀO / RA THỰC TẾ</p>
+                      </div>
+                      <div className="flex justify-between items-center text-[10.5px]">
+                        <span className="text-slate-500 font-medium">Giờ vào (In):</span>
+                        <span className="font-bold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200 font-mono">07:51:02</span>
+                      </div>
+                      <div className="flex justify-between items-center text-[10.5px]">
+                        <span className="text-slate-500 font-medium">Giờ ra (Out):</span>
+                        <span className="font-bold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded-lg border border-slate-200 font-mono">--:--</span>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             )}
 
           </div>
 
-          {/* ── 3. Exact BottomNavigation.vue Structure with Floating Center QR Button ── */}
-          <div className="w-full h-12 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/80 flex items-center justify-around px-3 relative z-30 shrink-0">
+          {/* ── 3. Exact BottomNavigation Bar with Floating Center QR Button ── */}
+          <div className="w-full h-16 bg-white/95 backdrop-blur-xl border-t border-slate-200 flex items-center justify-around px-4 relative z-30 shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.04)]">
             
             {/* Home Tab */}
             <div 
               onClick={() => setActiveTab('home')}
-              className={`flex flex-col items-center justify-center w-14 h-full cursor-pointer transition-colors ${
-                activeTab === 'home' ? 'text-sky-400' : 'text-slate-400 hover:text-slate-200'
+              className={`flex flex-col items-center justify-center w-16 h-full cursor-pointer transition-colors ${
+                activeTab === 'home' ? 'text-sky-600 font-bold' : 'text-slate-400 hover:text-slate-600'
               }`}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
               </svg>
-              <span className="text-[7.5px] font-bold mt-0.5">Trang chủ</span>
+              <span className="text-[8.5px] font-bold mt-1">Trang chủ</span>
             </div>
 
-            {/* Scan Tab (Floating Centered Circular Action Button) */}
+            {/* Scan Tab (Floating Centered Circular Action Button with Glowing Blue Aura) */}
             <div 
               onClick={() => setActiveTab('scanner')}
-              className={`flex flex-col items-center justify-center w-14 h-full relative cursor-pointer ${
-                activeTab === 'scanner' ? 'text-sky-400' : 'text-slate-400'
-              }`}
+              className="flex flex-col items-center justify-center w-16 h-full relative cursor-pointer"
             >
-              <div className="absolute -top-3.5 w-10 h-10 bg-gradient-to-tr from-sky-400 to-indigo-600 rounded-full flex items-center justify-center shadow-md shadow-sky-400/25 border-3 border-slate-900 text-white transform active:scale-95 hover:opacity-95 transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className="w-4.5 h-4.5">
+              <div className="absolute -top-5 w-13 h-13 bg-gradient-to-tr from-sky-400 to-indigo-600 rounded-full flex items-center justify-center shadow-lg shadow-sky-400/35 border-3.5 border-[#f8fafc] text-white transform active:scale-95 hover:opacity-95 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className="w-5.5 h-5.5">
                   <rect x="3.25" y="3.25" width="5.5" height="5.5" rx="1.25" stroke="white" strokeWidth="1.5" />
                   <rect x="5" y="5" width="2" height="2" fill="white" />
                   <rect x="15.25" y="3.25" width="5.5" height="5.5" rx="1.25" stroke="white" strokeWidth="1.5" />
@@ -367,26 +564,28 @@ export default function MobileAppShowcase() {
                   <rect x="18" y="18" width="2" height="2" fill="white" rx="0.5" />
                 </svg>
               </div>
-              <span className="text-[7.5px] font-bold mt-5 text-slate-400">Quét QR</span>
+              <span className={`text-[8.5px] font-bold mt-7 ${activeTab === 'scanner' ? 'text-sky-600' : 'text-slate-400'}`}>
+                Quét QR
+              </span>
             </div>
 
             {/* Schedule Tab */}
             <div 
               onClick={() => setActiveTab('schedule')}
-              className={`flex flex-col items-center justify-center w-14 h-full cursor-pointer transition-colors ${
-                activeTab === 'schedule' ? 'text-sky-400' : 'text-slate-400 hover:text-slate-200'
+              className={`flex flex-col items-center justify-center w-16 h-full cursor-pointer transition-colors ${
+                activeTab === 'schedule' ? 'text-sky-600 font-bold' : 'text-slate-400 hover:text-slate-600'
               }`}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
               </svg>
-              <span className="text-[7.5px] font-bold mt-0.5">Lịch & Công</span>
+              <span className="text-[8.5px] font-bold mt-1">Lịch & Công</span>
             </div>
 
           </div>
 
-          {/* Home indicator bar */}
-          <div className="w-20 h-1 bg-white/20 rounded-full mx-auto mb-1 shrink-0" />
+          {/* Bottom Home Indicator */}
+          <div className="w-24 h-1 bg-slate-400/30 rounded-full mx-auto mb-1 shrink-0" />
         </div>
       </div>
     </div>
