@@ -115,7 +115,7 @@ export default function ReleaseDownload({ locale, changelog = false }: { locale:
                   href={artifact.public_url}
                   className="h-fit rounded-xl bg-white text-[#0a1628] text-sm font-bold px-5 py-3 hover:bg-white/85 transition-all shadow-[0_2px_12px_rgba(255,255,255,0.15)] inline-block text-center cursor-pointer shrink-0"
                 >
-                  {vi ? 'Tải bộ cài đã ký' : 'Download signed installer'}
+                  {vi ? 'Tải bộ cài Windows' : 'Download Windows installer'}
                 </a>
               )}
             </div>
