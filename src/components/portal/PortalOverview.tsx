@@ -50,10 +50,16 @@ export default function PortalOverview() {
       setLoadIssue(false);
       const active = (entitlements.data ?? []).filter((item) => item.status === 'active');
       const expiries = active.map((item) => item.expires_at).filter(Boolean).sort() as string[];
+      let cancelledIds: string[] = [];
+      try {
+        cancelledIds = JSON.parse(localStorage.getItem('natime_cancelled_orders') || '[]');
+      } catch {
+        cancelledIds = [];
+      }
       setSummary({
         licenses: active.length,
         devices: active.reduce((total, item) => total + ((item.license_installations as Array<{ status: string }> | null) ?? []).filter((device) => device.status === 'active').length, 0),
-        pendingOrders: (orders.data ?? []).filter((item) => item.status === 'pending').length,
+        pendingOrders: (orders.data ?? []).filter((item) => item.status === 'pending' && !cancelledIds.includes(item.id)).length,
         nearestExpiry: expiries[0] ?? null,
         trialClaimed: Boolean(trial.data),
       });

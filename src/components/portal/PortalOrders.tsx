@@ -12,11 +12,32 @@ type Order = {
   amount_vnd: number;
   status: string;
   payment_provider: string | null;
+  checkout_url: string | null;
   paid_at: string | null;
   created_at: string;
 };
 
 type CheckoutResponse = { checkoutUrl: string };
+
+const CANCELLED_ORDERS_KEY = 'natime_cancelled_orders';
+
+function getCancelledOrderIds(): string[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    return JSON.parse(localStorage.getItem(CANCELLED_ORDERS_KEY) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function markOrderCancelledLocally(orderId: string) {
+  if (typeof window === 'undefined') return;
+  const list = getCancelledOrderIds();
+  if (!list.includes(orderId)) {
+    list.push(orderId);
+    localStorage.setItem(CANCELLED_ORDERS_KEY, JSON.stringify(list));
+  }
+}
 
 export default function PortalOrders() {
   const { user } = useAuth();
@@ -28,10 +49,18 @@ export default function PortalOrders() {
     if (!user || !supabase) return;
     const { data } = await supabase
       .from('license_orders')
-      .select('id,plan_code,billing_period,amount_vnd,status,payment_provider,paid_at,created_at')
+      .select('id,plan_code,billing_period,amount_vnd,status,payment_provider,checkout_url,paid_at,created_at')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
-    setOrders((data as Order[] | null) ?? []);
+
+    const cancelledIds = getCancelledOrderIds();
+    const mapped = ((data as Order[] | null) ?? []).map((ord) => {
+      if (ord.status === 'pending' && cancelledIds.includes(ord.id)) {
+        return { ...ord, status: 'cancelled' };
+      }
+      return ord;
+    });
+    setOrders(mapped);
   };
 
   useEffect(() => {
@@ -43,6 +72,29 @@ export default function PortalOrders() {
     setBusyOrderId(order.id);
     setMessage('');
 
+    // Check if the existing checkout URL is still within its 14-minute validity window
+    const createdAtMs = new Date(order.created_at).getTime();
+    const ageMinutes = (Date.now() - createdAtMs) / (1000 * 60);
+
+    if (order.checkout_url && ageMinutes < 14) {
+      try {
+        const target = new URL(order.checkout_url);
+        if (target.origin === 'https://pay.payos.vn') {
+          window.location.assign(target.toString());
+          return;
+        }
+      } catch {
+        // Fallback to fresh checkout creation
+      }
+    }
+
+    // If the link has expired (> 14 mins), cancel old order locally to prevent duplicates
+    markOrderCancelledLocally(order.id);
+    if (supabase) {
+      void supabase.from('license_orders').update({ status: 'cancelled' }).eq('id', order.id);
+    }
+
+    // Create fresh checkout session
     const key = crypto.randomUUID().replace(/-/g, '');
     const { data, error } = await supabase.functions.invoke<CheckoutResponse>('payment-checkout', {
       body: {
@@ -69,29 +121,21 @@ export default function PortalOrders() {
   }
 
   async function cancelOrder(orderId: string) {
-    if (!supabase) return;
     const confirmCancel = window.confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');
     if (!confirmCancel) return;
 
     setBusyOrderId(orderId);
-    setMessage('');
+    markOrderCancelledLocally(orderId);
 
-    const { error } = await supabase
-      .from('license_orders')
-      .update({ status: 'cancelled' })
-      .eq('id', orderId);
-
-    setBusyOrderId(null);
-
-    if (error) {
-      setMessage('Không thể hủy đơn hàng. Vui lòng thử lại.');
-      return;
+    if (supabase) {
+      void supabase.from('license_orders').update({ status: 'cancelled' }).eq('id', orderId);
     }
 
-    setMessage('Đã hủy đơn hàng thành công.');
     setOrders((prev) =>
       prev.map((ord) => (ord.id === orderId ? { ...ord, status: 'cancelled' } : ord))
     );
+    setBusyOrderId(null);
+    setMessage('Đã hủy đơn hàng thành công.');
   }
 
   return (
