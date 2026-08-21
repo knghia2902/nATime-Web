@@ -6,19 +6,20 @@ import {
   SignOut, 
   CheckCircle, 
   CaretRight, 
-  Desktop,
-  CaretLeft,
-  Clock,
-  Files,
-  Plus,
-  WarningCircle,
-  Warning,
-  X,
-  Calendar,
-  SignIn,
-  QrCode,
-  User,
-  Cpu
+  Desktop, 
+  CaretLeft, 
+  Clock, 
+  Files, 
+  Plus, 
+  WarningCircle, 
+  Warning, 
+  X, 
+  Calendar, 
+  SignIn, 
+  User, 
+  Cpu, 
+  Globe, 
+  Camera 
 } from '@phosphor-icons/react';
 
 type Tab = 'home' | 'scanner' | 'schedule' | 'device-detail';
@@ -60,7 +61,7 @@ const ASSET_DATABASE: Record<string, AssetDetail> = {
     vendor: 'Công ty Cổ phần Công Nghệ Quốc Tế',
     ipAddress: '—',
     macAddress: '—',
-    purchaseDate: '15/01/2024',
+    purchaseDate: '15/1/2024',
     warranty: '36 tháng'
   },
   'A000000670': {
@@ -70,16 +71,16 @@ const ASSET_DATABASE: Record<string, AssetDetail> = {
     status: 'Đang sử dụng',
     serialNumber: '8XYZ921-VN',
     serviceTag: '9ABC123',
-    cpu: 'Intel Core i7-10700 @ 2.90GHz (8C/16T)',
-    ram: '16 GB DDR4 3200MHz (2x 8GB)',
-    hardDrive: '512 GB PCIe NVMe M.2 SSD + 1TB HDD',
+    cpu: 'Intel Core i7-10700 @ 2.90GHz',
+    ram: '16 GB DDR4 3200MHz',
+    hardDrive: '512 GB PCIe NVMe M.2 SSD',
     employeeName: 'Bùi Khắc Nghĩa',
     employeeCode: '05A00001315',
     department: 'BP Công Nghệ Thông Tin',
     vendor: 'Công ty TNHH Giải Pháp Máy Chủ',
     ipAddress: '192.168.1.145',
     macAddress: 'D8:BB:C1:42:A8:19',
-    purchaseDate: '10/08/2023',
+    purchaseDate: '10/8/2023',
     warranty: '36 tháng'
   }
 };
@@ -288,7 +289,7 @@ export default function MobileAppShowcase() {
               </div>
             </div>
 
-            {/* ── 2. Scrollable Body Area (Unified rounded-2xl & Refined Font Sizes) ── */}
+            {/* ── 2. Scrollable Body Area (Unified rounded-2xl standard) ── */}
             <div className="flex-1 overflow-y-auto relative z-10 custom-scrollbar-light pb-4">
               
               {/* ══════════════ TAB 1: TRANG CHỦ ══════════════ */}
@@ -520,93 +521,119 @@ export default function MobileAppShowcase() {
                 </div>
               )}
 
-              {/* ══════════════ TAB 4: CHI TIẾT THIẾT BỊ (DeviceDetailView.vue) ══════════════ */}
+              {/* ══════════════ TAB 4: CHI TIẾT THIẾT BỊ (Chuẩn 100% DeviceDetailView.vue) ══════════════ */}
               {activeTab === 'device-detail' && (
                 <div className="space-y-3 pb-3">
                   {/* Header */}
-                  <div className="bg-gradient-to-b from-sky-100/70 via-slate-50/40 to-transparent px-4 pt-2 pb-3 flex items-center gap-2.5 relative">
+                  <div className="bg-gradient-to-b from-sky-100/70 via-slate-50/40 to-transparent px-5 pt-2 pb-3.5 flex items-center gap-3 relative">
                     <button 
                       onClick={() => setActiveTab('home')} 
                       className="p-1.5 rounded-xl bg-white border border-slate-200 text-slate-600 cursor-pointer shadow-xs active:scale-95 transition-all"
                     >
-                      <CaretLeft size={13} weight="bold" />
+                      <CaretLeft size={14} weight="bold" />
                     </button>
                     <div>
-                      <h3 className="font-extrabold text-[12.5px] text-slate-900 leading-tight">Chi tiết thiết bị</h3>
-                      <p className="text-[7.5px] text-slate-500 font-medium">Thông tin chi tiết tài sản doanh nghiệp</p>
+                      <h3 className="font-extrabold text-[13px] text-slate-900 leading-tight">Chi tiết thiết bị</h3>
+                      <p className="text-[8px] text-slate-500 font-medium">Thông tin chi tiết tài sản của doanh nghiệp</p>
                     </div>
                   </div>
 
-                  <div className="px-3.5 space-y-2.5">
-                    {/* Card 1: Basic Info */}
-                    <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-200/80 space-y-2">
+                  <div className="px-4 space-y-3">
+                    {/* Card 1: Basic Information */}
+                    <div className="bg-white rounded-2xl p-3.5 shadow-sm border border-slate-200/80 space-y-2.5">
                       <div className="flex justify-between items-start">
                         <div>
-                          <span className="text-[7px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full">
-                            {currentAsset.category}
+                          <span className="text-[7.5px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full">
+                            {{ 'Màn hình': 'Màn hình', 'PC': 'Tài sản CNTT' }[currentAsset.category] || 'Tài sản CNTT'}
                           </span>
-                          <h4 className="font-extrabold text-[11px] text-slate-900 mt-1 leading-snug">
+                          <h4 className="font-extrabold text-[11.5px] text-slate-900 mt-1 leading-snug">
                             {currentAsset.name}
                           </h4>
-                          <p className="text-[8.5px] font-bold text-sky-600 mt-0.5">{currentAsset.code}</p>
+                          <p className="text-[9px] font-bold text-sky-600 mt-0.5">{currentAsset.code}</p>
                         </div>
-                        <span className="px-2 py-0.5 rounded-full text-[7px] font-bold bg-sky-500/10 text-sky-600 border border-sky-500/20">
+                        <span className="px-2.5 py-0.5 rounded-full text-[7.5px] font-bold bg-sky-500/10 text-sky-600 border border-sky-500/20">
                           {currentAsset.status}
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-y-1.5 pt-2 border-t border-slate-100 text-[8px]">
+                      <div className="grid grid-cols-2 gap-y-2 pt-2.5 border-t border-slate-100 text-[8.5px]">
                         <div>
-                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">SERIAL NUMBER</p>
-                          <p className="font-bold text-slate-700 mt-0.5 font-mono">{currentAsset.serialNumber}</p>
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">SERIAL NUMBER</p>
+                          <p className="font-bold text-slate-750 mt-0.5 font-mono">{currentAsset.serialNumber}</p>
                         </div>
                         <div>
-                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">SERVICE TAG</p>
-                          <p className="font-bold text-slate-700 mt-0.5 font-mono">{currentAsset.serviceTag}</p>
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">SERVICE TAG</p>
+                          <p className="font-bold text-slate-750 mt-0.5 font-mono">{currentAsset.serviceTag}</p>
                         </div>
                       </div>
                     </div>
 
-                    {/* Card 2: Hardware Specs */}
-                    <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-200/80 space-y-2">
-                      <h5 className="font-bold text-[8.5px] text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                        <Cpu size={12} weight="bold" className="text-sky-500" />
+                    {/* Card 2: Specifications (Cấu hình phần cứng) */}
+                    <div className="bg-white rounded-2xl p-3.5 shadow-sm border border-slate-200/80 space-y-2.5">
+                      <h5 className="font-bold text-[9px] text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                        <Cpu size={13} weight="bold" className="text-sky-500" />
                         Cấu hình phần cứng
                       </h5>
-                      <div className="space-y-1.5 text-[8px] pt-0.5">
+                      <div className="grid grid-cols-2 gap-y-2 text-[8.5px] pt-0.5">
                         <div>
-                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">CPU / HIỂN THỊ</p>
-                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.cpu}</p>
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">CPU</p>
+                          <p className="font-bold text-slate-750 mt-0.5">{currentAsset.cpu}</p>
                         </div>
                         <div>
-                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">BỘ NHỚ (RAM)</p>
-                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.ram}</p>
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">RAM</p>
+                          <p className="font-bold text-slate-750 mt-0.5">{currentAsset.ram}</p>
                         </div>
-                        <div>
-                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">LƯU TRỮ / KẾT NỐI</p>
-                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.hardDrive}</p>
+                        <div className="col-span-2">
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">Ổ CỨNG</p>
+                          <p className="font-bold text-slate-750 mt-0.5">{currentAsset.hardDrive}</p>
                         </div>
                       </div>
                     </div>
 
-                    {/* Card 3: Assignment Info */}
-                    <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-200/80 space-y-2">
-                      <h5 className="font-bold text-[8.5px] text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                        <User size={12} weight="bold" className="text-indigo-500" />
+                    {/* Card 3: Assignment Information (Quản lý & Sử dụng) */}
+                    <div className="bg-white rounded-2xl p-3.5 shadow-sm border border-slate-200/80 space-y-2.5">
+                      <h5 className="font-bold text-[9px] text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                        <User size={13} weight="bold" className="text-sky-500" />
                         Quản lý & Sử dụng
                       </h5>
-                      <div className="space-y-1.5 text-[8px] pt-0.5">
-                        <div>
-                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">NGƯỜI SỬ DỤNG</p>
-                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.employeeName} ({currentAsset.employeeCode})</p>
+                      <div className="grid grid-cols-2 gap-y-2 text-[8.5px] pt-0.5">
+                        <div className="col-span-2">
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">NGƯỜI SỬ DỤNG</p>
+                          <p className="font-bold text-slate-750 mt-0.5">{currentAsset.employeeName} ({currentAsset.employeeCode})</p>
                         </div>
                         <div>
-                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">PHÒNG BAN QUẢN LÝ</p>
-                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.department}</p>
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">PHÒNG BAN QUẢN LÝ</p>
+                          <p className="font-bold text-slate-750 mt-0.5">{currentAsset.department}</p>
                         </div>
                         <div>
-                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">NHÀ CUNG CẤP</p>
-                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.vendor}</p>
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">NHÀ CUNG CẤP</p>
+                          <p className="font-bold text-slate-750 mt-0.5">{currentAsset.vendor}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 4: Network & Procurement (Mạng & Mua sắm) */}
+                    <div className="bg-white rounded-2xl p-3.5 shadow-sm border border-slate-200/80 space-y-2.5">
+                      <h5 className="font-bold text-[9px] text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                        <Globe size={13} weight="bold" className="text-sky-500" />
+                        Mạng & Mua sắm
+                      </h5>
+                      <div className="grid grid-cols-2 gap-y-2 text-[8.5px] pt-0.5">
+                        <div>
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">ĐỊA CHỈ IP</p>
+                          <p className="font-bold text-slate-750 mt-0.5 font-mono">{currentAsset.ipAddress}</p>
+                        </div>
+                        <div>
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">ĐỊA CHỈ MAC</p>
+                          <p className="font-bold text-slate-750 mt-0.5 font-mono">{currentAsset.macAddress}</p>
+                        </div>
+                        <div>
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">NGÀY MUA</p>
+                          <p className="font-bold text-slate-750 mt-0.5">{currentAsset.purchaseDate}</p>
+                        </div>
+                        <div>
+                          <p className="text-[7px] text-slate-400 font-bold uppercase">BẢO HÀNH</p>
+                          <p className="font-bold text-slate-750 mt-0.5">{currentAsset.warranty}</p>
                         </div>
                       </div>
                     </div>
@@ -614,9 +641,9 @@ export default function MobileAppShowcase() {
                     {/* Action Button: Quét thiết bị tiếp theo */}
                     <button 
                       onClick={() => setActiveTab('scanner')}
-                      className="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-2.5 rounded-2xl text-[8.5px] active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+                      className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 rounded-2xl text-[9px] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer"
                     >
-                      <QrCode size={13} weight="bold" />
+                      <Camera size={14} weight="bold" />
                       Quét thiết bị tiếp theo
                     </button>
                   </div>
@@ -674,7 +701,7 @@ export default function MobileAppShowcase() {
                 </div>
               )}
 
-              {/* ══════════════ TAB 3: LỊCH & CÔNG (Interactive Dynamic Day Selection) ══════════════ */}
+              {/* ══════════════ TAB 3: LỊCH & CÔNG ══════════════ */}
               {activeTab === 'schedule' && (
                 <div className="space-y-3.5">
                   {/* Header - Seamless Soft Gradient */}
@@ -818,7 +845,7 @@ export default function MobileAppShowcase() {
                       </div>
                     </div>
 
-                    {/* Day Details Card: CHI TIẾT NGÀY (Dynamically mapped based on selectedDay) */}
+                    {/* Day Details Card: CHI TIẾT NGÀY */}
                     <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 space-y-3 pb-2 transition-all">
                       <div className="flex items-center justify-between border-b border-slate-150 pb-2">
                         <div>
