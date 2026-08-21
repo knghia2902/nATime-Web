@@ -200,13 +200,13 @@ export default function Navbar() {
             <LanguageToggle />
             <Link
               href={user ? "/portal" : "/login"}
-              className="btn-pill-glass text-[11.5px] py-1.5 px-3.5"
+              className="btn-pill-glass !h-7 !py-0 !px-3 text-[11.5px] font-medium"
             >
               {user ? t('Portal', 'Portal') : t('Đăng nhập', 'Sign in')}
             </Link>
             <Link
               href={user ? "/dashboard" : "/contact"}
-              className="btn-pill-primary text-[11.5px] py-1.5 px-3.5"
+              className="btn-pill-primary !h-7 !py-0 !px-3 text-[11.5px] font-semibold gap-1.5"
             >
               <span>
                 {user ? t('Vào Dashboard', 'Go to Dashboard') : t('Yêu cầu demo', 'Request Demo')}
