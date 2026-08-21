@@ -190,20 +190,30 @@ function StatusBadge({ status }: { status: string }) {
   if (['active', 'published', 'verified', 'completed', 'paid', 'success'].includes(normalized)) {
     style = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
     dotStyle = 'bg-emerald-400';
+    if (['paid', 'completed', 'success'].includes(normalized)) label = 'Đã thanh toán';
+    else if (normalized === 'active') label = 'Hoạt động';
+    else if (normalized === 'published') label = 'Đã phát hành';
+    else if (normalized === 'verified') label = 'Đã xác minh';
   } else if (['pending', 'in_progress', 'draft', 'processing'].includes(normalized)) {
     style = 'bg-amber-500/10 text-amber-400 border-amber-500/20';
     dotStyle = 'bg-amber-400';
+    if (['pending', 'processing'].includes(normalized)) label = 'Chờ xử lý';
+    else if (normalized === 'in_progress') label = 'Đang xử lý';
+    else if (normalized === 'draft') label = 'Bản nháp';
   } else if (['new', 'open'].includes(normalized)) {
-    style = 'bg-white/10 text-white border-white/20';
-    dotStyle = 'bg-white';
-  } else if (['closed', 'disabled', 'cancelled', 'withdrawn', 'failed'].includes(normalized)) {
+    style = 'bg-sky-500/10 text-sky-400 border-sky-500/20';
+    dotStyle = 'bg-sky-400';
+    label = 'Mới';
+  } else if (['closed', 'disabled', 'cancelled', 'withdrawn', 'failed', 'expired'].includes(normalized)) {
     style = 'bg-white/[0.04] text-white/40 border-white/[0.08]';
     dotStyle = 'bg-white/30';
+    if (normalized === 'cancelled') label = 'Đã hủy';
+    else if (normalized === 'failed') label = 'Thất bại';
+    else if (normalized === 'expired') label = 'Hết hạn';
+    else if (normalized === 'closed') label = 'Đã đóng';
+    else if (normalized === 'disabled') label = 'Vô hiệu';
+    else if (normalized === 'withdrawn') label = 'Đã rút';
   }
-
-  if (normalized === 'new') label = 'Mới';
-  if (normalized === 'in_progress') label = 'Đang xử lý';
-  if (normalized === 'closed') label = 'Đã đóng';
 
   return (
     <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium border ${style}`}>
@@ -456,7 +466,8 @@ const definitions = {
       ['billing_period', 'Chu kỳ'],
       ['amount_vnd', 'Số tiền'],
       ['status', 'Trạng thái'],
-      ['created_at', 'Ngày tạo']
+      ['created_at', 'Ngày tạo'],
+      ['actions', 'Thao tác']
     ]
   },
   licenses: {
@@ -514,6 +525,25 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
   const [loading, setLoading] = useState(true);
   const [filterEvent, setFilterEvent] = useState<string>('all');
   const [profilesMap, setProfilesMap] = useState<Record<string, string>>({});
+  const [busyOrderId, setBusyOrderId] = useState<string | null>(null);
+
+  const handleCancelOrder = async (orderId: string) => {
+    if (!window.confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) return;
+    if (!supabase) return;
+    setBusyOrderId(orderId);
+    const { error } = await supabase
+      .from('license_orders')
+      .update({ status: 'cancelled' })
+      .eq('id', orderId);
+    setBusyOrderId(null);
+    if (!error) {
+      setRows((prev) =>
+        prev.map((r) => (String(r.id) === orderId ? { ...r, status: 'cancelled' } : r))
+      );
+    } else {
+      alert('Không thể hủy đơn: ' + error.message);
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -641,6 +671,22 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
                           {formatCurrency(val)}
                         </span>
                       );
+                    } else if (key === 'actions') {
+                      if (kind === 'orders' && row.status === 'pending') {
+                        const isBusy = busyOrderId === String(row.id);
+                        renderedContent = (
+                          <button
+                            type="button"
+                            disabled={isBusy}
+                            onClick={() => handleCancelOrder(String(row.id))}
+                            className="px-2.5 py-1 text-xs font-semibold text-rose-300 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/20 rounded-lg transition cursor-pointer disabled:opacity-50"
+                          >
+                            {isBusy ? 'Đang hủy...' : 'Hủy đơn'}
+                          </button>
+                        );
+                      } else {
+                        renderedContent = <span className="text-white/30 text-xs font-normal">—</span>;
+                      }
                     } else if (isIdOrHash) {
                       renderedContent = <CopyableId value={cell(val)} />;
                     } else {

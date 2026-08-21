@@ -128,7 +128,7 @@ export default function PortalOrders() {
     markOrderCancelledLocally(orderId);
 
     if (supabase) {
-      void supabase.from('license_orders').update({ status: 'cancelled' }).eq('id', orderId);
+      await supabase.from('license_orders').update({ status: 'cancelled' }).eq('id', orderId);
     }
 
     setOrders((prev) =>
