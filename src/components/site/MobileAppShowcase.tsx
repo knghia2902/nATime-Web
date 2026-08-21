@@ -260,32 +260,38 @@ export default function MobileAppShowcase() {
           <div className="relative w-full h-full bg-[#f8fafc] text-slate-800 rounded-[38px] overflow-hidden flex flex-col justify-between border border-slate-200/90 font-sans shadow-inner isolate">
             
             {/* ── 1. iPhone Top Status Bar & Dynamic Island ── */}
-            <div className="h-9 bg-transparent flex justify-between items-center px-6 shrink-0 text-slate-900 text-[10px] font-semibold tracking-tight select-none z-30 pt-1">
-              <span className="font-semibold">9:41</span>
+            <div className="relative h-10 bg-transparent flex justify-between items-center px-6 shrink-0 text-slate-900 select-none z-30 pt-1.5">
+              {/* Left: Time */}
+              <span className="font-bold text-[12px] tracking-tight pl-0.5">9:41</span>
               
-              {/* iPhone Dynamic Island */}
-              <div className="w-22 h-4.5 rounded-full bg-black flex items-center justify-between px-2 border border-slate-900/40 shadow-xs">
-                <div className="w-2 h-2 rounded-full bg-[#0d1627] border border-sky-500/20" />
-                <div className="w-2 h-2 rounded-full bg-[#1e293b]" />
+              {/* iPhone Dynamic Island (Centered Absolutely) */}
+              <div className="absolute left-1/2 -translate-x-1/2 top-2 w-24 h-[19px] rounded-full bg-black flex items-center justify-between px-2.5 shadow-sm ring-1 ring-white/10 z-40">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#0a1120] border border-[#1e293b]/60 flex items-center justify-center">
+                  <div className="w-1 h-1 rounded-full bg-[#1e3a8a]/40" />
+                </div>
+                <div className="w-2.5 h-2.5 rounded-full bg-[#0a1120] border border-[#1e293b]/60" />
               </div>
 
-              {/* Status Icons: Signal, Wifi & Battery */}
-              <div className="flex items-center gap-1.5 text-slate-900">
-                {/* Cellular signal bars */}
-                <svg className="w-3.5 h-3" viewBox="0 0 17 12" fill="currentColor">
-                  <rect x="0" y="9" width="2.5" height="3" rx="0.5" />
-                  <rect x="4" y="6" width="2.5" height="6" rx="0.5" />
-                  <rect x="8" y="3" width="2.5" height="9" rx="0.5" />
-                  <rect x="12" y="0" width="2.5" height="12" rx="0.5" />
+              {/* Right: Status Icons (Signal, Wifi & Battery) */}
+              <div className="flex items-center gap-1.5 text-slate-900 pr-0.5">
+                {/* iOS Cellular signal bars */}
+                <svg className="w-[15px] h-[10px]" viewBox="0 0 17 12" fill="currentColor">
+                  <rect x="0.5" y="8.5" width="2.5" height="3.5" rx="0.8" />
+                  <rect x="4.8" y="6" width="2.5" height="6" rx="0.8" />
+                  <rect x="9.2" y="3.5" width="2.5" height="8.5" rx="0.8" />
+                  <rect x="13.5" y="0.5" width="2.5" height="11.5" rx="0.8" />
                 </svg>
-                {/* Wifi icon */}
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.79-1.79C9.07 19.64 10.48 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 3.31-6 6z"/>
+                {/* iOS Wifi icon */}
+                <svg className="w-[14px] h-[11px]" viewBox="0 0 16 12" fill="currentColor">
+                  <path d="M8 9.5a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6Zm-3.5-3.3a5.1 5.1 0 0 1 7 0 .75.75 0 0 1-1.06 1.06 3.6 3.6 0 0 0-4.88 0 .75.75 0 1 1-1.06-1.06Zm-2.8-2.8a9 9 0 0 1 12.6 0 .75.75 0 0 1-1.06 1.06 7.5 7.5 0 0 0-10.48 0 .75.75 0 0 1-1.06-1.06Z" />
                 </svg>
-                {/* Battery icon */}
-                <svg className="w-4.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm-1 11H4V8h12v8zm5-7.5v5c.83 0 1.5-.67 1.5-1.5v-2c0-.83-.67-1.5-1.5-1.5z"/>
-                </svg>
+                {/* iOS Battery icon */}
+                <div className="flex items-center gap-[1px]">
+                  <div className="w-[20px] h-[10.5px] rounded-[3.5px] border-[1.2px] border-slate-900 p-[1.5px] flex items-center">
+                    <div className="h-full w-full bg-slate-900 rounded-[1.5px]" />
+                  </div>
+                  <div className="w-[1.5px] h-[4px] bg-slate-900 rounded-r-[1px]" />
+                </div>
               </div>
             </div>
 
