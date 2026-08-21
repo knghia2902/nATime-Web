@@ -158,10 +158,6 @@ export default function AdminShell({ children }: { children: ReactNode }) {
             </nav>
           </div>
           <div className="flex items-center gap-2.5">
-            <span className="inline-flex items-center gap-1.5 !h-9 !py-0 !px-3.5 rounded-full text-xs font-semibold bg-white/[0.08] text-white border border-white/10 backdrop-blur-md">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Super Admin
-            </span>
             <Link
               href="/"
               className="btn-pill-glass !h-9 !py-0 !px-4 text-sm font-medium border border-white/10 hidden sm:inline-flex items-center gap-1.5"

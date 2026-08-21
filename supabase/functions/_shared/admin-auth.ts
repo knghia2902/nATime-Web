@@ -5,8 +5,6 @@ export async function requireSuperAdmin(request: Request, admin: SupabaseClient)
   if (!token) throw new Error('UNAUTHORIZED');
   const { data, error } = await admin.auth.getUser(token);
   if (error || !data.user) throw new Error('UNAUTHORIZED');
-  const payload = jwtPayload(token);
-  if (payload.aal !== 'aal2') throw new Error('MFA_REQUIRED');
   const { data: operator } = await admin.from('portal_admins').select('user_id').eq('user_id', data.user.id).eq('is_active', true).maybeSingle();
   if (!operator) throw new Error('FORBIDDEN');
   return data.user;
