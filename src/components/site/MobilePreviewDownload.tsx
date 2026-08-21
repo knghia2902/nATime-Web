@@ -1,5 +1,6 @@
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=vn.natime.mobile';
 const APK_URL = 'https://download.natime.vn/android/1.0.1/app-release.apk';
+const APK_SHA256 = 'C2B19CFFD023ADBE9AC51EF9203ECBC4186821CFBDBD8F4466BE8BA00CE76FBA';
 
 export default function MobilePreviewDownload({ locale }: { locale: 'vi' | 'en' }) {
   const vi = locale === 'vi';
@@ -43,14 +44,18 @@ export default function MobilePreviewDownload({ locale }: { locale: 'vi' | 'en' 
         </div>
       </div>
       
-      <dl className="mt-5 grid gap-3 border-t border-white/[0.08] pt-5 text-xs text-white/60 sm:grid-cols-2">
+      <dl className="mt-5 grid gap-3 border-t border-white/[0.08] pt-5 text-xs text-white/60 sm:grid-cols-3">
         <div>
           <dt className="font-semibold text-white">{vi ? 'Phát hành qua Google Play' : 'Google Play Package'}</dt>
           <dd className="mt-1 text-sky-400 font-mono">vn.natime.mobile</dd>
         </div>
         <div>
-          <dt className="font-semibold text-white">{vi ? 'Phiên bản' : 'Version'}</dt>
-          <dd className="mt-1 text-white/70 font-mono">1.0.1 (Android 7.0+)</dd>
+          <dt className="font-semibold text-white">{vi ? 'Tệp APK' : 'APK File'}</dt>
+          <dd className="mt-1 text-white/70 font-mono">app-release.apk · 6.22 MB</dd>
+        </div>
+        <div>
+          <dt className="font-semibold text-white">SHA-256</dt>
+          <dd className="mt-1 break-all font-mono text-[10.5px] text-white/70">{APK_SHA256}</dd>
         </div>
       </dl>
     </article>
