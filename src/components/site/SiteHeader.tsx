@@ -87,16 +87,16 @@ export default function SiteHeader({ locale }: { locale: Locale }) {
         </nav>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <Link
             href={user ? '/portal' : '/login'}
-            className="hidden sm:inline-flex btn-pill-glass !h-7 !py-0 !px-3 text-[11.5px] font-medium"
+            className="hidden sm:inline-flex btn-pill-glass !h-8 !py-0 !px-4 text-xs font-medium"
           >
             {user ? text.portal : text.login}
           </Link>
           <Link
             href="/contact"
-            className="btn-pill-primary !h-7 !py-0 !px-3 text-[11.5px] font-semibold"
+            className="btn-pill-primary !h-8 !py-0 !px-4 text-xs font-semibold"
           >
             {text.demo}
           </Link>

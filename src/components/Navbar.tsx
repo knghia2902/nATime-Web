@@ -196,17 +196,17 @@ export default function Navbar() {
           </div>
 
           {/* ── Desktop Right Actions ──────────────────── */}
-          <div className="hidden items-center gap-2 lg:flex">
+          <div className="hidden items-center gap-2.5 lg:flex">
             <LanguageToggle />
             <Link
               href={user ? "/portal" : "/login"}
-              className="btn-pill-glass !h-7 !py-0 !px-3 text-[11.5px] font-medium"
+              className="btn-pill-glass !h-8 !py-0 !px-4 text-xs font-medium"
             >
               {user ? t('Portal', 'Portal') : t('Đăng nhập', 'Sign in')}
             </Link>
             <Link
               href={user ? "/dashboard" : "/contact"}
-              className="btn-pill-primary !h-7 !py-0 !px-3 text-[11.5px] font-semibold gap-1.5"
+              className="btn-pill-primary !h-8 !py-0 !px-4 text-xs font-semibold gap-1.5"
             >
               <span>
                 {user ? t('Vào Dashboard', 'Go to Dashboard') : t('Yêu cầu demo', 'Request Demo')}
@@ -215,7 +215,7 @@ export default function Navbar() {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className="h-3 w-3"
+                className="h-3.5 w-3.5"
               >
                 <path
                   fillRule="evenodd"
