@@ -554,10 +554,20 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
       };
     }
 
-    void Promise.all([
-      client.from(definition.table).select(definition.select).order('created_at', { ascending: false }).limit(100),
-      client.from('portal_profiles').select('user_id,display_name,organization_name')
-    ]).then(([tableRes, profileRes]) => {
+    const fetchData = async () => {
+      if (kind === 'orders') {
+        try {
+          await client.rpc('cleanup_expired_license_orders');
+        } catch {
+          // ignore RPC errors
+        }
+      }
+
+      const [tableRes, profileRes] = await Promise.all([
+        client.from(definition.table).select(definition.select).order('created_at', { ascending: false }).limit(100),
+        client.from('portal_profiles').select('user_id,display_name,organization_name')
+      ]);
+
       if (cancelled) return;
 
       if (profileRes.data) {
@@ -569,14 +579,27 @@ export function AdminTablePage({ kind }: { kind: keyof typeof definitions }) {
         setProfilesMap(map);
       }
 
-      setRows((tableRes.data as Row[] | null) ?? []);
+      const rawRows = (tableRes.data as Row[] | null) ?? [];
+      const mappedRows = rawRows.map((r) => {
+        if (kind === 'orders' && r.status === 'pending' && r.created_at) {
+          const ageMs = Date.now() - new Date(String(r.created_at)).getTime();
+          if (ageMs > 15 * 60 * 1000) {
+            return { ...r, status: 'cancelled' };
+          }
+        }
+        return r;
+      });
+
+      setRows(mappedRows);
       setLoading(false);
-    });
+    };
+
+    void fetchData();
 
     return () => {
       cancelled = true;
     };
-  }, [definition]);
+  }, [definition, kind]);
 
   const isAudit = kind === 'audit';
   const filteredRows = isAudit && filterEvent !== 'all'

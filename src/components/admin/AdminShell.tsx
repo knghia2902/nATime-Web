@@ -49,7 +49,7 @@ function describeMfaError(error: { code?: string; message: string }) {
 }
 
 export default function AdminShell({ children }: { children: ReactNode }) {
-  const { user, loading } = useAuth(); const router = useRouter(); const pathname = usePathname();
+  const { user, loading, logout } = useAuth(); const router = useRouter(); const pathname = usePathname();
   const initialPath = useRef(pathname);
   const currentItem = allItems.find((item) => item.href === pathname) ?? allItems[0];
   const [access, setAccess] = useState<'checking' | 'denied' | 'mfa' | 'allowed'>('checking');
@@ -157,9 +157,32 @@ export default function AdminShell({ children }: { children: ReactNode }) {
               <span className="font-semibold text-white">{currentItem.label}</span>
             </nav>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="badge-pill py-0.5 px-2.5 text-[11px] font-semibold text-white">Super Admin</span>
-            <Link href="/portal" className="btn-pill-glass text-xs py-1 px-3">Portal</Link>
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex items-center gap-1.5 !h-9 !py-0 !px-3.5 rounded-full text-xs font-semibold bg-white/[0.08] text-white border border-white/10 backdrop-blur-md">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              Super Admin
+            </span>
+            <Link
+              href="/portal"
+              className="btn-pill-glass !h-9 !py-0 !px-4 text-sm font-medium border border-white/10"
+            >
+              Portal
+            </Link>
+            <Link
+              href="/"
+              className="btn-pill-glass !h-9 !py-0 !px-4 text-sm font-medium border border-white/10 hidden sm:inline-flex items-center gap-1.5"
+            >
+              <span>Website</span>
+            </Link>
+            <button
+              onClick={() => void logout()}
+              className="btn-pill-glass !h-9 !py-0 !px-4 text-sm font-medium border border-white/10 inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <svg className="h-4 w-4 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+              </svg>
+              <span className="hidden sm:inline">Đăng xuất</span>
+            </button>
           </div>
         </div>
       </header>
