@@ -15,14 +15,79 @@ import {
   Warning,
   X,
   Calendar,
-  SignIn
+  SignIn,
+  QrCode,
+  User,
+  Cpu
 } from '@phosphor-icons/react';
 
-type Tab = 'home' | 'scanner' | 'schedule';
+type Tab = 'home' | 'scanner' | 'schedule' | 'device-detail';
+
+interface AssetDetail {
+  code: string;
+  name: string;
+  category: string;
+  status: string;
+  serialNumber: string;
+  serviceTag: string;
+  cpu: string;
+  ram: string;
+  hardDrive: string;
+  employeeName: string;
+  employeeCode: string;
+  department: string;
+  vendor: string;
+  ipAddress: string;
+  macAddress: string;
+  purchaseDate: string;
+  warranty: string;
+}
+
+const ASSET_DATABASE: Record<string, AssetDetail> = {
+  'A000001744': {
+    code: 'A000001744',
+    name: 'Màn hình máy tính Dell U2424H',
+    category: 'Màn hình',
+    status: 'Đang sử dụng',
+    serialNumber: 'CN-012345-71618',
+    serviceTag: '7XYZ921',
+    cpu: 'IPS 23.8" FHD 120Hz 99% sRGB',
+    ram: '100% Recycled Aluminum Frame',
+    hardDrive: '1x DP 1.4, 1x HDMI 1.4, 1x Type-C 90W',
+    employeeName: 'Bùi Khắc Nghĩa',
+    employeeCode: '05A00001315',
+    department: 'BP Công Nghệ Thông Tin',
+    vendor: 'Công ty Cổ phần Công Nghệ Quốc Tế',
+    ipAddress: '—',
+    macAddress: '—',
+    purchaseDate: '15/01/2024',
+    warranty: '36 tháng'
+  },
+  'A000000670': {
+    code: 'A000000670',
+    name: 'Máy tính để bàn DELL OptiPlex 3090 Tower',
+    category: 'PC',
+    status: 'Đang sử dụng',
+    serialNumber: '8XYZ921-VN',
+    serviceTag: '9ABC123',
+    cpu: 'Intel Core i7-10700 @ 2.90GHz (8C/16T)',
+    ram: '16 GB DDR4 3200MHz (2x 8GB)',
+    hardDrive: '512 GB PCIe NVMe M.2 SSD + 1TB HDD',
+    employeeName: 'Bùi Khắc Nghĩa',
+    employeeCode: '05A00001315',
+    department: 'BP Công Nghệ Thông Tin',
+    vendor: 'Công ty TNHH Giải Pháp Máy Chủ',
+    ipAddress: '192.168.1.145',
+    macAddress: 'D8:BB:C1:42:A8:19',
+    purchaseDate: '10/08/2023',
+    warranty: '36 tháng'
+  }
+};
 
 export default function MobileAppShowcase() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
   const [selectedDay, setSelectedDay] = useState<number>(21);
+  const [selectedAssetCode, setSelectedAssetCode] = useState<string>('A000001744');
 
   // Calendar month day mapping for Aug 2026 (Aug 1 is Saturday -> 5 empty prefix slots Mon-Fri)
   const emptyPrefixSlots = 5;
@@ -31,10 +96,150 @@ export default function MobileAppShowcase() {
   // Helper for calendar dot status
   const getDayDot = (day: number) => {
     if (day === 2 || day === 9 || day === 16 || day === 23 || day === 30) return null; // Weekend
-    if (day === 3 || day === 15) return { color: 'bg-rose-500' }; // Không phép / Đi muộn
+    if (day === 3) return { color: 'bg-rose-600' }; // Không phép
+    if (day === 15) return { color: 'bg-rose-400' }; // Đi muộn
     if (day === 7 || day === 12 || day === 17 || day === 19) return { color: 'bg-orange-500' }; // Quên chấm
     if (day <= 21) return { color: 'bg-slate-400' }; // Ca làm bình thường
     return null;
+  };
+
+  // Dynamic Day Details Calculation for August 2026
+  const getDayDetailInfo = (day: number) => {
+    const isSunday = (day + emptyPrefixSlots) % 7 === 0;
+    const isSaturday = (day + emptyPrefixSlots) % 7 === 6;
+
+    if (isSunday) {
+      return {
+        label: 'NGÀY CUỐI TUẦN',
+        badge: 'NGHỈ TUẦN',
+        badgeClass: 'bg-slate-100 text-slate-600 border border-slate-200',
+        hasPlan: false,
+        shiftName: 'Nghỉ hàng tuần',
+        shiftTime: '—',
+        hasLog: false,
+        inTime: '--:--',
+        outTime: '--:--',
+        workHours: 0,
+        workDays: 0,
+        lateMinutes: 0,
+        note: 'Không có ca làm việc được phân.'
+      };
+    }
+
+    if (day === 21) {
+      return {
+        label: 'ĐÃ CHẤM CÔNG',
+        badge: 'ĐÚNG GIỜ',
+        badgeClass: 'bg-emerald-50 text-emerald-600 border border-emerald-200',
+        hasPlan: true,
+        shiftName: 'Hành Chính Văn Phòng',
+        shiftTime: '08:00 - 17:00',
+        hasLog: true,
+        inTime: '07:51:02',
+        outTime: '--:--',
+        workHours: 0,
+        workDays: 0,
+        lateMinutes: 0,
+        note: 'Ca làm việc đang diễn ra.'
+      };
+    }
+
+    if (day === 20 || day === 18 || day === 14 || day === 13 || day === 11 || day === 10 || day === 8 || day === 6 || day === 5 || day === 4 || day === 1) {
+      return {
+        label: 'HOÀN THÀNH CA',
+        badge: 'ĐÚNG GIỜ',
+        badgeClass: 'bg-emerald-50 text-emerald-600 border border-emerald-200',
+        hasPlan: true,
+        shiftName: 'Hành Chính Văn Phòng',
+        shiftTime: '08:00 - 17:00',
+        hasLog: true,
+        inTime: day === 20 ? '07:55:54' : '07:55:01',
+        outTime: day === 20 ? '17:20:22' : '17:11:45',
+        workHours: 8.0,
+        workDays: 1.0,
+        lateMinutes: 0,
+        note: 'Đã hoàn thành đủ giờ công.'
+      };
+    }
+
+    if (day === 19 || day === 17 || day === 12 || day === 7) {
+      return {
+        label: 'CHƯA CHẤM RA',
+        badge: 'QUÊN CHẤM CÔNG',
+        badgeClass: 'bg-orange-50 text-orange-600 border border-orange-200',
+        hasPlan: true,
+        shiftName: 'Hành Chính Văn Phòng',
+        shiftTime: '08:00 - 17:00',
+        hasLog: true,
+        inTime: '07:56:21',
+        outTime: '--:--',
+        workHours: 8.0,
+        workDays: 1.0,
+        lateMinutes: 0,
+        note: 'Hệ thống tự động ghi nhận theo quy định.'
+      };
+    }
+
+    if (day === 15) {
+      return {
+        label: 'ĐI MUỘN 14 PHÚT',
+        badge: 'ĐI MUỘN',
+        badgeClass: 'bg-rose-50 text-rose-600 border border-rose-200',
+        hasPlan: true,
+        shiftName: 'Hành Chính Văn Phòng',
+        shiftTime: '08:00 - 17:00',
+        hasLog: true,
+        inTime: '08:14:32',
+        outTime: '17:05:10',
+        workHours: 7.75,
+        workDays: 1.0,
+        lateMinutes: 14,
+        note: 'Đi muộn sau giờ bắt đầu ca.'
+      };
+    }
+
+    if (day === 3) {
+      return {
+        label: 'VẮNG MẶT',
+        badge: 'KHÔNG PHÉP',
+        badgeClass: 'bg-red-50 text-red-600 border border-red-200',
+        hasPlan: true,
+        shiftName: 'Hành Chính Văn Phòng',
+        shiftTime: '08:00 - 17:00',
+        hasLog: false,
+        inTime: '--:--',
+        outTime: '--:--',
+        workHours: 0,
+        workDays: 0,
+        lateMinutes: 0,
+        note: 'Chưa có dữ liệu chấm công trong ngày.'
+      };
+    }
+
+    // Future days (>= 22)
+    return {
+      label: isSaturday ? 'THỨ BẢY' : 'NGÀY LÀM VIỆC',
+      badge: 'CHƯA DIỄN RA',
+      badgeClass: 'bg-sky-50 text-sky-600 border border-sky-200',
+      hasPlan: true,
+      shiftName: 'Hành Chính Văn Phòng',
+      shiftTime: '08:00 - 17:00',
+      hasLog: false,
+      inTime: '--:--',
+      outTime: '--:--',
+      workHours: 0,
+      workDays: 0,
+      lateMinutes: 0,
+      note: 'Ca làm việc chưa bắt đầu.'
+    };
+  };
+
+  const currentDayInfo = getDayDetailInfo(selectedDay);
+  const currentAsset = ASSET_DATABASE[selectedAssetCode] || ASSET_DATABASE['A000001744'];
+
+  const handleOpenAsset = (code: string) => {
+    setSelectedAssetCode(code);
+    setActiveTab('device-detail');
   };
 
   return (
@@ -86,7 +291,7 @@ export default function MobileAppShowcase() {
             {/* ── 2. Scrollable Body Area (Unified rounded-2xl & Refined Font Sizes) ── */}
             <div className="flex-1 overflow-y-auto relative z-10 custom-scrollbar-light pb-4">
               
-              {/* ══════════════ TAB 1: TRANG CHỦ (Ảnh 2 & Ảnh 3) ══════════════ */}
+              {/* ══════════════ TAB 1: TRANG CHỦ ══════════════ */}
               {activeTab === 'home' && (
                 <div className="space-y-3.5">
                   {/* Header Profile Panel - Seamless Soft Gradient */}
@@ -182,7 +387,7 @@ export default function MobileAppShowcase() {
                         </h4>
                         <span 
                           onClick={() => setActiveTab('schedule')}
-                          className="text-[8.5px] text-sky-600 font-bold hover:underline cursor-pointer"
+                          className="text-[8.5px] text-sky-600 font-bold hover:underline cursor-pointer transition-colors"
                         >
                           Xem thêm
                         </span>
@@ -191,7 +396,10 @@ export default function MobileAppShowcase() {
                       {/* Recent History Table Card (Unified rounded-2xl) */}
                       <div className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden divide-y divide-slate-150 shadow-sm text-[8.5px]">
                         {/* Row 21/8 */}
-                        <div className="p-2.5 flex items-center justify-between">
+                        <div 
+                          onClick={() => { setSelectedDay(21); setActiveTab('schedule'); }}
+                          className="p-2.5 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors"
+                        >
                           <div className="flex items-center gap-2.5">
                             <div className="w-7.5 h-7.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-[8px] flex items-center justify-center shrink-0">
                               21/8
@@ -205,7 +413,10 @@ export default function MobileAppShowcase() {
                         </div>
 
                         {/* Row 20/8 */}
-                        <div className="p-2.5 flex items-center justify-between">
+                        <div 
+                          onClick={() => { setSelectedDay(20); setActiveTab('schedule'); }}
+                          className="p-2.5 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors"
+                        >
                           <div className="flex items-center gap-2.5">
                             <div className="w-7.5 h-7.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-[8px] flex items-center justify-center shrink-0">
                               20/8
@@ -222,7 +433,10 @@ export default function MobileAppShowcase() {
                         </div>
 
                         {/* Row 19/8 */}
-                        <div className="p-2.5 flex items-center justify-between">
+                        <div 
+                          onClick={() => { setSelectedDay(19); setActiveTab('schedule'); }}
+                          className="p-2.5 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors"
+                        >
                           <div className="flex items-center gap-2.5">
                             <div className="w-7.5 h-7.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-[8px] flex items-center justify-center shrink-0">
                               19/8
@@ -239,7 +453,10 @@ export default function MobileAppShowcase() {
                         </div>
 
                         {/* Row 18/8 */}
-                        <div className="p-2.5 flex items-center justify-between">
+                        <div 
+                          onClick={() => { setSelectedDay(18); setActiveTab('schedule'); }}
+                          className="p-2.5 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors"
+                        >
                           <div className="flex items-center gap-2.5">
                             <div className="w-7.5 h-7.5 rounded-xl bg-slate-100 text-slate-700 font-bold text-[8px] flex items-center justify-center shrink-0">
                               18/8
@@ -257,15 +474,18 @@ export default function MobileAppShowcase() {
                       </div>
                     </div>
 
-                    {/* Section THIẾT BỊ ĐANG BÀN GIAO (2) - Unified rounded-2xl Cards */}
+                    {/* Section THIẾT BỊ ĐANG BÀN GIAO (2) - Clickable cards */}
                     <div className="space-y-2 pb-2">
                       <h4 className="font-bold text-[9px] text-slate-700 uppercase tracking-wide flex items-center gap-1.5 px-0.5">
                         <span className="w-1 h-3 rounded bg-indigo-600 shrink-0" />
                         THIẾT BỊ ĐANG BÀN GIAO (2)
                       </h4>
 
-                      {/* Asset 1 (Unified rounded-2xl) */}
-                      <div className="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between hover:border-slate-300 transition-colors">
+                      {/* Asset 1 */}
+                      <div 
+                        onClick={() => handleOpenAsset('A000001744')}
+                        className="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between hover:border-indigo-300 active:scale-[0.99] cursor-pointer transition-all"
+                      >
                         <div className="flex items-center gap-2.5 min-w-0">
                           <div className="w-9 h-9 rounded-2xl bg-indigo-500/10 text-indigo-600 border border-indigo-500/20 flex items-center justify-center shrink-0">
                             <Desktop size={16} weight="bold" />
@@ -278,8 +498,11 @@ export default function MobileAppShowcase() {
                         <CaretRight size={12} className="text-slate-400 shrink-0" />
                       </div>
 
-                      {/* Asset 2 (Unified rounded-2xl) */}
-                      <div className="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between hover:border-slate-300 transition-colors">
+                      {/* Asset 2 */}
+                      <div 
+                        onClick={() => handleOpenAsset('A000000670')}
+                        className="bg-white p-3 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between hover:border-indigo-300 active:scale-[0.99] cursor-pointer transition-all"
+                      >
                         <div className="flex items-center gap-2.5 min-w-0">
                           <div className="w-9 h-9 rounded-2xl bg-indigo-500/10 text-indigo-600 border border-indigo-500/20 flex items-center justify-center shrink-0">
                             <Desktop size={16} weight="bold" />
@@ -297,14 +520,117 @@ export default function MobileAppShowcase() {
                 </div>
               )}
 
-              {/* ══════════════ TAB 2: QUÉT QR (ScannerView.vue) ══════════════ */}
+              {/* ══════════════ TAB 4: CHI TIẾT THIẾT BỊ (DeviceDetailView.vue) ══════════════ */}
+              {activeTab === 'device-detail' && (
+                <div className="space-y-3 pb-3">
+                  {/* Header */}
+                  <div className="bg-gradient-to-b from-sky-100/70 via-slate-50/40 to-transparent px-4 pt-2 pb-3 flex items-center gap-2.5 relative">
+                    <button 
+                      onClick={() => setActiveTab('home')} 
+                      className="p-1.5 rounded-xl bg-white border border-slate-200 text-slate-600 cursor-pointer shadow-xs active:scale-95 transition-all"
+                    >
+                      <CaretLeft size={13} weight="bold" />
+                    </button>
+                    <div>
+                      <h3 className="font-extrabold text-[12.5px] text-slate-900 leading-tight">Chi tiết thiết bị</h3>
+                      <p className="text-[7.5px] text-slate-500 font-medium">Thông tin chi tiết tài sản doanh nghiệp</p>
+                    </div>
+                  </div>
+
+                  <div className="px-3.5 space-y-2.5">
+                    {/* Card 1: Basic Info */}
+                    <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-200/80 space-y-2">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <span className="text-[7px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full">
+                            {currentAsset.category}
+                          </span>
+                          <h4 className="font-extrabold text-[11px] text-slate-900 mt-1 leading-snug">
+                            {currentAsset.name}
+                          </h4>
+                          <p className="text-[8.5px] font-bold text-sky-600 mt-0.5">{currentAsset.code}</p>
+                        </div>
+                        <span className="px-2 py-0.5 rounded-full text-[7px] font-bold bg-sky-500/10 text-sky-600 border border-sky-500/20">
+                          {currentAsset.status}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-y-1.5 pt-2 border-t border-slate-100 text-[8px]">
+                        <div>
+                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">SERIAL NUMBER</p>
+                          <p className="font-bold text-slate-700 mt-0.5 font-mono">{currentAsset.serialNumber}</p>
+                        </div>
+                        <div>
+                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">SERVICE TAG</p>
+                          <p className="font-bold text-slate-700 mt-0.5 font-mono">{currentAsset.serviceTag}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 2: Hardware Specs */}
+                    <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-200/80 space-y-2">
+                      <h5 className="font-bold text-[8.5px] text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                        <Cpu size={12} weight="bold" className="text-sky-500" />
+                        Cấu hình phần cứng
+                      </h5>
+                      <div className="space-y-1.5 text-[8px] pt-0.5">
+                        <div>
+                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">CPU / HIỂN THỊ</p>
+                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.cpu}</p>
+                        </div>
+                        <div>
+                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">BỘ NHỚ (RAM)</p>
+                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.ram}</p>
+                        </div>
+                        <div>
+                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">LƯU TRỮ / KẾT NỐI</p>
+                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.hardDrive}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 3: Assignment Info */}
+                    <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-200/80 space-y-2">
+                      <h5 className="font-bold text-[8.5px] text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                        <User size={12} weight="bold" className="text-indigo-500" />
+                        Quản lý & Sử dụng
+                      </h5>
+                      <div className="space-y-1.5 text-[8px] pt-0.5">
+                        <div>
+                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">NGƯỜI SỬ DỤNG</p>
+                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.employeeName} ({currentAsset.employeeCode})</p>
+                        </div>
+                        <div>
+                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">PHÒNG BAN QUẢN LÝ</p>
+                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.department}</p>
+                        </div>
+                        <div>
+                          <p className="text-[6.5px] text-slate-400 font-bold uppercase">NHÀ CUNG CẤP</p>
+                          <p className="font-bold text-slate-800 mt-0.5">{currentAsset.vendor}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Button: Quét thiết bị tiếp theo */}
+                    <button 
+                      onClick={() => setActiveTab('scanner')}
+                      className="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-2.5 rounded-2xl text-[8.5px] active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+                    >
+                      <QrCode size={13} weight="bold" />
+                      Quét thiết bị tiếp theo
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* ══════════════ TAB 2: QUÉT QR ══════════════ */}
               {activeTab === 'scanner' && (
                 <div className="p-4 space-y-4">
                   {/* Header */}
                   <div className="flex items-center justify-between pb-2 border-b border-slate-200">
                     <button 
                       onClick={() => setActiveTab('home')} 
-                      className="p-1.5 rounded-2xl bg-white border border-slate-200 text-slate-600 cursor-pointer shadow-xs"
+                      className="p-1.5 rounded-2xl bg-white border border-slate-200 text-slate-600 cursor-pointer shadow-xs active:scale-95 transition-all"
                     >
                       <CaretLeft size={13} weight="bold" />
                     </button>
@@ -348,7 +674,7 @@ export default function MobileAppShowcase() {
                 </div>
               )}
 
-              {/* ══════════════ TAB 3: LỊCH & CÔNG (Ảnh 4 & Ảnh 1) ══════════════ */}
+              {/* ══════════════ TAB 3: LỊCH & CÔNG (Interactive Dynamic Day Selection) ══════════════ */}
               {activeTab === 'schedule' && (
                 <div className="space-y-3.5">
                   {/* Header - Seamless Soft Gradient */}
@@ -428,191 +754,221 @@ export default function MobileAppShowcase() {
                       </div>
                     </div>
 
-                    {/* Calendar Card (Unified rounded-2xl) */}
+                    {/* Calendar Card (Interactive Day Selection) */}
                     <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-3">
                       {/* Weekday Headers */}
                       <div className="grid grid-cols-7 text-center text-[8.5px] font-extrabold text-slate-700 pb-2 border-b border-slate-150">
                         <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span className="text-rose-600">CN</span>
                       </div>
 
-                    {/* Days Grid */}
-                    <div className="grid grid-cols-7 gap-y-2 gap-x-1 text-center">
-                      {/* Empty Prefix Slots */}
-                      {Array.from({ length: emptyPrefixSlots }).map((_, i) => (
-                        <div key={`empty-${i}`} className="aspect-square" />
-                      ))}
+                      {/* Days Grid */}
+                      <div className="grid grid-cols-7 gap-y-2 gap-x-1 text-center">
+                        {/* Empty Prefix Slots */}
+                        {Array.from({ length: emptyPrefixSlots }).map((_, i) => (
+                          <div key={`empty-${i}`} className="aspect-square" />
+                        ))}
 
-                      {/* Month Days */}
-                      {daysInMonth.map((day) => {
-                        const isSelected = selectedDay === day;
-                        const isSunday = (day + emptyPrefixSlots) % 7 === 0;
-                        const dot = getDayDot(day);
+                        {/* Month Days */}
+                        {daysInMonth.map((day) => {
+                          const isSelected = selectedDay === day;
+                          const isSunday = (day + emptyPrefixSlots) % 7 === 0;
+                          const dot = getDayDot(day);
 
-                        return (
-                          <div 
-                            key={day}
-                            onClick={() => setSelectedDay(day)}
-                            className={`aspect-square flex flex-col items-center justify-between p-1 rounded-full transition-all cursor-pointer relative ${
-                              isSelected 
-                                ? 'bg-gradient-to-tr from-sky-400 to-indigo-600 text-white shadow-md shadow-sky-500/25 scale-105' 
-                                : isSunday 
-                                ? 'text-rose-500 hover:bg-slate-100' 
-                                : 'text-slate-700 hover:bg-slate-100'
-                            }`}
-                          >
-                            <span className="text-[8.5px] font-bold">{day}</span>
-                            <div className="h-1 flex items-center justify-center">
-                              {dot && (
-                                <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : dot.color}`} />
-                              )}
+                          return (
+                            <div 
+                              key={day}
+                              onClick={() => setSelectedDay(day)}
+                              className={`aspect-square flex flex-col items-center justify-between p-1 rounded-full transition-all cursor-pointer relative active:scale-95 ${
+                                isSelected 
+                                  ? 'bg-gradient-to-tr from-sky-400 to-indigo-600 text-white shadow-md shadow-sky-500/25 scale-105' 
+                                  : isSunday 
+                                  ? 'text-rose-500 hover:bg-slate-100' 
+                                  : 'text-slate-700 hover:bg-slate-100'
+                              }`}
+                            >
+                              <span className="text-[8.5px] font-bold">{day}</span>
+                              <div className="h-1 flex items-center justify-center">
+                                {dot && (
+                                  <span className={`w-1 h-1 rounded-full ${isSelected ? 'bg-white' : dot.color}`} />
+                                )}
+                              </div>
                             </div>
+                          );
+                        })}
+                      </div>
+
+                      {/* Legend */}
+                      <div className="flex justify-between items-center pt-2.5 border-t border-slate-150 text-[6.5px] font-bold text-slate-600 uppercase tracking-tight">
+                        <div className="flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                          <span>CA LÀM</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+                          <span>ĐI MUỘN</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                          <span>QUÊN CHẤM</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-rose-600" />
+                          <span>KHÔNG PHÉP</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Day Details Card: CHI TIẾT NGÀY (Dynamically mapped based on selectedDay) */}
+                    <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 space-y-3 pb-2 transition-all">
+                      <div className="flex items-center justify-between border-b border-slate-150 pb-2">
+                        <div>
+                          <h5 className="font-extrabold text-slate-800 text-[9.5px] uppercase tracking-wide">
+                            CHI TIẾT NGÀY {selectedDay}/8/2026
+                          </h5>
+                          <p className="text-[7px] text-slate-400 font-semibold mt-0.5">{currentDayInfo.label}</p>
+                        </div>
+                        <span className={`px-2 py-0.5 rounded-full text-[6.5px] font-bold uppercase tracking-wider ${currentDayInfo.badgeClass}`}>
+                          {currentDayInfo.badge}
+                        </span>
+                      </div>
+
+                      {/* Shift Assigned */}
+                      <div className="bg-slate-50/80 p-3 rounded-2xl border border-slate-150 space-y-1">
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-5 h-5 rounded-lg bg-indigo-500/10 text-indigo-600 border border-indigo-500/20 flex items-center justify-center shrink-0">
+                            <Calendar size={11} weight="bold" />
                           </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* Legend */}
-                    <div className="flex justify-between items-center pt-2.5 border-t border-slate-150 text-[6.5px] font-bold text-slate-600 uppercase tracking-tight">
-                      <div className="flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                        <span>CA LÀM</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
-                        <span>ĐI MUỘN</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-                        <span>QUÊN CHẤM</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-rose-600" />
-                        <span>KHÔNG PHÉP</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Day Details Card: CHI TIẾT NGÀY (Unified rounded-2xl) */}
-                  <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 space-y-3 pb-2">
-                    <div className="flex items-center justify-between border-b border-slate-150 pb-2">
-                      <h5 className="font-extrabold text-slate-800 text-[9px] uppercase tracking-wide">
-                        CHI TIẾT NGÀY {selectedDay}/8/2026
-                      </h5>
-                      <span className="px-2 py-0.5 rounded-full text-[6.5px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-200">
-                        ĐÚNG GIỜ
-                      </span>
-                    </div>
-
-                    {/* Shift Assigned (Unified rounded-2xl) */}
-                    <div className="bg-slate-50/80 p-3 rounded-2xl border border-slate-150 space-y-1">
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-5 h-5 rounded-lg bg-indigo-500/10 text-indigo-600 border border-indigo-500/20 flex items-center justify-center shrink-0">
-                          <Calendar size={11} weight="bold" />
+                          <p className="text-[6.5px] text-slate-500 font-extrabold uppercase tracking-wider">CA LÀM ĐƯỢC PHÂN</p>
                         </div>
-                        <p className="text-[6.5px] text-slate-500 font-extrabold uppercase tracking-wider">CA LÀM ĐƯỢC PHÂN</p>
+                        <p className="font-extrabold text-[9.5px] text-slate-800">{currentDayInfo.shiftName}</p>
+                        <p className="text-[7.5px] text-slate-500 font-medium">
+                          {currentDayInfo.hasPlan ? `Thời gian: ${currentDayInfo.shiftTime}` : currentDayInfo.note}
+                        </p>
                       </div>
-                      <p className="font-extrabold text-[9.5px] text-slate-800">Hành Chính Văn Phòng</p>
-                      <p className="text-[7.5px] text-slate-500 font-medium">Thời gian: 08:00 - 17:00</p>
-                    </div>
 
-                    {/* Actual Times (Unified rounded-2xl) */}
-                    <div className="bg-slate-50/80 p-3 rounded-2xl border border-slate-150 space-y-2">
-                      <div className="flex items-center gap-1.5">
-                        <div className="w-5 h-5 rounded-lg bg-sky-500/10 text-sky-600 border border-sky-500/20 flex items-center justify-center shrink-0">
-                          <CheckCircle size={11} weight="bold" />
+                      {/* Actual Times & Records */}
+                      <div className="bg-slate-50/80 p-3 rounded-2xl border border-slate-150 space-y-2">
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-5 h-5 rounded-lg bg-sky-500/10 text-sky-600 border border-sky-500/20 flex items-center justify-center shrink-0">
+                            <CheckCircle size={11} weight="bold" />
+                          </div>
+                          <p className="text-[6.5px] text-slate-500 font-extrabold uppercase tracking-wider">GIỜ VÀO / RA THỰC TẾ</p>
                         </div>
-                        <p className="text-[6.5px] text-slate-500 font-extrabold uppercase tracking-wider">GIỜ VÀO / RA THỰC TẾ</p>
-                      </div>
-                      <div className="flex justify-between items-center text-[8.5px]">
-                        <span className="text-slate-500 font-medium">Giờ vào (In):</span>
-                        <span className="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200 font-mono">07:51:02</span>
-                      </div>
-                      <div className="flex justify-between items-center text-[8.5px]">
-                        <span className="text-slate-500 font-medium">Giờ ra (Out):</span>
-                        <span className="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200 font-mono">--:--</span>
+
+                        {currentDayInfo.hasLog ? (
+                          <div className="space-y-1.5">
+                            <div className="flex justify-between items-center text-[8.5px]">
+                              <span className="text-slate-500 font-medium">Giờ vào (In):</span>
+                              <span className="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200 font-mono">
+                                {currentDayInfo.inTime}
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center text-[8.5px]">
+                              <span className="text-slate-500 font-medium">Giờ ra (Out):</span>
+                              <span className="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200 font-mono">
+                                {currentDayInfo.outTime}
+                              </span>
+                            </div>
+                            {currentDayInfo.workHours > 0 && (
+                              <div className="flex justify-between items-center text-[8px] pt-1 border-t border-slate-200/60">
+                                <span className="text-slate-500 font-medium">Số giờ công:</span>
+                                <span className="font-bold text-sky-600">{currentDayInfo.workHours.toFixed(1)} giờ</span>
+                              </div>
+                            )}
+                            {currentDayInfo.lateMinutes > 0 && (
+                              <div className="flex justify-between items-center text-[8px] text-rose-600">
+                                <span className="font-medium">Đi muộn:</span>
+                                <span className="font-bold">{currentDayInfo.lateMinutes} phút</span>
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <p className="text-[7.5px] text-slate-400 font-medium italic">
+                            {currentDayInfo.note}
+                          </p>
+                        )}
                       </div>
                     </div>
+
                   </div>
-
                 </div>
-              </div>
-            )}
-
-          </div>
-
-          {/* ── 3. Exact iPhone Bottom Navigation Bar (rounded-b-[38px]) ── */}
-          <div className="w-full bg-white/95 backdrop-blur-xl border-t border-slate-200/90 pt-1 pb-2 px-4 rounded-b-[38px] flex flex-col items-center z-30 shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.04)]">
-            
-            {/* Tab Items Row */}
-            <div className="w-full h-10 flex items-center justify-around relative">
-              
-              {/* Home Tab */}
-              <div 
-                onClick={() => setActiveTab('home')}
-                className={`flex flex-col items-center justify-center w-14 cursor-pointer transition-colors ${
-                  activeTab === 'home' ? 'text-sky-600 font-bold' : 'text-slate-400 hover:text-slate-600'
-                }`}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                </svg>
-                <span className="text-[7px] font-bold mt-0.5">Trang chủ</span>
-              </div>
-
-              {/* Scan Tab */}
-              <div 
-                onClick={() => setActiveTab('scanner')}
-                className="flex flex-col items-center justify-center w-14 relative cursor-pointer"
-              >
-                <div className="absolute -top-3.5 w-11 h-11 bg-gradient-to-tr from-sky-400 to-indigo-600 rounded-full flex items-center justify-center shadow-lg shadow-sky-400/35 border-[3px] border-slate-50 text-white transform active:scale-95 hover:opacity-95 transition-all">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-                    <rect x="3.25" y="3.25" width="5.5" height="5.5" rx="1.25" stroke="white" strokeWidth="1.5" />
-                    <rect x="5" y="5" width="2" height="2" fill="white" />
-                    <rect x="15.25" y="3.25" width="5.5" height="5.5" rx="1.25" stroke="white" strokeWidth="1.5" />
-                    <rect x="17" y="5" width="2" height="2" fill="white" />
-                    <rect x="3.25" y="15.25" width="5.5" height="5.5" rx="1.25" stroke="white" strokeWidth="1.5" />
-                    <rect x="5" y="17" width="2" height="2" fill="white" />
-                    <rect x="11" y="4" width="2" height="2" fill="white" rx="0.5" />
-                    <rect x="11" y="8" width="2" height="2" fill="white" rx="0.5" />
-                    <rect x="4" y="11" width="2" height="2" fill="white" rx="0.5" />
-                    <rect x="8" y="11" width="2" height="2" fill="white" rx="0.5" />
-                    <rect x="11" y="11" width="2" height="2" fill="white" rx="0.5" />
-                    <rect x="15" y="11" width="2" height="2" fill="white" rx="0.5" />
-                    <rect x="11" y="15" width="2" height="2" fill="white" rx="0.5" />
-                    <rect x="15" y="15" width="2" height="2" fill="white" rx="0.5" />
-                    <rect x="18" y="15" width="2" height="2" fill="white" rx="0.5" />
-                    <rect x="11" y="18" width="2" height="2" fill="white" rx="0.5" />
-                    <rect x="15" y="18" width="2" height="2" fill="white" rx="0.5" />
-                    <rect x="18" y="18" width="2" height="2" fill="white" rx="0.5" />
-                  </svg>
-                </div>
-                <span className={`text-[7px] font-bold mt-7 ${activeTab === 'scanner' ? 'text-sky-600' : 'text-slate-400'}`}>
-                  Quét QR
-                </span>
-              </div>
-
-              {/* Schedule Tab */}
-              <div 
-                onClick={() => setActiveTab('schedule')}
-                className={`flex flex-col items-center justify-center w-14 cursor-pointer transition-colors ${
-                  activeTab === 'schedule' ? 'text-sky-600 font-bold' : 'text-slate-400 hover:text-slate-600'
-                }`}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-                </svg>
-                <span className="text-[7px] font-bold mt-0.5">Lịch & Công</span>
-              </div>
+              )}
 
             </div>
 
-            {/* iPhone Home Indicator Bar */}
-            <div className="w-26 h-1 bg-slate-900 rounded-full shrink-0 mt-1" />
-          </div>
+            {/* ── 3. Exact iPhone Bottom Navigation Bar (rounded-b-[38px]) ── */}
+            <div className="w-full bg-white/95 backdrop-blur-xl border-t border-slate-200/90 pt-1 pb-2 px-4 rounded-b-[38px] flex flex-col items-center z-30 shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.04)]">
+              
+              {/* Tab Items Row */}
+              <div className="w-full h-10 flex items-center justify-around relative">
+                
+                {/* Home Tab */}
+                <div 
+                  onClick={() => setActiveTab('home')}
+                  className={`flex flex-col items-center justify-center w-14 cursor-pointer transition-colors ${
+                    activeTab === 'home' || activeTab === 'device-detail' ? 'text-sky-600 font-bold' : 'text-slate-400 hover:text-slate-600'
+                  }`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                  </svg>
+                  <span className="text-[7px] font-bold mt-0.5">Trang chủ</span>
+                </div>
 
+                {/* Scan Tab */}
+                <div 
+                  onClick={() => setActiveTab('scanner')}
+                  className="flex flex-col items-center justify-center w-14 relative cursor-pointer"
+                >
+                  <div className="absolute -top-3.5 w-11 h-11 bg-gradient-to-tr from-sky-400 to-indigo-600 rounded-full flex items-center justify-center shadow-lg shadow-sky-400/35 border-[3px] border-slate-50 text-white transform active:scale-95 hover:opacity-95 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className="w-5 h-5">
+                      <rect x="3.25" y="3.25" width="5.5" height="5.5" rx="1.25" stroke="white" strokeWidth="1.5" />
+                      <rect x="5" y="5" width="2" height="2" fill="white" />
+                      <rect x="15.25" y="3.25" width="5.5" height="5.5" rx="1.25" stroke="white" strokeWidth="1.5" />
+                      <rect x="17" y="5" width="2" height="2" fill="white" />
+                      <rect x="3.25" y="15.25" width="5.5" height="5.5" rx="1.25" stroke="white" strokeWidth="1.5" />
+                      <rect x="5" y="17" width="2" height="2" fill="white" />
+                      <rect x="11" y="4" width="2" height="2" fill="white" rx="0.5" />
+                      <rect x="11" y="8" width="2" height="2" fill="white" rx="0.5" />
+                      <rect x="4" y="11" width="2" height="2" fill="white" rx="0.5" />
+                      <rect x="8" y="11" width="2" height="2" fill="white" rx="0.5" />
+                      <rect x="11" y="11" width="2" height="2" fill="white" rx="0.5" />
+                      <rect x="15" y="11" width="2" height="2" fill="white" rx="0.5" />
+                      <rect x="11" y="15" width="2" height="2" fill="white" rx="0.5" />
+                      <rect x="15" y="15" width="2" height="2" fill="white" rx="0.5" />
+                      <rect x="18" y="15" width="2" height="2" fill="white" rx="0.5" />
+                      <rect x="11" y="18" width="2" height="2" fill="white" rx="0.5" />
+                      <rect x="15" y="18" width="2" height="2" fill="white" rx="0.5" />
+                      <rect x="18" y="18" width="2" height="2" fill="white" rx="0.5" />
+                    </svg>
+                  </div>
+                  <span className={`text-[7px] font-bold mt-7 ${activeTab === 'scanner' ? 'text-sky-600' : 'text-slate-400'}`}>
+                    Quét QR
+                  </span>
+                </div>
+
+                {/* Schedule Tab */}
+                <div 
+                  onClick={() => setActiveTab('schedule')}
+                  className={`flex flex-col items-center justify-center w-14 cursor-pointer transition-colors ${
+                    activeTab === 'schedule' ? 'text-sky-600 font-bold' : 'text-slate-400 hover:text-slate-600'
+                  }`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                  </svg>
+                  <span className="text-[7px] font-bold mt-0.5">Lịch & Công</span>
+                </div>
+
+              </div>
+
+              {/* iPhone Home Indicator Bar */}
+              <div className="w-26 h-1 bg-slate-900 rounded-full shrink-0 mt-1" />
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
-  </div>
   );
 }
