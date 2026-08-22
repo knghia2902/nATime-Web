@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { FeaturesContent } from '@/components/site/PublicPages';
 
 export const metadata: Metadata = {
-  title: 'Tinh nang',
-  description: 'Bon module, mot nguon du lieu van hanh duy nhat.',
+  title: 'Tính năng',
+  description: 'Bốn module, một nguồn dữ liệu vận hành duy nhất.',
   alternates: { canonical: '/features', languages: { vi: '/features', en: '/en/features' } },
 };
 

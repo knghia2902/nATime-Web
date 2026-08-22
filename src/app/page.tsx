@@ -6,8 +6,8 @@ import CTA from '@/components/sections/CTA';
 import { publicPageMetadata } from '@/lib/siteMetadata';
 
 export const metadata = publicPageMetadata(
-  'nATime - Nen tang van hanh nha may',
-  'nATime hop nhat cham cong, kiem soat ra vao, tram can va quan ly tai san vao mot he thong duy nhat.',
+  'nATime — Nền tảng Vận hành Nhà máy',
+  'nATime hợp nhất chấm công, kiểm soát ra vào, trạm cân và quản lý tài sản vào một hệ thống duy nhất.',
   '/',
   'vi',
 );
